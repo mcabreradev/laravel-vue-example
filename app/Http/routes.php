@@ -64,6 +64,26 @@ Route::group(['middleware' => ['auth']], function() {
      */
     Route::get('/pedidos', [
         'as'   => 'pedidos.index',
-        'uses' => 'OficinaVirtual\PedidosController@index'
+        'uses' => 'OficinaVirtual\PedidoController@index'
     ]);
+
+    Route::get('/pedidos/create', [
+        'as'   => 'pedidos.create',
+        'uses' => 'OficinaVirtual\PedidoController@create'
+    ]);
+
+    Route::post('/pedidos', [
+        'as'   => 'pedidos.store',
+        'uses' => 'OficinaVirtual\PedidoController@store'
+    ]);
+
+    Route::get('/pedidos/edit/{id}', [
+        'as'   => 'pedidos.edit',
+        'uses' => 'OficinaVirtual\PedidoController@edit'
+    ])->where('id', '[0-9]+');
+
+    Route::put('/pedidos/{id}', [
+        'as'   => 'pedidos.update',
+        'uses' => 'OficinaVirtual\PedidoController@update'
+    ])->where('id', '[0-9]+');
 });
