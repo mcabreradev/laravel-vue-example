@@ -1,0 +1,52 @@
+# Created by https://www.gitignore.io/api/laravel,node,bower,composer
+# then modified =D
+
+# custom
+public/compiled
+
+###
+###
+
+# IDEA IDE
+.idea
+
+# https://github.com/barryvdh/laravel-ide-helper
+_ide_helper.php
+
+### Laravel ###
+Homestead.yaml
+Homestead.json
+.env.*.php
+.env.php
+.env
+
+### Composer ###
+composer.phar
+vendor
+
+### Node ###
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Runtime data
+pids
+*.pid
+*.seed
+
+# Dependency directories
+node_modules
+jspm_packages
+
+# Optional npm cache directory
+.npm
+
+# Optional REPL history
+.node_repl_history
+
+### Bower ###
+bower_components
+.bower-cache
+.bower-registry
+.bower-tmp
