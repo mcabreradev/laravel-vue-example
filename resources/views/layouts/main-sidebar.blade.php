@@ -19,13 +19,7 @@
     <ul class="sidebar-menu">
       <li class="header">Módulos</li>
       <!-- Optionally, you can add icons to the links -->
-      <li class="treeview">
-        <a href="#"><i class="fa fa-link"></i> <span>Senderos</span> <i class="fa fa-angle-left pull-right"></i></a>
-        <ul class="treeview-menu">
-          <li><a href="#">Senderos</a></li>
-          <li><a href="#">Tipos de difficultad</a></li>
-        </ul>
-      </li>
+      <li><a href="{{ route('pedidos.index', ['estado' => 'pendientes']) }}"><i class="fa fa-book"></i> <span>Pedidos</span></a></li>
     </ul>
     <!-- /.sidebar-menu -->
   </section>

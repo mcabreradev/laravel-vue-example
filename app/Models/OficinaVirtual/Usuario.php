@@ -24,4 +24,13 @@ class Usuario extends AppModel
     {
         return $this->hasMany('App\Models\OficinaVirtual\Pedido');
     }
+
+    /**
+     * Devuelve el nombre completo de un usuario
+     * @return string Nombre completo
+     */
+    public function getNombreCompleto()
+    {
+        return $this->nombre . ' ' . $this->apellido;
+    }
 }

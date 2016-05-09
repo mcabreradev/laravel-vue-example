@@ -2,7 +2,7 @@
 
 @section('content-header')
     Pedido
-    <small>creando nuevo</small>
+    <small>editando</small>
 @endsection
 
                 
@@ -17,14 +17,15 @@
             
             <div class="box">
                 <div class="box-header with-border">
-                    <h1>Creación de un pedido</h1>
+                    <h1>Edición de un pedido</h1>
 
                     @include('flash::message')
                 </div>
 
                 <div class="box-body">
-                    <form role="form" method="POST" action="{{ route('pedidos.store') }}" enctype="multipart/form-data">
+                    <form role="form" method="POST" action="{{ route('pedidos.update', ['id' => $pedido->id]) }}" enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name="_method" value="PUT">
 
                         <h2>Datos del usuario</h2>
                         @include('oficina-virtual.usuarios.fields')

@@ -16,15 +16,27 @@
             
             <div class="box">
                 <div class="box-header with-border">
-                    <h1>Lista de Pedidos existentes</h1>
+                    <h1>Lista de pedidos {{ $estado }}</h1>
                     @include('flash::message')
                 </div>
 
                 <div class="box-body">
+
                     <a class="btn btn-primary pull-right" href="{{ route('pedidos.create') }}">
                         <span class="fa fa-plus"></span> Nuevo pedido
                     </a>
-                    <div class="clearfix"></div>
+
+                    <ul class="nav nav-tabs">
+                        <li role="presentation" class="{{ ($estado === 'pendientes' ? 'active' : '') }}">
+                            <a href="{{ route('pedidos.index', ['estado' => 'pendientes']) }}">Pendientes</a>
+                        </li>
+                        <li role="presentation" class="{{ ($estado === 'generados' ? 'active' : '') }}">
+                            <a href="{{ route('pedidos.index', ['estado' => 'generados']) }}">Generados</a>
+                        </li>
+                        <li role="presentation" class="{{ ($estado === 'entregados' ? 'active' : '') }}">
+                            <a href="{{ route('pedidos.index', ['estado' => 'entregados']) }}">Entregados</a>
+                        </li>
+                    </ul>
 
                     @if($pedidos->isEmpty())
                         <div class="well text-center">No hay Pedidos</div>
