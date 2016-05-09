@@ -17,6 +17,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h1>Lista de pedidos {{ $estado }}</h1>
+                    <small class="text-danger">Las filas marcadas en rojo son los pedido prioritarios</small>
                     @include('flash::message')
                 </div>
 

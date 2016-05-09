@@ -27,7 +27,7 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="_method" value="PUT">
 
-                        <h2>Datos del usuario</h2>
+                        <h2>Datos del titular</h2>
                         @include('oficina-virtual.usuarios.fields')
 
                         <h2>Datos del pedido</h2>

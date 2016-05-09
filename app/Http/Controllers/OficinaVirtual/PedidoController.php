@@ -22,11 +22,7 @@ class PedidoController extends Controller
      */
     protected function assignarUsuario($usuario, $request)
     {
-        $usuario->dni      = $request->input('dni');
-        $usuario->apellido = $request->input('apellido');
-        $usuario->nombre   = $request->input('nombre');
-        $usuario->telefono = $request->input('telefono');
-        $usuario->email    = $request->input('email');
+        $usuario->fill($request->input());
 
         return $usuario;
     }
@@ -39,13 +35,7 @@ class PedidoController extends Controller
      */
     protected function asignarPedido($pedido, $request)
     {
-        $pedido->tipo          = $request->input('tipo');
-        $pedido->domicilio     = $request->input('domicilio');
-        $pedido->unidad        = $request->input('unidad');
-        $pedido->macizo        = $request->input('macizo');
-        $pedido->parcela       = $request->input('parcela');
-        $pedido->localidad     = $request->input('localidad');
-        $pedido->observaciones = $request->input('observaciones');
+        $pedido->fill($request->input());
 
         return $pedido;
     }
@@ -57,18 +47,22 @@ class PedidoController extends Controller
      */
     public function index($estado = 'pendientes')
     {
+        $pedidos = Pedido::with('usuario')
+                         ->orderBy('prioritario', 'desc')
+                         ->orderBy('created_at');
+
         switch ($estado) {
             case 'pendientes':
-                $pedidos = Pedido::where('estado', '=', 'Pendiente')->get();
+                $pedidos = $pedidos->where('estado', '=', 'Pendiente')->get();
                 break;
             case 'generados':
-                $pedidos = Pedido::where('estado', '=',  'Generado')->get();
+                $pedidos = $pedidos->where('estado', '=',  'Generado')->get();
                 break;
             case 'entregados':
-                $pedidos = Pedido::where('estado', '=',  'Entregado')->get();
+                $pedidos = $pedidos->where('estado', '=',  'Entregado')->get();
                 break;
             default:
-                $pedidos = Pedido::where('estado', '=',  'Pendiente')->get();
+                $pedidos = $pedidos->where('estado', '=',  'Pendiente')->get();
                 $estado  = 'pendientes';
                 break;
         }
@@ -105,8 +99,9 @@ class PedidoController extends Controller
 
             $usuario->save();
 
-            $pedido->estado      = 'Pendiente';
+            $pedido->estado = Pedido::$ESTADOS[0];
             $pedido->descripcion = 'Generado por personal de la DPOSS';
+
             $pedido->usuario()->associate($usuario);
             $pedido->save();
 
@@ -160,7 +155,6 @@ class PedidoController extends Controller
 
             // @TODO: automatizar
             // $pedido->estado      = 'Pendiente';
-            // $pedido->descripcion = 'Generado por personal de la DPOSS';
 
             $pedido->usuario()->associate($usuario);
             $pedido->save();
@@ -183,8 +177,9 @@ class PedidoController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        // @TODO
+        dd($request->input());
     }
 }

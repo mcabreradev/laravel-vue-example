@@ -26,7 +26,7 @@
                     <form role="form" method="POST" action="{{ route('pedidos.store') }}" enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                        <h2>Datos del usuario</h2>
+                        <h2>Datos del titular</h2>
                         @include('oficina-virtual.usuarios.fields')
 
                         <h2>Datos del pedido</h2>
