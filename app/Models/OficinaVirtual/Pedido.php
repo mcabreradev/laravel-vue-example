@@ -8,6 +8,16 @@ class Pedido extends AppModel
 {
 
     /**
+     * [$ESTADOS description]
+     * @var [type]
+     */
+    public static $ESTADOS = [
+        'pendiente',
+        'generado',
+        'entregado'
+    ];
+
+    /**
      * Localidades permitidas
      * @var array
      */
@@ -35,6 +45,7 @@ class Pedido extends AppModel
         'email'    => 'Email',
         'facebook' => 'Facebook',
         'personal' => 'Personal',
+        'telefono' => 'Telefónico',
         'twitter'  => 'Twitter',
         'whatsapp' => 'Whatsapp',
         'web'      => 'Web'
@@ -55,14 +66,8 @@ class Pedido extends AppModel
      * @var array
      */
     protected $fillable = [
-        'estado',
-        'descripcion',
-        'observaciones',
-        'tipo',
-        'domicilio',
-        'unidad',
-        'macizo',
-        'parcela'
+        'tipo', 'domicilio', 'localidad', 'nomenclatura', 'metodo_entrega', 
+        'origen', 'prioritario', 'descripcion', 'observaciones', 'motivo_cancelacion'
     ];
 
     /**
