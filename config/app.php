@@ -168,6 +168,11 @@ return [
          */
         'Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider',
 
+        /**
+         * https://github.com/barryvdh/laravel-debugbar
+         */
+        'Barryvdh\Debugbar\ServiceProvider',
+
 	],
 
 	/*
@@ -219,7 +224,12 @@ return [
 		/**
          * https://github.com/laracasts/flash
          */
-		'Flash' => 'Laracasts\Flash\Flash'
+		'Flash' => 'Laracasts\Flash\Flash',
+
+        /**
+         * https://github.com/barryvdh/laravel-debugbar
+         */
+        'Debugbar' => 'Barryvdh\Debugbar\Facade',
 
 	],
 
