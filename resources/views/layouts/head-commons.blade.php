@@ -6,11 +6,15 @@
 
 <!-- Fonts -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
+
+<!-- bootstrap (also on body-commons) -->
+<link href="{{ asset('compiled/css/bootstrap/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet">
 
 <!-- Styles -->
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
 <link href="{{ asset('compiled/css/app.css') }}" rel="stylesheet">
+
+<!-- SweetAlert (also in body-commons) -->
+<link rel="stylesheet" type="text/css" href="{{ asset('compiled/js/sweetalert/sweetalert.css') }}">
 
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
