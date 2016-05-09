@@ -18,9 +18,10 @@ class CreatePedidosTable extends Migration {
             $table->string('tipo');
             $table->string('domicilio');
             $table->string('localidad');
-            $table->string('unidad');
-            $table->string('macizo');
-            $table->string('parcela');
+            $table->string('nomenclatura');
+            $table->string('metodo_entrega');
+            $table->string('origen');
+            $table->boolean('prioritario');
             $table->text('descripcion');
             $table->text('observaciones');
             $table->integer('usuario_id')->unsigned();
