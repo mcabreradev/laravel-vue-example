@@ -14,7 +14,7 @@ class Usuario extends AppModel
      *
      * @var array
      */
-    protected $fillable = ['nombre', 'apellido', 'dni', 'email', 'telefono'];
+    protected $fillable = ['nombre', 'apellido', 'documento'];
 
     /**
      * Relacion con los pedidos hechos

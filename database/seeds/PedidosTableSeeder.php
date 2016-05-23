@@ -14,44 +14,81 @@ class PedidosTableSeeder extends Seeder
     public function run()
     {
         $pedido = new Pedido();
-        $pedido->estado         = 'pendiente';
-        $pedido->descripcion    = 'Tengo un pedido';
-        $pedido->tipo           = 'factura';
-        $pedido->localidad      = 'ushuaia';
-        $pedido->domicilio      = 'Kuanip 1866';
-        $pedido->nomenclatura   = 'U 3 0088 0032';
-        $pedido->origen         = 'web';
-        $pedido->prioritario    = true;
-        $pedido->metodo_entrega = 'domicilio';
-        $pedido->observaciones  = "Perido:04/2016";
+        $pedido->fill([
+            'solicitante_apellido' => 'Viera',
+            'solicitante_nombre'   => 'Miguel',
+            'solicitante_email'    => 'vmigue@gmail.com',
+            'solicitante_telefono' => '2901454566',
+            'estado'               => 'pendiente',
+            'descripcion'          => 'Tengo un pedido',
+            'tipo'                 => 'factura',
+            'localidad'            => 'ushuaia',
+            'domicilio'            => 'Kuanip 1866',
+            'nomenclatura'         => 'U 3 0088 0032',
+            'origen'               => 'web',
+            'prioritario'          => false,
+            'metodo_entrega'       => 'domicilio',
+            'observaciones'        => 'Período: impagos'
+        ]);
         $pedido->usuario()->associate(Usuario::find(1));
         $pedido->save();
 
         $pedido = new Pedido();
-        $pedido->estado         = 'generado';
-        $pedido->descripcion    = 'Mi primer pedido';
-        $pedido->tipo           = 'libre-deuda';
-        $pedido->localidad      = 'ushuaia';
-        $pedido->domicilio      = 'Kuanip 1866';
-        $pedido->nomenclatura   = 'C 3 1088 1032';
-        $pedido->origen         = 'chat';
-        $pedido->prioritario    = false;
-        $pedido->metodo_entrega = 'personalmente';
-        $pedido->observaciones  = "Perido:05/2016";
+        $pedido->fill([
+            'solicitante_apellido' => 'Soler',
+            'solicitante_nombre'   => 'Rosina',
+            'solicitante_email'    => 'rosina@gmail.com',
+            'solicitante_telefono' => '2901978679',
+            'estado'               => 'generado',
+            'descripcion'          => 'Necesito un libre deuda',
+            'tipo'                 => 'libre-deuda',
+            'localidad'            => 'ushuaia',
+            'domicilio'            => 'Kuanip 1833',
+            'nomenclatura'         => 'C 3 1088 1032',
+            'origen'               => 'chat',
+            'prioritario'          => true,
+            'metodo_entrega'       => 'personalmente'
+        ]);
         $pedido->usuario()->associate(Usuario::find(2));
         $pedido->save();
 
         $pedido = new Pedido();
-        $pedido->estado         = 'entregado';
-        $pedido->descripcion    = 'Quiero mi factura';
-        $pedido->tipo           = 'factura';
-        $pedido->localidad      = 'tolhuin';
-        $pedido->domicilio      = 'San Martin 244';
-        $pedido->nomenclatura   = 'D 3 0010 0009';
-        $pedido->origen         = 'whatsapp';
-        $pedido->prioritario    = false;
-        $pedido->metodo_entrega = 'email';
-        $pedido->observaciones  = "Perido:03/2016";
+        $pedido->fill([
+            'solicitante_apellido' => 'González',
+            'solicitante_nombre'   => 'Federico',
+            'solicitante_email'    => 'fede@gmail.com',
+            'solicitante_telefono' => '2901776655',
+            'estado'               => 'entregado',
+            'descripcion'          => 'Quiero mi factura',
+            'tipo'                 => 'factura',
+            'localidad'            => 'tolhuin',
+            'domicilio'            => 'San Martin 244',
+            'nomenclatura'         => 'D 3 0010 0009',
+            'origen'               => 'whatsapp',
+            'prioritario'          => true,
+            'metodo_entrega'       => 'email',
+            'observaciones'        => 'Perido: Último facturado'
+        ]);
+        $pedido->usuario()->associate(Usuario::find(2));
+        $pedido->save();
+
+        $pedido = new Pedido();
+        $pedido->fill([
+            'solicitante_apellido' => 'Pérez',
+            'solicitante_nombre'   => 'Vanesa',
+            'solicitante_email'    => 'vane@gmail.com',
+            'solicitante_telefono' => '2901998813',
+            'estado'               => 'cancelado',
+            'descripcion'          => 'Generado por personal de la DPOSS',
+            'tipo'                 => 'libre-deuda',
+            'localidad'            => 'ushuaia',
+            'domicilio'            => 'Isla de los Estados 1432',
+            'nomenclatura'         => 'K 3 1110 1009',
+            'origen'               => 'twitter',
+            'prioritario'          => false,
+            'metodo_entrega'       => 'domicilio',
+            'motivo_cancelacion'   => 'Faltan datos'
+        ]);
         $pedido->usuario()->associate(Usuario::find(1));
         $pedido->save();
     }

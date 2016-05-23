@@ -12,20 +12,16 @@ class UsuariosTableSeeder extends Seeder
      */
     public function run()
     {
-        $usuario = new Usuario();
-        $usuario->dni = 32769403;
-        $usuario->nombre = 'Leonel';
-        $usuario->apellido = 'Viera';
-        $usuario->telefono = '2901476919';
-        $usuario->email = 'vieraleonel1@gmail.com';
-        $usuario->save();
+        Usuario::create([
+            'documento' => 20327694031,
+            'nombre'    => 'Leonel',
+            'apellido'  => 'Viera'
+        ]);
 
-        $usuario = new Usuario();
-        $usuario->dni = 26072626;
-        $usuario->nombre = 'Federico';
-        $usuario->apellido = 'Gonzalez';
-        $usuario->telefono = '2901529764';
-        $usuario->email = 'fedegonzal@gmail.com';
-        $usuario->save();        
+        Usuario::create([
+            'documento' => 26072626,
+            'apellido'  => 'González',
+            'nombre'    => 'Federico'
+        ]);
     }
 }

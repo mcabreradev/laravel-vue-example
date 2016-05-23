@@ -24,7 +24,7 @@ class PedidoUpdateRequest extends Request {
 	public function rules()
 	{
 		return [
-			'dni' => 'required|numeric'
+			'documento' => 'required|numeric'
 		];
 	}
 

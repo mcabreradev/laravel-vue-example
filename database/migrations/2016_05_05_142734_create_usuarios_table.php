@@ -15,11 +15,9 @@ class CreateUsuariosTable extends Migration {
 	{
 		Schema::create('usuarios', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre');
+            $table->integer('documento')->unsigned()->unique();
             $table->string('apellido');
-            $table->integer('dni')->unsigned()->unique();
-            $table->string('email');
-            $table->string('telefono');
+            $table->string('nombre');
             $table->timestamps();
             $table->softDeletes();
         });

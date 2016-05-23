@@ -37,6 +37,16 @@ class PedidoController extends Controller
     {
         $pedido->fill($request->input());
 
+        if ($pedido->id == 0) {
+            
+            // @TODO: agregar usuario
+            $pedido->descripcion = 'Generado por personal de la DPOSS';
+
+            if ($request->input('periodos') != 'Ninguno') {
+                $pedido->observaciones = "Perido: {$request->input('periodos')}\n{$pedido->observaciones}";
+            }
+        } 
+
         return $pedido;
     }
 
@@ -47,23 +57,23 @@ class PedidoController extends Controller
      */
     public function index($estado = 'pendientes')
     {
-        $pedidos = Pedido::with('usuario')
-                         ->orderBy('prioritario', 'desc')
-                         ->orderBy('created_at');
+        $query = Pedido::with('usuario')
+            ->orderBy('prioritario', 'desc')
+            ->orderBy('created_at');
 
         switch ($estado) {
-            case 'pendientes':
-                $pedidos = $pedidos->where('estado', '=', 'Pendiente')->get();
-                break;
             case 'generados':
-                $pedidos = $pedidos->where('estado', '=',  'Generado')->get();
+                $pedidos = $query->where('estado', '=',  'Generado')->get();
                 break;
             case 'entregados':
-                $pedidos = $pedidos->where('estado', '=',  'Entregado')->get();
+                $pedidos = $query->where('estado', '=',  'Entregado')->get();
+                break;
+            case 'cancelados':
+                $pedidos = $query->where('estado', '=',  'Cancelado')->get();
                 break;
             default:
-                $pedidos = $pedidos->where('estado', '=',  'Pendiente')->get();
-                $estado  = 'pendientes';
+                // pendientes
+                $pedidos = $query->where('estado', '=',  'Pendiente')->get();
                 break;
         }
 
@@ -92,15 +102,12 @@ class PedidoController extends Controller
     public function store(PedidoStoreRequest $request)
     {
         try {
-            $usuario = Usuario::where('dni', '=', $request->input('dni'))->first();
+            $usuario = Usuario::firstOrNew(['documento' => $request->input('documento')]);
 
             $pedido  = $this->asignarPedido(new Pedido(), $request);
             $usuario = $this->assignarUsuario($usuario, $request);
 
             $usuario->save();
-
-            $pedido->estado = Pedido::$ESTADOS[0];
-            $pedido->descripcion = 'Generado por personal de la DPOSS';
 
             $pedido->usuario()->associate($usuario);
             $pedido->save();
@@ -111,7 +118,7 @@ class PedidoController extends Controller
         } catch (ModelNotFoundException $e) {
             Flash::error('Error al crear el registro');
 
-            return redirect(route('pedidos.create', $id));
+            return redirect(route('pedidos.create'));
         }
     }
 
@@ -124,7 +131,7 @@ class PedidoController extends Controller
     public function edit($id)
     {
         try {
-            $pedido = Pedido::with('usuario')->findOrFail($id);
+            $pedido = Pedido::with('usuario', 'adjuntos')->findOrFail($id);
 
             return view('oficina-virtual.pedidos.edit')
                 ->with('pedido', $pedido)
@@ -146,15 +153,13 @@ class PedidoController extends Controller
     {
         try {
 
-            $pedido = Pedido::with('usuario')->findOrFail($id);
+            $pedido  = Pedido::with('usuario')->findOrFail($id);
+            $usuario = Usuario::firstOrNew(['documento' => $request->input('documento')]);
 
             $pedido  = $this->asignarPedido($pedido, $request);
-            $usuario = $this->assignarUsuario($pedido->usuario, $request);
+            $usuario = $this->assignarUsuario($usuario, $request);
 
             $usuario->save();
-
-            // @TODO: automatizar
-            // $pedido->estado      = 'Pendiente';
 
             $pedido->usuario()->associate($usuario);
             $pedido->save();
@@ -172,14 +177,50 @@ class PedidoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [enviarEmail description]
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
+    public function enviarEmail($id)
+    {
+        try {
+            $pedido = Pedido::findOrFail($id);
+
+            // @TODO: enviar email y marcar como entregado
+
+            Flash::success('El email fue enviado');
+
+            return redirect(route('pedidos.index', 'enviados'));
+        } catch (ModelNotFoundException $e) {
+            Flash::warning('No se encontró el registro a editar');
+
+            return redirect(route('pedidos.index'));
+        }
+    }
+
+    /**
+     * Cancela un pedido
      *
      * @param  int  $id
      * @return Response
      */
     public function destroy(Request $request, $id)
     {
-        // @TODO
-        dd($request->input());
+        try {
+
+            $pedido = Pedido::findOrFail($id);
+            
+            $pedido->cancelar($request->input('motivo_cancelacion'));
+
+            Flash::success('El pedido se canceló correctamente');
+
+            return redirect(route('pedidos.index'));
+
+        } catch(ModelNotFoundException $e) {
+
+            Flash::warning('Error al cancelar el pedido');
+
+            return redirect(route('pedidos.edit', $id));
+        }
     }
 }

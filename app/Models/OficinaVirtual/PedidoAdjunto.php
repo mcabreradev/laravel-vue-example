@@ -4,15 +4,8 @@ namespace app\Models\OficinaVirtual;
 
 use App\Models\AppModel;
 
-class Adjunto extends AppModel
+class PedidoAdjunto extends AppModel
 {
-    /**
-     * The database table used by the model.
-     *
-     * @var string
-     */
-    protected $table = 'pedido_adjuntos';
-
     /**
      * The attributes that are mass assignable.
      *

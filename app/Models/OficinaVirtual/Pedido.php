@@ -6,15 +6,15 @@ use App\Models\AppModel;
 
 class Pedido extends AppModel
 {
-
     /**
      * [$ESTADOS description]
      * @var [type]
      */
     public static $ESTADOS = [
-        'pendiente',
-        'generado',
-        'entregado'
+        'pendiente' => 'Pendiente',
+        'generado'  => 'Generado',
+        'entregado' => 'Entregado',
+        'cancelado' => 'Cancelado'
     ];
 
     /**
@@ -61,13 +61,26 @@ class Pedido extends AppModel
     ];
 
     /**
+     * [boot description]
+     * @return [type] [description]
+     */
+    public static function boot()
+    {
+        parent::boot();
+
+        self::observe(new PedidoObserver);
+    }
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
         'tipo', 'domicilio', 'localidad', 'nomenclatura', 'metodo_entrega', 
-        'origen', 'prioritario', 'descripcion', 'observaciones', 'motivo_cancelacion'
+        'estado', 'origen', 'prioritario', 'descripcion', 'observaciones', 
+        'motivo_cancelacion', 'solicitante_apellido', 'solicitante_nombre',
+        'solicitante_telefono', 'solicitante_email'
     ];
 
     /**
@@ -85,7 +98,7 @@ class Pedido extends AppModel
      */
     public function adjuntos()
     {
-        return $this->hasMany('App\Models\OficinaVirtual\Adjunto');
+        return $this->hasMany('App\Models\OficinaVirtual\PedidoAdjunto');
     }
 
     /**
@@ -122,5 +135,17 @@ class Pedido extends AppModel
     public function getTipoMostrable()
     {
         return $this::$TIPOS[$this->tipo];
+    }
+
+    /**
+     * [cancelarPedido description]
+     * @param  [type] $motivo [description]
+     * @return [type]         [description]
+     */
+    public function cancelar($motivo)
+    {
+        $this->motivo_cancelacion = $motivo;
+        $this->estado             = 'Cancelado';
+        $this->save();
     }
 }
