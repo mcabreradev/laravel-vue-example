@@ -80,7 +80,12 @@ Route::group(['middleware' => ['auth']], function() {
     Route::delete('/pedidos/{id}', [
         'as'   => 'pedidos.destroy',
         'uses' => 'OficinaVirtual\PedidoController@destroy'
-    ]);
+    ])->where('id', '[0-9]+');
+
+    Route::delete('/pedidos/{id}/enviar-email', [
+        'as'   => 'pedidos.enviar.email',
+        'uses' => 'OficinaVirtual\PedidoController@enviarEmail'
+    ])->where('id', '[0-9]+');
     
     Route::post('/pedidos', [
         'as'   => 'pedidos.store',
@@ -91,4 +96,17 @@ Route::group(['middleware' => ['auth']], function() {
         'as'   => 'pedidos.index',
         'uses' => 'OficinaVirtual\PedidoController@index'
     ])->where('id', '[a-z]+');
+
+    /**
+     * Pedido Adjuntos
+     */
+    Route::post('/pedidos-adjuntos', [
+        'as'   => 'pedidos.adjuntos.store',
+        'uses' => 'OficinaVirtual\PedidoAdjuntoController@store'
+    ]);
+
+    Route::delete('/pedidos-adjuntos/{id}', [
+        'as'   => 'pedidos.adjuntos.destroy',
+        'uses' => 'OficinaVirtual\PedidoAdjuntoController@destroy'
+    ])->where('id', '[0-9]+');
 });

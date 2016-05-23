@@ -13,7 +13,7 @@ var elixir = require('laravel-elixir');
 
 elixir(function(mix) {
     // compile sass
-    mix.sass(['app.scss'],'public/compiled/css');
+    mix.sass(['app.scss'], 'public/compiled/css');
 
     // jQuery
     mix.copy('node_modules/jquery/dist', 'public/compiled/js/jquery');
@@ -26,4 +26,7 @@ elixir(function(mix) {
 
     // SweetAlert
     mix.copy('node_modules/sweetalert/dist/', 'public/compiled/js/sweetalert');
+
+    // Dropzone
+    mix.copy('node_modules/dropzone/dist/min/', 'public/compiled/js/dropzone');
 });

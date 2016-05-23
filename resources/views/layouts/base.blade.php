@@ -2,6 +2,7 @@
 <html>
 <head>
     @include('layouts.head-commons')
+    @yield('head-scripts')
 </head>
 
 <!--
