@@ -26,11 +26,32 @@
                     <form role="form" method="POST" action="{{ route('pedidos.store') }}" enctype="multipart/form-data">
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-                        <h2>Datos del titular</h2>
-                        @include('oficina-virtual.usuarios.fields')
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3>Datos del Solicitante</h3>
+                            </div>
+                            <div class="panel-body">
+                                @include('oficina-virtual.pedidos.fields-solicitante')
+                            </div>
+                        </div>
 
-                        <h2>Datos del pedido</h2>
-                        @include('oficina-virtual.pedidos.fields')
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3>Datos del Titular</h3>
+                            </div>
+                            <div class="panel-body">
+                                @include('oficina-virtual.usuarios.fields')
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3>Datos del pedido</h3>
+                            </div>
+                            <div class="panel-body">
+                                @include('oficina-virtual.pedidos.fields')
+                            </div>
+                        </div>
 
                         <div class="col-xs-12">
                             <div class="form-group">

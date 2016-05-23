@@ -27,11 +27,32 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name="_method" value="PUT">
 
-                        <h2>Datos del titular</h2>
-                        @include('oficina-virtual.usuarios.fields')
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3>Datos del Solicitante</h3>
+                            </div>
+                            <div class="panel-body">
+                                @include('oficina-virtual.pedidos.fields-solicitante')
+                            </div>
+                        </div>
 
-                        <h2>Datos del pedido</h2>
-                        @include('oficina-virtual.pedidos.fields')
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3>Datos del Titular</h3>
+                            </div>
+                            <div class="panel-body">
+                                @include('oficina-virtual.usuarios.fields')
+                            </div>
+                        </div>
+
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h3>Datos del pedido</h3>
+                            </div>
+                            <div class="panel-body">
+                                @include('oficina-virtual.pedidos.fields')
+                            </div>
+                        </div>
 
                         <div class="col-xs-12">
                             <div class="form-group">
@@ -56,4 +77,6 @@
 
         </div>
     </div>
+
+    @include('oficina-virtual.pedidos.adjuntos.index')
 @endsection

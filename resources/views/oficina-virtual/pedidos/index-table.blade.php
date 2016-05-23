@@ -29,17 +29,19 @@
                                 <span class="fa fa-pencil"></span>
                             </a>
 
-                            @if($pedido->estado !== 'pendiente')
+                            @if( in_array($pedido->estado, ['generado', 'entregado']) )
                                 <a href="#" class='btn btn-primary btn-sm' title="Enviar por email">
                                     <span class="fa fa-paper-plane"></span>
                                 </a>
                             @endif
                             
-                            <input type="hidden" name="motivo_cancelacion" />
-
-                            <button class="btn btn-danger btn-sm" type="submit" title="Cancelar">
-                                <span class="fa fa-times"></span>
-                            </button>
+                            @if($pedido->estado !== 'cancelado') 
+                                <button class="btn btn-danger btn-sm" type="submit" title="Cancelar">
+                                    <span class="fa fa-times"></span>
+                                </button>
+                                
+                                <input type="hidden" name="motivo_cancelacion" />
+                            @endif
                         </form>
                     </div>
 
@@ -57,6 +59,7 @@
         ;(function($, swal){
             'use strict'
 
+            // cancelar pedido
             $('#pedidos-table-body').on('submit', 'form', function(event){
                 event.preventDefault();
 

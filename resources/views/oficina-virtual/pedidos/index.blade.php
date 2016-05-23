@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('head-scripts')
+    <meta http-equiv="refresh" content="350">
+@endsection
+
 @section('content-header')
     Pedidos
 @endsection
@@ -17,7 +21,7 @@
             <div class="box">
                 <div class="box-header with-border">
                     <h1>Lista de pedidos {{ $estado }}</h1>
-                    <small class="text-danger">Las filas marcadas en rojo son los pedido prioritarios</small>
+                    <small class="text-danger">Las filas marcadas en rojo son los pedidos prioritarios</small>
                     @include('flash::message')
                 </div>
 
@@ -36,6 +40,9 @@
                         </li>
                         <li role="presentation" class="{{ ($estado === 'entregados' ? 'active' : '') }}">
                             <a href="{{ route('pedidos.index', ['estado' => 'entregados']) }}">Entregados</a>
+                        </li>
+                        <li role="presentation" class="{{ ($estado === 'cancelados' ? 'active' : '') }}">
+                            <a href="{{ route('pedidos.index', ['estado' => 'cancelados']) }}">Cancelados</a>
                         </li>
                     </ul>
 
