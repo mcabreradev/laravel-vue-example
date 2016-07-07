@@ -53,17 +53,6 @@ class AuthController extends Controller
     }
 
     /**
-     * Get the failed login message.
-     *
-     * @return string
-     * @override
-     */
-    protected function getFailedLoginMessage()
-    {
-        return Lang::get('auth.failed');
-    }
-
-    /**
      * Get a validator for an incoming registration request.
      *
      * @param  array  $data
