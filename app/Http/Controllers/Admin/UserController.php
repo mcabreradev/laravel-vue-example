@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests;
-use Auth;
-use Flash;
 use Illuminate\Http\Request;
+use App\Http\Requests;
+use App\Http\Controllers\Controller;
+use Flash;
+use Auth;
 use Lang;
 
 class UserController extends Controller
@@ -17,7 +17,7 @@ class UserController extends Controller
      * @param  [type] $request [description]
      * @return [type]          [description]
      */
-    private function assignValues($user, $request) 
+    private function assignValues($user, $request)
     {
         $user->firstname = $request->input('firstname');
         $user->lastname  = $request->input('lastname');
@@ -40,8 +40,7 @@ class UserController extends Controller
         if ($request->has('change-password')) {
             if ($request->input('password') === $request->input('confirm-password')) {
                 $passReturn = bcrypt($request->input('password'));
-            }
-            else {
+            } else {
                 throw new \Exception('No se pudo modificar la contraseña. '. Lang::get('passwords.password'));
             }
         }
@@ -65,20 +64,15 @@ class UserController extends Controller
     public function saveProfile(Request $request)
     {
         try {
-
             $user = $this->assignValues(Auth::user(), $request);
             $user->save();
 
             Flash::success('El registro se modificó correctamente');
             return redirect(route('users.profile'));
-
-        } catch(ModelNotFoundException $e) {
-
+        } catch (ModelNotFoundException $e) {
             Flash::warning('No se encontró el registro a editar');
             return redirect(route('users.profile'));
-
         } catch (\Exception $e) {
-
             Flash::error($e->getMessage());
             return redirect(route('users.profile'));
         }

@@ -1,26 +1,19 @@
-<?php namespace App\Http\Controllers;
+<?php
 
-class HomeController extends Controller {
+namespace App\Http\Controllers;
 
-	/*
-	|--------------------------------------------------------------------------
-	| Home Controller
-	|--------------------------------------------------------------------------
-	|
-	| This controller renders your application's "dashboard" for users that
-	| are authenticated. Of course, you are free to change or remove the
-	| controller as you wish. It is just here to get your app started!
-	|
-	*/
+use App\Http\Requests;
+use Illuminate\Http\Request;
 
-	/**
-	 * Show the application dashboard to the user.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		return redirect(route('pedidos.index', ['estado' => 'pendientes']));
-	}
-
+class HomeController extends Controller
+{
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return redirect(route('pedidos.index', ['estado' => 'pendientes']));
+    }
 }

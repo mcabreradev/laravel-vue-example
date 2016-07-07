@@ -1,10 +1,15 @@
-# DPOSS Admin
+## Requirements
+
+- [Composer](https://getcomposer.org/)
+- [Node.js](https://nodejs.org/)
+- [npm](https://www.npmjs.com/)
+- [Laravel requirements](https://laravel.com/docs/5.2/installation#server-requirements)
 
 ## Setup
 
 Install php dependencies
 ```bash
-composer install && composer update
+composer install
 ```
 
 Install npm packages
@@ -14,7 +19,7 @@ npm install
 
 Compile assets at least once
 ```bash
-npm run compile
+npm run prod
 ```
 
 Duplicate .env.example in **.env**. Then edit **.env** to adjust your enviroment
@@ -32,8 +37,8 @@ php artisan migrate --seed
 ### npm scripts
 ```bash
 #compile
-npm run compile
+npm run prod
 
 #compile and watch
-npm run compile
+npm run drv
 ```

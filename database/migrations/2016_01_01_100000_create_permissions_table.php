@@ -17,7 +17,6 @@ class CreatePermissionsTable extends Migration
             $table->string('name');
             $table->string('slug')->unique();
             $table->timestamps();
-            $table->softDeletes();
         });
 
         Schema::create('permission_role', function (Blueprint $table) {

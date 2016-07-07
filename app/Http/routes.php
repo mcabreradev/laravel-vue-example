@@ -14,20 +14,20 @@
 /**
  * Auth
  */
-Route::group([], function() {
+Route::group(['as' => 'auth::'], function() {
 
     Route::get('/login', [
-        'as'   => 'auth::login.form',
+        'as'   => 'login.form',
         'uses' => 'Auth\AuthController@showLoginForm'
     ]);
 
     Route::post('/login', [
-        'as'   => 'auth::login',
+        'as'   => 'login',
         'uses' => 'Auth\AuthController@login'
     ]);
 
     Route::get('/logout', [
-        'as'   => 'auth::logout',
+        'as'   => 'logout',
         'uses' => 'Auth\AuthController@logout'
     ]);
 });
@@ -38,15 +38,15 @@ Route::group([], function() {
  */
 Route::group(['middleware' => ['auth']], function() {
 
-    /**
+	/**
      * HOME
      */
     Route::get('/', [
-        'as'   => 'home',
-        'uses' => 'HomeController@index'
+    	'as' => 'home', 
+    	'uses' => 'HomeController@index'
     ]);
 
-    /**
+	/**
      * Users
      */
     Route::get('/users/profile', [
