@@ -19,7 +19,21 @@
     <ul class="sidebar-menu">
       <li class="header">Módulos</li>
       <!-- Optionally, you can add icons to the links -->
-      <li><a href="{{ route('pedidos.index', ['estado' => 'pendientes']) }}"><i class="fa fa-book"></i> <span>Pedidos</span></a></li>
+      <li>
+        <a href="{{ route('pedidos.index', ['estado' => 'pendientes']) }}">
+          <i class="fa fa-book"></i> <span>Pedidos</span>
+        </a>
+      </li>
+
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-signal"></i><span>Nivel Agua</span><i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{ route('plantas.niveles.registros.index') }}">Registro histórico</a></li>
+          <li><a href="{{ route('plantas.niveles.index') }}">Niveles</a></li>
+        </ul>
+      </li>
     </ul>
     <!-- /.sidebar-menu -->
   </section>

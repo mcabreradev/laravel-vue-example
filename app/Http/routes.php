@@ -42,7 +42,7 @@ Route::group(['middleware' => ['auth']], function() {
      * HOME
      */
     Route::get('/', [
-    	'as' => 'home', 
+    	'as' => 'home',
     	'uses' => 'HomeController@index'
     ]);
 
@@ -86,7 +86,7 @@ Route::group(['middleware' => ['auth']], function() {
         'as'   => 'pedidos.enviar.email',
         'uses' => 'OficinaVirtual\PedidoController@enviarEmail'
     ])->where('id', '[0-9]+');
-    
+
     Route::post('/pedidos', [
         'as'   => 'pedidos.store',
         'uses' => 'OficinaVirtual\PedidoController@store'
@@ -109,4 +109,31 @@ Route::group(['middleware' => ['auth']], function() {
         'as'   => 'pedidos.adjuntos.destroy',
         'uses' => 'OficinaVirtual\PedidoAdjuntoController@destroy'
     ])->where('id', '[0-9]+');
+
+    /**
+     * Nivel de Agua en Plantas
+     */
+    Route::get('/nivel-agua-plantas', [
+        'as'   => 'plantas.niveles.index',
+        'uses' => 'Plantas\NivelAguaPlantaController@index'
+    ]);
+
+    /**
+     * Registro de nivel de agua en plantas
+     */
+    Route::get('/historico-nivel-agua-plantas', [
+        'as'   => 'plantas.niveles.registros.index',
+        'uses' => 'Plantas\NivelAguaPlantaRegistroController@index'
+    ]);
+
+    Route::post('/historico-nivel-agua-plantas', [
+        'as'   => 'plantas.niveles.registros.store',
+        'uses' => 'Plantas\NivelAguaPlantaRegistroController@store'
+    ]);
+
+    Route::delete('/historico-nivel-agua-plantas/{id}', [
+        'as'   => 'plantas.niveles.registros.destroy',
+        'uses' => 'Plantas\NivelAguaPlantaRegistroController@destroy'
+    ])->where('id', '[0-9]+');
+
 });
