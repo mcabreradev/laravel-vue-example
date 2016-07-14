@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace app\Http\Controllers\OficinaVirtual;
 
@@ -38,14 +38,14 @@ class PedidoController extends Controller
         $pedido->fill($request->input());
 
         if ($pedido->id == 0) {
-            
+
             // @TODO: agregar usuario
             $pedido->descripcion = 'Generado por personal de la DPOSS';
 
             if ($request->input('periodos') != 'Ninguno') {
                 $pedido->observaciones = "Perido: {$request->input('periodos')}\n{$pedido->observaciones}";
             }
-        } 
+        }
 
         return $pedido;
     }
@@ -57,25 +57,11 @@ class PedidoController extends Controller
      */
     public function index($estado = 'pendientes')
     {
-        $query = Pedido::with('usuario')
+        $pedidos = Pedido::with('usuario')
+            ->where('estado', '=',  rtrim($estado, "s"))
             ->orderBy('prioritario', 'desc')
-            ->orderBy('created_at');
-
-        switch ($estado) {
-            case 'generados':
-                $pedidos = $query->where('estado', '=',  'Generado')->get();
-                break;
-            case 'entregados':
-                $pedidos = $query->where('estado', '=',  'Entregado')->get();
-                break;
-            case 'cancelados':
-                $pedidos = $query->where('estado', '=',  'Cancelado')->get();
-                break;
-            default:
-                // pendientes
-                $pedidos = $query->where('estado', '=',  'Pendiente')->get();
-                break;
-        }
+            ->orderBy('created_at')
+            ->get();
 
         return view('oficina-virtual.pedidos.index')
             ->with('pedidos', $pedidos)
@@ -209,7 +195,7 @@ class PedidoController extends Controller
         try {
 
             $pedido = Pedido::findOrFail($id);
-            
+
             $pedido->cancelar($request->input('motivo_cancelacion'));
 
             Flash::success('El pedido se canceló correctamente');

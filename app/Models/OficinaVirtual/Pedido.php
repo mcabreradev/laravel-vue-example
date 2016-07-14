@@ -77,8 +77,8 @@ class Pedido extends AppModel
      * @var array
      */
     protected $fillable = [
-        'tipo', 'domicilio', 'localidad', 'nomenclatura', 'metodo_entrega', 
-        'estado', 'origen', 'prioritario', 'descripcion', 'observaciones', 
+        'tipo', 'domicilio', 'localidad', 'nomenclatura', 'metodo_entrega',
+        'estado', 'origen', 'prioritario', 'descripcion', 'observaciones',
         'motivo_cancelacion', 'solicitante_apellido', 'solicitante_nombre',
         'solicitante_telefono', 'solicitante_email'
     ];
@@ -145,7 +145,7 @@ class Pedido extends AppModel
     public function cancelar($motivo)
     {
         $this->motivo_cancelacion = $motivo;
-        $this->estado             = 'Cancelado';
+        $this->estado             = 'cancelado';
         $this->save();
     }
 }

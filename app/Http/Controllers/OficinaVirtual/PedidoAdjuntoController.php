@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace app\Http\Controllers\OficinaVirtual;
 
@@ -67,16 +67,26 @@ class PedidoAdjuntoController extends Controller
     public function destroy($id)
     {
         try {
+
             $adjunto = PedidoAdjunto::findOrFail($id);
             $disk    = Storage::disk('public');
 
-            // si existe el archivo y lo puedo borrar
-            if ($disk->exists($adjunto->path) && $disk->delete($adjunto->path)) {
-                    // borro el registro en la base
+            // existe el archivo
+            if ($disk->exists($adjunto->path)) {
+
+                // se pudo borrar
+                if ($disk->delete($adjunto->path)) {
                     $adjunto->delete();
-                    return response()->json($adjunto, 201);
-            } else {
-                abort(500);
+                    return response()->json(null, 200);
+                }
+                else {
+                    abort(500);
+                }
+            }
+            // si no existe solo borro la relacion
+            else {
+                $adjunto->delete();
+                return response()->json(null, 200);
             }
 
         } catch (\ModelNotFoundException $e) {
