@@ -124,7 +124,7 @@ Nueva situación de cortes
         'OSM': new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
       }, {}));
 
-      $.getJSON('http://localhost:8000/barrios/layer')
+      $.getJSON('{{ route('barrios.layer') }}')
         .success(function(data){
 
           var layer = L.geoJson(data, {
