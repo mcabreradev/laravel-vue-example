@@ -7,7 +7,9 @@
     "require": {
         "php": ">=5.5.9",
         "laravel/framework": "5.2.*",
-        "laracasts/flash": "^2.0"
+        "laracasts/flash": "^2.0",
+        "elibyy/tcpdf-laravel": "^5.2",
+        "barryvdh/laravel-cors": "^0.8.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

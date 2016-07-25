@@ -27,12 +27,13 @@ class NivelAguaPlantaRegistroController extends Controller
      */
     public function index()
     {
-        $registros = NivelAguaPlantaRegistro::all();
-        $niveles   = NivelAguaPlanta::all();
+        $registros = NivelAguaPlantaRegistro::orderBy('registrado_el', 'desc')
+            ->with('nivelAguaPlanta')
+            ->get();
 
         return view('plantas.niveles.registros.index')
             ->with('registros', $registros)
-            ->with('niveles', $niveles);
+            ->with('niveles', NivelAguaPlanta::all());
     }
 
     /**

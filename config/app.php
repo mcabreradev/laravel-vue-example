@@ -171,6 +171,16 @@ return [
          */
         Barryvdh\Debugbar\ServiceProvider::class,
 
+        /**
+         * https://github.com/elibyy/tcpdf-laravel
+         */
+        Elibyy\TCPDF\ServiceProvider::class,
+
+        /**
+         * https://github.com/barryvdh/laravel-cors
+         */
+        Barryvdh\Cors\ServiceProvider::class,
+
     ],
 
     /*
@@ -227,6 +237,10 @@ return [
          */
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
+        /**
+         * https://github.com/elibyy/tcpdf-laravel
+         */
+        'PDF' => Elibyy\TCPDF\Facades\TCPDF::class,
     ],
 
 ];
