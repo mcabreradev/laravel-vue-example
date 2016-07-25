@@ -15,10 +15,10 @@
             <input id="titulo" name="titulo" type="text" class="form-control" required>
           </div>
 
-          <div class="form-group">
+          {{-- <div class="form-group">
             <label for="etiqueta" class="control-label">Etiqueta</label>
             <input id="etiqueta" name="etiqueta" type="text" class="form-control">
-          </div>
+          </div> --}}
 
           <div class="form-group">
             <label for="descripcion" class="control-label">Descripción</label>

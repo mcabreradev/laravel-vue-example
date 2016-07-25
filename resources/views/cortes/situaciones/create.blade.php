@@ -40,7 +40,7 @@ Nueva situación de cortes
               </div>
 
               <div class="form-group">
-                <label for="duracion" class="form-label">Duración (en horas)</label>
+                <label for="duracion" class="form-label">Vigencia del alerta (en horas)</label>
                 <input name="duracion" type="number" class="form-control" id="duracion" required>
               </div>
 
@@ -109,9 +109,9 @@ Nueva situación de cortes
 
       function featureStyle(feature) {
         switch (feature.properties.estado) {
-          case 1: return {color: "#00FF00"};
-          case 2: return {color: "#FFF000"};
-          default: return {color: "#FF0000"};
+          case 1: return {color: 'white', fillColor: "#59850B", weight: 2, dashArray: '3', fillOpacity: 0.4};
+          case 2: return {color: 'white', fillColor: "#F8C540", weight: 2, dashArray: '3', fillOpacity: 0.6};
+          default: return {color: 'white', fillColor: "#C73926", weight: 2, dashArray: '3', fillOpacity: 0.6};
         }
       }
 

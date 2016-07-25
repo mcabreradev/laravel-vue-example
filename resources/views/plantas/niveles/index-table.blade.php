@@ -2,7 +2,7 @@
   <table class="table table-striped" id="nivel-table">
     <thead>
       <th>Título</th>
-      <th>Etiqueta</th>
+      {{-- <th>Etiqueta</th> --}}
       <th>Descripción</th>
       <th>Acciones</th>
     </thead>
@@ -10,7 +10,7 @@
       @foreach($niveles as $nivel)
       <tr>
         <td>{{ $nivel->titulo }}</td>
-        <td>{{ $nivel->etiqueta }}</td>
+        {{-- <td>{{ $nivel->etiqueta }}</td> --}}
         <td>{{ $nivel->descripcion }}</td>
         <td>
           <form method="POST" action="{{ route('plantas.niveles.destroy', $nivel->id) }}">
