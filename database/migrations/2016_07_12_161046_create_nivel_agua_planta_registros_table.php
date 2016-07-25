@@ -14,7 +14,7 @@ class CreateNivelAguaPlantaRegistrosTable extends Migration
     {
         Schema::create('nivel_agua_planta_registros', function (Blueprint $table) {
             $table->increments('id');
-            $table->datetime('fecha');
+            $table->datetime('registrado_el')->unique();
             $table->integer('nivel_agua_planta_id')->unsigned();
             $table->timestamps();
 

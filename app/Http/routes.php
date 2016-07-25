@@ -118,6 +118,16 @@ Route::group(['middleware' => ['auth']], function() {
         'uses' => 'Plantas\NivelAguaPlantaController@index'
     ]);
 
+    Route::post('/nivel-agua-plantas', [
+        'as'   => 'plantas.niveles.store',
+        'uses' => 'Plantas\NivelAguaPlantaController@store'
+    ]);
+
+    Route::delete('/nivel-agua-plantas/{id}', [
+        'as'   => 'plantas.niveles.destroy',
+        'uses' => 'Plantas\NivelAguaPlantaController@destroy'
+    ])->where('id', '[0-9]+');
+
     /**
      * Registro de nivel de agua en plantas
      */
@@ -136,4 +146,53 @@ Route::group(['middleware' => ['auth']], function() {
         'uses' => 'Plantas\NivelAguaPlantaRegistroController@destroy'
     ])->where('id', '[0-9]+');
 
+    /**
+     * Cortes: Estados
+     */
+    Route::get('/cortes/estados', [
+        'as'   => 'cortes.estados.index',
+        'uses' => 'Cortes\EstadoController@index'
+    ]);
+
+    Route::post('/cortes/estados', [
+        'as'   => 'cortes.estados.store',
+        'uses' => 'Cortes\EstadoController@store'
+    ]);
+
+    Route::delete('/cortes/estados/{id}', [
+        'as'   => 'cortes.estados.destroy',
+        'uses' => 'Cortes\EstadoController@destroy'
+    ])->where('id', '[0-9]+');
+
+
+    /**
+     * Cortes: Situaciones
+     */
+    Route::get('/cortes/situaciones', [
+        'as'   => 'cortes.situaciones.index',
+        'uses' => 'Cortes\SituacionController@index'
+    ]);
+
+    Route::get('/cortes/situaciones/create', [
+        'as'   => 'cortes.situaciones.create',
+        'uses' => 'Cortes\SituacionController@create'
+    ]);
+
+    Route::post('/cortes/situaciones', [
+        'as'   => 'cortes.situaciones.store',
+        'uses' => 'Cortes\SituacionController@store'
+    ]);
+
+    Route::delete('/cortes/situaciones/{id}', [
+        'as'   => 'cortes.situaciones.destroy',
+        'uses' => 'Cortes\SituacionController@destroy'
+    ])->where('id', '[0-9]+');
+
+    /**
+     * Cortes: Barrios
+     */
+    Route::get('/barrios/layer', [
+        'as'   => 'barrios.layer',
+        'uses' => 'Cortes\SituacionController@getLayer'
+    ]);
 });

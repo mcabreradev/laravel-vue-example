@@ -16,5 +16,7 @@ class DatabaseSeeder extends Seeder
         $this->call(PedidosTableSeeder::class);
         $this->call(PedidoAdjuntosTableSeeder::class);
         $this->call(NivelAguaPlantasTableSeeder::class);
+        $this->call(BarriosTableSeeder::class);
+        $this->call(CortesEstadosTableSeeder::class);
     }
 }

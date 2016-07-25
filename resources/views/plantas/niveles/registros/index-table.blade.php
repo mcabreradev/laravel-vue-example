@@ -8,7 +8,7 @@
     <tbody id="registros-nivel">
       @foreach($registros as $registro)
         <tr>
-          <td>{{ date('d/m/Y H:i:s', strtotime($registro->fecha)) }}</td>
+          <td>{{ date('d/m/Y H:i:s', strtotime($registro->registrado_el)) }}</td>
           <td>{{ $registro->nivelAguaPlanta->titulo }}</td>
           <td>
             <form method="POST" action="{{ route('plantas.niveles.registros.destroy', $registro->id) }}">
@@ -35,7 +35,7 @@
     $('#registros-nivel').on('submit', 'form', function(event){
 
       event.preventDefault();
-      console.log('aca');
+
       swal({
         title: "¿Estás seguro?",
         text: "El registro se va a eliminar",

@@ -25,12 +25,12 @@
               <input type="hidden" name="_token" value="{{ csrf_token() }}">
               <input type="hidden" name="_method" value="DELETE">
 
-              <a href="{{ route('pedidos.edit', ['id' => $pedido->id]) }}" class='btn btn-success btn-sm' title="Editar">
+              <a href="{{ route('pedidos.edit', ['id' => $pedido->id]) }}" class='btn btn-primary btn-sm' title="Editar">
                 <span class="fa fa-pencil"></span>
               </a>
 
               @if( in_array($pedido->estado, ['generado', 'entregado']) )
-              <a href="#" class='btn btn-primary btn-sm' title="Enviar por email">
+              <a href="#" class='btn btn-info btn-sm' title="Enviar por email">
                 <span class="fa fa-paper-plane"></span>
               </a>
               @endif

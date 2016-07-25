@@ -14,9 +14,9 @@ class CreateNivelAguaPlantasTable extends Migration
     {
         Schema::create('nivel_agua_plantas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('etiqueta');
             $table->string('titulo');
-            $table->text('descripcion');
+            $table->string('etiqueta')->nullable();
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }

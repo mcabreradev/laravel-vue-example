@@ -30,7 +30,7 @@ class NivelAguaPlantaRegistroController extends Controller
         $registros = NivelAguaPlantaRegistro::all();
         $niveles   = NivelAguaPlanta::all();
 
-        return view('plantas.niveles.index-registros')
+        return view('plantas.niveles.registros.index')
             ->with('registros', $registros)
             ->with('niveles', $niveles);
     }

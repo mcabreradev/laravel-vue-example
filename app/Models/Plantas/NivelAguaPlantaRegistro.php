@@ -11,8 +11,12 @@ class NivelAguaPlantaRegistro extends AppModel
      *
      * @var array
      */
-    protected $fillable = ['fecha'];
+    protected $fillable = ['registrado_el'];
 
+    /**
+     * [nivelAguaPlanta description]
+     * @return [type] [description]
+     */
     public function nivelAguaPlanta()
     {
         return $this->belongsTo('App\Models\Plantas\NivelAguaPlanta');

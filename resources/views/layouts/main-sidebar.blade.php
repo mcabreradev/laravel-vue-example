@@ -34,6 +34,16 @@
           <li><a href="{{ route('plantas.niveles.index') }}">Niveles</a></li>
         </ul>
       </li>
+
+      <li class="treeview">
+        <a href="#">
+          <i class="fa fa-scissors"></i><span>Cortes</span><i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="{{ route('cortes.situaciones.index') }}">Situación</a></li>
+          <li><a href="{{ route('cortes.estados.index') }}">Estados</a></li>
+        </ul>
+      </li>
     </ul>
     <!-- /.sidebar-menu -->
   </section>
