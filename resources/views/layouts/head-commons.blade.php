@@ -16,6 +16,13 @@
 <!-- SweetAlert (also in body-commons) -->
 <link rel="stylesheet" type="text/css" href="{{ asset('compiled/js/sweetalert/sweetalert.css') }}">
 
+<!-- bootstrap-material-datetimepicker (also in body-commons) -->
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="{{ asset('compiled/js/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css') }}">
+
+<!-- Modernizr -->
+<script src="{{ asset('compiled/js/modernizr/modernizr-build.js') }}"></script>
+
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>

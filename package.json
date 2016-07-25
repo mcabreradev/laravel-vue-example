@@ -1,18 +1,24 @@
 {
   "private": true,
   "scripts": {
+    "deps": "npm install && bower install",
     "prod": "gulp --production",
     "dev": "gulp watch"
   },
   "devDependencies": {
+    "bower": "^1.7.9",
     "gulp": "^3.9.1",
-    "laravel-elixir": "^5.0.0"
+    "laravel-elixir": "^5.0.0",
+    "modernizr": "^3.3.1"
   },
   "dependencies": {
     "admin-lte": "^2.3.3",
     "bootstrap": "^3.3.6",
     "dropzone": "^4.3.0",
     "jquery": "^2.2.3",
+    "leaflet": "^0.7.7",
+    "leaflet-plugins": "^1.7.0",
+    "moment": "^2.14.1",
     "sweetalert": "^1.1.3"
   }
 }

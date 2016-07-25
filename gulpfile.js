@@ -1,4 +1,18 @@
+'use strict';
+
+var fs = require('fs');
+var gulp = require('gulp');
 var elixir = require('laravel-elixir');
+
+var modernizr = require('modernizr');
+var modernizrConfig = require('./modernizr-config'); // path to JSON config
+
+gulp.task( 'modernizr', function (done) {
+  modernizr.build(modernizrConfig, function(code) {
+    fs.writeFile('./public/compiled/js/modernizr/modernizr-build.js', code, done);
+  });
+});
+
 
 /*
  |--------------------------------------------------------------------------
@@ -29,4 +43,19 @@ elixir(function(mix) {
 
   // Dropzone
   mix.copy('node_modules/dropzone/dist/min/', 'public/compiled/js/dropzone');
+
+  // Leaflet
+  mix.copy('node_modules/leaflet/dist', 'public/compiled/js/leaflet');
+  mix.copy('node_modules/leaflet-plugins/layer', 'public/compiled/js/leaflet/layer');
+
+  // momentjs
+  mix.copy('node_modules/moment/min', 'public/compiled/js/momentjs');
+
+  // https://github.com/T00rk/bootstrap-material-datetimepicker
+  mix.copy('bower_components/bootstrap-material-datetimepicker', 'public/compiled/js/bootstrap-material-datetimepicker');
+
+  // modernizr
+  mix.copy('modernizr-config.json', 'public/compiled/js/modernizr/modernizr-config.json');
+  mix.task('modernizr');
+
 });
