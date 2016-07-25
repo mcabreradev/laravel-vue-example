@@ -14,8 +14,8 @@ class CreateCortesEstadosTable extends Migration
     {
         Schema::create('cortes_estados', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('color');
             $table->string('titulo');
+            $table->string('color');
             $table->timestamps();
         });
     }

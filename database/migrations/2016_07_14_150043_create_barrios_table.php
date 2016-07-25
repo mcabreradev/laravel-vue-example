@@ -15,6 +15,7 @@ class CreateBarriosTable extends Migration
         Schema::create('barrios', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
+            $table->jsonb('geometria');
             $table->timestamps();
         });
     }

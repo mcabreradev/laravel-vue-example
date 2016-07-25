@@ -11,11 +11,20 @@
 |
 */
 
-$factory->define(App\User::class, function (Faker\Generator $faker) {
+$factory->define(App\Models\Admin\User::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->safeEmail,
-        'password' => bcrypt(str_random(10)),
+        'username'       => $faker->userName,
+        'firstname'      => $faker->firstName,
+        'lastname'       => $faker->lastName,
+        'email'          => $faker->safeEmail,
+        'password'       => bcrypt(str_random(10)),
         'remember_token' => str_random(10),
+        'superadmin'     => $faker->boolean(50)
+    ];
+});
+
+$factory->define(App\Models\Geo\Barrio::class, function(Faker\Generator $faker) {
+    return [
+        'nombre' => $faker->city
     ];
 });
