@@ -25,6 +25,12 @@ Route::group(['prefix' => 'api'], function()
             return response()->json($response, 200);
         });
 
+        // Route::get('alertas/gacetillas');
+
+        Route::get('alertas/vigentes/layer', ['uses' => 'Cortes\SituacionController@getAlertasActualesLayer']);
+
+        Route::get('alertas/futuras/layer', ['uses' => 'Cortes\SituacionController@getAlertasFuturasLayer']);
+
         Route::get('cortes/situaciones', function()
         {
 
@@ -81,9 +87,9 @@ Route::group(['prefix' => 'api'], function()
                 'barrios'     => barriosAfectados($situacion->barriosSituaciones),
                 'layer'       => generarLayer($situacion->barriosSituaciones),
                 'inicio'      => $situacion->inicia_el->format('Y-m-d H:i:s'),
-                'fin'         => $situacion->finaliza_el->format('Y-m-d H:i:s'),
-                'descripcion' => $situacion->descripcion
+                'fin'         => $situacion->finaliza_el->format('Y-m-d H:i:s')
             ];
+
 
             return response()->json($response, 200);
         });

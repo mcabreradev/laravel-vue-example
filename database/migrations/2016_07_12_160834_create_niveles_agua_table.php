@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCortesSituacionesTable extends Migration
+class CreateNivelesAguaTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,11 @@ class CreateCortesSituacionesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cortes_situaciones', function (Blueprint $table) {
+        Schema::create('niveles_agua', function (Blueprint $table) {
             $table->increments('id');
-            $table->datetime('inicia_el');
-            $table->datetime('finaliza_el');
-            $table->text('descripcion');
+            $table->string('titulo');
+            $table->text('descripcion')->nullable();
+            $table->string('color')->nullable();
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class CreateCortesSituacionesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('cortes_situaciones');
+        Schema::drop('niveles_agua');
     }
 }

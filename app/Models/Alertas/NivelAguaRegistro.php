@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Plantas;
+namespace App\Models\Alertas;
 
 use App\Models\AppModel;
 
-class NivelAguaPlantaRegistro extends AppModel
+class NivelAguaRegistro extends AppModel
 {
     /**
      * The attributes that are mass assignable.
@@ -17,8 +17,8 @@ class NivelAguaPlantaRegistro extends AppModel
      * [nivelAguaPlanta description]
      * @return [type] [description]
      */
-    public function nivelAguaPlanta()
+    public function nivelAgua()
     {
-        return $this->belongsTo('App\Models\Plantas\NivelAguaPlanta');
+        return $this->belongsTo('App\Models\Alertas\NivelAgua');
     }
 }

@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\Models\Cortes\Estado;
+use App\Models\Alertas\Estado;
 
-class CortesEstadosTableSeeder extends Seeder
+class AlertasEstadosTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.

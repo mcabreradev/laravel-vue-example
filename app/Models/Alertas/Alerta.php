@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Models\Cortes;
+namespace App\Models\Alertas;
 
 use App\Models\AppModel;
 
-class Situacion extends AppModel
+class Alerta extends AppModel
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'cortes_situaciones';
+    protected $table = 'alertas';
 
     /**
      * The attributes that should be mutated to dates.
@@ -27,8 +27,12 @@ class Situacion extends AppModel
      */
     protected $fillable = ['inicia_el', 'finaliza_el', 'descripcion'];
 
-    public function barriosSituaciones()
+    /**
+     * [barriosSituaciones description]
+     * @return [type] [description]
+     */
+    public function detalles()
     {
-        return $this->hasMany('App\Models\Cortes\BarrioSituacion', 'cortes_situacion_id');
+        return $this->hasMany('App\Models\Alertas\AlertaDetalle');
     }
 }

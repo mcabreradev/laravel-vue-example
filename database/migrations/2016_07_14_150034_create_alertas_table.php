@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCortesEstadosTable extends Migration
+class CreateAlertasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,10 +12,11 @@ class CreateCortesEstadosTable extends Migration
      */
     public function up()
     {
-        Schema::create('cortes_estados', function (Blueprint $table) {
+        Schema::create('alertas', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('titulo');
-            $table->string('color');
+            $table->datetime('inicia_el');
+            $table->datetime('finaliza_el');
+            $table->text('descripcion');
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ class CreateCortesEstadosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('cortes_estados');
+        Schema::drop('alertas');
     }
 }

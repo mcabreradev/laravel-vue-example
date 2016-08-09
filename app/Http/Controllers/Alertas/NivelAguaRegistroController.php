@@ -1,18 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Plantas;
+namespace App\Http\Controllers\Alertas;
 
+use Flash;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Models\Alertas\NivelAgua;
 use App\Http\Controllers\Controller;
-use App\Models\Plantas\NivelAguaPlanta;
-use App\Models\Plantas\NivelAguaPlantaRegistro;
-use Flash;
+use App\Models\Alertas\NivelAguaRegistro;
 
 
-class NivelAguaPlantaRegistroController extends Controller
+class NivelAguaRegistroController extends Controller
 {
 
+    /**
+     * [assignRegistro description]
+     * @param  [type] $registro [description]
+     * @param  [type] $request  [description]
+     * @return [type]           [description]
+     */
     protected function assignRegistro($registro, $request)
     {
         $registro->fill($request->input());
@@ -27,13 +33,13 @@ class NivelAguaPlantaRegistroController extends Controller
      */
     public function index()
     {
-        $registros = NivelAguaPlantaRegistro::orderBy('registrado_el', 'desc')
-            ->with('nivelAguaPlanta')
+        $registros = NivelAguaRegistro::orderBy('registrado_el', 'desc')
+            ->with('nivelAgua')
             ->get();
 
-        return view('plantas.niveles.registros.index')
+        return view('alertas.niveles-agua.registros.index')
             ->with('registros', $registros)
-            ->with('niveles', NivelAguaPlanta::all());
+            ->with('niveles', NivelAgua::all());
     }
 
     /**
@@ -45,19 +51,19 @@ class NivelAguaPlantaRegistroController extends Controller
     {
         try {
 
-            $nivel    = NivelAguaPlanta::findOrFail($request->input('nivel'));
-            $registro = $this->assignRegistro(new NivelAguaPlantaRegistro(), $request);
+            $nivel    = NivelAgua::findOrFail($request->input('nivel'));
+            $registro = $this->assignRegistro(new NivelAguaRegistro(), $request);
 
-            $registro->nivelAguaPlanta()->associate($nivel);
+            $registro->nivelAgua()->associate($nivel);
             $registro->save();
 
             Flash::success('El registro se creó correctamente');
 
-            return redirect(route('plantas.niveles.registros.index'));
+            return redirect(route('alertas::registros-nivel-agua.index'));
         } catch (ModelNotFoundException $e) {
             Flash::error('Error al crear el registro');
 
-            return redirect(route('plantas.niveles.registros.index'));
+            return redirect(route('alertas::registros-nivel-agua.index'));
         }
     }
 
@@ -71,18 +77,18 @@ class NivelAguaPlantaRegistroController extends Controller
     {
         try {
 
-            $registro = NivelAguaPlantaRegistro::findOrFail($id);
+            $registro = NivelAguaRegistro::findOrFail($id);
             $registro->delete();
 
             Flash::success('El registro se eliminó correctamente');
 
-            return redirect(route('plantas.niveles.registros.index'));
+            return redirect(route('alertas::registros-nivel-agua.index'));
 
         } catch(ModelNotFoundException $e) {
 
             Flash::warning('Error al eliminar el registro');
 
-            return redirect(route('plantas.niveles.registros.index'));
+            return redirect(route('alertas::registros-nivel-agua.index'));
         }
     }
 }

@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content-header')
-Nivel de agua en plantas
+Mapa de alertas
 @endsection
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('plantas.niveles.index') }}">Niveles de agua</a></li>
+<li><a href="{{ route('alertas::index') }}"> Situaciones</a></li>
 @endsection
 
 
@@ -17,7 +17,7 @@ Nivel de agua en plantas
 
     <div class="box">
       <div class="box-header with-border">
-        <h1>Lista de niveles</h1>
+        <h1>Alertas</h1>
         @include('flash::message')
       </div>
 
@@ -25,16 +25,16 @@ Nivel de agua en plantas
 
         <div class="row">
           <div class="col-xs-12">
-            <button class="btn btn-primary pull-right" type="button" onclick="$('#crear-nivel-modal').modal('show');">
-              <span class="fa fa-plus"></span> Nuevo nivel
-            </button>
+            <a class="btn btn-primary pull-right" href="{{ route('alertas::create') }}">
+              <span class="fa fa-plus"></span> Nueva alerta
+            </a>
           </div>
         </div>
 
-        @if($niveles->isEmpty())
-          <div class="well text-center">No hay niveles definidos</div>
+        @if($alertas->isEmpty())
+          <div class="well text-center">No se cargaron alertas</div>
         @else
-          @include('plantas.niveles.index-table')
+          @include('alertas.index-table')
         @endif
       </div>
 
@@ -45,7 +45,5 @@ Nivel de agua en plantas
 
   </div>
 </div>
-
-@include('plantas.niveles.create')
 
 @endsection

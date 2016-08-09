@@ -111,44 +111,99 @@ Route::group(['middleware' => ['auth']], function() {
     ])->where('id', '[0-9]+');
 
     /**
-     * Nivel de Agua en Plantas
+     * Alertas
      */
-    Route::get('/nivel-agua-plantas', [
-        'as'   => 'plantas.niveles.index',
-        'uses' => 'Plantas\NivelAguaPlantaController@index'
-    ]);
+    Route::group([
+        'namespace' => 'Alertas',
+        'as'        => 'alertas::',
+        'prefix'    => 'alertas'
+    ], function() {
 
-    Route::post('/nivel-agua-plantas', [
-        'as'   => 'plantas.niveles.store',
-        'uses' => 'Plantas\NivelAguaPlantaController@store'
-    ]);
+        /**
+         * Nivel Agua
+         */
 
-    Route::delete('/nivel-agua-plantas/{id}', [
-        'as'   => 'plantas.niveles.destroy',
-        'uses' => 'Plantas\NivelAguaPlantaController@destroy'
-    ])->where('id', '[0-9]+');
+        Route::get('niveles-agua', [
+            'as'   => 'niveles-agua.index',
+            'uses' => 'NivelAguaController@index'
+        ]);
+
+        Route::post('niveles-agua', [
+            'as'   => 'niveles-agua.store',
+            'uses' => 'NivelAguaController@store'
+        ]);
+
+        Route::delete('niveles-agua/{id}', [
+            'as'   => 'niveles-agua.destroy',
+            'uses' => 'NivelAguaController@destroy'
+        ])->where('id', '[0-9]+');
+
+        /**
+         * Registro de nivel de agua en plantas
+         */
+
+        Route::get('/registros-nivel-agua', [
+            'as'   => 'registros-nivel-agua.index',
+            'uses' => 'NivelAguaRegistroController@index'
+        ]);
+
+        Route::post('/registros-nivel-agua', [
+            'as'   => 'registros-nivel-agua.store',
+            'uses' => 'NivelAguaRegistroController@store'
+        ]);
+
+        Route::delete('/registros-nivel-agua/{id}', [
+            'as'   => 'registros-nivel-agua.destroy',
+            'uses' => 'NivelAguaRegistroController@destroy'
+        ])->where('id', '[0-9]+');
+
+        /**
+         * Cortes: Situaciones
+         */
+
+        Route::get('/', [
+            'as'   => 'index',
+            'uses' => 'AlertaController@index'
+        ]);
+
+        Route::get('/create', [
+            'as'   => 'create',
+            'uses' => 'AlertaController@create'
+        ]);
+
+        Route::get('/create/layer', [
+            'as'   => 'create.layer',
+            'uses' => 'AlertaController@createLayer'
+        ]);
+
+        Route::post('/', [
+            'as'   => 'store',
+            'uses' => 'AlertaController@store'
+        ]);
+
+        Route::get('/edit/{id}', [
+            'as'   => 'edit',
+            'uses' => 'AlertaController@edit'
+        ]);
+
+        Route::get('/edit/{id}/layer', [
+            'as'   => 'edit.layer',
+            'uses' => 'AlertaController@editLayer'
+        ]);
+
+        Route::delete('/{id}', [
+            'as'   => 'destroy',
+            'uses' => 'AlertaController@destroy'
+        ])->where('id', '[0-9]+');
+    });
 
     /**
-     * Registro de nivel de agua en plantas
-     */
-    Route::get('/historico-nivel-agua-plantas', [
-        'as'   => 'plantas.niveles.registros.index',
-        'uses' => 'Plantas\NivelAguaPlantaRegistroController@index'
-    ]);
 
-    Route::post('/historico-nivel-agua-plantas', [
-        'as'   => 'plantas.niveles.registros.store',
-        'uses' => 'Plantas\NivelAguaPlantaRegistroController@store'
-    ]);
 
-    Route::delete('/historico-nivel-agua-plantas/{id}', [
-        'as'   => 'plantas.niveles.registros.destroy',
-        'uses' => 'Plantas\NivelAguaPlantaRegistroController@destroy'
-    ])->where('id', '[0-9]+');
 
-    /**
-     * Cortes: Estados
-     */
+
+    Cortes: Estados
+
     Route::get('/cortes/estados', [
         'as'   => 'cortes.estados.index',
         'uses' => 'Cortes\EstadoController@index'
@@ -165,34 +220,7 @@ Route::group(['middleware' => ['auth']], function() {
     ])->where('id', '[0-9]+');
 
 
-    /**
-     * Cortes: Situaciones
-     */
-    Route::get('/cortes/situaciones', [
-        'as'   => 'cortes.situaciones.index',
-        'uses' => 'Cortes\SituacionController@index'
-    ]);
 
-    Route::get('/cortes/situaciones/create', [
-        'as'   => 'cortes.situaciones.create',
-        'uses' => 'Cortes\SituacionController@create'
-    ]);
 
-    Route::post('/cortes/situaciones', [
-        'as'   => 'cortes.situaciones.store',
-        'uses' => 'Cortes\SituacionController@store'
-    ]);
-
-    Route::delete('/cortes/situaciones/{id}', [
-        'as'   => 'cortes.situaciones.destroy',
-        'uses' => 'Cortes\SituacionController@destroy'
-    ])->where('id', '[0-9]+');
-
-    /**
-     * Cortes: Barrios
-     */
-    Route::get('/barrios/layer', [
-        'as'   => 'barrios.layer',
-        'uses' => 'Cortes\SituacionController@getLayer'
-    ]);
+    */
 });

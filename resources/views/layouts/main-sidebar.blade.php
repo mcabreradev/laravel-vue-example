@@ -27,14 +27,15 @@
 
       <li class="treeview">
         <a href="#">
-          <i class="fa fa-signal"></i><span>Nivel Agua</span><i class="fa fa-angle-left pull-right"></i>
+          <i class="fa fa-exclamation-triangle"></i><span>Alertas</span><i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
-          <li><a href="{{ route('plantas.niveles.registros.index') }}">Registro histórico</a></li>
-          <li><a href="{{ route('plantas.niveles.index') }}">Niveles</a></li>
+          <li><a href="{{ route('alertas::index') }}">Mapa</a></li>
+          <li><a href="{{ route('alertas::registros-nivel-agua.index') }}">Nivel de Agua</a></li>
         </ul>
       </li>
 
+{{--
       <li class="treeview">
         <a href="#">
           <i class="fa fa-scissors"></i><span>Cortes</span><i class="fa fa-angle-left pull-right"></i>
@@ -44,6 +45,7 @@
           <li><a href="{{ route('cortes.estados.index') }}">Estados</a></li>
         </ul>
       </li>
+      --}}
     </ul>
     <!-- /.sidebar-menu -->
   </section>

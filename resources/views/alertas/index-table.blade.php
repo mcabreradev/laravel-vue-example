@@ -1,38 +1,45 @@
 <div class="table-responsive">
-  <table class="table">
+  <table class="table table-striped" id="alertas-table">
     <thead>
-      <th>Fecha</th>
-      <th>Nivel</th>
+      <th>Inicio</th>
+      <th>Fin</th>
+      <th>Descripción</th>
       <th>Acciones</th>
     </thead>
-    <tbody id="registros-nivel">
-      @foreach($registros as $registro)
-        <tr>
-          <td>{{ date('d/m/Y H:i:s', strtotime($registro->registrado_el)) }}</td>
-          <td>{{ $registro->nivelAguaPlanta->titulo }}</td>
-          <td>
-            <form method="POST" action="{{ route('plantas.niveles.registros.destroy', $registro->id) }}">
+    <tbody>
+      @foreach($alertas as $alerta)
+      <tr>
+        <td>{{ date('d/m/Y H:i:s', strtotime($alerta->inicia_el)) }}</td>
+        <td>{{ date('d/m/Y H:i:s', strtotime($alerta->finaliza_el)) }}</td>
+        <td>{{ $alerta->descripcion }}</td>
+        <td>
+          <form method="POST" action="{{ route('alertas::destroy', $alerta->id) }}">
               <input type="hidden" name="_token" value="{{ csrf_token() }}">
               <input type="hidden" name="_method" value="DELETE">
+
+              <a href="#" class="btn btn-primary btn-sm" title="editar">
+                <span class="fa fa-pencil"></span>
+              </a>
 
               <button class="btn btn-danger btn-sm" type="submit" title="Eliminar">
                 <span class="fa fa-times"></span>
               </button>
 
             </form>
-          </td>
-        </tr>
+        </td>
+      </tr>
       @endforeach
     </tbody>
   </table>
 </div>
+
 
 @section('body-scripts')
 @parent
 
 <script type="text/javascript">
   (function($, swal){
-    $('#registros-nivel').on('submit', 'form', function(event){
+    $('#alertas-table').on('submit', 'form', function(event){
 
       event.preventDefault();
 

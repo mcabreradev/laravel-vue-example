@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNivelAguaPlantasTable extends Migration
+class CreateAlertasEstadosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,10 @@ class CreateNivelAguaPlantasTable extends Migration
      */
     public function up()
     {
-        Schema::create('nivel_agua_plantas', function (Blueprint $table) {
+        Schema::create('alertas_estados', function (Blueprint $table) {
             $table->increments('id');
             $table->string('titulo');
-            $table->string('etiqueta')->nullable();
-            $table->text('descripcion')->nullable();
+            $table->string('color');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateNivelAguaPlantasTable extends Migration
      */
     public function down()
     {
-        Schema::drop('nivel_agua_plantas');
+        Schema::drop('alertas_estados');
     }
 }

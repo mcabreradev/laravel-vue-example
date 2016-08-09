@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNivelAguaPlantaRegistrosTable extends Migration
+class CreateNivelAguaRegistrosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,15 +12,15 @@ class CreateNivelAguaPlantaRegistrosTable extends Migration
      */
     public function up()
     {
-        Schema::create('nivel_agua_planta_registros', function (Blueprint $table) {
+        Schema::create('nivel_agua_registros', function (Blueprint $table) {
             $table->increments('id');
             $table->datetime('registrado_el')->unique();
-            $table->integer('nivel_agua_planta_id')->unsigned();
+            $table->integer('nivel_agua_id')->unsigned();
             $table->timestamps();
 
-            $table->foreign('nivel_agua_planta_id')
+            $table->foreign('nivel_agua_id')
                   ->references('id')
-                  ->on('nivel_agua_plantas')
+                  ->on('niveles_agua')
                   ->onDelete('cascade');
         });
     }
@@ -32,6 +32,6 @@ class CreateNivelAguaPlantaRegistrosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('nivel_agua_planta_registros');
+        Schema::drop('nivel_agua_registros');
     }
 }

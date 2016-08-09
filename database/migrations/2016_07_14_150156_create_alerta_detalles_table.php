@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateCortesBarriosSituacionesTable extends Migration
+class CreateAlertaDetallesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,11 @@ class CreateCortesBarriosSituacionesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cortes_barrios_situaciones', function (Blueprint $table) {
+        Schema::create('alerta_detalles', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('barrio_id')->unsigned();
-            $table->integer('cortes_situacion_id')->unsigned();
-            $table->integer('cortes_estado_id')->unsigned();
+            $table->integer('alerta_id')->unsigned();
+            $table->integer('alertas_estado_id')->unsigned();
             $table->timestamps();
 
             $table->foreign('barrio_id')
@@ -24,14 +24,14 @@ class CreateCortesBarriosSituacionesTable extends Migration
                 ->on('barrios')
                 ->onDelete('cascade');
 
-            $table->foreign('cortes_situacion_id')
+            $table->foreign('alerta_id')
                 ->references('id')
-                ->on('cortes_situaciones')
+                ->on('alertas')
                 ->onDelete('cascade');
 
-            $table->foreign('cortes_estado_id')
+            $table->foreign('alertas_estado_id')
                 ->references('id')
-                ->on('cortes_estados')
+                ->on('alertas_estados')
                 ->onDelete('cascade');
         });
     }
@@ -43,6 +43,6 @@ class CreateCortesBarriosSituacionesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('cortes_barrios_situaciones');
+        Schema::drop('alerta_detalles');
     }
 }

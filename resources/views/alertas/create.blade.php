@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content-header')
-Nueva situación de cortes
+Mapa de alertas
 @endsection
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('cortes.situaciones.index') }}"> Situaciones</a></li>
+<li><a href="{{ route('alertas::index') }}">Alertas</a></li>
 @endsection
 
 
@@ -17,7 +17,7 @@ Nueva situación de cortes
 
     <div class="box">
       <div class="box-header with-border">
-        <h1>Nueva situación de cortes</h1>
+        <h1>Nueva alerta</h1>
         @include('flash::message')
       </div>
 
@@ -25,14 +25,14 @@ Nueva situación de cortes
 
         <div class="row">
           <div class="col-xs-12 col-sm-8">
-            <p>Para modificar el estado de un barrio haga click en el</p>
+            <p>Para modificar el estado de un barrio haga click en él</p>
             <div id="map" style="width: 100%; height: 300px"></div>
           </div>
           <div class="col-xs-12 col-sm-4">
-            <form id="store-situacion" method="POST" action="{{ route('cortes.situaciones.store') }}">
+            <form id="store-alerta" method="POST" action="{{ route('alertas::store') }}">
               <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-              <input type="hidden" id="barrios-situaciones" name="barrios-situaciones">
+              <input type="hidden" id="detalle-barrios" name="detalle-barrios">
 
               <div class="form-group">
                 <label for="inicia_el" class="form-label">Inicio</label>
@@ -73,34 +73,6 @@ Nueva situación de cortes
 @section('body-scripts')
 @parent
 
-  <!-- momentJs -->
-  <script src="{{ asset('compiled/js/momentjs/moment-with-locales.min.js') }}"></script>
-
-  <!-- bootstrap-material-datetimepicker -->
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-  <link rel="stylesheet" type="text/css" href="{{ asset('compiled/js/bootstrap-material-datetimepicker/css/bootstrap-material-datetimepicker.css') }}">
-  <script src="{{ asset('compiled/js/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js') }}"></script>
-  <script>
-    (function($){
-      $('input[type=datetime]').bootstrapMaterialDatePicker({
-        format: 'YYYY-MM-DD HH:mm:00',
-        lang: 'es'
-      });
-
-      $('input[type=time]').bootstrapMaterialDatePicker({
-        format: 'HH:mm',
-        date: false,
-        lang: 'es'
-      });
-
-      $('input[type=date]').bootstrapMaterialDatePicker({
-        format: 'YYYY-MM-DD',
-        time: false,
-        lang: 'es'
-      });
-    })(window.jQuery);
-  </script>
-
   @include('common.maps')
 
   <script>
@@ -108,7 +80,7 @@ Nueva situación de cortes
       'use strict';
 
       function featureStyle(feature) {
-        switch (feature.properties.estado) {
+        switch (feature.properties.estado.id) {
           case 1: return {color: 'white', fillColor: "#59850B", weight: 2, dashArray: '3', fillOpacity: 0.4};
           case 2: return {color: 'white', fillColor: "#F8C540", weight: 2, dashArray: '3', fillOpacity: 0.6};
           default: return {color: 'white', fillColor: "#C73926", weight: 2, dashArray: '3', fillOpacity: 0.6};
@@ -124,7 +96,7 @@ Nueva situación de cortes
         'OSM': new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
       }, {}));
 
-      $.getJSON('{{ route('barrios.layer') }}')
+      $.getJSON('{{ route('alertas::create.layer') }}')
         .success(function(data){
 
           var layer = L.geoJson(data, {
@@ -132,34 +104,32 @@ Nueva situación de cortes
           }).addTo(map);
 
           layer.on('click', function(event){
-            if (event.layer.feature.properties.estado === 3) {
-              event.layer.feature.properties.estado = 1;
+
+            if (event.layer.feature.properties.estado.id === 3) {
+              event.layer.feature.properties.estado.id = 1;
             } else {
-              event.layer.feature.properties.estado++;
+              event.layer.feature.properties.estado.id++;
             }
 
             layer.setStyle(featureStyle);
           });
         });
 
-
-      /////////
-      $('#store-situacion').on('submit', function(event){
+      $('#store-alerta').on('submit', function(event){
         event.preventDefault();
-        var barriosSituaciones = [];
+        var detalleBarrios = [];
 
         map.eachLayer(function(layer) {
           // me quedo con los barrios
           if (layer.hasOwnProperty('feature')) {
-            barriosSituaciones.push(layer.feature.properties);
+            detalleBarrios.push(layer.feature.properties);
           }
         });
 
-        $('#barrios-situaciones').val(JSON.stringify(barriosSituaciones));
+        $('#detalle-barrios').val(JSON.stringify(detalleBarrios));
 
         event.target.submit();
       });
-
 
     })(window.jQuery, window.L);
   </script>

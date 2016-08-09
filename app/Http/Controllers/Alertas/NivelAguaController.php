@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Plantas;
+namespace App\Http\Controllers\Alertas;
 
+use Flash;
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use App\Models\Alertas\NivelAgua;
 use App\Http\Controllers\Controller;
-use App\Models\Plantas\NivelAguaPlanta;
-use Flash;
 
-class NivelAguaPlantaController extends Controller
+class NivelAguaController extends Controller
 {
     /**
      * [assignarEntidad description]
@@ -30,9 +30,9 @@ class NivelAguaPlantaController extends Controller
      */
     public function index()
     {
-        $niveles = NivelAguaPlanta::all();
+        $niveles = NivelAgua::all();
 
-        return view('plantas.niveles.index')
+        return view('alertas.niveles-agua.index')
             ->with('niveles', $niveles);
     }
 
@@ -44,16 +44,16 @@ class NivelAguaPlantaController extends Controller
     public function store(Request $request)
     {
         try {
-            $nivel = $this->assignarEntidad(new NivelAguaPlanta(), $request);
+            $nivel = $this->assignarEntidad(new NivelAgua(), $request);
             $nivel->save();
 
             Flash::success('El registro se creó correctamente');
 
-            return redirect(route('plantas.niveles.index'));
+            return redirect(route('alertas::niveles-agua.index'));
         } catch (ModelNotFoundException $e) {
             Flash::error('Error al crear el registro');
 
-            return redirect(route('plantas.niveles.index'));
+            return redirect(route('alertas::niveles-agua.index'));
         }
     }
 
@@ -66,19 +66,18 @@ class NivelAguaPlantaController extends Controller
     public function destroy(Request $request, $id)
     {
         try {
-
-            $nivel = NivelAguaPlanta::findOrFail($id);
+            $nivel = NivelAgua::findOrFail($id);
             $nivel->delete();
 
             Flash::success('El registro se eliminó correctamente');
 
-            return redirect(route('plantas.niveles.index'));
+            return redirect(route('alertas::niveles-agua.index'));
 
         } catch(ModelNotFoundException $e) {
 
             Flash::warning('Error al eliminar el registro');
 
-            return redirect(route('plantas.niveles.index'));
+            return redirect(route('alertas::niveles-agua.index'));
         }
     }
 }

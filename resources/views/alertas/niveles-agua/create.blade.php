@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('plantas.niveles.store') }}">
+<form method="POST" action="{{ route('alertas::niveles-agua.store') }}">
   <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
   <div id="crear-nivel-modal" class="modal fade" tabindex="-1" role="dialog">
@@ -15,10 +15,10 @@
             <input id="titulo" name="titulo" type="text" class="form-control" required>
           </div>
 
-          {{-- <div class="form-group">
-            <label for="etiqueta" class="control-label">Etiqueta</label>
-            <input id="etiqueta" name="etiqueta" type="text" class="form-control">
-          </div> --}}
+          <div class="form-group">
+            <label for="color" class="control-label">Color</label>
+            <input id="color" name="color" type="color" class="form-control">
+          </div>
 
           <div class="form-group">
             <label for="descripcion" class="control-label">Descripción</label>

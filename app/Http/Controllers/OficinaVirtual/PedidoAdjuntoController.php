@@ -52,8 +52,6 @@ class PedidoAdjuntoController extends Controller
                 $disk->delete($filename);
             }
 
-            dd($e);
-
             return response()->json("Error al subir el archivo", 500);
         }
     }

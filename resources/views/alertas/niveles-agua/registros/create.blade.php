@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('plantas.niveles.registros.store') }}">
+<form method="POST" action="{{ route('alertas::registros-nivel-agua.store') }}">
   <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
   <div id="crear-registro-modal" class="modal fade" tabindex="-1" role="dialog">
@@ -13,7 +13,7 @@
           <div class="form-group">
             <label for="fecha-registro" class="control-label">Fecha de medición</label>
             <input id="fecha-registro" required name="registrado_el" type="datetime"
-              class="form-control" value="{{ date('Y-m-d H:m:00') }}">
+              class="form-control" value="{{ date('Y-m-d H:i:00') }}">
           </div>
 
           <div class="form-group">
