@@ -158,7 +158,7 @@ Route::group(['middleware' => ['auth']], function() {
         ])->where('id', '[0-9]+');
 
         /**
-         * Cortes: Situaciones
+         * Alerta mapa
          */
 
         Route::get('/', [
@@ -195,32 +195,25 @@ Route::group(['middleware' => ['auth']], function() {
             'as'   => 'destroy',
             'uses' => 'AlertaController@destroy'
         ])->where('id', '[0-9]+');
-    });
 
-    /**
+        /**
+         * Aleta mapa Estados
+         */
 
+        Route::get('estados', [
+            'as'   => 'estados.index',
+            'uses' => 'EstadoController@index'
+        ]);
 
+        Route::post('estados', [
+            'as'   => 'estados.store',
+            'uses' => 'EstadoController@store'
+        ]);
 
+        Route::delete('estados/{id}', [
+            'as'   => 'estados.destroy',
+            'uses' => 'EstadoController@destroy'
+        ])->where('id', '[0-9]+');
+    }); // aletas group
 
-    Cortes: Estados
-
-    Route::get('/cortes/estados', [
-        'as'   => 'cortes.estados.index',
-        'uses' => 'Cortes\EstadoController@index'
-    ]);
-
-    Route::post('/cortes/estados', [
-        'as'   => 'cortes.estados.store',
-        'uses' => 'Cortes\EstadoController@store'
-    ]);
-
-    Route::delete('/cortes/estados/{id}', [
-        'as'   => 'cortes.estados.destroy',
-        'uses' => 'Cortes\EstadoController@destroy'
-    ])->where('id', '[0-9]+');
-
-
-
-
-    */
 });

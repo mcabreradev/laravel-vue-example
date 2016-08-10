@@ -6,7 +6,7 @@ Mapa de alertas
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('alertas::index') }}">Alertas</a></li>
+<li><a href="{{ route('alertas::index') }}">Mapa de alertas</a></li>
 @endsection
 
 

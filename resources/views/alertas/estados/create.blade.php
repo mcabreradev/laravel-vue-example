@@ -1,4 +1,4 @@
-<form method="POST" action="{{ route('cortes.estados.store') }}">
+<form method="POST" action="{{ route('alertas::estados.store') }}">
   <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
   <div id="crear-estado-modal" class="modal fade" tabindex="-1" role="dialog">

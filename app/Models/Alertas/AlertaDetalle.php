@@ -28,7 +28,7 @@ class AlertaDetalle extends AppModel
      */
     public function estado()
     {
-        return $this->belongsTo('App\Models\Alertas\Estado', 'alerta_estado_id');
+        return $this->belongsTo('App\Models\Alertas\Estado', 'alertas_estado_id');
     }
 
     /**

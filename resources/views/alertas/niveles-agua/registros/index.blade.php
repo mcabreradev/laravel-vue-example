@@ -33,6 +33,7 @@ Nivel de agua en plantas
             </button>
           </div>
         </div>
+        <br>
 
         @if($registros->isEmpty())
           <div class="well text-center">No hay registros históricos de niveles de agua en plantas</div>

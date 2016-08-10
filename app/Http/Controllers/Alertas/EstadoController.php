@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\Cortes;
+namespace App\Http\Controllers\Alertas;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\Cortes\Estado;
+use App\Models\Alertas\Estado;
 use Flash;
 
 class EstadoController extends Controller
@@ -32,7 +32,7 @@ class EstadoController extends Controller
     {
         $estados = Estado::all();
 
-        return view('cortes.estados.index')
+        return view('alertas.estados.index')
             ->with('estados', $estados);
     }
 
@@ -49,11 +49,11 @@ class EstadoController extends Controller
 
             Flash::success('El registro se creó correctamente');
 
-            return redirect(route('cortes.estados.index'));
+            return redirect(route('alertas::estados.index'));
         } catch (ModelNotFoundException $e) {
             Flash::error('Error al crear el registro');
 
-            return redirect(route('cortes.estados.index'));
+            return redirect(route('alertas::estados.index'));
         }
     }
 
@@ -72,13 +72,13 @@ class EstadoController extends Controller
 
             Flash::success('El registro se eliminó correctamente');
 
-            return redirect(route('cortes.estados.index'));
+            return redirect(route('alertas::estados.index'));
 
         } catch(ModelNotFoundException $e) {
 
             Flash::warning('Error al eliminar el registro');
 
-            return redirect(route('cortes.estados.index'));
+            return redirect(route('alertas::estados.index'));
         }
     }
 }

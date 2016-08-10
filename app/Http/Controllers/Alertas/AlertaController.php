@@ -83,17 +83,16 @@ class AlertaController extends Controller
     public function store(Request $request)
     {
 
-        $situacion = $this->asignarEntidad(new Situacion(), $request);
+        $alerta   = $this->asignarEntidad(new Alerta(), $request);
+        $detalles = $this->generarDetalle($request);
 
-        $barriosSituaciones = $this->generarBarriosSituaciones($request);
+        $alerta->save();
 
-        $situacion->save();
-
-        $situacion->barriosSituaciones()->saveMany($barriosSituaciones);
+        $alerta->detalles()->saveMany($detalles);
 
         Flash::success('El registro se creó correctamente');
 
-        return redirect(route('cortes.situaciones.index'));
+        return redirect(route('alertas::index'));
     }
 
     /**
@@ -105,14 +104,14 @@ class AlertaController extends Controller
     public function edit($id)
     {
         try {
-            $situacion = situacion::findOrFail($id);
+            $alerta = Alerta::findOrFail($id);
 
-            return view('cortes.situaciones.edit')
-                ->with('situacion', $situacion);
+            return view('alertas.edit')
+                ->with('alertas', $alerta);
         } catch (ModelNotFoundException $e) {
             Flash::warning('No se encontró el registro a editar');
 
-            return redirect(route('cortes.situaciones.index'));
+            return redirect(route('alertas::index'));
         }
     }
 
@@ -126,23 +125,23 @@ class AlertaController extends Controller
     {
         try {
 
-            $situacion = $this->asignarEntidad(Situacion::findOrFail($id), $request);
-            $barriosSituaciones = $this->generarBarriosSituaciones($request);
+            $alerta   = $this->asignarEntidad(Alerta::findOrFail($id), $request);
+            $detalles = $this->generarDetalle($request);
 
-            $situacion->save();
+            $alerta->save();
 
-            $situacion->barriosSituaciones()->detach();
-            $situacion->barriosSituaciones()->saveMany($barriosSituaciones);
+            $alerta->detalles()->detach();
+            $alerta->detalles()->saveMany($detalles);
 
             Flash::success('El registro se modificó correctamente');
 
-            return redirect(route('cortes.situaciones.index'));
+            return redirect(route('alertas::index'));
 
         } catch(ModelNotFoundException $e) {
 
             Flash::warning('No se encontró el registro a editar');
 
-            return redirect(route('cortes.situaciones.index'));
+            return redirect(route('alertas::index'));
         }
     }
 
@@ -156,18 +155,18 @@ class AlertaController extends Controller
     {
         try {
 
-            $situacion = Situacion::findOrFail($id);
-            $situacion->delete();
+            $alerta = Alerta::findOrFail($id);
+            $alerta->delete();
 
             Flash::success('El registro se eliminó correctamente');
 
-            return redirect(route('cortes.situaciones.index'));
+            return redirect(route('alertas::index'));
 
         } catch(ModelNotFoundException $e) {
 
             Flash::warning('Error al eliminar el registro');
 
-            return redirect(route('cortes.situaciones.index'));
+            return redirect(route('alertas::index'));
         }
     }
 
@@ -175,7 +174,7 @@ class AlertaController extends Controller
      * [getLayer description]
      * @return [type] [description]
      */
-    public function createAlertasLayer()
+    public function createLayer()
     {
 
         $barrios = Barrio::all();

@@ -3,15 +3,16 @@
     <thead>
       <th>Título</th>
       <th>Color</th>
-      <th>Acciones</th>
+      {{-- <th>Acciones</th> --}}
     </thead>
     <tbody>
       @foreach($estados as $estado)
       <tr>
         <td>{{ $estado->titulo }}</td>
         <td><div style="height: 20px; width: 20px; background-color: {{ $estado->color }}; border: 1px solid #9e9e9e"></div></td>
+        {{--
         <td>
-          <form method="POST" action="{{ route('cortes.estados.destroy', $estado->id) }}">
+          <form method="POST" action="{{ route('alertas::estados.destroy', $estado->id) }}">
               <input type="hidden" name="_token" value="{{ csrf_token() }}">
               <input type="hidden" name="_method" value="DELETE">
 
@@ -22,6 +23,7 @@
             </form>
         </td>
       </tr>
+      --}}
       @endforeach
     </tbody>
   </table>

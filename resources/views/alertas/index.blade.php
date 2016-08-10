@@ -6,7 +6,7 @@ Mapa de alertas
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('alertas::index') }}"> Situaciones</a></li>
+<li><a href="{{ route('alertas::index') }}">Mapa de alertas</a></li>
 @endsection
 
 
@@ -25,11 +25,15 @@ Mapa de alertas
 
         <div class="row">
           <div class="col-xs-12">
+            <a class="btn btn-default" href="{{ route('alertas::estados.index') }}">
+              <span class="fa fa-info-circle"></span> Ver estados definidos
+            </a>
             <a class="btn btn-primary pull-right" href="{{ route('alertas::create') }}">
               <span class="fa fa-plus"></span> Nueva alerta
             </a>
           </div>
         </div>
+        <br>
 
         @if($alertas->isEmpty())
           <div class="well text-center">No se cargaron alertas</div>
