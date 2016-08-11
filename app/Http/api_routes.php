@@ -3,11 +3,16 @@
 /**
  * HOME
  */
-Route::group(['prefix' => 'api'], function()
+Route::group([
+    'prefix' => 'api',
+    'as'     => 'api::'
+], function()
 {
-    Route::group(['prefix' => '1.0.0'], function()
+    Route::group([
+        'prefix' => 'v1',
+        'as'     => 'v1::'
+    ], function()
     {
-
         Route::get('nivel-agua-plantas', function()
         {
             $registro = App\Models\Plantas\NivelAguaPlantaRegistro::orderBy('registrado_el', 'desc')
@@ -27,9 +32,15 @@ Route::group(['prefix' => 'api'], function()
 
         // Route::get('alertas/gacetillas');
 
-        Route::get('alertas/vigentes/layer', ['uses' => 'Cortes\SituacionController@getAlertasActualesLayer']);
+        Route::get('alertas/vigentes/layer', [
+            'uses' => 'Alertas\AlertaController@vigentesLayer',
+            'as'   => 'alertas.vigentes.layer'
+        ]);
 
-        Route::get('alertas/futuras/layer', ['uses' => 'Cortes\SituacionController@getAlertasFuturasLayer']);
+        Route::get('alertas/futuras/layer', [
+            'uses' => 'Alertas\AlertaController@futurasLayer',
+            'as'   => 'alertas.futuras.layer'
+        ]);
 
         Route::get('cortes/situaciones', function()
         {

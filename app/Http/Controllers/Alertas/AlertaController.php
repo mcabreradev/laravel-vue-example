@@ -63,7 +63,7 @@ class AlertaController extends Controller
     public function index()
     {
         return view('alertas.index')
-            ->with('alertas', Alerta::all());
+            ->with('alertas', Alerta::orderBy('inicia_el', 'asc')->get());
     }
 
     /**
@@ -259,7 +259,7 @@ class AlertaController extends Controller
      *
      * @return geojson [description]
      */
-    public function getAlertasActualesLayer()
+    public function vigentesLayer()
     {
         // obtengo todos los estados en un arreglo numerado con id
         $estados = Estado::all()->getDictionary();
@@ -278,32 +278,35 @@ class AlertaController extends Controller
 
             // me quedo con la ultima alerta
             $alertaActual = $barrio->alertasVigentes->last();
-            $alertas      = [];
+            $estado = [];
+            $alerta = [];
 
             // si no tiene alerta vigente genero un registro con valores predeterminados
             if ($alertaActual === null) {
-                $alertas[] = [
-                    'estado' => [
-                        'id'     => 1,
-                        'titulo' => $estados[1]->titulo,
-                        'color'  => $estados[1]->color
-                    ],
+                $estado =  [
+                    'id'     => 1,
+                    'titulo' => $estados[1]->titulo,
+                    'color'  => $estados[1]->color
+                ];
+                $alerta = [
+                    'id'          => 0,
+                    'descripcion' => '',
                     'inicio'      => '',
                     'fin'         => '',
-                    'descripcion' => ''
                 ];
             }
             // si tiene alerta vigente genero un registro con sus datos
             else {
-                $alertas[] = [
-                    'estado' => [
-                        'id'     => $alertaActual->pivot->cortes_estado_id,
-                        'titulo' => $estados[$alertaActual->pivot->cortes_estado_id]->titulo,
-                        'color'  => $estados[$alertaActual->pivot->cortes_estado_id]->color
-                    ],
+                $estado = [
+                    'id'     => $alertaActual->pivot->alertas_estado_id,
+                    'titulo' => $estados[$alertaActual->pivot->alertas_estado_id]->titulo,
+                    'color'  => $estados[$alertaActual->pivot->alertas_estado_id]->color
+                ];
+                $alerta = [
+                    'id'          => $alertaActual->id,
+                    'descripcion' => $alertaActual->descripcion,
                     'inicio'      => $alertaActual->inicia_el->toDateTimeString(),
-                    'fin'         => $alertaActual->finaliza_el->toDateTimeString(),
-                    'descripcion' => $alertaActual->descripcion
+                    'fin'         => $alertaActual->finaliza_el->toDateTimeString()
                 ];
             }
 
@@ -311,8 +314,10 @@ class AlertaController extends Controller
             $feature = [
                 'type' => 'Feature',
                 'properties' => [
+                    'id'     => $barrio->id,
                     'nombre' => $barrio->nombre,
-                    'alertas' => $alertas
+                    'estado' => $estado,
+                    'alerta' => $alerta
                 ],
                 'geometry' => [
                     'type' => 'Polygon',
@@ -332,13 +337,13 @@ class AlertaController extends Controller
      *
      * @return geojson [description]
      */
-    public function getAlertasFuturasLayer()
+    public function futurasLayer()
     {
         // obtengo todos los estados en un arreglo numerado con id
         $estados = Estado::all()->getDictionary();
 
         // obtengo los barrios con sus alertas vigentes
-        $barrios = Barrio::has('alertasVigentes')->get();
+        $barrios = Barrio::with('alertasFuturas')->get();
 
         // estructura de layer
         $layer = [
@@ -349,32 +354,37 @@ class AlertaController extends Controller
         // por cada barrio armo sus propiedades y dibujo en el layer
         foreach ($barrios as $barrio) {
 
-            $alertas = [];
+            // me quedo con la ultima alerta
+            $alertaFutura = $barrio->alertasFuturas->first();
+            $estado = [];
+            $alerta = [];
 
-            if ($barrio->alertasVigentes->count()) {
-                foreach ($barrio->alertasVigentes as $alerta) {
-                    $alertas[] = [
-                        'estado' => [
-                            'id'     => $alerta->pivot->cortes_estado_id,
-                            'titulo' => $estados[$alerta->pivot->cortes_estado_id]->titulo,
-                            'color'  => $estados[$alerta->pivot->cortes_estado_id]->color
-                        ],
-                        'inicio'      => $alerta->inicia_el->toDateTimeString(),
-                        'fin'         => $alerta->finaliza_el->toDateTimeString(),
-                        'descripcion' => $alerta->descripcion
-                    ];
-                }
-            }
-            else {
-                $alertas[] = [
-                    'estado' => [
-                        'id'     => 1,
-                        'titulo' => $estados[1]->titulo,
-                        'color'  => $estados[1]->color
-                    ],
+            // si no tiene alerta vigente genero un registro con valores predeterminados
+            if ($alertaFutura === null) {
+                $estado =  [
+                    'id'     => 1,
+                    'titulo' => $estados[1]->titulo,
+                    'color'  => $estados[1]->color
+                ];
+                $alerta = [
+                    'id'          => 0,
+                    'descripcion' => '',
                     'inicio'      => '',
                     'fin'         => '',
-                    'descripcion' => ''
+                ];
+            }
+            // si tiene alerta vigente genero un registro con sus datos
+            else {
+                $estado = [
+                    'id'     => $alertaFutura->pivot->alertas_estado_id,
+                    'titulo' => $estados[$alertaFutura->pivot->alertas_estado_id]->titulo,
+                    'color'  => $estados[$alertaFutura->pivot->alertas_estado_id]->color
+                ];
+                $alerta = [
+                    'id'          => $alertaFutura->id,
+                    'descripcion' => $alertaFutura->descripcion,
+                    'inicio'      => $alertaFutura->inicia_el->toDateTimeString(),
+                    'fin'         => $alertaFutura->finaliza_el->toDateTimeString()
                 ];
             }
 
@@ -382,8 +392,10 @@ class AlertaController extends Controller
             $feature = [
                 'type' => 'Feature',
                 'properties' => [
+                    'id'     => $barrio->id,
                     'nombre' => $barrio->nombre,
-                    'alertas' => $alertas
+                    'estado' => $estado,
+                    'alerta' => $alerta
                 ],
                 'geometry' => [
                     'type' => 'Polygon',

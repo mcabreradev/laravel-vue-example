@@ -35,6 +35,15 @@ Mapa de alertas
         </div>
         <br>
 
+        <div class="row">
+          <div class="col-xs-12">
+            <button id="btn-vigentes" class="btn btn-default" type="button">Vigentes</button>
+            <button id="btn-futuras" class="btn btn-default" type="button">Futuras</button>
+            <div id="map" style="width: 100%; height: 300px"></div>
+          </div>
+        </div>
+
+
         @if($alertas->isEmpty())
           <div class="well text-center">No se cargaron alertas</div>
         @else
@@ -49,5 +58,74 @@ Mapa de alertas
 
   </div>
 </div>
+
+@endsection
+
+@section('body-scripts')
+@parent
+
+  @include('common.maps')
+
+  <script>
+    (function($, L){
+      'use strict';
+
+      var map = new L.Map('map', {center: new L.LatLng(-54.8033601,-68.3172124), zoom: 13});
+      var ggl = new L.Google('ROADMAP');
+      var layers = {vigentes: null, futuras: null};
+
+      function featureStyle(feature) {
+        switch (feature.properties.estado.id) {
+          case 1: return {color: 'white', fillColor: "#59850B", weight: 2, dashArray: '3', fillOpacity: 0.4};
+          case 2: return {color: 'white', fillColor: "#F8C540", weight: 2, dashArray: '3', fillOpacity: 0.6};
+          default: return {color: 'white', fillColor: "#C73926", weight: 2, dashArray: '3', fillOpacity: 0.6};
+        }
+      }
+
+      window.toggleLayer = function (num) {
+        if (num === 1) {
+          map.removeLayer(layers.futuras);
+          map.addLayer(layers.vigentes);
+        }
+        else {
+          map.removeLayer(layers.vigentes);
+          map.addLayer(layers.futuras);
+        }
+      }
+
+      // add control for tile layers
+      map.addControl(new L.Control.Layers({
+        'Google Roadmap': ggl,
+        'Google Hybrid': new L.Google('HYBRID'),
+        'OSM': new L.TileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png')
+      }, {}));
+
+      // default tile layer
+      map.addLayer(ggl);
+
+      $.getJSON('{{ route('api::v1::alertas.vigentes.layer') }}')
+        .success(function(data) {
+          layers.vigentes = L.geoJson(data, {
+            style: featureStyle
+          }).addTo(map);
+
+          layers.vigentes.on('click', function(event) {
+            console.log(event.layer.feature.properties);
+          });
+        });
+
+      $.getJSON('{{ route('api::v1::alertas.futuras.layer') }}')
+        .success(function(data) {
+          layers.futuras = L.geoJson(data, {
+            style: featureStyle
+          });
+
+          layers.futuras.on('click', function(event) {
+            console.log(event.layer.feature.properties);
+          });
+        });
+
+    })(window.jQuery, window.L);
+  </script>
 
 @endsection

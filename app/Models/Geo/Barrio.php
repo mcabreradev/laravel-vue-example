@@ -16,18 +16,39 @@ class Barrio extends AppModel
         'geometria' => 'object'
     ];
 
-    public function barriosSituaciones()
+    /**
+     * [alertaDetalles description]
+     * @return [type] [description]
+     */
+    public function alertaDetalles()
     {
-        return $this->hasMany('App\Models\Cortes\BarrioSituacion');
+        return $this->hasMany('App\Models\Alertas\AlertaDetalle');
     }
 
+    /**
+     * [alertasVigentes description]
+     * @return [type] [description]
+     */
     public function alertasVigentes()
     {
         $nowStr = Carbon::now()->toDateTimeString();
-        return $this->belongsToMany('App\Models\Cortes\Situacion', 'cortes_barrios_situaciones', 'barrio_id', 'cortes_situacion_id')
+        return $this->belongsToMany('App\Models\Alertas\Alerta', 'alerta_detalles')
             ->where('inicia_el', '<=', $nowStr)
             ->where('finaliza_el', '>=', $nowStr)
             ->orderBy('inicia_el', 'asc')
-            ->withPivot('cortes_estado_id');
+            ->withPivot('alertas_estado_id');
+    }
+
+    /**
+     * [alertasFuturas description]
+     * @return [type] [description]
+     */
+    public function alertasFuturas()
+    {
+        $nowStr = Carbon::now()->toDateTimeString();
+        return $this->belongsToMany('App\Models\Alertas\Alerta', 'alerta_detalles')
+            ->where('inicia_el', '>=', $nowStr)
+            ->orderBy('inicia_el', 'asc')
+            ->withPivot('alertas_estado_id');
     }
 }
