@@ -54,6 +54,11 @@ return [
             'visibility' => 'public',
         ],
 
+        'seeds-files' => [
+            'driver' => 'local',
+            'root'   => base_path('database/')
+        ],
+
         's3' => [
             'driver' => 's3',
             'key' => 'your-key',
