@@ -176,11 +176,6 @@ return [
          */
         Elibyy\TCPDF\ServiceProvider::class,
 
-        /**
-         * https://github.com/barryvdh/laravel-cors
-         */
-        Barryvdh\Cors\ServiceProvider::class,
-
     ],
 
     /*
