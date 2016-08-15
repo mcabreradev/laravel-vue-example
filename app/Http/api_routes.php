@@ -13,6 +13,22 @@ Route::group([
         'as'     => 'v1::'
     ], function()
     {
+        Route::post('newsletter/registrarse', function() {
+            try {
+                App\Models\OficinaVirtual\Newsletter::create(request()->input());
+                return response(null, 201);
+            } catch (\Exception $e) {
+                //return response($e->getMessage(), 500);
+                return response('Error al suscribirse', 500);
+            }
+
+        });
+
+        Route::get('oficina-virtual/boletas-pago', [
+            'uses' => 'OficinaVirtual\BoletaPagoController@generar',
+            'as'   => 'oficicina-virtual::boleta.pago.generar'
+        ]);
+
         Route::get('nivel-agua-plantas', function()
         {
             $registro = App\Models\Plantas\NivelAguaPlantaRegistro::orderBy('registrado_el', 'desc')
@@ -42,68 +58,9 @@ Route::group([
             'as'   => 'alertas.futuras.layer'
         ]);
 
-        Route::get('cortes/situaciones', function()
-        {
+        Route::post('pedidos/libre-deuda', [
+            'uses' => 'OficinaVirtual\PedidoController@solicitarLibreDeuda'
+        ]);
 
-            function generarLayer($barriosSituaciones)
-            {
-                $layer = [
-                    'type' => 'FeatureCollection',
-                    'features' => []
-                ];
-
-                foreach ($barriosSituaciones as $barSit) {
-                    $feature = [
-                        'type' => 'Feature',
-                        'properties' => [
-                            'nombre' => $barSit->barrio->nombre,
-                            'estado' => $barSit->estado->id,
-                            'descripcion' => $barSit->estado->titulo
-                        ],
-                        'geometry' => [
-                            'type' => 'Polygon',
-                            'coordinates' => $barSit->barrio->geometria->coordinates
-                        ],
-                    ];
-
-                    $layer['features'][] = $feature;
-                }
-
-                return $layer;
-            }
-
-            function barriosAfectados($barriosSituaciones)
-            {
-                $barrios = [];
-
-                foreach ($barriosSituaciones as $barSit) {
-                    if (array_key_exists($barSit->estado->titulo, $barrios)) {
-                        $barrios[$barSit->estado->titulo][] = $barSit->barrio->nombre;
-                    }
-                    else {
-                        $barrios[$barSit->estado->titulo] = [$barSit->barrio->nombre];
-                    }
-                }
-
-                return $barrios;
-            }
-
-            $situacion = App\Models\Cortes\Situacion::orderBy('inicia_el', 'desc')
-                ->with('barriosSituaciones')
-                ->with('barriosSituaciones.barrio')
-                ->with('barriosSituaciones.estado')
-                ->first();
-
-            $response = [
-                'barrios'     => barriosAfectados($situacion->barriosSituaciones),
-                'layer'       => generarLayer($situacion->barriosSituaciones),
-                'inicio'      => $situacion->inicia_el->format('Y-m-d H:i:s'),
-                'fin'         => $situacion->finaliza_el->format('Y-m-d H:i:s')
-            ];
-
-
-            return response()->json($response, 200);
-        });
-
-    });
-});
+    }); // v1 group
+}); // api group
