@@ -34,7 +34,10 @@ Route::group([
             'as'   => 'alertas::nivel.agua'
         ]);
 
-        // Route::get('alertas/gacetillas');
+        Route::get('alertas/gacetillas', [
+            'uses' => 'Alertas\AlertaController@gacetillas',
+            'as'   => 'alertas::gacetillas'
+        ]);
 
         Route::get('alertas/vigentes/layer', [
             'uses' => 'Alertas\AlertaController@vigentesLayer',

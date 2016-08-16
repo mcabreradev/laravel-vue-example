@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Alertas;
 
 use Flash;
 use DateTime;
+use Carbon\Carbon;
 use App\Http\Requests;
 use App\Models\Geo\Barrio;
 use Illuminate\Http\Request;
@@ -408,5 +409,41 @@ class AlertaController extends Controller
         }
 
         return response()->json($layer, 200);
+    }
+
+    /**
+     * [gacetillas description]
+     * @return [type] [description]
+     */
+    public function gacetillas()
+    {
+        $gacetillas = [];
+        // obtengo las alertas que aun no hayan finalizado
+        $alertas = Alerta::where('finaliza_el', '>=', Carbon::now()->toDateTimeString())
+            ->orderBy('inicia_el', 'asc')
+            ->get();
+
+        // recorro las alertas para armar las gacetillas
+        foreach ($alertas as $alerta) {
+
+            // obtengo los nombres de los barrios afectados
+            $barriosAfectados = [];
+            foreach ($alerta->detalles as $detalle) {
+                $barriosAfectados[] = $detalle->barrio->nombre;
+            }
+
+            // ordeno alfabeticamente
+            sort($barriosAfectados);
+
+            // agrego la alerta a la salida
+            $gacetillas[] = [
+                'descripcion' => $alerta->descripcion,
+                'inicio'      => $alerta->inicia_el->toDateTimeString(),
+                'fin'         => $alerta->finaliza_el->toDateTimeString(),
+                'barrios'     => $barriosAfectados
+            ];
+        }
+
+        return response()->json($gacetillas, 200);
     }
 }
