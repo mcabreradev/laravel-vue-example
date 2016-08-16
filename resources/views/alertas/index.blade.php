@@ -37,7 +37,7 @@ Mapa de alertas
 
         <div class="row">
           <div class="col-xs-12">
-            <button id="btn-vigentes" class="btn btn-default" type="button">Vigentes</button>
+            <button id="btn-vigentes" class="btn btn-primary" type="button">Vigentes</button>
             <button id="btn-futuras" class="btn btn-default" type="button">Futuras</button>
             <div id="map" style="width: 100%; height: 300px"></div>
           </div>
@@ -82,16 +82,27 @@ Mapa de alertas
         }
       }
 
-      window.toggleLayer = function (num) {
-        if (num === 1) {
-          map.removeLayer(layers.futuras);
-          map.addLayer(layers.vigentes);
-        }
-        else {
-          map.removeLayer(layers.vigentes);
-          map.addLayer(layers.futuras);
-        }
-      }
+      $('#btn-vigentes').on('click', function() {
+        map.removeLayer(layers.futuras);
+        map.addLayer(layers.vigentes);
+
+        $('#btn-futuras').removeClass('btn-primary')
+          .addClass('btn-default');
+
+        $(this).removeClass('btn-default')
+          .addClass('btn-primary');
+      });
+
+      $('#btn-futuras').on('click', function() {
+        map.removeLayer(layers.vigentes);
+        map.addLayer(layers.futuras);
+
+        $('#btn-vigentes').removeClass('btn-primary')
+          .addClass('btn-default');
+
+        $(this).removeClass('btn-default')
+          .addClass('btn-primary');
+      });
 
       // add control for tile layers
       map.addControl(new L.Control.Layers({
@@ -103,7 +114,7 @@ Mapa de alertas
       // default tile layer
       map.addLayer(ggl);
 
-      $.getJSON('{{ route('api::v1::alertas.vigentes.layer') }}')
+      $.getJSON('{{ route('api::v1::alertas::vigentes.layer') }}')
         .success(function(data) {
           layers.vigentes = L.geoJson(data, {
             style: featureStyle
@@ -114,7 +125,7 @@ Mapa de alertas
           });
         });
 
-      $.getJSON('{{ route('api::v1::alertas.futuras.layer') }}')
+      $.getJSON('{{ route('api::v1::alertas::futuras.layer') }}')
         .success(function(data) {
           layers.futuras = L.geoJson(data, {
             style: featureStyle

@@ -11,10 +11,14 @@ use Illuminate\Http\Request;
 
 class BoletaPagoController extends Controller
 {
-    public function generar()
+    /**
+     * [generar description]
+     * @param  Resquest $request [description]
+     * @return [type]            [description]
+     */
+    public function generar(Request $request)
     {
-
-        $boletaPago = BoletaPago::find(5467);
+        $boletaPago = BoletaPago::where('unidad_numero', '=', $request->input('busqueda'))->first();
 
         // Aquí sigue configuración básica del PDF
         PDF::SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
@@ -28,7 +32,7 @@ class BoletaPagoController extends Controller
             'stretch'      => false,
             'fitwidth'     => true,
             'cellfitalign' => '',
-            'border'       => false,
+            'border'       => true,
             'hpadding'     => 'auto',
             'vpadding'     => 'auto',
             'fgcolor'      => [0,0,0],
@@ -44,11 +48,11 @@ class BoletaPagoController extends Controller
 
         // "Parseamos" el template (esto se podría formalizar más)
         $codigoPagoFacil = PDF::serializeTCPDFtagParameters(
-            [$boletaPago->getCodigoPagoFacil(), 'C39', '', '', '', '20', 1, $bar_code_style, 'N']
+            [$boletaPago->getCodigoPagoFacil(), 'C39', '', '', '', '18', 0.4, $bar_code_style, 'N']
         );
 
         $codigoDposs = PDF::serializeTCPDFtagParameters(
-            [$boletaPago->getCodigoDposs(), 'C39', '', '', '', '20', 1, $bar_code_style, 'N']
+            [$boletaPago->getCodigoDposs(), 'C39', '', '', '', '18', 0.4, $bar_code_style, 'N']
         );
 
         $html = view('oficina-virtual.boleta-pago')

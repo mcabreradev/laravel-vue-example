@@ -91,4 +91,25 @@ class NivelAguaRegistroController extends Controller
             return redirect(route('alertas::registros-nivel-agua.index'));
         }
     }
+
+    /**
+     * [nivelAguaActual description]
+     * @return [type] [description]
+     */
+    public function nivelAguaActual()
+    {
+        $registro = NivelAguaRegistro::orderBy('registrado_el', 'desc')
+            ->with('nivelAgua')
+            ->first();
+
+        $response = [
+            'nivel'         => $registro->nivelAgua->id,
+            'titulo'        => $registro->nivelAgua->titulo,
+            'descripcion'   => $registro->nivelAgua->descripcion,
+            'color'         => $registro->nivelAgua->color,
+            'registrado_el' => $registro->registrado_el
+        ];
+
+        return response()->json($response, 200);
+    }
 }
