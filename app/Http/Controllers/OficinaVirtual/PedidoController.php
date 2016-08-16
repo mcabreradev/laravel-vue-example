@@ -209,4 +209,80 @@ class PedidoController extends Controller
             return redirect(route('pedidos.edit', $id));
         }
     }
+
+    /**
+     * [solicitarLibreDeuda description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function solicitarLibreDeuda(Request $request)
+    {
+        $pedido                       = new Pedido();
+        $pedido->tipo                 = 'libre-deuda';
+        $pedido->origen               = 'web';
+        $pedido->estado               = 'pendiente';
+        $pedido->prioritario          = false;
+        $pedido->metodo_entrega       = 'personalmente';
+        $pedido->descripcion          = $request->input('descripcion');
+        $pedido->solicitante_apellido = $request->input('apellido');
+        $pedido->solicitante_nombre   = $request->input('nombre');
+        $pedido->solicitante_email    = $request->input('email');
+        $pedido->solicitante_telefono = $request->input('telefono');
+
+        // Falta inferir desde la info de boleta de pago
+        // Nomenclatura
+        // DNI/CUIT titular
+        // localidad
+        // domicilio
+        // usuario
+        $pedido->nomenclatura = 'A 3 0020 00011';
+        $pedido->localidad = 'ushuaia';
+        $pedido->domicilio = 'Canga 2168';
+
+        $usuario = Usuario::first();
+
+        $pedido->usuario()->associate($usuario);
+
+        $pedido->save();
+
+        return response()->json(null, 201);
+    }
+
+    /**
+     * [solicitarFacturasVencidas description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    public function solicitarFacturasVencidas(Request $request)
+    {
+        $pedido                       = new Pedido();
+        $pedido->tipo                 = 'factura';
+        $pedido->origen               = 'web';
+        $pedido->estado               = 'pendiente';
+        $pedido->prioritario          = false;
+        $pedido->metodo_entrega       = $request->input('entrega');
+        $pedido->descripcion          = $request->input('periodo');
+        $pedido->solicitante_apellido = $request->input('apellido');
+        $pedido->solicitante_nombre   = $request->input('nombre');
+        $pedido->solicitante_email    = $request->input('email');
+        $pedido->solicitante_telefono = $request->input('telefono');
+
+        // Falta inferir desde la info de boleta de pago
+        // Nomenclatura
+        // DNI/CUIT titular
+        // localidad
+        // domicilio
+        // usuario
+        $pedido->nomenclatura = 'A 3 0020 00011';
+        $pedido->localidad = 'ushuaia';
+        $pedido->domicilio = 'Canga 2168';
+
+        $usuario = Usuario::first();
+
+        $pedido->usuario()->associate($usuario);
+
+        $pedido->save();
+
+        return response()->json(null, 201);
+    }
 }

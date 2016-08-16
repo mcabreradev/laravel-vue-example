@@ -18,16 +18,13 @@ Route::group([
                 App\Models\OficinaVirtual\Newsletter::create(request()->input());
                 return response(null, 201);
             } catch (\Exception $e) {
-                //return response($e->getMessage(), 500);
                 return response('Error al suscribirse', 500);
             }
-
         });
 
-        Route::get('oficina-virtual/boletas-pago', [
-            'uses' => 'OficinaVirtual\BoletaPagoController@generar',
-            'as'   => 'oficicina-virtual::boleta.pago.generar'
-        ]);
+        /**
+         * Alertas
+         */
 
         Route::get('alertas/nivel-agua', [
             'uses' => 'Alertas\NivelAguaRegistroController@nivelAguaActual',
@@ -49,8 +46,23 @@ Route::group([
             'as'   => 'alertas::futuras.layer'
         ]);
 
-        Route::post('pedidos/libre-deuda', [
-            'uses' => 'OficinaVirtual\PedidoController@solicitarLibreDeuda'
+        /**
+         * Oficina Virtual
+         */
+
+        Route::post('oficina-virtual/libre-deuda', [
+            'uses' => 'OficinaVirtual\PedidoController@solicitarLibreDeuda',
+            'as'   => 'oficicina-virtual::pedidos.solicitar.libre-deuda'
+        ]);
+
+        Route::post('oficina-virtual/facturas-vencidas', [
+            'uses' => 'OficinaVirtual\PedidoController@solicitarFacturasVencidas',
+            'as'   => 'oficicina-virtual::pedidos.solicitar.facturas-vencidas'
+        ]);
+
+        Route::get('oficina-virtual/boletas-pago', [
+            'uses' => 'OficinaVirtual\BoletaPagoController@generar',
+            'as'   => 'oficicina-virtual::boletas-pago.generar'
         ]);
 
     }); // v1 group
