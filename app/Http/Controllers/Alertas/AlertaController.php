@@ -217,31 +217,34 @@ class AlertaController extends Controller
     public function editLayer($id)
     {
         try {
-            $situacion = Situacion::with('barriosSituaciones')
-                ->with('barriosSituaciones.barrio')
-                ->with('barriosSituaciones.estado')
+            $alerta = Alerta::with('detalles')
+                ->with('detalles.barrio')
+                ->with('detalles.estado')
                 ->findOrFail($id);
+
+            $barrios = Barrio::all();
+            $estadoPredeterminado = Estado::findOrFail(1);
 
             $layer = [
                 'type' => 'FeatureCollection',
                 'features' => []
             ];
 
-            foreach ($situacion->barriosSituaciones as $barSit) {
+            foreach ($barrios as $barrio) {
                 $feature = [
                     'type' => 'Feature',
                     'properties' => [
-                        'id'     => $barSit->barrio->id,
-                        'nombre' => $barSit->barrio->nombre,
+                        'id'     => $barrio->id,
+                        'nombre' => $barrio->nombre,
                         'estado' => [
-                            'id'     => $barSit->estado->id,
-                            'titulo' => $barSit->estado->titulo,
-                            'color'  => $barSit->estado->color
+                            'id'     => $estadoPredeterminado->id,
+                            'titulo' => $estadoPredeterminado->titulo,
+                            'color'  => $estadoPredeterminado->color
                         ]
                     ],
                     'geometry' => [
                         'type' => 'Polygon',
-                        'coordinates' => $barSit->barrio->geometria->coordinates
+                        'coordinates' => $barrio->geometria->coordinates
                     ],
                 ];
 
@@ -445,5 +448,27 @@ class AlertaController extends Controller
         }
 
         return response()->json($gacetillas, 200);
+    }
+
+    public function getEstadoServicio()
+    {
+        $estadoServicio = new \StdClass();
+        $nowStr = Carbon::now()->toDateTimeString();
+
+        $vigentes = Alerta::where('inicia_el', '<=', $nowStr)
+            ->where('finaliza_el', '>=', $nowStr)
+            ->take(1)
+            ->get()
+            ->count();
+
+        $futuras = Alerta::where('inicia_el', '>=', $nowStr)
+            ->take(1)
+            ->get()
+            ->count();
+
+        $estadoServicio->vigente = ($vigentes > 0 ? 'Algunos barrios afectados' : 'Funcionando normalmente');
+        $estadoServicio->futuro  = ($futuras > 0 ? 'Algunos barrios afectados' : 'Sin incovenientes');
+
+        return response()->json($estadoServicio, 200);
     }
 }

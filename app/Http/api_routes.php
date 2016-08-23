@@ -36,6 +36,11 @@ Route::group([
             'as'   => 'alertas::gacetillas'
         ]);
 
+        Route::get('alertas/estado-servicio', [
+            'uses' => 'Alertas\AlertaController@getEstadoServicio',
+            'as'   => 'alertas::estado-servicio'
+        ]);
+
         Route::get('alertas/vigentes/layer', [
             'uses' => 'Alertas\AlertaController@vigentesLayer',
             'as'   => 'alertas::vigentes.layer'
