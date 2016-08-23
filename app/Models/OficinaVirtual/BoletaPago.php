@@ -30,7 +30,7 @@ class BoletaPago extends AppModel
      */
     public function getCodigoDposs()
     {
-        return '*'. $this->factura_tipo . '0' .$this->factura_numero.'*';
+        return $this->factura_tipo . '0' .$this->factura_numero;
     }
 
     /**
@@ -39,7 +39,7 @@ class BoletaPago extends AppModel
      */
     public function getCodigoLink()
     {
-        return sprintf('%06d',$this->expediente) . sprintf('%06d',$this->unidad_numero) . '0';
+        return sprintf('%06d', $this->expediente) . sprintf('%06d', $this->unidad_numero) . '0';
     }
 
     /**

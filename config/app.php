@@ -176,6 +176,11 @@ return [
          */
         Elibyy\TCPDF\ServiceProvider::class,
 
+        /**
+         * https://github.com/milon/barcode
+         */
+        Milon\Barcode\BarcodeServiceProvider::class,
+
     ],
 
     /*
@@ -236,6 +241,11 @@ return [
          * https://github.com/elibyy/tcpdf-laravel
          */
         'PDF' => Elibyy\TCPDF\Facades\TCPDF::class,
+
+        /**
+         * https://github.com/milon/barcode
+         */
+        'DNS1D' => 'Milon\Barcode\Facades\DNS1DFacade',
     ],
 
 ];

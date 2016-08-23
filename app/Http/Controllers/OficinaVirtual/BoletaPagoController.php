@@ -9,6 +9,10 @@ use App\Models\OficinaVirtual\BoletaPago;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 
+use DNS1D;
+
+use Tecnickcom\Tcpdf\Tcpdf_barcodes_1d as TCPDFBarcode;
+
 class BoletaPagoController extends Controller
 {
     /**
@@ -28,11 +32,11 @@ class BoletaPagoController extends Controller
         // define barcode style
         $bar_code_style = array(
             'position'     => '',
-            'align'        => 'C',
+            'align'        => 'L',
             'stretch'      => false,
-            'fitwidth'     => true,
-            'cellfitalign' => '',
-            'border'       => true,
+            'fitwidth'     => false,
+            'cellfitalign' => 'L',
+            'border'       => false,
             'hpadding'     => 'auto',
             'vpadding'     => 'auto',
             'fgcolor'      => [0,0,0],
@@ -47,17 +51,12 @@ class BoletaPagoController extends Controller
         PDF::AddPage();
 
         // "Parseamos" el template (esto se podría formalizar más)
-        $codigoPagoFacil = PDF::serializeTCPDFtagParameters(
-            [$boletaPago->getCodigoPagoFacil(), 'C39', '', '', '', '18', 0.4, $bar_code_style, 'N']
-        );
-
         $codigoDposs = PDF::serializeTCPDFtagParameters(
-            [$boletaPago->getCodigoDposs(), 'C39', '', '', '', '18', 0.4, $bar_code_style, 'N']
+            [$boletaPago->getCodigoDposs(), 'C39', '', '', '', '16', 0.4, $bar_code_style, 'N']
         );
 
         $html = view('oficina-virtual.boleta-pago')
             ->with('boletaPago', $boletaPago)
-            ->with('codigoPagoFacil', $codigoPagoFacil)
             ->with('codigoDposs', $codigoDposs)
             ->render();
 

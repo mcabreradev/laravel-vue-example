@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title></title>
-	<style>
+  <style>
     .c10% { width: 10%; }
     .c20% { width: 20%; }
 		.c25% { width: 25%; }
@@ -26,11 +26,9 @@
         font-family: helvetica;
         font-size: 12pt;
     }
-
-	</style>
+  </style>
 </head>
 <body>
-
 
 	<table>
 		<tr>
@@ -45,8 +43,9 @@
 		<tr>
       <td class="c40%">
         <p>Nombre<br>{{ $boletaPago->ocupante }}</p>
-        <p>Factura Nº<br>{{ $boletaPago->factura_tipo }} {{$boletaPago->nro_liq_sp}}</p>
-        <p>Período<br>{{ DateTime::createFromFormat('Ym', $boletaPago->factura_periodo)->format('m/Y') }}</p>
+        <p><strong>Factura Nº</strong> {{ $boletaPago->factura_tipo }} {{$boletaPago->nro_liq_sp}}</p>
+        <p><strong>Período</strong> {{ DateTime::createFromFormat('Ym', $boletaPago->factura_periodo)->format('m/Y') }}</p>
+        <p><strong>Unidad Nº</strong> {{ $boletaPago->unidad_numero }}</p>
       </td>
       <td class="c10%">&nbsp;</td>
       <td class="c50%">
@@ -65,29 +64,27 @@
       <td colspan="3">
         <hr>
 				<h2>Medios de pago</h2>
+        <br>
       </td>
     </tr>
     <tr>
-      <td colspan="3">
+      <td colspan="2">
 				<p>Pago fácil</p>
-				<p><tcpdf method="write1DBarcode" params="{{ $codigoPagoFacil }}" /></p>
+        <p><img src="data:image/png;base64,{{ DNS1D::getBarcodePNG($boletaPago->getCodigoPagoFacil(), 'I25',1,18)}}" /></p>
+        <span style="text-align: center; font-size: 8">{{ $boletaPago->getCodigoPagoFacil()}}</span>
       </td>
     </tr>
     <tr>
-      <td class="c33%">
-				<p>Link</p>
-				<p>{{ $boletaPago->getCodigoLink() }}</p>
+      <td colspan="2">
+        <p>Link <br>{{ $boletaPago->getCodigoLink() }}<br><br></p>
       </td>
-      <td class="c33%">
-				<p>Bancos</p>
+    </tr>
+    <tr>
+      <td colspan="2">
+				<p>Bancos / DPOSS</p>
 				<p><tcpdf method="write1DBarcode" params="{{ $codigoDposs }}" /></p>
       </td>
-      <td class="c33%">
-				<p>Dposs</p>
-				<p><tcpdf method="write1DBarcode" params="{{{ $codigoDposs }}}" /></p>
-			</td>
 		</tr>
 	</table>
-
 </body>
 </html>
