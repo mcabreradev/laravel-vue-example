@@ -57,7 +57,7 @@
 
 		<tr>
 			<td colspan="3">
-        <p>Esta boleta es <b>válida siempre que no se haya superado la tercera fecha de vencimiento</b>, en ese caso sólo podrá efectuar el pago en oficinas de la D.P.O.S.S.</p>
+        <p>Esta boleta es <b>válida siempre que no supere la tercera fecha de vencimiento</b>, en ese caso sólo podrá efectuar el pago en oficinas de la DPOSS</p>
       </td>
     </tr>
     <tr>
