@@ -64,7 +64,7 @@ class AlertaController extends Controller
     public function index()
     {
         return view('alertas.index')
-            ->with('alertas', Alerta::orderBy('inicia_el', 'asc')->get());
+            ->with('alertas', Alerta::orderBy('inicia_el', 'desc')->get());
     }
 
     /**
@@ -108,7 +108,7 @@ class AlertaController extends Controller
             $alerta = Alerta::findOrFail($id);
 
             return view('alertas.edit')
-                ->with('alertas', $alerta);
+                ->with('alerta', $alerta);
         } catch (ModelNotFoundException $e) {
             Flash::warning('No se encontró el registro a editar');
 

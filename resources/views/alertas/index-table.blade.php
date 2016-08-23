@@ -17,7 +17,7 @@
               <input type="hidden" name="_token" value="{{ csrf_token() }}">
               <input type="hidden" name="_method" value="DELETE">
 
-              <a href="#" class="btn btn-primary btn-sm" title="editar">
+              <a href="{{ route('alertas::edit', $alerta->id) }}" class="btn btn-primary btn-sm" title="editar">
                 <span class="fa fa-pencil"></span>
               </a>
 

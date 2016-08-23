@@ -17,7 +17,7 @@ Mapa de alertas
 
     <div class="box">
       <div class="box-header with-border">
-        <h1>Nueva alerta</h1>
+        <h1>Editando alerta</h1>
         @include('flash::message')
       </div>
 
@@ -41,7 +41,7 @@ Mapa de alertas
 
               <div class="form-group">
                 <label for="inicia_el" class="form-label">Inicio</label>
-                <input name="inicia_el" type="datetime" class="form-control" id="inicia_el" required>
+                <input name="inicia_el" type="datetime" class="form-control" id="inicia_el" required value="{{ $alerta->inicia_el->toDateTimeString() }}">
               </div>
 
               <div class="form-group">
@@ -51,7 +51,7 @@ Mapa de alertas
 
               <div class="form-group">
                 <label for="descripcion" class="form-label">Descripción</label>
-                <textarea id="descripcion" name="descripcion" class="form-control" rows="5"></textarea>
+                <textarea id="descripcion" name="descripcion" class="form-control" rows="5">{{ $alerta->descripcion }}</textarea>
               </div>
 
               <div class="form-group">
@@ -100,7 +100,7 @@ Mapa de alertas
       }, {}));
 
       // obtengo capa de creacion
-      $.getJSON('{{ route('alertas::create.layer') }}')
+      $.getJSON('{{ route('alertas::edit.layer', $alerta->id) }}')
         .success(function(data){
 
           var layer = L.geoJson(data, {
