@@ -421,10 +421,9 @@ class AlertaController extends Controller
     public function gacetillas()
     {
         $gacetillas = [];
+
         // obtengo las alertas que aun no hayan finalizado
-        $alertas = Alerta::where('finaliza_el', '>=', Carbon::now()->toDateTimeString())
-            ->orderBy('inicia_el', 'asc')
-            ->get();
+        $alertas = Alerta::orderBy('inicia_el', 'desc')->get();
 
         // recorro las alertas para armar las gacetillas
         foreach ($alertas as $alerta) {
@@ -450,6 +449,10 @@ class AlertaController extends Controller
         return response()->json($gacetillas, 200);
     }
 
+    /**
+     * [getEstadoServicio description]
+     * @return [type] [description]
+     */
     public function getEstadoServicio()
     {
         $estadoServicio = new \StdClass();
