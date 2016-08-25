@@ -13,7 +13,7 @@ class BoletasPagoTableSeeder extends Seeder
     public function run()
     {
         $boletasJson = json_decode(Storage::disk('seeds-files')
-            ->get('201607_con_numero_cuenta.json'));
+            ->get('data-import.json'));
 
         foreach ($boletasJson as $boleta) {
             BoletaPago::create([
@@ -46,6 +46,8 @@ class BoletasPagoTableSeeder extends Seeder
                 'fecha_vencimiento_2'  => $boleta->fecha_vencimiento_2,
                 'monto_vencimiento_3'  => $boleta->monto_vencimiento_3,
                 'fecha_vencimiento_3'  => $boleta->fecha_vencimiento_3,
+
+                'saldo'                => $boleta->saldo,
             ]);
         }
     }
