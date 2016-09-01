@@ -26,6 +26,11 @@
         font-family: helvetica;
         font-size: 12pt;
     }
+
+    .box {
+      border: 1pt solid black;
+      padding: 10px;
+    }
   </style>
 </head>
 <body>
@@ -40,6 +45,11 @@
 				<h1>BOLETA DE PAGO</h1>
 			</td>
 		</tr>
+    <tr>
+      <td>
+        <h2 class="box">Su factura ya se encuentra paga o está adherida a débido automático. No es necesario que imprima ni abone esta boleta de pago.</h2>
+      </td>
+    </tr>
 		<tr>
       <td class="c40%">
         <p>Nombre<br>{{ $boletaPago->ocupante }}</p>
