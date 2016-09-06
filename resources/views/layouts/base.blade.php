@@ -25,9 +25,9 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body 
-    @section('body-attributes') 
-      class="hold-transition skin-blue sidebar-mini"
+<body
+    @section('body-attributes')
+      class="hold-transition skin-blue fixed"
     @show
 >
     @yield('body-content')
