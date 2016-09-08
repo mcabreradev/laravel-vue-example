@@ -29,9 +29,9 @@ class CreatePedidosTable extends Migration {
             $table->text('descripcion')->nullable();
             $table->text('observaciones')->nullable();
             $table->text('motivo_cancelacion')->nullable();
-            $table->integer('usuario_id')->unsigned();
             $table->timestamps();
 
+            $table->integer('usuario_id')->unsigned();
             $table->foreign('usuario_id')
                   ->references('id')
                   ->on('usuarios')

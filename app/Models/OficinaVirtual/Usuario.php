@@ -15,7 +15,7 @@ class Usuario extends AppModel
      * @var array
      */
     protected $fillable = [
-        'nombre', 'apellido', 'documento'
+        'nombre', 'apellido', 'documento', 'email', 'movil', 'validado'
     ];
 
     /**
@@ -25,6 +25,15 @@ class Usuario extends AppModel
     public function pedidos()
     {
         return $this->hasMany('App\Models\OficinaVirtual\Pedido');
+    }
+
+    /**
+     * Relacion con los turnos solicitados
+     * @return Collection Los turnos solicitados por el usuario
+     */
+    public function turnos()
+    {
+        return $this->hasMany('App\Models\Turnos\Turno');
     }
 
     /**

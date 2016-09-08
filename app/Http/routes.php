@@ -214,6 +214,23 @@ Route::group(['middleware' => ['auth']], function() {
             'as'   => 'estados.destroy',
             'uses' => 'EstadoController@destroy'
         ])->where('id', '[0-9]+');
-    }); // aletas group
+    }); // alertas group
+
+    /**
+     * Turnos
+     */
+    Route::group([
+        'namespace' => 'Turnos',
+        'as'        => 'turnos::',
+        'prefix'    => 'turnos'
+    ], function() {
+
+        Route::get('/', [
+            'as'   => 'index',
+            'uses' => 'TurnoController@index'
+        ]);
+
+    }); // turnos group
+
 
 });
