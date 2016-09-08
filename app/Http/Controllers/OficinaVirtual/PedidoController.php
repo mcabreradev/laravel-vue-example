@@ -218,11 +218,10 @@ class PedidoController extends Controller
      */
     public function solicitarLibreDeuda(Request $request)
     {
-        Mail::send('emails.libre-deuda', [], function ($m) {
-            $m->from('no-reply@dposs.gov.ar', 'DPOSS');
-
-            $m->to('vieraleonel1@gmail.com', 'Viera Leonel')
-                ->subject('DPOSS');
+        Mail::send('emails.libre-deuda', ['data' => $request->input()], function ($message) {
+            $message->from('no-reply@dposs.gov.ar', 'DPOSS WEB')
+                ->to('vieraleonel1@gmail.com')
+                ->subject('Solicitud de libre deuda');
         });
     }
 
