@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>WEB DPOSS - LIBRE DEUDA</title>
+  <title>WEB DPOSS - FACTURAS VENCIDAS</title>
 </head>
 <body>
 
@@ -11,18 +11,16 @@
   <p><b>Teléfono:</b> {{ $data['solicitante_telefono'] ?: '' }}</p>
   <p><b>Correo:</b> {{ $data['solicitante_email'] ?: '' }}</p>
 
-  <h1>Titular</h1>
-  <p><b>Nombre:</b> {{ $data['titular_nombre'] ?: '' }}</p>
-  <p><b>Documento:</b> {{ $data['titular_documento'] ?: '' }}</p>
-
   <h1>Factura</h1>
   <p><b>Domicilio:</b> {{ $data['domicilio'] ?: '' }}</p>
   <p><b>Localidad:</b> {{ $data['localidad'] ?: '' }}</p>
   <p><b>Nomenclatura:</b> {{ $data['nomenclatura'] ?: '' }}</p>
   <p><b>Unidad:</b> {{ $data['unidad'] ?: '' }}</p>
+  <p><b>Períodos:</b> {{ $data['periodo'] ?: '' }}</p>
+  <p><b>Entrega:</b> {{ $data['entrega'] ?: '' }}</p>
 
-  <h1>Descripción</h1>
-  <p>{{ $data['descripcion'] ?: '' }}</p>
+  <h1>Comentarios</h1>
+  <p>{{ $data['comentarios'] ?: '' }}</p>
 
 </body>
 </html>

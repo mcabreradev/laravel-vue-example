@@ -220,9 +220,11 @@ class PedidoController extends Controller
     {
         Mail::send('emails.libre-deuda', ['data' => $request->input()], function ($message) {
             $message->from('no-reply@dposs.gov.ar', 'DPOSS WEB')
-                ->to('vieraleonel1@gmail.com')
+                ->to('contactoweb@dposs.gov.ar')
                 ->subject('Solicitud de libre deuda');
         });
+
+        return response()->json([]);
     }
 
     /**
@@ -232,34 +234,12 @@ class PedidoController extends Controller
      */
     public function solicitarFacturasVencidas(Request $request)
     {
-        $pedido                       = new Pedido();
-        $pedido->tipo                 = 'factura';
-        $pedido->origen               = 'web';
-        $pedido->estado               = 'pendiente';
-        $pedido->prioritario          = false;
-        $pedido->metodo_entrega       = $request->input('entrega');
-        $pedido->descripcion          = $request->input('periodo');
-        $pedido->solicitante_apellido = $request->input('apellido');
-        $pedido->solicitante_nombre   = $request->input('nombre');
-        $pedido->solicitante_email    = $request->input('email');
-        $pedido->solicitante_telefono = $request->input('telefono');
+        Mail::send('emails.facturas-vencidas', ['data' => $request->input()], function ($message) {
+            $message->from('no-reply@dposs.gov.ar', 'DPOSS WEB')
+                ->to('contactoweb@dposs.gov.ar')
+                ->subject('Solicitud de facturas vencidas');
+        });
 
-        // Falta inferir desde la info de boleta de pago
-        // Nomenclatura
-        // DNI/CUIT titular
-        // localidad
-        // domicilio
-        // usuario
-        $pedido->nomenclatura = 'A 3 0020 00011';
-        $pedido->localidad = 'ushuaia';
-        $pedido->domicilio = 'Canga 2168';
-
-        $usuario = Usuario::first();
-
-        $pedido->usuario()->associate($usuario);
-
-        $pedido->save();
-
-        return response()->json(null, 201);
+        return response()->json([]);
     }
 }

@@ -55,7 +55,7 @@ Route::group([
          * Oficina Virtual
          */
 
-        Route::get('oficina-virtual/libre-deuda', [
+        Route::post('oficina-virtual/libre-deuda', [
             'uses' => 'OficinaVirtual\PedidoController@solicitarLibreDeuda',
             'as'   => 'oficicina-virtual::pedidos.solicitar.libre-deuda'
         ]);
