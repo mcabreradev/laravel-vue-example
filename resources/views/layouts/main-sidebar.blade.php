@@ -21,13 +21,13 @@
       <!-- Optionally, you can add icons to the links -->
       <li>
         <a href="{{ route('pedidos.index', ['estado' => 'pendientes']) }}">
-          <i class="fa fa-book"></i> <span>Pedidos</span>
+          <span>Pedidos</span>
         </a>
       </li>
 
       <li class="treeview">
         <a href="#">
-          <i class="fa fa-exclamation-triangle"></i><span>Alertas</span><i class="fa fa-angle-left pull-right"></i>
+          <span>Alertas</span><i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
           <li><a href="{{ route('alertas::index') }}">Mapa</a></li>
@@ -37,24 +37,12 @@
 
       <li class="treeview">
         <a href="#">
-          <i class="fa fa-exclamation-triangle"></i><span>Turnos</span><i class="fa fa-angle-left pull-right"></i>
+          <span>Turnos</span><i class="fa fa-angle-left pull-right"></i>
         </a>
         <ul class="treeview-menu">
           <li><a href="{{ route('turnos::index') }}">Turnos asignados</a></li>
         </ul>
       </li>
-
-{{--
-      <li class="treeview">
-        <a href="#">
-          <i class="fa fa-scissors"></i><span>Cortes</span><i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="{{ route('cortes.situaciones.index') }}">Situación</a></li>
-          <li><a href="{{ route('cortes.estados.index') }}">Estados</a></li>
-        </ul>
-      </li>
-      --}}
     </ul>
     <!-- /.sidebar-menu -->
   </section>
