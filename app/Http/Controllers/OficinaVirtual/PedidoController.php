@@ -218,7 +218,7 @@ class PedidoController extends Controller
      */
     public function solicitarLibreDeuda(Request $request)
     {
-        Mail::send('emails.reminder', ['user' => $user], function ($m) use ($user) {
+        Mail::send('emails.libre-deuda', [], function ($m) {
             $m->from('no-reply@dposs.gov.ar', 'DPOSS');
 
             $m->to('vieraleonel1@gmail.com', 'Viera Leonel')
