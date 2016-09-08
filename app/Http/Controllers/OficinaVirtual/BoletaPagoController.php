@@ -22,7 +22,21 @@ class BoletaPagoController extends Controller
      */
     public function generar(Request $request)
     {
-        $boletaPago = BoletaPago::where('unidad_numero', '=', $request->input('busqueda'))->first();
+        if (!$request->has('tipo-busqueda') || !$request->has('busqueda')) {
+            return abort(503);
+        }
+
+        if ($request->has('tipo-busqueda') === 'expediente') {
+            $boletasPago = BoletaPago::where('expediente', '=', $request->input('busqueda'))->get();
+        }
+        else {
+            $boletasPago = BoletaPago::where('expediente', '=', $request->input('busqueda'))->get();
+        }
+
+        // si no obtuve resultados por expediente o unidad respondo con un error
+        if ($boletasPago->isEmpty()) {
+            return response()->json(['error' => 'No se encontró boleta de pago con los datos ingresados'], 404);
+        }
 
         // Aquí sigue configuración básica del PDF
         PDF::SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
@@ -47,26 +61,29 @@ class BoletaPagoController extends Controller
             'stretchtext'  => 4
         );
 
-        // Agregamos una página en blanco
-        PDF::AddPage();
+        foreach ($boletasPago as $boletaPago) {
 
-        // "Parseamos" el template (esto se podría formalizar más)
-        $codigoDposs = PDF::serializeTCPDFtagParameters(
-            [$boletaPago->getCodigoDposs(), 'C39', '', '', '', '16', 0.4, $bar_code_style, 'N']
-        );
+            // Agregamos una página en blanco
+            PDF::AddPage();
 
-        $html = view('oficina-virtual.boleta-pago')
-            ->with('boletaPago', $boletaPago)
-            ->with('codigoDposs', $codigoDposs)
-            ->render();
+            // "Parseamos" el template (esto se podría formalizar más)
+            $codigoDposs = PDF::serializeTCPDFtagParameters(
+                [$boletaPago->getCodigoDposs(), 'C39', '', '', '', '16', 0.4, $bar_code_style, 'N']
+            );
 
-        // output the HTML content
-        PDF::writeHTML($html, true, false, true, false, '');
+            $html = view('oficina-virtual.boleta-pago')
+                ->with('boletaPago', $boletaPago)
+                ->with('codigoDposs', $codigoDposs)
+                ->render();
 
-        // reset pointer to the last page
-        PDF::lastPage();
+            // output the HTML content
+            PDF::writeHTML($html, true, false, true, false, '');
 
-        //Close and output PDF document
+            // reset pointer to the last page
+            PDF::lastPage();
+        }
+
+        // Close and output PDF document
         return Response::make(
             PDF::Output('boleta-pago.pdf', 'S'),
             200, [

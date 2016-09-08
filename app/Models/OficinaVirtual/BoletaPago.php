@@ -7,6 +7,10 @@ use App\Models\AppModel;
 
 class BoletaPago extends AppModel
 {
+    /**
+     * Codigo de DPOSS en pago facil
+     * @var string
+     */
     public static $CODIGO_EMPRESA_PAGO_FACIL = '0144';
 
     /**
@@ -113,6 +117,10 @@ class BoletaPago extends AppModel
         return floor($mult) % 10;
     }
 
+    /**
+     * Recompila y concatena la informacion asociada al domicilio
+     * @return string domicilio
+     */
     public function getDomicilio()
     {
         $domicilio = $this->unidad_calle;
