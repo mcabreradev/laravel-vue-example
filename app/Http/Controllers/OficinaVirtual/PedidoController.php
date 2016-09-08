@@ -3,6 +3,7 @@
 namespace app\Http\Controllers\OficinaVirtual;
 
 use Flash;
+use Mail;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -217,35 +218,12 @@ class PedidoController extends Controller
      */
     public function solicitarLibreDeuda(Request $request)
     {
-        $pedido                       = new Pedido();
-        $pedido->tipo                 = 'libre-deuda';
-        $pedido->origen               = 'web';
-        $pedido->estado               = 'pendiente';
-        $pedido->prioritario          = false;
-        $pedido->metodo_entrega       = 'personalmente';
-        $pedido->descripcion          = $request->input('descripcion');
-        $pedido->solicitante_apellido = $request->input('apellido');
-        $pedido->solicitante_nombre   = $request->input('nombre');
-        $pedido->solicitante_email    = $request->input('email');
-        $pedido->solicitante_telefono = $request->input('telefono');
+        Mail::send('emails.reminder', ['user' => $user], function ($m) use ($user) {
+            $m->from('no-reply@dposs.gov.ar', 'DPOSS');
 
-        // Falta inferir desde la info de boleta de pago
-        // Nomenclatura
-        // DNI/CUIT titular
-        // localidad
-        // domicilio
-        // usuario
-        $pedido->nomenclatura = 'A 3 0020 00011';
-        $pedido->localidad = 'ushuaia';
-        $pedido->domicilio = 'Canga 2168';
-
-        $usuario = Usuario::first();
-
-        $pedido->usuario()->associate($usuario);
-
-        $pedido->save();
-
-        return response()->json(null, 201);
+            $m->to('vieraleonel1@gmail.com', 'Viera Leonel')
+                ->subject('DPOSS');
+        });
     }
 
     /**
