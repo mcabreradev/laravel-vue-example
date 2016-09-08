@@ -4,11 +4,26 @@
 <!-- Bootstrap (also on head-commons) -->
 <script src="{{ asset('compiled/css/bootstrap/js/bootstrap.min.js') }}"></script>
 
+<!-- jQuery SlimScroll -->
+<script src="{{ asset('compiled/js/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
+
+<!-- FastClick -->
+<script src="{{ asset('compiled/js/fastclick/fastclick.js') }}"></script>
+
 <!-- theme -->
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
    Both of these plugins are recommended to enhance the
    user experience. Slimscroll is required when using the
    fixed layout. -->
+<script>
+  (function(){
+    'use strict';
+
+    window.AdminLTEOptions = {
+      enableFastclick: true
+    };
+  })();
+</script>
 <script src="{{ asset('compiled/js/admin-lte/app.min.js') }}"></script>
 
 <!-- SweetAlert (also in head-commons) -->

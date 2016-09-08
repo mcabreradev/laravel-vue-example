@@ -32,8 +32,14 @@ elixir(function(mix) {
   // jQuery
   mix.copy('node_modules/jquery/dist', 'public/compiled/js/jquery');
 
+  // jQuery SlimScroll
+  mix.copy('node_modules/jquery-slimscroll/jquery.slimscroll.min.js', 'public/compiled/js/jquery-slimscroll/jquery.slimscroll.min.js');
+
   // Bootstrap
   mix.copy('node_modules/bootstrap/dist', 'public/compiled/css/bootstrap');
+
+  // FastClick
+  mix.copy('node_modules/fastclick/lib/fastclick.js', 'public/compiled/js/fastclick/fastclick.js');
 
   // Copy assets from admin-lte theme
   mix.copy('node_modules/admin-lte/dist/js', 'public/compiled/js/admin-lte');
