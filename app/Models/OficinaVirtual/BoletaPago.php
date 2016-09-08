@@ -21,8 +21,10 @@ class BoletaPago extends AppModel
      *
      * @var array
      */
-    protected $dates = ['created_at', 'updated_at', 'fecha_vencimiento_1',
-        'fecha_vencimiento_2', 'fecha_vencimiento_3'];
+    protected $dates = [
+        'created_at', 'updated_at', 'fecha_vencimiento_1', 'fecha_vencimiento_2',
+        'fecha_vencimiento_3'
+    ];
 
     /**
      * [getCodigoDposs description]
@@ -109,5 +111,24 @@ class BoletaPago extends AppModel
 
         $mult = $mult / 2;
         return floor($mult) % 10;
+    }
+
+    public function getDomicilio()
+    {
+        $domicilio = $this->unidad_calle;
+
+        if (($this->unidad_numero_puerta !== null) && ($this->unidad_numero_puerta > 0)) {
+            $domicilio .= " {$this->unidad_numero_puerta}";
+        }
+
+        if (trim($this->unidad_piso)) {
+            $domicilio .= " piso {$this->unidad_piso}";
+        }
+
+        if (trim($this->unidad_departamento)) {
+            $domicilio .= " dpto {$this->unidad_departamento}";
+        }
+
+        return $domicilio;
     }
 } // Class BoletaPago

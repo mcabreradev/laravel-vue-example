@@ -58,7 +58,7 @@
     @endif
 		<tr>
       <td class="c40%">
-        <p>Nombre<br>{{ $boletaPago->ocupante }}</p>
+        <p>Nombre<br>{{ $boletaPago->ocupante ?: $boletaPago->razon_social }}</p>
         <p><strong>Factura Nº</strong> {{ $boletaPago->factura_tipo }} {{$boletaPago->nro_liq_sp}}</p>
         <p><strong>Período</strong> {{ DateTime::createFromFormat('Ym', $boletaPago->factura_periodo)->format('m/Y') }}</p>
         <p><strong>Unidad Nº</strong> {{ $boletaPago->unidad_numero }}</p>
@@ -66,10 +66,15 @@
       <td class="c10%">&nbsp;</td>
       <td class="c50%">
         <p><b>Total: ${{ number_format($boletaPago->monto_vencimiento_1, 2, ",", ".") }}</b><br>Primer vencimiento: {{$boletaPago->fecha_vencimiento_1->format('d/m/Y')}}</p>
-        <p>Segundo vencimiento: {{$boletaPago->fecha_vencimiento_2->format('d/m/Y')}}<br>Total: ${{ number_format($boletaPago->monto_vencimiento_2, 2, ",", ".") }}</p>
-        <p>Tercer vencimiento: {{$boletaPago->fecha_vencimiento_3->format('d/m/Y')}}<br>Total: ${{ number_format($boletaPago->monto_vencimiento_3, 2, ",", ".") }}</p>
+        <p>Segundo vencimiento: {{ $boletaPago->fecha_vencimiento_2->format('d/m/Y') }}<br>Total: ${{ number_format($boletaPago->monto_vencimiento_2, 2, ",", ".") }}</p>
+        <p>Tercer vencimiento: {{ $boletaPago->fecha_vencimiento_3->format('d/m/Y') }}<br>Total: ${{ number_format($boletaPago->monto_vencimiento_3, 2, ",", ".") }}</p>
       </td>
 		</tr>
+    <tr>
+      <td colspan="3">
+        <p><strong>Domicilio: </strong> {{ $boletaPago->getDomicilio() }}</p>
+      </td>
+    </tr>
 
 		<tr>
 			<td colspan="3">
