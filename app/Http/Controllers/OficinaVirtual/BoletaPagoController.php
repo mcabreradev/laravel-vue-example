@@ -30,7 +30,7 @@ class BoletaPagoController extends Controller
             $boletasPago = BoletaPago::where('expediente', '=', $request->input('busqueda'))->get();
         }
         else {
-            $boletasPago = BoletaPago::where('expediente', '=', $request->input('busqueda'))->get();
+            $boletasPago = BoletaPago::where('unidad_numero', '=', $request->input('busqueda'))->get();
         }
 
         // si no obtuve resultados por expediente o unidad respondo con un error
