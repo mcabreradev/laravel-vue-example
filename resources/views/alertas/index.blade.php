@@ -115,7 +115,7 @@ Mapa de alertas
       map.addLayer(ggl);
 
       $.getJSON('{{ route('api::v1::alertas::vigentes.layer') }}')
-        .success(function(data) {
+        .done(function(data) {
           layers.vigentes = L.geoJson(data, {
             style: featureStyle
           }).addTo(map);
@@ -126,7 +126,7 @@ Mapa de alertas
         });
 
       $.getJSON('{{ route('api::v1::alertas::futuras.layer') }}')
-        .success(function(data) {
+        .done(function(data) {
           layers.futuras = L.geoJson(data, {
             style: featureStyle
           });

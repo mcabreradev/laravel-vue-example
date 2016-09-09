@@ -101,7 +101,7 @@ Mapa de alertas
 
       // obtengo capa de creacion
       $.getJSON('{{ route('alertas::edit.layer', $alerta->id) }}')
-        .success(function(data){
+        .done(function(data){
 
           var layer = L.geoJson(data, {
             onEachFeature: onEachFeature
