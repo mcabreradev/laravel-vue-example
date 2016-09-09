@@ -26,7 +26,7 @@ class BoletaPagoController extends Controller
             return abort(503);
         }
 
-        if ($request->has('tipo-busqueda') === 'expediente') {
+        if ($request->input('tipo-busqueda') === 'expediente') {
             $boletasPago = BoletaPago::where('expediente', '=', $request->input('busqueda'))->get();
         }
         else {
