@@ -12,7 +12,7 @@ class CreateHorariosTable extends Migration
      */
     public function up()
     {
-        Schema::create('horarios', function (Blueprint $table) {
+        Schema::connection('pgsql-turnos')->create('horarios', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->time('hora');
             $table->boolean('lunes')->default(false);
@@ -24,11 +24,11 @@ class CreateHorariosTable extends Migration
             $table->boolean('domingos')->default(false);
             $table->timestamps();
 
-            // Relacion con fechas
-            $table->bigInteger('fecha_id')->unsigned();
-            $table->foreign('fecha_id')
+            // agrego relacion con actividad
+            $table->integer('actividad_id')->unsigned();
+            $table->foreign('actividad_id')
                   ->references('id')
-                  ->on('fechas')
+                  ->on('actividades')
                   ->onDelete('cascade');
         });
     }
@@ -40,6 +40,6 @@ class CreateHorariosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('horarios');
+        Schema::connection('pgsql-turnos')->drop('horarios');
     }
 }

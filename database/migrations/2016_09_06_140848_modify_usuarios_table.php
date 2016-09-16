@@ -13,7 +13,7 @@ class ModifyUsuariosTable extends Migration
     public function up()
     {
         Schema::table('usuarios', function (Blueprint $table) {
-            $table->string('email')->nullable();
+            $table->string('email')->unique();
             $table->string('movil')->nullable();
             $table->boolean('validado')->default(false);
         });

@@ -12,18 +12,19 @@ class CreateTurnosTable extends Migration
      */
     public function up()
     {
-        Schema::create('turnos', function (Blueprint $table) {
+        Schema::connection('pgsql-turnos')->create('turnos', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->date('fecha')->index();
             $table->time('hora')->index();
             $table->boolean('atendido')->default(false);
+            $table->text('observaciones')->nullable();
 
             // Relacion con usuarios
             $table->integer('usuario_id')->unsigned();
             $table->foreign('usuario_id')
                   ->references('id')
-                  ->on('usuarios')
+                  ->on('public.usuarios')
                   ->onDelete('cascade');
 
             // Relacion con actividades
@@ -42,6 +43,6 @@ class CreateTurnosTable extends Migration
      */
     public function down()
     {
-        Schema::drop('turnos');
+        Schema::connection('pgsql-turnos')->drop('turnos');
     }
 }

@@ -19,6 +19,13 @@ class Usuario extends AppModel
     ];
 
     /**
+     * The attributes that should be visible in arrays.
+     *
+     * @var array
+     */
+    protected $visible = ['id', 'nombre', 'apellido', 'documento', 'email', 'movil'];
+
+    /**
      * Relacion con los pedidos hechos
      * @return Collection Los pedidos hechos por el usuario
      */

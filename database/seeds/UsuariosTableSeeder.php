@@ -13,15 +13,17 @@ class UsuariosTableSeeder extends Seeder
     public function run()
     {
         Usuario::create([
-            'documento' => 20327694031,
+            'documento' => 32769403,
             'nombre'    => 'Leonel',
-            'apellido'  => 'Viera'
+            'apellido'  => 'Viera',
+            'email'     => 'vieraleonel1@gmail.com'
         ]);
 
         Usuario::create([
             'documento' => 26072626,
             'apellido'  => 'González',
-            'nombre'    => 'Federico'
+            'nombre'    => 'Federico',
+            'email'     => 'fedegonzal@gmail.com'
         ]);
     }
 }

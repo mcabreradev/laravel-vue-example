@@ -12,7 +12,7 @@ class CreateActividadesTable extends Migration
      */
     public function up()
     {
-        Schema::create('actividades', function (Blueprint $table) {
+        Schema::connection('pgsql-turnos')->create('actividades', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
             $table->timestamps();
@@ -26,6 +26,6 @@ class CreateActividadesTable extends Migration
      */
     public function down()
     {
-        Schema::drop('actividades');
+        Schema::connection('pgsql-turnos')->drop('actividades');
     }
 }
