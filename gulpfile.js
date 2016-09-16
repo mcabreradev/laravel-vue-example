@@ -38,6 +38,9 @@ elixir(function(mix) {
   // Bootstrap
   mix.copy('node_modules/bootstrap/dist', 'public/compiled/css/bootstrap');
 
+  // Vue
+  mix.copy('node_modules/vue/dist', 'public/compiled/js/vue');
+
   // FastClick
   mix.copy('node_modules/fastclick/lib/fastclick.js', 'public/compiled/js/fastclick/fastclick.js');
 
