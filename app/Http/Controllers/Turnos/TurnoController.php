@@ -122,6 +122,7 @@ class TurnoController extends Controller
             if ($usuario->turnos->count() > 0) {
                 $turno = $usuario->turnos->first();
                 return response()->json([
+                    'error' => 'duplicado',
                     'fecha' => $turno->fecha->toDateString(),
                     'hora'  => $turno->hora
                 ], 409);
@@ -146,6 +147,12 @@ class TurnoController extends Controller
 
             return response()->json($request->input(), 201);
 
+        } catch(QueryException $e) {
+            return response()->json([
+                'error' => 'ocupado',
+                'fecha' => $request->input('fecha'),
+                'hora'  => $request->input('hora')
+            ], 409);
         } catch (Exception $e) {
             abort(500);
         }
