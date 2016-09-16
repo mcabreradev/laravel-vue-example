@@ -104,7 +104,7 @@ class Actividad extends AppModel
 
         foreach ($this->turnos as $turno) {
             if (array_key_exists($turno->fecha->toDateString(), $turnosAsignadosMap)) {
-                $turnosAsignadosMap[$turno->fecha][$turno->hora] = [
+                $turnosAsignadosMap[$turno->fecha->toDateString()][$turno->hora] = [
                     'atendido' => $turno->atendido
                 ];
             }
