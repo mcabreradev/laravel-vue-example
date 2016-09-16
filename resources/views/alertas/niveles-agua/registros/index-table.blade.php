@@ -32,6 +32,8 @@
 
 <script type="text/javascript">
   (function($, swal){
+    'use strict';
+
     $('#registros-nivel-table').on('submit', 'form', function(event){
 
       event.preventDefault();

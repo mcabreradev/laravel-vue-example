@@ -4,6 +4,9 @@
 <!-- Bootstrap (also on head-commons) -->
 <script src="{{ asset('compiled/css/bootstrap/js/bootstrap.min.js') }}"></script>
 
+<!-- Vue -->
+<script src="{{ asset('compiled/js/vue/vue.min.js') }}"></script>
+
 <!-- jQuery SlimScroll -->
 <script src="{{ asset('compiled/js/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
 

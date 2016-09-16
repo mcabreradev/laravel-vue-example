@@ -230,6 +230,26 @@ Route::group(['middleware' => ['auth']], function() {
             'uses' => 'TurnoController@index'
         ]);
 
+        Route::get('asignados/{actividadId}', [
+            'as'   => 'asignados-por-actividad',
+            'uses' => 'TurnoController@asignadosPorActividad'
+        ])->where('actividadId', '[0-9]+');
+
+        Route::get('vencidos/{actividadId}', [
+            'as'   => 'vencidos-por-actividad',
+            'uses' => 'TurnoController@vencidosPorActividad'
+        ])->where('actividadId', '[0-9]+');
+
+        Route::put('validar-atencion/{id}', [
+            'as'   => 'validar-atencion',
+            'uses' => 'TurnoController@validarAtencion'
+        ])->where('id', '[0-9]+');
+
+        Route::delete('/{id}', [
+            'as'   => 'destroy',
+            'uses' => 'TurnoController@destroy'
+        ])->where('id', '[0-9]+');
+
     }); // turnos group
 
 

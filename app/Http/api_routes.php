@@ -8,6 +8,9 @@ Route::group([
     'as'     => 'api::'
 ], function()
 {
+    // catch all options requests
+    Route::options('{all}', function(){})->where('all', '.*');
+
     Route::group([
         'prefix' => 'v1',
         'as'     => 'v1::'
@@ -69,6 +72,31 @@ Route::group([
             'uses' => 'OficinaVirtual\BoletaPagoController@generar',
             'as'   => 'oficicina-virtual::boletas-pago.generar'
         ]);
+
+        /**
+         * Turnos
+         */
+        Route::group([
+            'namespace' => 'Turnos',
+            'prefix'    => 'turnos',
+            'as'        => 'turnos::'
+        ], function()
+        {
+            Route::post('/', [
+                'uses' => 'TurnoController@store',
+                'as'   => 'store'
+            ]);
+
+            Route::get('actividades/{id}',[
+                'uses' => 'ActividadController@show',
+                'as'   => 'actividades.show'
+            ])->where('id', '[0-9]+');
+
+            Route::get('actividades/{id}/turnos-asignados',[
+                'uses' => 'ActividadController@turnosAsignados',
+                'as'   => 'actividades.turnos-asignados'
+            ])->where('id', '[0-9]+');
+        });
 
     }); // v1 group
 }); // api group
