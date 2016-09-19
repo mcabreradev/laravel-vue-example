@@ -9,6 +9,8 @@
           <th>Apellido</th>
           <th>Nombre</th>
           <th>DNI</th>
+          <th>Teléfono</th>
+          <th>Correo</th>
           <th>Observaciones</th>
           <th>Acciones</th>
         </tr>
@@ -20,6 +22,8 @@
           <td>@{{ turno.usuario.apellido }}</td>
           <td>@{{ turno.usuario.nombre }}</td>
           <td>@{{ turno.usuario.documento }}</td>
+          <td>@{{ turno.usuario.movil }}</td>
+          <td>@{{ turno.usuario.telefono }}</td>
           <td>@{{ turno.observaciones }}</td>
           <td>
             <button v-if="!turno.atendido" @click="seleccionarTurno(turno)" class="btn btn-primary btn-sm" title="Validar atención">
