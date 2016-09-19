@@ -1,3 +1,4 @@
+
 <?php
 
 namespace App\Http\Controllers\Turnos;
@@ -104,6 +105,19 @@ class TurnoController extends Controller
     public function store(Request $request)
     {
         try {
+
+            $now = new DateTime();
+
+            if (
+                $request->input('fecha') < $now->format('Y-m-d') ||
+                ($request->input('fecha') == $now->format('Y-m-d') && $request->input('hora') < $now->format('H:i:s'))
+                ) {
+                return response()->json([
+                    'error' => 'ocupado',
+                    'fecha' => $request->input('fecha'),
+                    'hora'  => $request->input('hora')
+                ], 409);
+            }
 
             $actividad = Actividad::findOrFail($request->input('actividad'));
 
