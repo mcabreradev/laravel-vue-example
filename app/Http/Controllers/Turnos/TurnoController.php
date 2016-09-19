@@ -1,4 +1,3 @@
-
 <?php
 
 namespace App\Http\Controllers\Turnos;
@@ -110,7 +109,9 @@ class TurnoController extends Controller
 
             if (
                 $request->input('fecha') < $now->format('Y-m-d') ||
-                ($request->input('fecha') == $now->format('Y-m-d') && $request->input('hora') < $now->format('H:i:s'))
+                 ( ($request->input('fecha') == $now->format('Y-m-d')) &&
+                   ($request->input('hora') < $now->format('H:i:s'))
+                 )
                 ) {
                 return response()->json([
                     'error' => 'ocupado',
