@@ -3,6 +3,7 @@
 namespace App\Models\Turnos;
 
 use App\Models\AppModel;
+use DateTime;
 
 class Actividad extends AppModel
 {
@@ -65,6 +66,7 @@ class Actividad extends AppModel
     public function getCronograma()
     {
         $cronograma = [];
+        $now = new DateTime();
 
         // recorro las fechas de la actividad.
         // NOTA: Si el usuario filtro las fechas, recorrera solo las fitradas
@@ -78,10 +80,16 @@ class Actividad extends AppModel
                 if ($horario->isFechaValida($fecha->fecha)) {
 
                     // @TODO: WORKAROUD
-                    if ($fecha->fecha->month === 10 &&
-                        $fecha->fecha->day >= 3     &&
-                        $fecha->fecha->day <= 7     &&
-                        $horario->hora > '10:31') {
+                    if (
+                        ($fecha->fecha->month === 10 &&
+                         $fecha->fecha->day >= 3     &&
+                         $fecha->fecha->day <= 7     &&
+                         $horario->hora > '10:31'
+                        ) ||
+                        ($fecha->fecha->toDateString() === $now->format('Y-m-d') &&
+                         $horario->hora < $now->format('H:i:s')
+                        )
+                    ) {
                     } else {
                         $fechaCronograma[] = $horario->hora;
                     }
