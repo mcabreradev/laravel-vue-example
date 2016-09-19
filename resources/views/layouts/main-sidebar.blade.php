@@ -17,6 +17,7 @@
 
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
+      @if(auth()->user()->id < 10)
       <li class="header">Módulos</li>
       <!-- Optionally, you can add icons to the links -->
       <li>
@@ -34,7 +35,7 @@
           <li><a href="{{ route('alertas::registros-nivel-agua.index') }}">Nivel de Agua</a></li>
         </ul>
       </li>
-
+      @endif
       <li class="treeview">
         <a href="#">
           <span>Turnos</span><i class="fa fa-angle-left pull-right"></i>
