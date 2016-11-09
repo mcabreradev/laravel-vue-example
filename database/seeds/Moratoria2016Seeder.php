@@ -14,167 +14,32 @@ class Moratoria2016Seeder extends Seeder
      */
     public function run()
     {
-        $actividad = Actividad::create([
-            'nombre' => 'Moratoria 2016'
-        ]);
+        $actividad = Actividad::first();
 
-        Fecha::create(['fecha' => '2016-09-19', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-09-20', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-09-21', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-09-22', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-09-23', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-01', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-22', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-03', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-04', 'actividad_id' => $actividad->id]);
 
-        Fecha::create(['fecha' => '2016-09-26', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-09-27', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-09-28', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-09-29', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-09-30', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-07', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-08', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-09', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-10', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-11', 'actividad_id' => $actividad->id]);
 
-        Fecha::create(['fecha' => '2016-10-03', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-04', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-05', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-06', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-07', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-14', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-15', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-16', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-17', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-18', 'actividad_id' => $actividad->id]);
 
-        Fecha::create(['fecha' => '2016-10-10', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-11', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-12', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-13', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-14', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-21', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-22', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-23', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-24', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-25', 'actividad_id' => $actividad->id]);
 
-        Fecha::create(['fecha' => '2016-10-17', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-18', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-19', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-20', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-21', 'actividad_id' => $actividad->id]);
-
-        Fecha::create(['fecha' => '2016-10-24', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-25', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-26', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-27', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-10-28', 'actividad_id' => $actividad->id]);
-
-        Fecha::create(['fecha' => '2016-10-31', 'actividad_id' => $actividad->id]);
-
-        Horario::create([
-            'hora'         => '8:30',
-            'actividad_id' => $actividad->id,
-            'lunes'        => true,
-            'martes'       => true,
-            'miercoles'    => true,
-            'jueves'       => true,
-            'viernes'      => true,
-            'sabados'      => false,
-            'domingos'     => false
-        ]);
-
-        Horario::create([
-            'hora'         => '9:00',
-            'actividad_id' => $actividad->id,
-            'lunes'        => true,
-            'martes'       => true,
-            'miercoles'    => true,
-            'jueves'       => true,
-            'viernes'      => true,
-            'sabados'      => false,
-            'domingos'     => false
-        ]);
-
-        Horario::create([
-            'hora'         => '9:30',
-            'actividad_id' => $actividad->id,
-            'lunes'        => true,
-            'martes'       => true,
-            'miercoles'    => true,
-            'jueves'       => true,
-            'viernes'      => true,
-            'sabados'      => false,
-            'domingos'     => false
-        ]);
-
-        Horario::create([
-            'hora'         => '10:00',
-            'actividad_id' => $actividad->id,
-            'lunes'        => true,
-            'martes'       => true,
-            'miercoles'    => true,
-            'jueves'       => true,
-            'viernes'      => true,
-            'sabados'      => false,
-            'domingos'     => false
-        ]);
-
-        Horario::create([
-            'hora'         => '10:30',
-            'actividad_id' => $actividad->id,
-            'lunes'        => true,
-            'martes'       => true,
-            'miercoles'    => true,
-            'jueves'       => true,
-            'viernes'      => true,
-            'sabados'      => false,
-            'domingos'     => false
-        ]);
-
-        Horario::create([
-            'hora'         => '11:00',
-            'actividad_id' => $actividad->id,
-            'lunes'        => true,
-            'martes'       => true,
-            'miercoles'    => true,
-            'jueves'       => true,
-            'viernes'      => true,
-            'sabados'      => false,
-            'domingos'     => false
-        ]);
-
-        Horario::create([
-            'hora'         => '11:30',
-            'actividad_id' => $actividad->id,
-            'lunes'        => true,
-            'martes'       => true,
-            'miercoles'    => true,
-            'jueves'       => true,
-            'viernes'      => true,
-            'sabados'      => false,
-            'domingos'     => false
-        ]);
-
-        Horario::create([
-            'hora'         => '12:00',
-            'actividad_id' => $actividad->id,
-            'lunes'        => true,
-            'martes'       => true,
-            'miercoles'    => true,
-            'jueves'       => true,
-            'viernes'      => true,
-            'sabados'      => false,
-            'domingos'     => false
-        ]);
-
-        Horario::create([
-            'hora'         => '12:30',
-            'actividad_id' => $actividad->id,
-            'lunes'        => true,
-            'martes'       => true,
-            'miercoles'    => true,
-            'jueves'       => true,
-            'viernes'      => true,
-            'sabados'      => false,
-            'domingos'     => false
-        ]);
-
-        Horario::create([
-            'hora'         => '13:00',
-            'actividad_id' => $actividad->id,
-            'lunes'        => true,
-            'martes'       => true,
-            'miercoles'    => true,
-            'jueves'       => true,
-            'viernes'      => true,
-            'sabados'      => false,
-            'domingos'     => false
-        ]);
-
+        Fecha::create(['fecha' => '2016-11-29', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-11-30', 'actividad_id' => $actividad->id]);
     } //run
 }
