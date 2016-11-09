@@ -259,6 +259,84 @@ class AlertaController extends Controller
     }
 
     /**
+     * Arma un layer GeoJson con el estado las alertas del dia
+     *
+     * @return geojson [description]
+     */
+    public function hoyLayer()
+    {
+        // obtengo todos los estados en un arreglo numerado con id
+        $estados = Estado::all()->getDictionary();
+
+        // obtengo los barrios con sus alertas vigentes
+        $barrios = Barrio::with('alertasHoy')->get();
+
+        // estructura de layer
+        $layer = [
+            'type' => 'FeatureCollection',
+            'features' => []
+        ];
+
+        // por cada barrio armo sus propiedades y dibujo en el layer
+        foreach ($barrios as $barrio) {
+
+            // me quedo con la ultima alerta
+            $alertaActual = $barrio->alertasHoy->last();
+            $estado = [];
+            $alerta = [];
+
+            // si no tiene alerta vigente genero un registro con valores predeterminados
+            if ($alertaActual === null) {
+                $estado =  [
+                    'id'     => 1,
+                    'titulo' => $estados[1]->titulo,
+                    'color'  => $estados[1]->color
+                ];
+                $alerta = [
+                    'id'          => 0,
+                    'descripcion' => '',
+                    'inicio'      => '',
+                    'fin'         => '',
+                ];
+            }
+            // si tiene alerta vigente genero un registro con sus datos
+            else {
+                $estado = [
+                    'id'     => $alertaActual->pivot->alertas_estado_id,
+                    'titulo' => $estados[$alertaActual->pivot->alertas_estado_id]->titulo,
+                    'color'  => $estados[$alertaActual->pivot->alertas_estado_id]->color
+                ];
+                $alerta = [
+                    'id'          => $alertaActual->id,
+                    'descripcion' => $alertaActual->descripcion,
+                    'inicio'      => $alertaActual->inicia_el->toDateTimeString(),
+                    'fin'         => $alertaActual->finaliza_el->toDateTimeString()
+                ];
+            }
+
+            // estructura de feature para el geojson
+            $feature = [
+                'type' => 'Feature',
+                'properties' => [
+                    'id'     => $barrio->id,
+                    'nombre' => $barrio->nombre,
+                    'estado' => $estado,
+                    'alerta' => $alerta
+                ],
+                'geometry' => [
+                    'type' => 'Polygon',
+                    'coordinates' => $barrio->geometria->coordinates
+                ],
+            ];
+
+            // agrego el feature/Barrio a la capa
+            $layer['features'][] = $feature;
+        }
+
+        return response()->json($layer, 200);
+    }
+
+    /**
      * Arma un layer GeoJson con el estado actual del servicio en los barrios
      *
      * @return geojson [description]

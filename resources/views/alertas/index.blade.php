@@ -37,7 +37,8 @@ Mapa de alertas
 
         <div class="row">
           <div class="col-xs-12">
-            <button id="btn-vigentes" class="btn btn-primary" type="button">Vigentes</button>
+            <button id="btn-hoy" class="btn btn-primary" type="button">Hoy</button>
+            <button id="btn-vigentes" class="btn btn-default" type="button">Vigentes</button>
             <button id="btn-futuras" class="btn btn-default" type="button">Futuras</button>
             <div id="map" style="width: 100%; height: 300px"></div>
           </div>
@@ -72,7 +73,7 @@ Mapa de alertas
 
       var map = new L.Map('map', {center: new L.LatLng(-54.8033601,-68.3172124), zoom: 13});
       var ggl = new L.Google('ROADMAP');
-      var layers = {vigentes: null, futuras: null};
+      var layers = {hoy: null, vigentes: null, futuras: null};
 
       function featureStyle(feature) {
         switch (feature.properties.estado.id) {
@@ -82,26 +83,37 @@ Mapa de alertas
         }
       }
 
+      $('#btn-hoy').on('click', function() {
+        map.removeLayer(layers.futuras);
+        map.removeLayer(layers.vigentes);
+        map.addLayer(layers.hoy);
+
+        $('#btn-futuras').removeClass('btn-primary').addClass('btn-default');
+        $('#btn-vigentes').removeClass('btn-primary').addClass('btn-default');
+
+        $(this).removeClass('btn-default').addClass('btn-primary');
+      });
+
       $('#btn-vigentes').on('click', function() {
         map.removeLayer(layers.futuras);
+        map.removeLayer(layers.hoy);
         map.addLayer(layers.vigentes);
 
-        $('#btn-futuras').removeClass('btn-primary')
-          .addClass('btn-default');
+        $('#btn-futuras').removeClass('btn-primary').addClass('btn-default');
+        $('#btn-hoy').removeClass('btn-primary').addClass('btn-default');
 
-        $(this).removeClass('btn-default')
-          .addClass('btn-primary');
+        $(this).removeClass('btn-default').addClass('btn-primary');
       });
 
       $('#btn-futuras').on('click', function() {
         map.removeLayer(layers.vigentes);
+        map.removeLayer(layers.hoy);
         map.addLayer(layers.futuras);
 
-        $('#btn-vigentes').removeClass('btn-primary')
-          .addClass('btn-default');
+        $('#btn-vigentes').removeClass('btn-primary').addClass('btn-default');
+        $('#btn-hoy').removeClass('btn-primary').addClass('btn-default');
 
-        $(this).removeClass('btn-default')
-          .addClass('btn-primary');
+        $(this).removeClass('btn-default').addClass('btn-primary');
       });
 
       // add control for tile layers
@@ -114,11 +126,22 @@ Mapa de alertas
       // default tile layer
       map.addLayer(ggl);
 
+      $.getJSON('{{ route('api::v1::alertas::hoy.layer') }}')
+        .done(function(data) {
+          layers.hoy = L.geoJson(data, {
+            style: featureStyle
+          }).addTo(map);
+
+          layers.hoy.on('click', function(event) {
+            console.log(event.layer.feature.properties);
+          });
+        });
+
       $.getJSON('{{ route('api::v1::alertas::vigentes.layer') }}')
         .done(function(data) {
           layers.vigentes = L.geoJson(data, {
             style: featureStyle
-          }).addTo(map);
+          });
 
           layers.vigentes.on('click', function(event) {
             console.log(event.layer.feature.properties);

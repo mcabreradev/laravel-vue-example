@@ -44,6 +44,11 @@ Route::group([
             'as'   => 'alertas::estado-servicio'
         ]);
 
+        Route::get('alertas/hoy/layer', [
+            'uses' => 'Alertas\AlertaController@hoyLayer',
+            'as'   => 'alertas::hoy.layer'
+        ]);
+
         Route::get('alertas/vigentes/layer', [
             'uses' => 'Alertas\AlertaController@vigentesLayer',
             'as'   => 'alertas::vigentes.layer'
