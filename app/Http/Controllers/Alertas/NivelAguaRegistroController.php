@@ -107,7 +107,7 @@ class NivelAguaRegistroController extends Controller
             'titulo'        => $registro->nivelAgua->titulo,
             'descripcion'   => $registro->nivelAgua->descripcion,
             'color'         => $registro->nivelAgua->color,
-            'registrado_el' => $registro->registrado_el
+            'registrado_el' => $registro->registrado_el->toW3cString()
         ];
 
         return response()->json($response, 200);
