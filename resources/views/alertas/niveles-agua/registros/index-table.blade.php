@@ -8,7 +8,7 @@
     <tbody>
       @foreach($registros as $registro)
         <tr>
-          <td>{{ date('d/m/Y H:i:s', strtotime($registro->registrado_el)) }}</td>
+          <td>{{ $registro->registrado_el->format('d/m/Y H:i') }}</td>
           <td>{{ $registro->nivelAgua->titulo }}</td>
           <td>
             <form method="POST" action="{{ route('alertas::registros-nivel-agua.destroy', $registro->id) }}">

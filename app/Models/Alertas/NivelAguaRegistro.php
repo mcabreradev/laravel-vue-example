@@ -14,6 +14,13 @@ class NivelAguaRegistro extends AppModel
     protected $fillable = ['registrado_el'];
 
     /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = ['registrado_el'];
+
+    /**
      * [nivelAguaPlanta description]
      * @return [type] [description]
      */
