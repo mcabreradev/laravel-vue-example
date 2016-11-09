@@ -309,8 +309,8 @@ class AlertaController extends Controller
                 $alerta = [
                     'id'          => $alertaActual->id,
                     'descripcion' => $alertaActual->descripcion,
-                    'inicio'      => $alertaActual->inicia_el->toDateTimeString(),
-                    'fin'         => $alertaActual->finaliza_el->toDateTimeString()
+                    'inicio'      => $alertaActual->inicia_el->toW3cString(),
+                    'fin'         => $alertaActual->finaliza_el->toW3cString()
                 ];
             }
 
@@ -387,8 +387,8 @@ class AlertaController extends Controller
                 $alerta = [
                     'id'          => $alertaActual->id,
                     'descripcion' => $alertaActual->descripcion,
-                    'inicio'      => $alertaActual->inicia_el->toDateTimeString(),
-                    'fin'         => $alertaActual->finaliza_el->toDateTimeString()
+                    'inicio'      => $alertaActual->inicia_el->toW3cString(),
+                    'fin'         => $alertaActual->finaliza_el->toW3cString()
                 ];
             }
 
@@ -465,8 +465,8 @@ class AlertaController extends Controller
                 $alerta = [
                     'id'          => $alertaFutura->id,
                     'descripcion' => $alertaFutura->descripcion,
-                    'inicio'      => $alertaFutura->inicia_el->toDateTimeString(),
-                    'fin'         => $alertaFutura->finaliza_el->toDateTimeString()
+                    'inicio'      => $alertaFutura->inicia_el->toW3cString(),
+                    'fin'         => $alertaFutura->finaliza_el->toW3cString()
                 ];
             }
 
@@ -518,8 +518,8 @@ class AlertaController extends Controller
             // agrego la alerta a la salida
             $gacetillas[] = [
                 'descripcion' => $alerta->descripcion,
-                'inicio'      => $alerta->inicia_el->toDateTimeString(),
-                'fin'         => $alerta->finaliza_el->toDateTimeString(),
+                'inicio'      => $alerta->inicia_el->toW3cString(),
+                'fin'         => $alerta->finaliza_el->toW3cString(),
                 'barrios'     => $barriosAfectados
             ];
         }
