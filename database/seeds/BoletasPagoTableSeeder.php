@@ -12,6 +12,8 @@ class BoletasPagoTableSeeder extends Seeder
      */
     public function run()
     {
+        ini_set('memory_limit', '2048M');
+
         $boletasJson = json_decode(Storage::disk('seeds-files')
             ->get('data-import.json'));
 
