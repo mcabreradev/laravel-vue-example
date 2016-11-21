@@ -12,7 +12,7 @@ class AddUniqueIndexTurnosTable extends Migration
      */
     public function up()
     {
-        Schema::connection('pgsql-turnos')->table('turnos', function (Blueprint $table) {
+        Schema::connection('turnos')->table('turnos', function (Blueprint $table) {
             $table->unique(['actividad_id', 'fecha', 'hora'], 'unique_turno');
         });
     }
@@ -24,7 +24,7 @@ class AddUniqueIndexTurnosTable extends Migration
      */
     public function down()
     {
-        Schema::connection('pgsql-turnos')->table('turnos', function (Blueprint $table) {
+        Schema::connection('turnos')->table('turnos', function (Blueprint $table) {
             $table->dropUnique('unique_turno');
         });
     }

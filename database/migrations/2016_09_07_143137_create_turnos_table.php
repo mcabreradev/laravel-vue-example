@@ -12,7 +12,7 @@ class CreateTurnosTable extends Migration
      */
     public function up()
     {
-        Schema::connection('pgsql-turnos')->create('turnos', function (Blueprint $table) {
+        Schema::connection('turnos')->create('turnos', function (Blueprint $table) {
             $table->increments('id');
             $table->timestamps();
             $table->date('fecha')->index();
@@ -43,6 +43,6 @@ class CreateTurnosTable extends Migration
      */
     public function down()
     {
-        Schema::connection('pgsql-turnos')->drop('turnos');
+        Schema::connection('turnos')->drop('turnos');
     }
 }
