@@ -25,7 +25,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body
+<body id="app"
     @section('body-attributes')
       class="hold-transition skin-blue fixed"
     @show

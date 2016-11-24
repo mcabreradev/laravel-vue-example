@@ -15,7 +15,7 @@ class CreatePrioridadesTable extends Migration
         Schema::connection('solicitudes')->create('prioridades', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->mediumText('description')->nullable();
+            $table->mediumText('descripcion')->nullable();
             $table->string('color')->nullable();
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreatePrioridadesTable extends Migration
      */
     public function down()
     {
-        Schema::connection('solicitudes')->drop('prioridades');
+        Schema::connection('solicitudes')->dropIfExists('prioridades');
     }
 }

@@ -14,14 +14,24 @@
   "dependencies": {
     "admin-lte": "^2.3.6",
     "bootstrap": "^3.3.7",
+    "bootstrap-material-datetimepicker": "https://github.com/T00rk/bootstrap-material-datetimepicker/tarball/gh-pages",
+    "datatables.net": "^1.10.12",
+    "datatables.net-bs": "^1.10.12",
+    "datatables.net-responsive-bs": "^2.1.0",
     "dropzone": "^4.3.0",
     "fastclick": "^1.0.6",
     "jquery": "^3.1.0",
     "jquery-slimscroll": "^1.3.8",
+    "laravel-elixir-vue": "^0.1.8",
+    "laravel-elixir-webpack-official": "^1.0.9",
     "leaflet": "^0.7.7",
     "leaflet-plugins": "^2.0.0",
     "moment": "^2.14.1",
     "sweetalert": "^1.1.3",
-    "vue": "^1.0.26"
+    "vue": "^1.0.28",
+    "vue-datatable": "^1.0.4",
+    "vue-datatables": "^0.1.4",
+    "vue-resource": "^1.0.3",
+    "vuejs-datatable": "^0.6.0"
   }
 }

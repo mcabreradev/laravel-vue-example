@@ -181,6 +181,11 @@ return [
          */
         Milon\Barcode\BarcodeServiceProvider::class,
 
+        /**
+        * https://github.com/Cyvelnet/laravel5-fractal
+        */
+        Cyvelnet\Laravel5Fractal\Laravel5FractalServiceProvider::class,
+
     ],
 
     /*
@@ -246,6 +251,11 @@ return [
          * https://github.com/milon/barcode
          */
         'DNS1D' => 'Milon\Barcode\Facades\DNS1DFacade',
+
+        /**
+        * https://github.com/Cyvelnet/laravel5-fractal
+        */
+        'Fractal' => Cyvelnet\Laravel5Fractal\Facades\Fractal::class
     ],
 
 ];

@@ -11,7 +11,7 @@ class Turno extends AppModel
      *
      * @var string
      */
-    protected $connection = 'pgsql-turnos';
+    protected $connection = 'turnos';
 
     /**
      * The table associated with the model.

@@ -15,7 +15,7 @@ class CreateTiposTable extends Migration
         Schema::connection('solicitudes')->create('tipos', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->mediumText('description')->nullable();
+            $table->mediumText('descripcion')->nullable();
             $table->string('color')->nullable();
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreateTiposTable extends Migration
      */
     public function down()
     {
-        Schema::connection('solicitudes')->drop('tipos');
+        Schema::connection('solicitudes')->dropIfExists('tipos');
     }
 }

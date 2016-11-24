@@ -252,5 +252,22 @@ Route::group(['middleware' => ['auth']], function() {
 
     }); // turnos group
 
+    /**
+     * Solicitudes
+     */
+    Route::group([
+        'namespace' => 'Solicitudes',
+        'as'        => 'solicitudes::',
+        'prefix'    => 'solicitudes'
+    ], function() {
+
+
+        Route::get('estados', [
+            'as'   => 'estados',
+            'uses' => 'EstadosController@main'
+        ]);
+
+    }); // Solicitudes group
+
 
 });

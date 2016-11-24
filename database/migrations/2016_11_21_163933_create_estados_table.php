@@ -15,7 +15,7 @@ class CreateEstadosTable extends Migration
         Schema::connection('solicitudes')->create('estados', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->mediumText('description')->nullable();
+            $table->mediumText('descripcion')->nullable();
             $table->string('color')->nullable();
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreateEstadosTable extends Migration
      */
     public function down()
     {
-        Schema::connection('solicitudes')->drop('estados');
+        Schema::connection('solicitudes')->dropIfExists('estados');
     }
 }

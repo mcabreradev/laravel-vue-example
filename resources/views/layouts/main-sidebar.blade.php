@@ -44,6 +44,23 @@
           <li><a href="{{ route('turnos::index') }}">Turnos asignados</a></li>
         </ul>
       </li>
+      <li class="treeview">
+        <a href="#">
+          <span>Reclamos</span><i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li>
+            <a href="#">Configuraci&oacute;n<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+            <ul class="treeview-menu">
+              <li><a href="{{ route('turnos::index') }}">Tipos</a></li>
+              <li><a href="{{ route('turnos::index') }}">Origenes</a></li>
+              <li><a href="{{ route('turnos::index') }}">Prioridades</a></li>
+              <li><a href="{{ route('solicitudes::estados') }}">Estados</a></li>
+            </ul>
+          </li>
+
+        </ul>
+      </li>
     </ul>
     <!-- /.sidebar-menu -->
   </section>
