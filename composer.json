@@ -9,7 +9,8 @@
         "laravel/framework": "5.2.*",
         "laracasts/flash": "^2.0",
         "elibyy/tcpdf-laravel": "^5.2",
-        "milon/barcode": "^5.2"
+        "milon/barcode": "^5.2",
+        "cyvelnet/laravel5-fractal": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

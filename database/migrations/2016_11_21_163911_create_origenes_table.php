@@ -15,7 +15,7 @@ class CreateOrigenesTable extends Migration
         Schema::connection('solicitudes')->create('origenes', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->mediumText('description')->nullable();
+            $table->mediumText('descripcion')->nullable();
             $table->string('color')->nullable();
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ class CreateOrigenesTable extends Migration
      */
     public function down()
     {
-        Schema::connection('solicitudes')->drop('origenes');
+        Schema::connection('solicitudes')->dropIfExists('origenes');
     }
 }
