@@ -1,5 +1,6 @@
 <template>
   <div class="box box-primary">
+
     <div class="box-header with-border">
       <h3 class="box-title">Lista de {{ model }}s</h3>
     </div>
@@ -64,6 +65,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">Agregar {{ model }}</h4>
           </div>
+
           <form class="form-horizontal" type="POST">
             <div class="modal-body smart-modal-form">
               <div class="messages"></div>
@@ -84,6 +86,7 @@
               <!--<button v-on:click="greet">Greet</button>-->
             </div>
           </form>
+
         </div>
         <!-- /.modal-content -->
       </div>
