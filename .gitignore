@@ -10,6 +10,9 @@ public/compiled
 # IDEA IDE
 .idea
 
+# VSCODE
+.vscode
+
 # https://github.com/barryvdh/laravel-ide-helper
 _ide_helper.php
 
