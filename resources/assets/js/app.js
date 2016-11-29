@@ -7,10 +7,23 @@
 require('./bootstrap');
 
 /**
+ * Filtros utiles
+ */
+Vue.filter('dateOnly', function (value) {
+  return moment(value).format('DD/MM/Y');
+});
+
+Vue.filter('hourSecondsOnly', function (value) {
+  return moment(value, 'HH:mm:ss').format('HH:mm');
+});
+
+
+/**
  * Lista de Componentes
  */
-
 Vue.component('smart-table', require('./components/Smart/Table/SmartTable.vue'));
+Vue.component('turnos-table', require('./components/turnos/TurnosTable.vue'));
+
 
 const app = new Vue({
   el: '#app'
