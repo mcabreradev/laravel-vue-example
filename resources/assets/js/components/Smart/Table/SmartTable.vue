@@ -232,11 +232,20 @@
            },
 
            destroy: function(id){
-             if(!confirm('¿Estás seguro/a?')) return;
-
-             this.showLoading().$http.delete(`${API}/${this.url}/${id}`).then((res) => {
-                this.rows = _.reject(this.rows, {'id':id});
-                this.reloadSmartTable().hideLoading();
+              swal({
+                title: "Estás seguro/a?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                confirmButtonText: "Si, borrar",
+                closeOnConfirm: false
+              },
+              function(){
+                this.showLoading();
+                this.$http.delete(`${API}/${this.url}/${id}`).then((res) => {
+                  this.rows = _.reject(this.rows, {'id':id});
+                  this.reloadSmartTable().hideLoading();
+                });
               });
            },
 
