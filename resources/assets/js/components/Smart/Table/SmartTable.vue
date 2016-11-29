@@ -35,11 +35,11 @@
               <td>
                 <div>
                   <a role="button" class='btn btn-primary btn-sm' v-on:click="updateModal(row.id)" data-toggle="modal" data-target="#modal">
-                    <span class="fa fa-pencil">Editar</span>
+                    <span class="fa fa-pencil"></span>
                   </a>
 
                   <a role="button" class="btn btn-danger btn-sm" v-on:click="destroy(row.id)">
-                    <span class="fa fa-trash">Borrar</span>
+                    <span class="fa fa-trash"></span>
                   </a>
                 </div>
               </td>
