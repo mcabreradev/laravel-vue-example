@@ -12,7 +12,7 @@ class CreateFechasTable extends Migration
      */
     public function up()
     {
-        Schema::connection('pgsql-turnos')->create('fechas', function (Blueprint $table) {
+        Schema::connection('turnos')->create('fechas', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->date('fecha');
             $table->timestamps();
@@ -33,6 +33,6 @@ class CreateFechasTable extends Migration
      */
     public function down()
     {
-        Schema::connection('pgsql-turnos')->drop('fechas');
+        Schema::connection('turnos')->drop('fechas');
     }
 }

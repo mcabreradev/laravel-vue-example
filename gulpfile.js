@@ -4,11 +4,13 @@ var fs = require('fs');
 var gulp = require('gulp');
 var elixir = require('laravel-elixir');
 
+require('laravel-elixir-vue-2');
+
 var modernizr = require('modernizr');
 var modernizrConfig = require('./modernizr-config'); // path to JSON config
 
-gulp.task( 'modernizr', function (done) {
-  modernizr.build(modernizrConfig, function(code) {
+gulp.task('modernizr', function (done) {
+  modernizr.build(modernizrConfig, function (code) {
     fs.writeFile('./public/compiled/js/modernizr/modernizr-build.js', code, done);
   });
 });
@@ -25,7 +27,7 @@ gulp.task( 'modernizr', function (done) {
  |
  */
 
-elixir(function(mix) {
+elixir(function (mix) {
   // compile sass
   mix.sass(['app.scss'], 'public/compiled/css');
 
@@ -61,10 +63,17 @@ elixir(function(mix) {
   mix.copy('node_modules/moment/min', 'public/compiled/js/momentjs');
 
   // https://github.com/T00rk/bootstrap-material-datetimepicker
-  mix.copy('bower_components/bootstrap-material-datetimepicker', 'public/compiled/js/bootstrap-material-datetimepicker');
+  mix.copy('node_modules/bootstrap-material-datetimepicker', 'public/compiled/js/bootstrap-material-datetimepicker');
 
   // modernizr
   mix.copy('modernizr-config.json', 'public/compiled/js/modernizr/modernizr-config.json');
   mix.task('modernizr');
+
+  // datatables
+  mix.copy('node_modules/datatables.net-bs', 'public/compiled/vendors/datatables');
+  mix.copy('node_modules/datatables.net/js', 'public/compiled/vendors/datatables/js');
+
+  // Webpack
+  mix.webpack('app.js');
 
 });

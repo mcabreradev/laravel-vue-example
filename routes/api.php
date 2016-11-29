@@ -103,5 +103,20 @@ Route::group([
             ])->where('id', '[0-9]+');
         });
 
+        /**
+         * Solicitudes
+         */
+        Route::group([
+            'namespace' => 'Solicitudes',
+            'prefix'    => 'solicitudes',
+            'as'        => 'solicitudes::'
+        ], function()
+        {
+            Route::resource('estados', 'EstadosController');
+            Route::resource('origenes', 'OrigenesController');
+            Route::resource('prioridades', 'PrioridadesController');
+            Route::resource('tipos', 'TiposController');
+        });// Solicitudes
+
     }); // v1 group
 }); // api group

@@ -252,5 +252,38 @@ Route::group(['middleware' => ['auth']], function() {
 
     }); // turnos group
 
+    /**
+     * Solicitudes
+     */
+    Route::group([
+        'namespace' => 'Solicitudes',
+        'as'        => 'solicitudes::',
+        'prefix'    => 'solicitudes'
+    ], function() {
+
+
+        Route::get('estados', [
+            'as'   => 'estados',
+            'uses' => 'EstadosController@main'
+        ]);
+
+        Route::get('origenes', [
+            'as'   => 'origenes',
+            'uses' => 'OrigenesController@main'
+        ]);
+
+        Route::get('prioridades', [
+            'as'   => 'prioridades',
+            'uses' => 'PrioridadesController@main'
+        ]);
+
+        Route::get('tipos', [
+            'as'   => 'tipos',
+            'uses' => 'TiposController@main'
+        ]);
+
+
+    }); // Solicitudes group
+
 
 });
