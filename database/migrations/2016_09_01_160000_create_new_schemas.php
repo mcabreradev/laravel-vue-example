@@ -12,8 +12,8 @@ class CreateNewSchemas extends Migration
      */
     public function up()
     {
-        Schema::getConnection()->statement('CREATE SCHEMA turnos');
-        Schema::getConnection()->statement('CREATE SCHEMA solicitudes');
+        Schema::getConnection()->statement('CREATE SCHEMA IF NOT EXISTS turnos');
+        Schema::getConnection()->statement('CREATE SCHEMA IF NOT EXISTS solicitudes');
     }
 
     /**
