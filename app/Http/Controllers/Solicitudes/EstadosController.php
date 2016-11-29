@@ -17,14 +17,16 @@ class EstadosController extends ApiController
     }
 
     public function index() {
-        // $estados = Estado::paginate(10);
         $estados = Estado::all();
 
         return $this->respondWith($estados, new EstadoTransformer);
     }
 
     public function store(Request $request) {
-        return Estado::create($request);
+
+        Estado::create($request->all());
+
+        return $this->respondWithOk(201, 'Added');
     }
 
     public function show($id) {
@@ -35,9 +37,9 @@ class EstadosController extends ApiController
 
     public function update(Request $request, $id) {
         $estado = Estado::findOrFail($id);
-        $estado->update($request);
+        $estado->update($request->all());
 
-        return $estado;
+        return $this->respondWithOk(201, 'Updated');
     }
 
     public function destroy($id) {

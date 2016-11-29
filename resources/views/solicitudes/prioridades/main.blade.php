@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Estados <small>Configuraci&oacute;n</small>
+  Prioridades <small>Configuraci&oacute;n</small>
 @endsection
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('solicitudes::estados') }}">Estados</a></li>
+<li><a href="{{ route('solicitudes::prioridades') }}">Prioridades</a></li>
 @endsection
 
 
@@ -18,9 +18,9 @@
     @include('flash::message')
 
     <smart-table
-      :model='{singular: "Estado", plural: "Estados"}'
+      :model='{singular: "Prioridad", plural: "Prioridades"}'
       :show-tfoot="false"
-      :url="'solicitudes/estados'"
+      :url="'solicitudes/prioridades'"
       :fields="['nombre', 'descripcion', 'color']"
     ></smart-table>
 

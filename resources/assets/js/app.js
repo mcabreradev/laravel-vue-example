@@ -10,7 +10,7 @@ require('./bootstrap');
  * Lista de Componentes
  */
 
-Vue.component('smart-table', require('./components/Smart/Table/table.component.vue'));
+Vue.component('smart-table', require('./components/Smart/Table/SmartTable.vue'));
 
 const app = new Vue({
   el: '#app'

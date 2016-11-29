@@ -113,7 +113,9 @@ Route::group([
         ], function()
         {
             Route::resource('estados', 'EstadosController');
-
+            Route::resource('origenes', 'OrigenesController');
+            Route::resource('prioridades', 'PrioridadesController');
+            Route::resource('tipos', 'TiposController');
         });// Solicitudes
 
     }); // v1 group

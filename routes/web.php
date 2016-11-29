@@ -267,6 +267,22 @@ Route::group(['middleware' => ['auth']], function() {
             'uses' => 'EstadosController@main'
         ]);
 
+        Route::get('origenes', [
+            'as'   => 'origenes',
+            'uses' => 'OrigenesController@main'
+        ]);
+
+        Route::get('prioridades', [
+            'as'   => 'prioridades',
+            'uses' => 'PrioridadesController@main'
+        ]);
+
+        Route::get('tipos', [
+            'as'   => 'tipos',
+            'uses' => 'TiposController@main'
+        ]);
+
+
     }); // Solicitudes group
 
 
