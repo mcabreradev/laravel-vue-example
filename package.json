@@ -1,12 +1,11 @@
 {
   "private": true,
   "scripts": {
-    "install:deps": "npm install && bower install",
+    "install:deps": "npm install",
     "build": "gulp --production",
     "watch": "gulp watch"
   },
   "devDependencies": {
-    "bower": "^1.7.9",
     "gulp": "^3.9.1",
     "laravel-elixir": "^6.0.0-10",
     "modernizr": "^3.3.1"
