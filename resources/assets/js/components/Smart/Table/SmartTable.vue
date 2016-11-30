@@ -8,48 +8,63 @@
     <!--box-body-->
     <div class="box-body">
 
-      <div class="col-md-12 mb-25">
-         <button class="btn btn-primary pull pull-right" v-on:click="createModal" name="btnadd" data-toggle="modal" data-target="#modal" id="modalBtn">
-          <i class="fa fa-plus"></i> Agregar {{ model.singular }}
-        </button>
+      <div class="row">
+        <div class="col-md-12 mb-25">
+          <button class="btn btn-primary pull pull-right" v-on:click="createModal" name="btnadd" data-toggle="modal" data-target="#modal" id="modalBtn">
+            <i class="fa fa-plus"></i> Agregar {{ model.singular }}
+          </button>
+        </div>
       </div>
 
-      <!-- Table container -->
-      <div class="col-md-12 table-container">
-        <table id="smartTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
-          <thead>
-            <tr>
-              <th v-for="field in fields">{{ field }}</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tfoot v-if="showTfoot">
-            <tr>
-              <th v-for="field in fields">{{ field }}</th>
-              <th>Acciones</th>
-            </tr>
-          </tfoot>
-          <tbody>
-            <tr v-for="row in rows">
-              <td v-for="field in fields">{{ row[field] }}</td>
-              <td>
-                <div>
-                  <a role="button" class='btn btn-primary btn-sm' v-on:click="updateModal(row.id)" data-toggle="modal" data-target="#modal">
-                    <span class="fa fa-pencil"></span>
-                  </a>
+      <div class="row">
+        <!-- Table container -->
+        <div class="col-md-12 table-container table-responsive">
+          <table id="smartTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                <th v-for="field in fields">{{ field.title }}</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tfoot v-if="showTfoot">
+              <tr>
+                <th v-for="field in fields">{{ field.title }}</th>
+                <th>Acciones</th>
+              </tr>
+            </tfoot>
+            <tbody>
+              <tr v-for="row in rows">
+                <td v-for="field in fields">
+                  <!-- si es un imput de color / colorpicker -->
+                  <div v-if="field.name === 'color'"
+                    role="button"
+                    v-bind:style="{'background-color': row[field.name]}"
+                    class="color-square"
+                    v-on:click="updateModal(row.id)"
+                    data-toggle="modal"
+                    data-target="#modal">
+                  </div>
 
-                  <a role="button" class="btn btn-danger btn-sm" v-on:click="destroy(row.id)">
-                    <span class="fa fa-trash"></span>
-                  </a>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                  <div v-else>{{ row[field.name] }}</div>
+                </td>
+                <td>
+                  <div>
+                    <a role="button" class='btn btn-primary btn-sm' v-on:click="updateModal(row.id)" data-toggle="modal" data-target="#modal">
+                      <span class="fa fa-pencil"></span>
+                    </a>
+
+                    <a role="button" class="btn btn-danger btn-sm" v-on:click="destroy(row.id)">
+                      <span class="fa fa-trash"></span>
+                    </a>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!--End table container-->
       </div>
-      <!--End table container-->
 
-      <!-- End Table container -->
     </div>
     <!--end box-body-->
 
@@ -71,17 +86,36 @@
               <div class="messages"></div>
 
               <!--Loop de columnas-->
-              <div class="form-group" v-for="field in fields">
-                <label v-bind:for="field" class="col-sm-2 control-label">{{ field }}</label>
+              <div class="form-group" v-for="field in fields" :key="field.id">
+                <label v-bind:for="field" class="col-sm-2 control-label">{{ field.title }}</label>
                 <div class="col-sm-10">
 
-                  <input type="text"
+                  <input v-if="field.type === 'text'"
                     class="form-control"
-                    v-bind:id="field"
-                    v-model="data[field]"
-                    v-bind:name="field"
-                    v-bind:placeholder="field"
-                    required>
+                    type="text"
+                    v-bind:id="field.id"
+                    v-model="data[field.name]"
+                    v-bind:name="field.name"
+                    v-bind:placeholder="field.title"
+                    v-bind:required="field.required">
+
+                  <input v-if="field.type === 'color'"
+                    class="form-control"
+                    type="color"
+                    v-bind:id="field.id"
+                    v-model="data[field.name]"
+                    v-bind:name="field.name"
+                    v-bind:placeholder="field.title"
+                    v-bind:required="field.required">
+
+                  <textarea v-if="field.type === 'textarea'"
+                    class="form-control"
+                    v-bind:id="field.id"
+                    v-model="data[field.name]"
+                    v-bind:name="field.name"
+                    v-bind:placeholder="field.title"
+                    v-bind:required="field.required">
+                  </textarea>
 
                 </div>
               </div>
@@ -213,6 +247,8 @@
             },
 
             create: function(){
+              console.log(this.data);
+
               $('#modal').modal('toggle');
               this.$http.post(`${API}/${this.url}`, this.data).then((res) => {
                 this.showLoading().reloadSmartTable().hideLoading();
@@ -254,9 +290,9 @@
 </script>
 
 <style lang="sass" scoped>
-
-  th, .smart-modal-form label, .smart-modal-form input[placeholder] {
-    text-transform: capitalize;
+  .color-square{
+    height: 20px;
+    width: 20px;
+    border: 1px solid #9e9e9e;
   }
-
 </style>

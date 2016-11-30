@@ -49,7 +49,17 @@ Vue.http.interceptors.push((request, next) => {
   next();
 });
 
+
+/**
+* Experimental Bootstrap vue components
+*/
+
+import BootstrapVue from 'bootstrap-vue';
+Vue.use(BootstrapVue);
+
+
 /**
 * Config
 */
+
 require('./config');

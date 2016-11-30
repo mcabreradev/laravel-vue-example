@@ -21,7 +21,11 @@
       :model='{singular: "Tipo", plural: "Tipos"}'
       :show-tfoot="false"
       :url="'solicitudes/tipos'"
-      :fields="['nombre', 'descripcion', 'color']"
+      :fields="[
+        {name: 'nombre', title: 'Nombre', type: 'text', required: true},
+        {name: 'descripcion', title:'Descripción', type: 'textarea'},
+        {name: 'color', title: 'Color', type: 'color'}
+        ]"
     ></smart-table>
 
   </div>
