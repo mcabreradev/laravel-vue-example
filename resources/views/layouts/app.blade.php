@@ -33,7 +33,7 @@
         </div> <!-- /.content-wrapper -->
 
         <!-- Main Footer -->
-        {{-- @include('layouts.footer') --}}
+        @include('layouts.footer')
 
         <!-- Control Sidebar -->
         {{-- @include('layouts.alternative-sidebar') --}}
