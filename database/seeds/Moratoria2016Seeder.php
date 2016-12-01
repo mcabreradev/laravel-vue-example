@@ -16,30 +16,29 @@ class Moratoria2016Seeder extends Seeder
     {
         $actividad = Actividad::first();
 
-        Fecha::create(['fecha' => '2016-11-01', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-22', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-03', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-04', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-01', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-02', 'actividad_id' => $actividad->id]);
 
-        Fecha::create(['fecha' => '2016-11-07', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-08', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-09', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-10', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-11', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-05', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-06', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-07', 'actividad_id' => $actividad->id]);
 
-        Fecha::create(['fecha' => '2016-11-14', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-15', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-16', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-17', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-18', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-12', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-13', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-14', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-15', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-16', 'actividad_id' => $actividad->id]);
 
-        Fecha::create(['fecha' => '2016-11-21', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-22', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-23', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-24', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-25', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-19', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-20', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-21', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-22', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-23', 'actividad_id' => $actividad->id]);
 
-        Fecha::create(['fecha' => '2016-11-29', 'actividad_id' => $actividad->id]);
-        Fecha::create(['fecha' => '2016-11-30', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-26', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-27', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-28', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-29', 'actividad_id' => $actividad->id]);
+        Fecha::create(['fecha' => '2016-12-30', 'actividad_id' => $actividad->id]);
     } //run
 }
