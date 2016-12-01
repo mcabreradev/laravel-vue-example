@@ -186,6 +186,11 @@ return [
         */
         Cyvelnet\Laravel5Fractal\Laravel5FractalServiceProvider::class,
 
+        /**
+        * https://github.com/LaravelBA/laravel-js-routes
+        */
+        LaravelBA\LaravelJsRoutes\LaravelJsRoutesServiceProvider::class,
+
     ],
 
     /*

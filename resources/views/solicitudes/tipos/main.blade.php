@@ -19,7 +19,6 @@
 
     <smart-table
       :model='{singular: "Tipo", plural: "Tipos"}'
-      :show-tfoot="false"
       :url="'solicitudes/tipos'"
       :fields="[
         {name: 'nombre', title: 'Nombre', type: 'text', required: true},

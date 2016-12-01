@@ -107,9 +107,9 @@ Route::group([
          * Solicitudes
          */
         Route::group([
-            'namespace' => 'Solicitudes',
-            'prefix'    => 'solicitudes',
-            'as'        => 'solicitudes::'
+            'namespace'  => 'Solicitudes',
+            'prefix'     => 'solicitudes',
+            'as'         => 'solicitudes::'
         ], function()
         {
             Route::resource('estados', 'EstadosController');

@@ -3,11 +3,12 @@
 var fs = require('fs');
 var gulp = require('gulp');
 var elixir = require('laravel-elixir');
-
-require('laravel-elixir-vue-2');
-
+var shell = require('gulp-shell');
+var task = elixir.Task;
 var modernizr = require('modernizr');
 var modernizrConfig = require('./modernizr-config'); // path to JSON config
+
+require('laravel-elixir-vue-2');
 
 gulp.task('modernizr', function (done) {
   modernizr.build(modernizrConfig, function (code) {
@@ -15,6 +16,11 @@ gulp.task('modernizr', function (done) {
   });
 });
 
+elixir.extend('routes', function(message) {
+  new task('routes', function() {
+    return gulp.src('').pipe(shell('php artisan routes:javascript'));
+  });
+});
 
 /*
  |--------------------------------------------------------------------------
@@ -72,6 +78,9 @@ elixir(function (mix) {
   // datatables
   mix.copy('node_modules/datatables.net-bs', 'public/compiled/vendors/datatables');
   mix.copy('node_modules/datatables.net/js', 'public/compiled/vendors/datatables/js');
+
+  // Routes from laravel to javascript
+  mix.routes();
 
   // Webpack
   mix.webpack('app.js');

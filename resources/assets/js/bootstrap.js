@@ -59,6 +59,13 @@ Vue.use(BootstrapVue);
 
 
 /**
+* Laravel routes
+*/
+
+window.Router = require('./routes.js');
+
+
+/**
 * Config
 */
 

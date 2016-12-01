@@ -295,4 +295,20 @@
     width: 20px;
     border: 1px solid #9e9e9e;
   }
+
+  .modal-header {
+    border-bottom-color: #f4f4f4;
+    background-color: #3c8dbc;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .close{
+    color: #fff;
+    opacity: 0.7;
+  }
+
+  .close:hover{
+    opacity: 0.9;
+  }
 </style>
