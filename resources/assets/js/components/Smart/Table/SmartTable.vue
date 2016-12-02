@@ -9,7 +9,7 @@
     <div class="box-body">
 
       <div class="row">
-        <div class="col-md-12 mb-25">
+        <div class="col-md-12 col-sm-12 col-xs-12 mb-25">
           <button class="btn btn-primary pull pull-right" v-on:click="createModal" name="btnadd" data-toggle="modal" data-target="#modal" id="modalBtn">
             <i class="fa fa-plus"></i> Agregar {{ model.singular }}
           </button>
@@ -18,49 +18,58 @@
 
       <div class="row">
         <!-- Table container -->
-        <div class="col-md-12 table-container table-responsive">
-          <table id="smartTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
-            <thead>
-              <tr>
-                <th v-for="field in fields">{{ field.title }}</th>
-                <th>Acciones</th>
-              </tr>
-            </thead>
-            <tfoot v-if="showTfoot">
-              <tr>
-                <th v-for="field in fields">{{ field.title }}</th>
-                <th>Acciones</th>
-              </tr>
-            </tfoot>
-            <tbody>
-              <tr v-for="row in rows">
-                <td v-for="field in fields">
-                  <!-- si es un imput de color / colorpicker -->
-                  <div v-if="field.name === 'color'"
-                    role="button"
-                    v-bind:style="{'background-color': row[field.name]}"
-                    class="color-square"
-                    v-on:click="updateModal(row.id)"
-                    data-toggle="modal"
-                    data-target="#modal">
-                  </div>
+        <div class="col-md-12 col-sm-12 col-xs-12 table-container">
 
-                  <div v-else>{{ row[field.name] }}</div>
-                </td>
-                <td>
-                  <div>
-                    <a role="button" class='btn btn-primary btn-sm' v-on:click="updateModal(row.id)" data-toggle="modal" data-target="#modal">
-                      <span class="fa fa-pencil"></span>
-                    </a>
+          <div class="table-responsive">
+            <table id="smartTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th v-for="field in fields">{{ field.title }}</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tfoot v-if="showTfoot">
+                <tr>
+                  <th v-for="field in fields">{{ field.title }}</th>
+                  <th>Acciones</th>
+                </tr>
+              </tfoot>
+              <tbody>
+                <tr v-for="row in rows">
+                  <td v-for="field in fields">
+                    <!-- si es un imput de color / colorpicker -->
+                    <div v-if="field.name === 'color'"
+                      role="button"
+                      v-bind:style="{'background-color': row[field.name]}"
+                      class="color-square"
+                      v-on:click="updateModal(row.id)"
+                      data-toggle="modal"
+                      data-target="#modal">
+                    </div>
 
-                    <a role="button" class="btn btn-danger btn-sm" v-on:click="destroy(row.id)">
-                      <span class="fa fa-trash"></span>
-                    </a>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+                    <div v-else>{{ row[field.name] }}</div>
+                  </td>
+                  <td>
+                    <!--<div class="btn-group inline">
+                      <button type="button" class="btn btn-primary btn-sm"><span class="fa fa-pencil"></span></button>
+                      <button type="button" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></button>
+                    </div>-->
+
+                    <div class="">
+                      <a role="button" class='btn btn-primary btn-sm' v-on:click="updateModal(row.id)" data-toggle="modal" data-target="#modal">
+                        <span class="fa fa-pencil"></span>
+                      </a>
+
+                      <a role="button" class="btn btn-danger btn-sm" v-on:click="destroy(row.id)">
+                        <span class="fa fa-trash"></span>
+                      </a>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
         </div>
         <!--End table container-->
       </div>
@@ -90,32 +99,10 @@
                 <label v-bind:for="field" class="col-sm-2 control-label">{{ field.title }}</label>
                 <div class="col-sm-10">
 
-                  <input v-if="field.type === 'text'"
-                    class="form-control"
-                    type="text"
-                    v-bind:id="field.id"
-                    v-model="data[field.name]"
-                    v-bind:name="field.name"
-                    v-bind:placeholder="field.title"
-                    v-bind:required="field.required">
-
-                  <input v-if="field.type === 'color'"
-                    class="form-control"
-                    type="color"
-                    v-bind:id="field.id"
-                    v-model="data[field.name]"
-                    v-bind:name="field.name"
-                    v-bind:placeholder="field.title"
-                    v-bind:required="field.required">
-
-                  <textarea v-if="field.type === 'textarea'"
-                    class="form-control"
-                    v-bind:id="field.id"
-                    v-model="data[field.name]"
-                    v-bind:name="field.name"
-                    v-bind:placeholder="field.title"
-                    v-bind:required="field.required">
-                  </textarea>
+                  <s-input
+                    :field="field"
+                    :data="data">
+                  </s-input>
 
                 </div>
               </div>
@@ -140,153 +127,173 @@
 </template>
 
 <script>
+  import { Lang } from './table.lang.js';
 
-    import { Lang } from './table.lang.js';
+  Vue.component('s-input', require('../Input/SmartInput.vue'));
 
-    export default {
-        name: 'SmartTable',
-        props: {
-            fields: {
-                type: Array,
-                default: () => [],
-                required: true
-            },
-            showTfoot:{
-                type: Boolean,
-                default: false
-            },
-            model:{
-                type: Object,
-                default: function(){
-                  return {singular:'', plural: ''};
-                },
-            },
-            url:{
-                type: String,
-                default: '',
-                required: true
-            }
+  export default {
+    name: 'SmartTable',
+    props: {
+      fields: {
+        type: Array,
+        default: () => [],
+        required: true
+      },
+      showTfoot: {
+        type: Boolean,
+        default: false
+      },
+      model: {
+        type: Object,
+        default: function() {
+          return {
+            singular: '',
+            plural: ''
+          };
         },
+      },
+      url: {
+        type: String,
+        default: '',
+        required: true
+      }
+    },
 
-        data : function() {
-            return {
-                rows : [],
-                data: {},
-                modal: {},
-            }
-        },
+    data: function() {
+      return {
+        rows: [],
+        data: {},
+        modal: {},
+      }
+    },
 
-        mounted() {
-          this.setObjectsFromFormFields()
-              .fetchDataFromApi();
-        },
+    mounted() {
 
-        methods : {
-            showLoading: function(){
-              $('.loading-indicator').show();
+      this.setObjectsFromFormFields()
+        .fetchDataFromApi()
+        .makeDomFixes();
+    },
 
-              return this;
-            },
+    methods: {
+      showLoading: function() {
+        $('.loading-indicator').show();
 
-            hideLoading: function(){
-              setTimeout(() => {
-                $('.loading-indicator').hide();
-              }, 500);
+        return this;
+      },
 
-              return this;
-            },
+      hideLoading: function() {
+        setTimeout(() => {
+          $('.loading-indicator').hide();
+        }, 500);
 
-            setObjectsFromFormFields: function(){
-              _.each(this.fields, (val)=>{
-                this.data[val] = '';
+        return this;
+      },
+
+      setObjectsFromFormFields: function() {
+        _.each(this.fields, (val) => {
+          this.data[val] = '';
+        });
+
+        return this;
+      },
+
+      fetchDataFromApi: function() {
+        this.showLoading().$http.get(`${API}/${this.url}`).then((res) => {
+          if (res.ok) {
+            this.rows = res.body.data;
+          }
+          this.startSmartTable().hideLoading();
+        });
+
+        return this;
+      },
+
+      startSmartTable: function() {
+        setTimeout(function() {
+          this.table = $('#smartTable').DataTable({
+            "language": Lang,
+            "aoColumnDefs": [{
+              'bSortable': false,
+              'aTargets': [-1]
+            }],
+          });
+        }, 50);
+
+        return this;
+      },
+
+      reloadSmartTable: function() {
+        $('#smartTable').DataTable({
+          destroy: true
+        }).destroy();
+        this.fetchDataFromApi();
+
+        return this;
+      },
+
+      makeDomFixes: function(){
+        setTimeout(function(){
+          window.$('#smartTable_length, #smartTable_filter').parent().addClass('col-xs-6')
+          window.$('#smartTable_wrapper').addClass('mt-20 ');
+          console.log('dom fixed!');
+        },'2000');
+
+        return this;
+      },
+
+      submit: function(type) {
+        (type == 'create') ? this.create(): this.update();
+      },
+
+      createModal: function() {
+        this.data = {}; // Initalized as empty object :)
+        this.modal = {
+          type: 'Agregar',
+          action: 'create'
+        };
+      },
+
+      create: function() {
+        $('#modal').modal('toggle');
+        this.$http.post(`${API}/${this.url}`, this.data).then((res) => {
+          this.showLoading().reloadSmartTable().hideLoading();
+        });
+      },
+
+      updateModal: function(id) {
+        this.data = _.find(this.rows, {'id': id}); // Find the current data in the row array, and load the modal input
+        this.modal = {type: 'Editar', action: 'update'};
+      },
+
+      update: function() {
+        this.$http.put(`${API}/${this.url}/${this.data.id}`, this.data).then((res) => {
+          this.showLoading().reloadSmartTable().hideLoading();
+          $('#modal').modal('toggle');
+        });
+      },
+
+      destroy: function(id) {
+        swal({
+            title: "Estás seguro/a?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            confirmButtonText: "Si, borrar",
+            closeOnConfirm: false
+          },
+          function() {
+            this.showLoading();
+            this.$http.delete(`${API}/${this.url}/${id}`).then((res) => {
+              this.rows = _.reject(this.rows, {
+                'id': id
               });
+              this.reloadSmartTable().hideLoading();
+            });
+          });
+      },
 
-              return this;
-            },
-
-            fetchDataFromApi : function(){
-              this.showLoading().$http.get(`${API}/${this.url}`).then((res) => {
-                if (res.ok) {
-                  this.rows = res.body.data;
-                }
-                this.startSmartTable().hideLoading();
-              });
-
-              return this;
-            },
-
-            startSmartTable: function(){
-              setTimeout(function(){
-                this.table = $('#smartTable' ).DataTable({
-                  "language": Lang,
-                  "aoColumnDefs": [
-                    { 'bSortable': false, 'aTargets': [ -1 ] }
-                  ],
-                });
-              }, 50);
-
-              return this;
-            },
-
-            reloadSmartTable: function(){
-              $('#smartTable' ).DataTable({
-                destroy: true
-              }).destroy();
-              this.fetchDataFromApi();
-
-              return this;
-            },
-
-            submit: function(type){
-              (type == 'create') ? this.create() : this.update();
-            },
-
-            createModal: function(){
-              this.data = {}; // Initalized as empty object :)
-              this.modal= {type:'Agregar', action: 'create'};
-            },
-
-            create: function(){
-              console.log(this.data);
-
-              $('#modal').modal('toggle');
-              this.$http.post(`${API}/${this.url}`, this.data).then((res) => {
-                this.showLoading().reloadSmartTable().hideLoading();
-              });
-           },
-
-           updateModal: function(id){
-             this.data = _.find(this.rows, {'id':id}); // Find the current data in the row array, and load the modal inputs
-             this.modal= {type:'Editar', action: 'update'};
-           },
-
-           update: function(){
-             this.$http.put(`${API}/${this.url}/${this.data.id}`, this.data).then((res) => {
-                this.showLoading().reloadSmartTable().hideLoading();
-                $('#modal').modal('toggle');
-              });
-           },
-
-           destroy: function(id){
-              swal({
-                title: "Estás seguro/a?",
-                type: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                confirmButtonText: "Si, borrar",
-                closeOnConfirm: false
-              },
-              function(){
-                this.showLoading();
-                this.$http.delete(`${API}/${this.url}/${id}`).then((res) => {
-                  this.rows = _.reject(this.rows, {'id':id});
-                  this.reloadSmartTable().hideLoading();
-                });
-              });
-           },
-
-        }
     }
+  }
 </script>
 
 <style lang="sass" scoped>
