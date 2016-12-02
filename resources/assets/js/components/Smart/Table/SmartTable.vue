@@ -50,12 +50,7 @@
                     <div v-else>{{ row[field.name] }}</div>
                   </td>
                   <td>
-                    <!--<div class="btn-group inline">
-                      <button type="button" class="btn btn-primary btn-sm"><span class="fa fa-pencil"></span></button>
-                      <button type="button" class="btn btn-danger btn-sm"><span class="fa fa-trash"></span></button>
-                    </div>-->
-
-                    <div class="">
+                    <div>
                       <a role="button" class='btn btn-primary btn-sm' v-on:click="updateModal(row.id)" data-toggle="modal" data-target="#modal">
                         <span class="fa fa-pencil"></span>
                       </a>
@@ -277,7 +272,7 @@
             title: "Estás seguro/a?",
             type: "warning",
             showCancelButton: true,
-            confirmButtonColor: "#3085d6",
+            confirmButtonColor: "#DD6B55",
             confirmButtonText: "Si, borrar",
             closeOnConfirm: false
           },
