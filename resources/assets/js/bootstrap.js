@@ -36,6 +36,7 @@ window.Vue = require('vue');
 
 require('vue-resource');
 
+window.Events = new Vue({});
 
 /**
  * We'll register a HTTP interceptor to attach the "CSRF" header to each of

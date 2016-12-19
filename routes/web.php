@@ -261,26 +261,61 @@ Route::group(['middleware' => ['auth']], function() {
         'prefix'    => 'solicitudes'
     ], function() {
 
-
+        // Estados
         Route::get('estados', [
             'as'   => 'estados',
             'uses' => 'EstadosController@main'
         ]);
+        Route::get('estados/create', [
+            'as'   => 'estados.create',
+            'uses' => 'EstadosController@create'
+        ]);
+        Route::get('estados/edit/{id}', [
+            'as'   => 'estados.edit',
+            'uses' => 'EstadosController@edit'
+        ])->where('id', '[0-9]+');
 
+        // Origenes
         Route::get('origenes', [
             'as'   => 'origenes',
             'uses' => 'OrigenesController@main'
         ]);
+        Route::get('origenes/create', [
+            'as'   => 'origenes.create',
+            'uses' => 'OrigenesController@create'
+        ]);
+        Route::get('origenes/edit/{id}', [
+            'as'   => 'origenes.edit',
+            'uses' => 'OrigenesController@edit'
+        ])->where('id', '[0-9]+');
 
+        // Prioridades
         Route::get('prioridades', [
             'as'   => 'prioridades',
             'uses' => 'PrioridadesController@main'
         ]);
+        Route::get('prioridades/create', [
+            'as'   => 'prioridades.create',
+            'uses' => 'PrioridadesController@create'
+        ]);
+        Route::get('prioridades/edit/{id}', [
+            'as'   => 'prioridades.edit',
+            'uses' => 'PrioridadesController@edit'
+        ])->where('id', '[0-9]+');
 
+        // Tipos
         Route::get('tipos', [
             'as'   => 'tipos',
             'uses' => 'TiposController@main'
         ]);
+        Route::get('tipos/create', [
+            'as'   => 'tipos.create',
+            'uses' => 'TiposController@create'
+        ]);
+        Route::get('tipos/edit/{id}', [
+            'as'   => 'tipos.edit',
+            'uses' => 'TiposController@edit'
+        ])->where('id', '[0-9]+');
 
 
     }); // Solicitudes group

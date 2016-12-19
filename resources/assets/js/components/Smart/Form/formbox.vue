@@ -1,0 +1,78 @@
+<template>
+  <div>
+    <div class="row">
+      <div class="col-xs-12">
+        <div class="box"> <!-- BOX -->
+
+          <div class="box-header with-border">
+            <h3 class="box-title text-capital">{{ model.singular }}</h3>
+          </div>
+
+          <div class="box-body">
+            <s-form :fields="fields" :form="form"></s-form>
+          </div>
+
+          <s-indicator :is-active="true"></s-indicator>
+
+        </div> <!-- BOX end -->
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+
+  export default {
+    name: 's-formbox',
+
+    props: {
+      type: {
+        type: String,
+        default: () => { return '' },
+        required: true
+      },
+      fields: {
+        type: Array,
+        default: () => { return [] },
+        required: true
+      },
+      model: {
+        type: Object,
+        default: () => {
+          return { singular: '', plural: '' };
+        },
+      },
+      url: {
+        type: Object,
+        default: () => { return {} },
+        required: true
+      },
+      item: {
+        type: Object,
+        default: () => { return {} },
+        required: false
+      }
+    },
+
+    data: function() {
+      var vm = this;
+      return {
+        form: {
+          apiRoute: _.join([API, vm.url.simple, ''], '.'),
+          model: vm.model,
+          type: vm.type,
+          action: vm.type == 'create' ? 'Guardar' : 'Editar',
+          routes:{
+            toIndex: Router.route(vm.url.doble) ,
+          },
+          data: vm.item,
+        },
+      }
+    },
+
+    mounted(){
+
+    },
+
+  }
+</script>

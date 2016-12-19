@@ -22,6 +22,18 @@ class TiposController extends ApiController
         return $this->respondWith($tipos, new TipoTransformer);
     }
 
+    public function create(){
+
+        return view('solicitudes.tipos.create');
+    }
+
+    public function edit($id) {
+        $tipo = Tipo::findOrFail($id);
+
+        return view('solicitudes.tipos.edit', ['item' => $tipo->toJson()]);
+    }
+
+
     public function store(Request $request) {
 
         Tipo::create($request->all());

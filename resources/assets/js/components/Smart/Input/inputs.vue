@@ -31,7 +31,7 @@
 
 <script>
   export default {
-    name: 'SmartInput',
+    name: 's-inputs',
     props: ['field', 'data'],
   }
 </script>

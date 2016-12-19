@@ -2,7 +2,7 @@
   <div class="box box-primary">
 
     <div class="box-header with-border">
-      <h3 class="box-title">Lista de {{ model.plural }}</h3>
+      <h3 class="box-title">Lista de <span class="text-capital">{{ model.plural }}</span></h3>
     </div>
 
     <!--box-body-->
@@ -10,9 +10,14 @@
 
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12 mb-25">
-          <button class="btn btn-primary pull pull-right" v-on:click="createModal" name="btnadd" data-toggle="modal" data-target="#modal" id="modalBtn">
-            <i class="fa fa-plus"></i> Agregar {{ model.singular }}
+          <button class="btn btn-primary pull pull-right" v-if="hasModal" v-on:click="createModal" name="btnadd" data-toggle="modal" data-target="#modal" id="modalBtn">
+            <i class="fa fa-plus"></i> Agregar <span class="text-capital">{{ model.singular }}</span>
           </button>
+
+          <a :href="route.create" class="btn btn-primary pull pull-right" v-else name="btnadd">
+            <i class="fa fa-plus"></i> Agregar <span class="text-capital">{{ model.singular }}</span>
+          </a>
+
         </div>
       </div>
 
@@ -51,7 +56,11 @@
                   </td>
                   <td>
                     <div>
-                      <a role="button" class='btn btn-primary btn-sm' v-on:click="updateModal(row.id)" data-toggle="modal" data-target="#modal">
+                      <a role="button" class='btn btn-primary btn-sm' v-if="hasModal" v-on:click="updateModal(row.id)" data-toggle="modal" data-target="#modal">
+                        <span class="fa fa-pencil"></span>
+                      </a>
+
+                      <a :href="route.edit(row.id)" class="btn btn-primary btn-sm" v-else>
                         <span class="fa fa-pencil"></span>
                       </a>
 
@@ -72,9 +81,7 @@
     </div>
     <!--end box-body-->
 
-    <div class="overlay loading-indicator" style="display: none;">
-      <i class="fa fa-refresh fa-spin"></i>
-    </div>
+    <s-indicator></s-indicator>
 
     <!-- main modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="modal">
@@ -82,7 +89,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">{{ modal.type }} {{ model.singular }}</h4>
+            <h4 class="modal-title">{{ modal.type }} <span class="text-capital">{{ model.singular }}</span></h4>
           </div>
 
           <form class="form-horizontal" v-on:submit.prevent="submit(modal.action)">
@@ -94,10 +101,10 @@
                 <label v-bind:for="field" class="col-sm-2 control-label">{{ field.title }}</label>
                 <div class="col-sm-10">
 
-                  <s-input
+                  <s-inputs
                     :field="field"
                     :data="data">
-                  </s-input>
+                  </s-inputs>
 
                 </div>
               </div>
@@ -122,47 +129,58 @@
 </template>
 
 <script>
+
   import { Lang } from './table.lang.js';
 
-  Vue.component('s-input', require('../Input/SmartInput.vue'));
-
   export default {
-    name: 'SmartTable',
+    name: 's-table',
+
     props: {
       fields: {
         type: Array,
-        default: () => [],
+        default: () => { return [] },
         required: true
       },
       showTfoot: {
         type: Boolean,
         default: false
       },
+      hasModal: {
+        type: Boolean,
+        default: true
+      },
       model: {
         type: Object,
         default: function() {
-          return {
-            singular: '',
-            plural: ''
-          };
+          return { singular: '', plural: '' };
         },
       },
       url: {
-        type: String,
-        default: '',
+        type: Object,
+        default: () => { return {} },
         required: true
       }
     },
 
     data: function() {
+      var vm = this;
+
       return {
         rows: [],
         data: {},
         modal: {},
+        route: vm.hasModal ? {} : {
+          create: Router.route(vm.url.doble + '.create') ,
+          edit: function(id){
+            return Router.route(vm.url.doble + '.edit', {id:id})
+          },
+        },
+        apiRoute: _.join([API, vm.url.simple, ''], '.'),
       }
     },
 
     mounted() {
+      Events.$emit('indicator.show');
 
       this.setObjectsFromFormFields()
         .fetchDataFromApi()
@@ -170,19 +188,6 @@
     },
 
     methods: {
-      showLoading: function() {
-        $('.loading-indicator').show();
-
-        return this;
-      },
-
-      hideLoading: function() {
-        setTimeout(() => {
-          $('.loading-indicator').hide();
-        }, 500);
-
-        return this;
-      },
 
       setObjectsFromFormFields: function() {
         _.each(this.fields, (val) => {
@@ -193,11 +198,13 @@
       },
 
       fetchDataFromApi: function() {
-        this.showLoading().$http.get(`${API}/${this.url}`).then((res) => {
+
+        this.$http.get(Router.route(this.apiRoute + 'index')).then((res) => {
           if (res.ok) {
             this.rows = res.body.data;
           }
-          this.startSmartTable().hideLoading();
+          this.startSmartTable();
+          Events.$emit('indicator.hide');
         });
 
         return this;
@@ -230,7 +237,6 @@
         setTimeout(function(){
           window.$('#smartTable_length, #smartTable_filter').parent().addClass('col-xs-6')
           window.$('#smartTable_wrapper').addClass('mt-20 ');
-          console.log('dom fixed!');
         },'2000');
 
         return this;
@@ -249,9 +255,13 @@
       },
 
       create: function() {
+        Events.$emit('indicator.show');
+
         $('#modal').modal('toggle');
-        this.$http.post(`${API}/${this.url}`, this.data).then((res) => {
-          this.showLoading().reloadSmartTable().hideLoading();
+
+        this.$http.post(Router.route(this.apiRoute + 'store'), this.data).then((res) => {
+          this.reloadSmartTable();
+          Events.$emit('indicator.hide');
         });
       },
 
@@ -261,29 +271,34 @@
       },
 
       update: function() {
-        this.$http.put(`${API}/${this.url}/${this.data.id}`, this.data).then((res) => {
-          this.showLoading().reloadSmartTable().hideLoading();
+        Events.$emit('indicator.show');
+
+        this.$http.put(Router.route(this.apiRoute + 'update', { [this.model.plural] : this.data.id}), this.data).then((res) => {
+          this.reloadSmartTable();
+          Events.$emit('indicator.hide');
           $('#modal').modal('toggle');
         });
       },
 
       destroy: function(id) {
+        var vm = this;
+
         swal({
             title: "Estás seguro/a?",
             type: "warning",
             showCancelButton: true,
             confirmButtonColor: "#DD6B55",
             confirmButtonText: "Si, borrar",
-            closeOnConfirm: false
+            closeOnConfirm: true
           },
           function() {
-            this.showLoading();
-            this.$http.delete(`${API}/${this.url}/${id}`).then((res) => {
-              this.rows = _.reject(this.rows, {
-                'id': id
-              });
-              this.reloadSmartTable().hideLoading();
+            Events.$emit('indicator.show');
+            vm.$http.delete(Router.route(vm.apiRoute + 'destroy', { [vm.model.plural] : id})).then((res) => {
+              vm.rows = _.reject(vm.rows, {'id': id});
+              vm.reloadSmartTable();
+              Events.$emit('indicator.hide');
             });
+
           });
       },
 

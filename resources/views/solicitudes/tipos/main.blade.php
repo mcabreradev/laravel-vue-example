@@ -17,15 +17,16 @@
 
     @include('flash::message')
 
-    <smart-table
-      :model='{singular: "Tipo", plural: "Tipos"}'
-      :url="'solicitudes/tipos'"
+    <s-table
+      :model='{singular: "tipo", plural: "tipos"}'
+      :url="{simple: 'solicitudes.tipos', doble:'solicitudes::tipos'}"
+      :has-modal="false"
       :fields="[
         {name: 'nombre', title: 'Nombre', type: 'text', required: true},
         {name: 'descripcion', title:'Descripción', type: 'textarea'},
         {name: 'color', title: 'Color', type: 'color'}
         ]"
-    ></smart-table>
+    ></s-table>
 
   </div>
 </div>
