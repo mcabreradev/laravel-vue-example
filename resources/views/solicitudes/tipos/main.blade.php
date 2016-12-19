@@ -20,7 +20,7 @@
     <s-table
       :model='{singular: "tipo", plural: "tipos"}'
       :url="{simple: 'solicitudes.tipos', doble:'solicitudes::tipos'}"
-      :has-modal="false"
+      :has-modal="true"
       :fields="[
         {name: 'nombre', title: 'Nombre', type: 'text', required: true},
         {name: 'descripcion', title:'Descripción', type: 'textarea'},

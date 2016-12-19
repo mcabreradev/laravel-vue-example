@@ -1,19 +1,19 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Tipos <small>Configuraci&oacute;n</small>
+  Origenes <small>Configuraci&oacute;n</small>
 @endsection
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('solicitudes::tipos') }}">Tipos</a></li>
+<li><a href="{{ route('solicitudes::origenes') }}">Origenes</a></li>
 @endsection
 
 
 @section('content')
 <s-formbox
-  :model='{singular: "tipo", plural: "tipos"}'
-  :url="{simple: 'solicitudes.tipos', doble:'solicitudes::tipos'}"
+  :model='{singular: "origen", plural: "origenes"}'
+  :url="{simple: 'solicitudes.origenes', doble:'solicitudes::origenes'}"
   :type="'create'"
   :fields="[
     {name: 'nombre', title: 'Nombre', type: 'text', required: true},

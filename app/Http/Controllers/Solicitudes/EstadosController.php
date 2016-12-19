@@ -16,6 +16,17 @@ class EstadosController extends ApiController
         return view('solicitudes.estados.main');
     }
 
+    public function create(){
+
+        return view('solicitudes.estados.create');
+    }
+
+    public function edit($id) {
+        $data = Estado::findOrFail($id);
+
+        return view('solicitudes.estados.edit', ['item' => $data->toJson()]);
+    }
+
     public function index() {
         $estados = Estado::all();
 

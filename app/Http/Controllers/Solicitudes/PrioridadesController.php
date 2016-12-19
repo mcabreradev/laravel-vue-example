@@ -16,6 +16,17 @@ class PrioridadesController extends ApiController
         return view('solicitudes.prioridades.main');
     }
 
+    public function create(){
+
+        return view('solicitudes.prioridades.create');
+    }
+
+    public function edit($id) {
+        $data = Prioridad::findOrFail($id);
+
+        return view('solicitudes.prioridades.edit', ['item' => $data->toJson()]);
+    }
+
     public function index() {
         $prioridades = Prioridad::all();
 

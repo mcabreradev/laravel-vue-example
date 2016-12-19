@@ -16,6 +16,17 @@ class OrigenesController extends ApiController
         return view('solicitudes.origenes.main');
     }
 
+    public function create(){
+
+        return view('solicitudes.origenes.create');
+    }
+
+    public function edit($id) {
+        $data = Origen::findOrFail($id);
+
+        return view('solicitudes.origenes.edit', ['item' => $data->toJson()]);
+    }
+
     public function index() {
         $origenes = Origen::all();
 

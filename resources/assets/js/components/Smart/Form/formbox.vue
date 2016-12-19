@@ -5,7 +5,7 @@
         <div class="box"> <!-- BOX -->
 
           <div class="box-header with-border">
-            <h3 class="box-title text-capital">{{ model.singular }}</h3>
+            <h3 class="box-title">{{ form.action }} <span class="text-capital">{{ model.singular }}</span></h3>
           </div>
 
           <div class="box-body">
@@ -61,7 +61,7 @@
           apiRoute: _.join([API, vm.url.simple, ''], '.'),
           model: vm.model,
           type: vm.type,
-          action: vm.type == 'create' ? 'Guardar' : 'Editar',
+          action: vm.type == 'create' ? 'Agregar' : 'Editar',
           routes:{
             toIndex: Router.route(vm.url.doble) ,
           },
