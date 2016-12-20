@@ -9,10 +9,10 @@
           </div>
 
           <div class="box-body">
-            <s-form :fields="fields" :form="form"></s-form>
+            <panal-form :fields="fields" :form="form"></panal-form>
           </div>
 
-          <s-indicator :is-active="true"></s-indicator>
+          <panal-indicator :is-active="true"></panal-indicator>
 
         </div> <!-- BOX end -->
       </div>
@@ -23,7 +23,7 @@
 <script>
 
   export default {
-    name: 's-formbox',
+    name: 'p-box',
 
     props: {
       type: {

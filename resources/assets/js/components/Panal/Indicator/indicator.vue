@@ -8,7 +8,7 @@
 
   export default {
 
-    name: 's-indicator',
+    name: 'panal-indicator',
 
      props: {
       isActive: {

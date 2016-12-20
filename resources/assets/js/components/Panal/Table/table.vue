@@ -81,7 +81,7 @@
     </div>
     <!--end box-body-->
 
-    <s-indicator></s-indicator>
+    <panal-indicator></panal-indicator>
 
     <!-- main modal -->
     <div class="modal fade" tabindex="-1" role="dialog" id="modal">
@@ -101,10 +101,10 @@
                 <label v-bind:for="field" class="col-sm-2 control-label">{{ field.title }}</label>
                 <div class="col-sm-10">
 
-                  <s-inputs
+                  <panal-inputs
                     :field="field"
                     :data="data">
-                  </s-inputs>
+                  </panal-inputs>
 
                 </div>
               </div>
@@ -133,7 +133,7 @@
   import { Lang } from './table.lang.js';
 
   export default {
-    name: 's-table',
+    name: 'panal-table',
 
     props: {
       fields: {
@@ -255,13 +255,17 @@
       },
 
       create: function() {
+        var vm = this;
         Events.$emit('indicator.show');
 
         $('#modal').modal('toggle');
 
-        this.$http.post(Router.route(this.apiRoute + 'store'), this.data).then((res) => {
-          this.reloadSmartTable();
+        vm.$http.post(Router.route(vm.apiRoute + 'store'), vm.data).then((res) => {
+          vm.reloadSmartTable();
           Events.$emit('indicator.hide');
+
+        },(err) =>{
+          console.error('Error: ', err);
         });
       },
 
@@ -271,10 +275,11 @@
       },
 
       update: function() {
+        var vm = this;
         Events.$emit('indicator.show');
 
-        this.$http.put(Router.route(this.apiRoute + 'update', { [this.model.plural] : this.data.id}), this.data).then((res) => {
-          this.reloadSmartTable();
+        vm.$http.put(Router.route(vm.apiRoute + 'update', { [vm.model.plural] : vm.data.id}), vm.data).then((res) => {
+          vm.reloadSmartTable();
           Events.$emit('indicator.hide');
           $('#modal').modal('toggle');
         });

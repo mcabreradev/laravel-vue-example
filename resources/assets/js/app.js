@@ -21,7 +21,8 @@ Vue.filter('hourSecondsOnly', function (value) {
 /**
  * Lista de Componentes
  */
-Vue.component('smart-components', require('./components/Smart/main.vue'));
+require('./components/Panal/index.js')
+
 Vue.component('turnos-table', require('./components/turnos/TurnosTable.vue'));
 
 const app = new Vue({

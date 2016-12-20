@@ -31,7 +31,7 @@
 
 <script>
   export default {
-    name: 's-inputs',
+    name: 'panal-inputs',
     props: ['field', 'data'],
   }
 </script>

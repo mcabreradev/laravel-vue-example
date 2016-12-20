@@ -3,7 +3,7 @@
     <form v-on:submit.prevent="submit(form.type)">
       <div class="form-group" v-for="field in fields" :key="field.id">
         <label v-bind:for="field">{{ field.title }}</label>
-        <s-inputs :field="field" :data="data"></s-inputs>
+        <panal-inputs :field="field" :data="data"></panal-inputs>
       </div>
 
       <div class="pull-right">
@@ -21,7 +21,7 @@
 <script>
 
   export default {
-    name: 's-form',
+    name: 'panal-form',
 
     props: {
       fields: {
