@@ -548,7 +548,7 @@ class AlertaController extends Controller
             ->count();
 
         $estadoServicio->vigente = ($vigentes > 0 ? 'Algunos barrios afectados' : 'Funcionando normalmente');
-        $estadoServicio->futuro  = ($futuras > 0 ? 'Algunos barrios afectados' : 'Sin incovenientes');
+        $estadoServicio->futuro  = ($futuras > 0 ? 'Algunos barrios afectados' : 'Sin inconvenientes');
 
         return response()->json($estadoServicio, 200);
     }
