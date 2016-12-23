@@ -113,6 +113,8 @@ Route::group(['prefix' => 'v2'], function () {
         Route::resource('origenes', 'OrigenesController');
         Route::resource('prioridades', 'PrioridadesController');
         Route::resource('tipos', 'TiposController');
+        Route::resource('solicitantes', 'SolicitantesController');
+        Route::resource('solicitudes', 'SolicitudesController');
     });// Solicitudes
 
 });

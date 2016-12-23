@@ -17,16 +17,16 @@
 
     @include('flash::message')
 
-    <s-table
+    <panal-table
       :model='{singular: "tipo", plural: "tipos"}'
       :url="{simple: 'solicitudes.tipos', doble:'solicitudes::tipos'}"
-      :has-modal="true"
+      :has-modal="false"
       :fields="[
         {name: 'nombre', title: 'Nombre', type: 'text', required: true},
         {name: 'descripcion', title:'Descripción', type: 'textarea'},
         {name: 'color', title: 'Color', type: 'color'}
         ]"
-    ></s-table>
+    ></panal-table>
 
   </div>
 </div>

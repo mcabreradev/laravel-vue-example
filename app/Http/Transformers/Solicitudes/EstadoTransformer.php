@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Transformers;
+namespace App\Http\Transformers\Solicitudes;
 
 use App\Models\Solicitudes\Estado;
 use League\Fractal\TransformerAbstract;

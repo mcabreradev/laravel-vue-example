@@ -6,7 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\Solicitudes\Tipo;
 use App\Http\Controllers\ApiController;
-use App\Http\Transformers\TipoTransformer;
+use App\Http\Transformers\Solicitudes\TipoTransformer;
 
 class TiposController extends ApiController
 {
@@ -50,12 +50,12 @@ class TiposController extends ApiController
         $tipo = Tipo::findOrFail($id);
         $tipo->update($request->all());
 
-        return $this->respondWithOk(201, 'Updated');
+        return $this->respondWithOk(200, 'Updated');
     }
 
     public function destroy($id) {
         Tipo::destroy($id);
 
-        return $this->respondWithOk(201, 'Deleted');
+        return $this->respondWithOk(200, 'Deleted');
     }
 }

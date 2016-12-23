@@ -6,7 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\Solicitudes\Origen;
 use App\Http\Controllers\ApiController;
-use App\Http\Transformers\OrigenTransformer;
+use App\Http\Transformers\Solicitudes\OrigenTransformer;
 
 class OrigenesController extends ApiController
 {

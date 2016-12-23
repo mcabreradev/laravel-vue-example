@@ -17,7 +17,7 @@
 
     @include('flash::message')
 
-    <s-table
+    <panal-table
       :model='{singular: "prioridad", plural: "prioridades"}'
       :url="{simple: 'solicitudes.prioridades', doble:'solicitudes::prioridades'}"
       :has-modal="true"
@@ -26,7 +26,7 @@
         {name: 'descripcion', title:'Descripción', type: 'textarea'},
         {name: 'color', title: 'Color', type: 'color'}
         ]"
-    ></s-table>
+    ></panal-table>
 
   </div>
 </div>

@@ -52,14 +52,6 @@ Vue.http.interceptors.push((request, next) => {
 
 
 /**
-* Experimental Bootstrap vue components
-*/
-
-import BootstrapVue from 'bootstrap-vue';
-Vue.use(BootstrapVue);
-
-
-/**
 * Laravel routes
 */
 
@@ -71,3 +63,9 @@ window.Router = require('./routes.js');
 */
 
 require('./config');
+
+/**
+* Filters
+*/
+
+require('./filters');

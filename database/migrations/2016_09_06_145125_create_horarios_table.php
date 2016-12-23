@@ -40,6 +40,6 @@ class CreateHorariosTable extends Migration
      */
     public function down()
     {
-        Schema::connection('turnos')->drop('horarios');
+        Schema::connection('turnos')->dropIfExists('horarios');
     }
 }

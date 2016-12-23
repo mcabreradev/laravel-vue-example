@@ -6,7 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\Solicitudes\Estado;
 use App\Http\Controllers\ApiController;
-use App\Http\Transformers\EstadoTransformer;
+use App\Http\Transformers\Solicitudes\EstadoTransformer;
 
 class EstadosController extends ApiController
 {

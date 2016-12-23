@@ -43,6 +43,6 @@ class CreateTurnosTable extends Migration
      */
     public function down()
     {
-        Schema::connection('turnos')->drop('turnos');
+        Schema::connection('turnos')->dropIfExists('turnos');
     }
 }

@@ -33,6 +33,6 @@ class CreateFechasTable extends Migration
      */
     public function down()
     {
-        Schema::connection('turnos')->drop('fechas');
+        Schema::connection('turnos')->dropIfExists('fechas');
     }
 }

@@ -318,6 +318,54 @@ Route::group(['middleware' => ['auth']], function() {
         ])->where('id', '[0-9]+');
 
 
+        // Solicitantes
+        Route::get('solicitantes', [
+            'as'   => 'solicitantes',
+            'uses' => 'SolicitantesController@main'
+        ]);
+        Route::get('solicitantes/create', [
+            'as'   => 'solicitantes.create',
+            'uses' => 'SolicitantesController@create'
+        ]);
+        Route::get('solicitantes/edit/{id}', [
+            'as'   => 'solicitantes.edit',
+            'uses' => 'SolicitantesController@edit'
+        ])->where('id', '[0-9]+');
+
+        Route::post('solicitantes', [
+            'as'   => 'solicitantes.store',
+            'uses' => 'SolicitantesController@store'
+        ]);
+
+        Route::put('solicitantes/{id}', [
+            'as'   => 'solicitantes.update',
+            'uses' => 'SolicitantesController@update'
+        ])->where('id', '[0-9]+');
+
+        // Solicitudes
+        Route::get('solicitudes', [
+            'as'   => 'solicitudes',
+            'uses' => 'SolicitudesController@main'
+        ]);
+        Route::get('solicitudes/create', [
+            'as'   => 'solicitudes.create',
+            'uses' => 'SolicitudesController@create'
+        ]);
+        Route::get('solicitudes/edit/{id}', [
+            'as'   => 'solicitudes.edit',
+            'uses' => 'SolicitudesController@edit'
+        ])->where('id', '[0-9]+');
+
+        Route::post('solicitudes', [
+            'as'   => 'solicitudes.store',
+            'uses' => 'SolicitudesController@store'
+        ]);
+
+        Route::put('solicitudes/{id}', [
+            'as'   => 'solicitudes.update',
+            'uses' => 'SolicitudesController@update'
+        ])->where('id', '[0-9]+');
+
     }); // Solicitudes group
 
 

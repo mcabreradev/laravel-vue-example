@@ -6,7 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use App\Models\Solicitudes\Prioridad;
 use App\Http\Controllers\ApiController;
-use App\Http\Transformers\PrioridadTransformer;
+use App\Http\Transformers\Solicitudes\PrioridadTransformer;
 
 class PrioridadesController extends ApiController
 {

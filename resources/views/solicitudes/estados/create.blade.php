@@ -11,14 +11,16 @@
 
 
 @section('content')
-<s-formbox
-  :model='{singular: "estado", plural: "estados"}'
-  :url="{simple: 'solicitudes.estados', doble:'solicitudes::estados'}"
-  :type="'create'"
-  :fields="[
-    {name: 'nombre', title: 'Nombre', type: 'text', required: true},
-    {name: 'descripcion', title:'Descripción', type: 'textarea'},
-    {name: 'color', title: 'Color', type: 'color'}
-    ]">
-</s-formbox>
+
+  <panal-box
+    :model='{singular: "estado", plural: "estados"}'
+    :url="{simple: 'solicitudes.estados', doble:'solicitudes::estados'}"
+    :type="'create'"
+    :fields="[
+      {name: 'nombre', title: 'Nombre', type: 'text', required: true},
+      {name: 'descripcion', title:'Descripción', type: 'textarea'},
+      {name: 'color', title: 'Color', type: 'color'}
+      ]">
+  </panal-box>
+
 @endsection

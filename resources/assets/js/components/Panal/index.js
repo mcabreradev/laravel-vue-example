@@ -18,6 +18,8 @@
  */
 Vue.component('panal-form', require('./Form/form.vue'));
 
+Vue.component('panal-form-2', require('./Form/form.2.vue'));
+
 
 /**
  *  Panal Box
@@ -41,6 +43,8 @@ Vue.component('panal-form', require('./Form/form.vue'));
  *   </panal-box>
  */
 Vue.component('panal-box', require('./Box/box.vue'));
+
+Vue.component('panal-box-slot', require('./Box/box-slot.vue'));
 
 
 /**
@@ -84,3 +88,8 @@ Vue.component('panal-table', require('./Table/table.vue'));
  *  <panal-inputs :field="field" :data="data"></panal-inputs>
  */
 Vue.component('panal-inputs', require('./Input/inputs.vue'));
+
+// Vue.component('panal-map', require('./Map/map.vue'));
+
+
+Vue.component('panal-calendar', require('./Calendar/calendar.vue'));

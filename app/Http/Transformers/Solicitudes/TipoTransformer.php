@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Transformers;
+namespace App\Http\Transformers\Solicitudes;
 
 use App\Models\Solicitudes\Tipo;
 use League\Fractal\TransformerAbstract;
 
 class TipoTransformer extends TransformerAbstract
 {
-  public function transform(Tipo $prioridad)
+  public function transform(Tipo $tipo)
   {
 
-    return $prioridad;
+    return $tipo;
   }
 }

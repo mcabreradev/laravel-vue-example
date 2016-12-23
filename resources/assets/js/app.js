@@ -7,23 +7,10 @@
 require('./bootstrap');
 
 /**
- * Filtros utiles
- */
-Vue.filter('dateOnly', function (value) {
-  return moment(value).format('DD/MM/Y');
-});
-
-Vue.filter('hourSecondsOnly', function (value) {
-  return moment(value, 'HH:mm:ss').format('HH:mm');
-});
-
-
-/**
  * Lista de Componentes
  */
-require('./components/Panal/index.js')
-
-Vue.component('turnos-table', require('./components/turnos/TurnosTable.vue'));
+require('./components/Panal/index')
+require('./components/Turnos/index')
 
 const app = new Vue({
   el: '#app'
