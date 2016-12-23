@@ -51,40 +51,80 @@ class Solicitud extends AppModel
      */
     protected $hidden = ['created_at', 'updated_at'];
 
+    /**
+     * [$dates description]
+     * @var [type]
+     */
     protected $dates = ['created_at', 'updated_at'];
 
-    // protected $dateFormat = 'Y-m-d';
-
+    /**
+     * [getCreadoElAttribute description]
+     * @param  [type] $date [description]
+     * @return [type]       [description]
+     */
     public function getCreadoElAttribute($date){
         return date_format(date_create($date),"d-m-Y");
     }
 
+    /**
+     * [setCreadoElAttribute description]
+     * @param [type] $date [description]
+     */
     public function setCreadoElAttribute($date){
         $this->attributes['creado_el'] = Carbon::parse($date);
     }
 
+    /**
+     * [origen description]
+     * @return [type] [description]
+     */
     public function origen()
     {
         return $this->belongsTo('App\Models\Solicitudes\Origen');
     }
 
+    /**
+     * [tipo description]
+     * @return [type] [description]
+     */
     public function tipo()
     {
         return $this->belongsTo('App\Models\Solicitudes\Tipo');
     }
 
+    /**
+     * [estado description]
+     * @return [type] [description]
+     */
     public function estado()
     {
         return $this->belongsTo('App\Models\Solicitudes\Estado');
     }
 
+    /**
+     * [prioridad description]
+     * @return [type] [description]
+     */
     public function prioridad()
     {
         return $this->belongsTo('App\Models\Solicitudes\Prioridad');
     }
 
+    /**
+     * [solicitante description]
+     * @return [type] [description]
+     */
     public function solicitante()
     {
         return $this->belongsTo('App\Models\Solicitudes\Solicitante');
+    }
+
+    /**
+     * [derivaciones description]
+     * @return [type] [description]
+     */
+    public function derivaciones()
+    {
+        return $this->hasMany('App\Models\Solicitudes\Derivaciones\Derivacion', 'solicitud_id');
     }
 }

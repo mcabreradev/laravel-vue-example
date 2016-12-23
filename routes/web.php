@@ -366,6 +366,63 @@ Route::group(['middleware' => ['auth']], function() {
             'uses' => 'SolicitudesController@update'
         ])->where('id', '[0-9]+');
 
+        //   Areas
+        Route::get('areas', [
+            'as'   => 'areas',
+            'uses' => 'AreasController@main'
+        ]);
+        Route::get('areas/create', [
+            'as'   => 'areas.create',
+            'uses' => 'AreasController@create'
+        ]);
+        Route::get('areas/edit/{id}', [
+            'as'   => 'areas.edit',
+            'uses' => 'AreasController@edit'
+        ])->where('id', '[0-9]+');
+
+        /**
+         * Agentes
+         */
+        Route::get('agentes', [
+            'as'   => 'agentes',
+            'uses' => 'AgentesController@main'
+        ]);
+        Route::get('agentes/create', [
+            'as'   => 'agentes.create',
+            'uses' => 'AgentesController@create'
+        ]);
+        Route::get('agentes/edit/{id}', [
+            'as'   => 'agentes.edit',
+            'uses' => 'AgentesController@edit'
+        ])->where('id', '[0-9]+');
+
+        /**
+         * Derivaciones
+         */
+        Route::get('derivaciones', [
+            'as'   => 'derivaciones',
+            'uses' => 'DerivacionesController@main'
+        ]);
+        Route::get('derivaciones/create', [
+            'as'   => 'derivaciones.create',
+            'uses' => 'DerivacionesController@create'
+        ]);
+        Route::get('derivaciones/edit/{id}', [
+            'as'   => 'derivaciones.edit',
+            'uses' => 'DerivacionesController@edit'
+        ])->where('id', '[0-9]+');
+
+        Route::post('derivaciones', [
+            'as'   => 'derivaciones.store',
+            'uses' => 'DerivacionesController@store'
+        ]);
+
+        Route::put('derivaciones/{id}', [
+            'as'   => 'derivaciones.update',
+            'uses' => 'DerivacionesController@update'
+        ])->where('id', '[0-9]+');
+
+
     }); // Solicitudes group
 
 

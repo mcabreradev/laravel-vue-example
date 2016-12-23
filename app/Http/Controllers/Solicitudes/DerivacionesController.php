@@ -6,24 +6,21 @@ use Illuminate\Http\Request;
 
 use Flash;
 use App\Http\Requests;
-use App\Models\Solicitudes\Tipo;
-use App\Models\Solicitudes\Origen;
-use App\Models\Solicitudes\Estado;
+use App\Models\Solicitudes\Area;
 use App\Models\Solicitudes\Solicitud;
-use App\Models\Solicitudes\Prioridad;
-use App\Models\Solicitudes\Solicitante;
+use App\Models\Solicitudes\Derivacion;
 use App\Http\Controllers\ApiController;
-use App\Transformers\Solicitudes\SolicitudTransformer;
+use App\Transformers\Solicitudes\DerivacionTransformer;
 
-class SolicitudesController extends ApiController
+class DerivacionesController extends ApiController
 {
-  /**
+    /**
    * [index description]
    * @return [type] [description]
    */
 	public function index() {
-		$data = Solicitud::all();
-		return $this->respondWith($data, new SolicitudTransformer);
+		$data = Derivacion::all();
+		return $this->respondWith($data, new DerivacionTransformer);
 	}
 
   /**
@@ -31,7 +28,7 @@ class SolicitudesController extends ApiController
    * @return [type] [description]
    */
 	public function main(){
-		return view('solicitudes.solicitudes.main');
+		return view('solicitudes.derivaciones.main');
 	}
 
   /**
@@ -39,13 +36,10 @@ class SolicitudesController extends ApiController
    * @return [type] [description]
    */
 	public function create(){
-		return view('solicitudes.solicitudes.create', [
-            'solicitud' => new Solicitud(),
-            'origenes' => Origen::orderBy('nombre', 'asc')->get(),
-            'tipos' => Tipo::orderBy('nombre', 'asc')->get(),
-            'estados' => Estado::orderBy('nombre', 'asc')->get(),
-            'prioridades' => Prioridad::orderBy('nombre', 'asc')->get(),
-            'solicitantes' => Solicitante::orderBy('nombre', 'asc')->get(),
+		return view('solicitudes.derivaciones.create', [
+            'derivacion' => new Derivacion(),
+            'solicitudes' => Solicitud::all(),
+            'areas' => Area::orderBy('nombre', 'asc')->get(),
         ]);
 	}
 
@@ -55,7 +49,7 @@ class SolicitudesController extends ApiController
    * @return [type]           [description]
    */
 	public function store(Request $request) {
-		Solicitud::create($request->all());
+		Derivacion::create($request->all());
 		Flash::success('El registro se creó correctamente');
 		return redirect(route("solicitudes::solicitudes"));
 	}
@@ -66,8 +60,8 @@ class SolicitudesController extends ApiController
    * @return [type]     [description]
    */
 	public function show($id) {
-		$data = Solicitud::findOrFail($id);
-		return $this->item($data, new SolicitudTransformer);
+		$data = Derivacion::findOrFail($id);
+		return $this->item($data, new DerivacionTransformer);
 	}
 
   /**
@@ -76,13 +70,10 @@ class SolicitudesController extends ApiController
    * @return [type]     [description]
    */
 	public function edit($id) {
-		return view('solicitudes.solicitudes.edit', [
-            'solicitud' => Solicitud::findOrFail($id),
-            'origenes' => Origen::orderBy('nombre', 'asc')->get(),
-            'tipos' => Tipo::orderBy('nombre', 'asc')->get(),
-            'estados' => Estado::orderBy('nombre', 'asc')->get(),
-            'prioridades' => Prioridad::orderBy('nombre', 'asc')->get(),
-            'solicitantes' => Solicitante::orderBy('nombre', 'asc')->get(),
+		return view('solicitudes.derivaciones.edit', [
+            'derivacion' => Derivacion::findOrFail($id),
+            'solicitudes' => Solicitud::all(),
+            'areas' => Area::orderBy('nombre', 'asc')->get(),
         ]);
 	}
 
@@ -93,7 +84,7 @@ class SolicitudesController extends ApiController
    * @return [type]           [description]
    */
 	public function update(Request $request, $id) {
-		$data = Solicitud::findOrFail($id);
+		$data = Derivacion::findOrFail($id);
 		$data->update($request->all());
 		Flash::success('El registro se edito correctamente');
 		return redirect(route("solicitudes::solicitudes"));
@@ -105,7 +96,7 @@ class SolicitudesController extends ApiController
    * @return [type]     [description]
    */
 	public function destroy($id) {
-		Solicitud::destroy($id);
+		Derivacion::destroy($id);
         return $this->respondWithOk(200, 'Deleted');
 	}
 }

@@ -77,6 +77,7 @@ Vue.component('panal-indicator', require('./Indicator/indicator.vue'));
  *   </panal-table>
  */
 Vue.component('panal-table', require('./Table/table.vue'));
+Vue.component('panal-table-solicitudes', require('./Table/table.solicitudes.vue'));
 
 
 /**

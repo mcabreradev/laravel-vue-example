@@ -17,16 +17,16 @@
 
     @include('flash::message')
 
-    <panal-table
+    <panal-table-solicitudes
       :model='{singular: "solicitud", plural: "solicitudes"}'
       :url="{simple: 'solicitudes.solicitudes', doble:'solicitudes::solicitudes'}"
-      :has-modal="false"
+      :has-modal="true"
       :fields="[
         {name: 'id', title: 'Solicitud #', type: 'text', required: false},
         {name: 'creado_el', title: 'Fecha', type: 'text', required: false},
         {name: 'descripcion', title: 'Descripcion', type: 'text', required: false},
         ]"
-    ></panal-table>
+    ></panal-table-solicitudes>
 
   </div>
 </div>

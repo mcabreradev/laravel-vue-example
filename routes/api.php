@@ -115,6 +115,9 @@ Route::group(['prefix' => 'v2'], function () {
         Route::resource('tipos', 'TiposController');
         Route::resource('solicitantes', 'SolicitantesController');
         Route::resource('solicitudes', 'SolicitudesController');
+        Route::resource('areas', 'AreasController');
+        Route::resource('agentes', 'AgentesController');
+        Route::resource('derivaciones', 'DerivacionesController');
     });// Solicitudes
 
 });

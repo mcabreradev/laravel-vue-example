@@ -50,7 +50,7 @@
         </a>
         <ul class="treeview-menu">
           <li>
-            <a href="#">Configuraci&oacute;n<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
+            <a href="#">Configuración<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
             <ul class="treeview-menu">
               <li><a href="{{ route('solicitudes::estados') }}">Estados</a></li>
               <li><a href="{{ route('solicitudes::origenes') }}">Orígenes</a></li>
@@ -58,9 +58,10 @@
               <li><a href="{{ route('solicitudes::tipos') }}">Tipos</a></li>
               <li><a href="{{ route('solicitudes::solicitantes') }}">Solicitantes</a></li>
               <li><a href="{{ route('solicitudes::solicitudes') }}">Solicitudes</a></li>
+              <li><a href="{{ route('solicitudes::areas') }}">Areas</a></li>
+              <li><a href="{{ route('solicitudes::agentes') }}">Agentes</a></li>
             </ul>
           </li>
-
         </ul>
       </li>
     </ul>

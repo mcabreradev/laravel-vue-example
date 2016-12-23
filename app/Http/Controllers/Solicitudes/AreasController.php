@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers\Solicitudes;
 
-use App\Http\Requests;
 use Illuminate\Http\Request;
-use App\Models\Solicitudes\Estado;
+
+use App\Http\Requests;
 use App\Http\Controllers\ApiController;
-use App\Transformers\Solicitudes\EstadoTransformer;
+use App\Models\Solicitudes\Area;
+use App\Transformers\Solicitudes\AreaTransformer;
 
-class EstadosController extends ApiController
+class AreasController extends ApiController
 {
-
     /**
      * [main description]
      * @return [type] [description]
      */
     public function main(){
-
-        return view('solicitudes.estados.main');
+        return view('solicitudes.areas.main');
     }
 
     /**
@@ -25,8 +24,7 @@ class EstadosController extends ApiController
      * @return [type] [description]
      */
     public function create(){
-
-        return view('solicitudes.estados.create');
+        return view('solicitudes.areas.create');
     }
 
     /**
@@ -35,9 +33,8 @@ class EstadosController extends ApiController
      * @return [type]     [description]
      */
     public function edit($id) {
-        $data = Estado::findOrFail($id);
-
-        return view('solicitudes.estados.edit', ['item' => $data->toJson()]);
+        $data = Area::findOrFail($id);
+        return view('solicitudes.areas.edit', ['item' => $data->toJson()]);
     }
 
     /**
@@ -45,9 +42,8 @@ class EstadosController extends ApiController
      * @return [type] [description]
      */
     public function index() {
-        $estados = Estado::all();
-
-        return $this->respondWith($estados, new EstadoTransformer);
+        $tipos = Area::all();
+        return $this->respondWith($tipos, new AreaTransformer);
     }
 
     /**
@@ -56,21 +52,13 @@ class EstadosController extends ApiController
      * @return [type]           [description]
      */
     public function store(Request $request) {
-
-        Estado::create($request->all());
-
+        Area::create($request->all());
         return $this->respondWithOk(201, 'Added');
     }
 
-    /**
-     * [show description]
-     * @param  [type] $id [description]
-     * @return [type]     [description]
-     */
     public function show($id) {
-        $estado = Estado::findOrFail($id);
-
-        return $this->item($estado, new EstadoTransformer);
+        $tipo = Area::findOrFail($id);
+        return $this->item($tipo, new AreaTransformer);
     }
 
     /**
@@ -80,10 +68,9 @@ class EstadosController extends ApiController
      * @return [type]           [description]
      */
     public function update(Request $request, $id) {
-        $estado = Estado::findOrFail($id);
-        $estado->update($request->all());
-
-        return $this->respondWithOk(201, 'Updated');
+        $tipo = Area::findOrFail($id);
+        $tipo->update($request->all());
+        return $this->respondWithOk(200, 'Updated');
     }
 
     /**
@@ -92,8 +79,7 @@ class EstadosController extends ApiController
      * @return [type]     [description]
      */
     public function destroy($id) {
-        Estado::destroy($id);
-
-        return $this->respondWithOk(201, 'Deleted');
+        Area::destroy($id);
+        return $this->respondWithOk(200, 'Deleted');
     }
 }
