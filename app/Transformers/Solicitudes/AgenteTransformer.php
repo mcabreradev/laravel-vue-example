@@ -31,6 +31,17 @@ class AgenteTransformer extends TransformerAbstract
      */
     public function transform($resource)
     {
-        return $resource;
+        return [
+            "id"=> $resource->id,
+            "nombre"=> $resource->nombre,
+            "apellido"=> $resource->apellido,
+            "nombre_completo"=> "{$resource->apellido}, {$resource->nombre}",
+            "legajo"=> $resource->legajo,
+            "telefono"=> $resource->telefono,
+            "email"=> $resource->email,
+            "created_at"=> $resource->created_at,
+            "updated_at"=> $resource->updated_at
+        ];
+
     }
 }

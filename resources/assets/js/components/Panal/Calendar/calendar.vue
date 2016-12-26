@@ -85,14 +85,18 @@
   </div>
 </template>
 <script>
+  import { Lang } from './calendar.lang.js';
   export default {
-    name: 'calendar',
+    name: 'pana-calendar',
     props: {
       name: {
-        type: String
+        type: String,
+        required: false,
       },
       value: {
-        type: String
+        type: String,
+        default: () => {},
+        required: false
       },
       format: {
         default: 'dd-MM-yyyy'
@@ -186,6 +190,10 @@
         this.eventbus.$on('calendar-rangestart', this._updateRangeStart)
       }
       document.addEventListener('click', this._blur)
+      Events.$on('calendar.value.fromParent', (value) => {
+          this.inputValue = value;
+          console.log(this.inputValue)
+      });
     },
     beforeDestroy() {
       document.removeEventListener('click', this._blur)
@@ -260,18 +268,7 @@
       },
       translations(lang) {
         lang = lang || 'en'
-        let text = {
-          daysOfWeek: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-          limit: 'Limit reached ({{limit}} items max).',
-          loading: 'Loading...',
-          minLength: 'Min. Length',
-          months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October',
-            'November', 'December'
-          ],
-          notSelected: 'Nothing Selected',
-          required: 'Required',
-          search: 'Search'
-        }
+        let text = Lang;
         return window.VueCalendarLang ? window.VueCalendarLang(lang) : text
       },
       close() {
@@ -352,6 +349,7 @@
             this.currDate = date
             this.inputValue = this.stringify(this.currDate)
             this.displayDayView = false
+            Events.$emit('calendar.value.fromChildren', this.inputValue);
             if (this.rangeStatus === 1) {
               this.eventbus.$emit('calendar-rangestart', this.currDate)
             }

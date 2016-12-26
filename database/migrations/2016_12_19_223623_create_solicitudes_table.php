@@ -14,7 +14,7 @@ class CreateSolicitudesTable extends Migration
     {
         Schema::connection('solicitudes')->create('solicitudes', function (Blueprint $table) {
             $table->increments('id');
-            $table->mediumText('descripcion');
+            $table->mediumText('descripcion')->nullable();;
             $table->datetime('creado_el');
             $table->mediumText('observaciones')->nullable();
             $table->decimal('lat', 8, 6)->nullable();

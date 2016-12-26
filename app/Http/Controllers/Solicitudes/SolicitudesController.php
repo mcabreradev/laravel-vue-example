@@ -55,7 +55,12 @@ class SolicitudesController extends ApiController
    * @return [type]           [description]
    */
 	public function store(Request $request) {
-		Solicitud::create($request->all());
+		$solicitud = Solicitud::create($request->all());
+
+        // if($this->hasSolicitante($request->input('solicitante'))){
+        //     $solicitud->solicitante()->sync($request->input('solicitante') ?: null);
+        // }
+
 		Flash::success('El registro se creó correctamente');
 		return redirect(route("solicitudes::solicitudes"));
 	}
@@ -108,4 +113,22 @@ class SolicitudesController extends ApiController
 		Solicitud::destroy($id);
         return $this->respondWithOk(200, 'Deleted');
 	}
+
+  /**
+   * [hasSolicitante description]
+   * @param  [type] $request [description]
+   * @return [type]          [description]
+   */
+    public function hasSolicitante($request) {
+        $hasSolicitante = false;
+
+        foreach ($request as $input){
+            if ( $input != "") {
+                $hasSolicitante = true;
+                continue;
+            }
+        }
+
+        return $hasSolicitante;
+    }
 }

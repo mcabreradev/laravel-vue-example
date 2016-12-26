@@ -42,7 +42,7 @@ class AreasController extends ApiController
      * @return [type] [description]
      */
     public function index() {
-        $tipos = Area::all();
+        $tipos = Area::orderBy('nombre', 'asc')->get();
         return $this->respondWith($tipos, new AreaTransformer);
     }
 

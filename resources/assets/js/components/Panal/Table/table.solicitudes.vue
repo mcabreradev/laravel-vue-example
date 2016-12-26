@@ -138,25 +138,45 @@
             <h4 class="modal-title">Derivar Solicitud</h4>
           </div>
 
-          <form class="form-horizontal" v-on:submit.prevent="submit(modal.action)">
+          <form class="form-horizontal" v-on:submit.prevent="derivacionesSubmit(tipo)">
             <div class="modal-body smart-modal-form">
 
                <div class="form-group">
-                  <label for="creado_el" class="col-sm-2 control-label">Fecha</label>
+                  <label for="derivado_el" class="col-sm-2 control-label">Fecha</label>
                   <div class="col-sm-10">
+
                     <panal-calendar
-                      name="creado_el"
-                      value="">
-                    </panal-calendar>
+                      name="derivado_el"
+                      :value="derivaciones_data.derivado_el"
+                    ></panal-calendar>
+
                   </div>
                 </div>
 
-                 <div class="form-group">
-                    <label for="descripcion" class="col-sm-2 control-label">Descripción</label>
-                    <div class="col-sm-10">
-                      <textarea class="form-control" id="descripcion" name="descripcion" ></textarea>
-                    </div>
+                <div class="form-group">
+                  <label for="area_id" class="col-sm-2 control-label">Area</label>
+                  <div class="col-sm-10">
+                    <select class="form-control" name="area_id" id="area_id" v-model="derivaciones_data.area_id" required>
+                      <option v-for="area in areas" :value="area.id">{{ area.nombre }}</option>
+                    </select>
                   </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="agente_id" class="col-sm-2 control-label">Agente</label>
+                  <div class="col-sm-10">
+                    <select class="form-control" name="agente_id" id="agente_id" v-model="derivaciones_data.agente_id" required>
+                      <option v-for="agente in agentes" :value="agente.id">{{ agente.nombre_completo }}</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="observaciones" class="col-sm-2 control-label">Observaciones</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" id="observaciones" name="observaciones" v-model="derivaciones_data.observaciones"></textarea>
+                  </div>
+                </div>
 
 
             </div>
@@ -180,170 +200,176 @@
 <script>
   import { Lang } from './table.lang.js';
 
-  export default {
-    name: 'panal-table',
+    export default {
+      name: 'panal-table',
 
-    props: {
-      fields: {
-        type: Array,
-        default: () => { return [] },
-        required: true
-      },
-      showTfoot: {
-        type: Boolean,
-        default: false
-      },
-      hasModal: {
-        type: Boolean,
-        default: true
-      },
-      model: {
-        type: Object,
-        default: function() {
-          return { singular: '', plural: '' };
+      props: {
+        fields: {
+          type: Array,
+          default: () => { return [] },
+          required: true
         },
-      },
-      url: {
-        type: Object,
-        default: () => { return {} },
-        required: true
-      }
-    },
-
-    data: function() {
-      var vm = this;
-
-      return {
-        rows: [],
-        data: {},
-        derivaciones: {
-          data:{'derivado_el': '', 'observaciones': '', 'solicitud_id': '', 'area_id': '', 'agente_id': ''},
-          res:{solicitudes: '', areas: '', agentes: ''},
+        showTfoot: {
+          type: Boolean,
+          default: false
         },
-        modal: {},
-        route: vm.hasModal ? {} : {
-          create: Router.route(vm.url.doble + '.create') ,
-          edit: function(id){
-            return Router.route(vm.url.doble + '.edit', {id:id})
+        hasModal: {
+          type: Boolean,
+          default: true
+        },
+        model: {
+          type: Object,
+          default: function () {
+            return { singular: '', plural: '' };
           },
         },
-        apiRoute: _.join([API, vm.url.simple, ''], '.'),
-      }
-    },
-
-    mounted() {
-      var vm  = this;
-      Events.$emit('indicator.show');
-
-      vm.setObjectsFromFormFields()
-        .fetchDataFromApi()
-        .makeDomFixes();
-
-      vm.derivaciones();
-    },
-
-    methods: {
-
-      setObjectsFromFormFields: function() {
-        _.each(this.fields, (val) => {
-          this.data[val] = '';
-        });
-
-        return this;
+        url: {
+          type: Object,
+          default: () => { return {} },
+          required: true
+        }
       },
 
-      fetchDataFromApi: function() {
+      data: function () {
+        var self = this;
 
-        this.$http.get(Router.route(this.apiRoute + 'index')).then((res) => {
-          if (res.ok) {
-            this.rows = res.body.data;
-          }
-          this.startSmartTable();
-          Events.$emit('indicator.hide');
-        });
-
-        return this;
+        return {
+          rows: [],
+          data: {},
+          derivaciones_data: { derivado_el: '', agente_id: '', area_id: '', observaciones: '' },
+          solicitudes: [],
+          areas: [],
+          agentes: [],
+          tipo: '',
+          modal: {},
+          route: self.hasModal ? {} : {
+            create: Router.route(self.url.doble + '.create'),
+            edit: function (id) {
+              return Router.route(self.url.doble + '.edit', { id: id })
+            },
+          },
+          apiRoute: _.join([API, self.url.simple, ''], '.'),
+        }
       },
 
-      startSmartTable: function() {
-        setTimeout(function() {
-          this.table = $('#smartTable').DataTable({
-            "language": Lang,
-            "aoColumnDefs": [{
-              'bSortable': false,
-              'aTargets': [-1]
-            }],
+      mounted() {
+        var self = this;
+        Events.$emit('indicator.show');
+        self.setObjectsFromFormFields()
+          .fetchDataFromApi()
+          .makeDomFixes()
+          .derivacionesPrepared();
+        Events.$on('calendar.value.fromChildren', (value) => {
+          self.derivaciones_data.derivado_el = value;
+        });
+      },
+
+      methods: {
+        setObjectsFromFormFields: function () {
+          var self = this;
+          _.each(self.fields, (val) => {
+            self.data[val] = '';
           });
-        }, 50);
 
-        return this;
-      },
+          return this;
+        },
 
-      reloadSmartTable: function() {
-        $('#smartTable').DataTable({
-          destroy: true
-        }).destroy();
-        this.fetchDataFromApi();
+        fetchDataFromApi: function () {
+          var self = this;
+          self.$http.get(Router.route(self.apiRoute + 'index')).then((res) => {
+            if (res.ok) {
+              self.rows = res.body.data;
+            }
+            self.startSmartTable();
+            Events.$emit('indicator.hide');
+          });
 
-        return this;
-      },
+          return this;
+        },
 
-      makeDomFixes: function(){
-        setTimeout(function(){
-          window.$('#smartTable_length, #smartTable_filter').parent().addClass('col-xs-6')
-          window.$('#smartTable_wrapper').addClass('mt-20 ');
-        },'2000');
+        startSmartTable: function () {
+          setTimeout(function () {
+            this.table = $('#smartTable').DataTable({
+              "language": Lang,
+              "aoColumnDefs": [{
+                'bSortable': false,
+                'aTargets': [-1]
+              }],
+            });
+          }, 50);
 
-        return this;
-      },
+          return this;
+        },
 
-      submit: function(type) {
-        (type == 'create') ? this.create(): this.update();
-      },
+        reloadSmartTable: function () {
+          var self = this;
+          $('#smartTable').DataTable({
+            destroy: true
+          }).destroy();
+          self.fetchDataFromApi();
 
-      createModal: function() {
-        this.data = {}; // Initalized as empty object :)
-        this.modal = {
-          type: 'Agregar',
-          action: 'create'
-        };
-      },
+          return this;
+        },
 
-      create: function() {
-        var vm = this;
-        Events.$emit('indicator.show');
+        makeDomFixes: function () {
+          setTimeout(function () {
+            window.$('#smartTable_length, #smartTable_filter').parent().addClass('col-xs-6')
+            window.$('#smartTable_wrapper').addClass('mt-20 ');
+          }, '2000');
 
-        $('#modal').modal('toggle');
+          return this;
+        },
 
-        vm.$http.post(Router.route(vm.apiRoute + 'store'), vm.data).then((res) => {
-          vm.reloadSmartTable();
-          Events.$emit('indicator.hide');
+        submit: function (type) {
+          var self = this;
+          (type == 'create') ? self.create() : self.update();
+        },
 
-        },(err) =>{
-          console.error('Error: ', err);
-        });
-      },
+        createModal: function () {
+          var self = this;
+          self.data, this.derivaciones_data = {}; // Initalized as empty object :)
+          self.modal = {
+            type: 'Agregar',
+            action: 'create'
+          };
+        },
 
-      updateModal: function(id) {
-        this.data = _.find(this.rows, {'id': id}); // Find the current data in the row array, and load the modal input
-        this.modal = {type: 'Editar', action: 'update'};
-      },
+        create: function () {
+          var self = this;
+          Events.$emit('indicator.show');
 
-      update: function() {
-        var vm = this;
-        Events.$emit('indicator.show');
-
-        vm.$http.put(Router.route(vm.apiRoute + 'update', { [vm.model.plural] : vm.data.id}), vm.data).then((res) => {
-          vm.reloadSmartTable();
-          Events.$emit('indicator.hide');
           $('#modal').modal('toggle');
-        });
-      },
 
-      destroy: function(id) {
-        var vm = this;
+          self.$http.post(Router.route(self.apiRoute + 'store'), self.data).then((res) => {
+            self.reloadSmartTable();
+            Events.$emit('indicator.hide');
 
-        swal({
+          }, (err) => {
+            console.error('Error: ', err);
+          });
+        },
+
+        updateModal: function (id) {
+          var self = this;
+          self.data = _.find(self.rows, { 'id': id }); // Find the current data in the row array, and load the modal input
+          self.modal = { type: 'Editar', action: 'update' };
+        },
+
+        update: function () {
+          var self = this;
+          Events.$emit('indicator.show');
+
+          self.$http.put(Router.route(self.apiRoute + 'update', { [self.model.plural]: self.data.id }), self.data).then((res) => {
+            self.reloadSmartTable();
+            Events.$emit('indicator.hide');
+            $('#modal').modal('toggle');
+          });
+        },
+
+        destroy: function (id) {
+          var self = this;
+
+          swal({
             title: "Estás seguro/a?",
             type: "warning",
             showCancelButton: true,
@@ -351,33 +377,78 @@
             confirmButtonText: "Si, borrar",
             closeOnConfirm: true
           },
-          function() {
-            Events.$emit('indicator.show');
-            vm.$http.delete(Router.route(vm.apiRoute + 'destroy', { [vm.model.plural] : id})).then((res) => {
-              vm.rows = _.reject(vm.rows, {'id': id});
-              vm.reloadSmartTable();
-              Events.$emit('indicator.hide');
+            function () {
+              Events.$emit('indicator.show');
+              self.$http.delete(Router.route(self.apiRoute + 'destroy', { [self.model.plural]: id })).then((res) => {
+                self.rows = _.reject(self.rows, { 'id': id });
+                self.reloadSmartTable();
+                Events.$emit('indicator.hide');
+              });
+
             });
+        },
 
+        derivacionesPrepared: function () {
+          var self = this;
+
+          this.$http.get(Router.route(API + '.solicitudes.derivaciones.index')).then((res) => {
+            this.derivaciones = res.body.data;
           });
-      },
 
-      derivaciones: function(){
-        var vm = this;
-        this.$http.get('/solicitudes/solicitudes').then((res) => {
-         console.log(res);
-        });
-      },
+          this.$http.get(Router.route(API + '.solicitudes.areas.index')).then((res) => {
+            this.areas = res.body.data;
+          });
 
-      onClickDerivacion: function(item){
-        var vm = this;
+          this.$http.get(Router.route(API + '.solicitudes.agentes.index')).then((res) => {
+            this.agentes = res.body.data;
+          });
 
-        vm.derivaciones = {'derivado_el': '', 'observaciones': null, 'solicitud_id': null, 'area_id': null, 'agente_id': null};
-        console.log(item);
-      },
+          return this;
+        },
 
+        onClickDerivacion: function (id) {
+          var self = this;
+          self.solicitudHasDerivacion = _.find(self.derivaciones, { 'solicitud_id': id });
+          self.tipo = _.isUndefined(self.solicitudHasDerivacion) ? 'store' : 'update';
+
+          if (self.tipo == 'update') {
+            self.derivaciones_data = self.solicitudHasDerivacion
+            Events.$emit('calendar.value.fromParent', self.derivaciones_data.derivado_el);
+          }
+
+          return this;
+        },
+
+        derivacionesSubmit: function (tipo) {
+          var self = this;
+
+          (tipo == 'store') ? self.derivacionStore() : self.derivacionUpdate();
+        },
+
+        derivacionStore: function () {
+          var self = this;
+          Events.$emit('indicator.show');
+
+          self.$http.post(Router.route(API + '.solicitudes.derivaciones.store'), self.derivaciones_data).then((res) => {
+            Events.$emit('indicator.hide');
+            $('.derivaciones').modal('toggle');
+          }, (err) => {
+            console.error('Error: ', err);
+          });
+        },
+
+        derivacionUpdate: function () {
+          var self = this;
+          Events.$emit('indicator.show');
+
+          self.$http.put(Router.route(API + '.solicitudes.derivaciones.update', { solicitud_id: self.solicitud_id }), self.derivaciones_data).then((res) => {
+            Events.$emit('indicator.hide');
+            $('.derivaciones').modal('toggle');
+          });
+
+        },
+      }
     }
-  }
 </script>
 
 <style lang="sass" scoped>

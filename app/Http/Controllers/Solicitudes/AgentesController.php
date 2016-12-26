@@ -42,7 +42,7 @@ class AgentesController extends ApiController
      * @return [type] [description]
      */
     public function index() {
-        $tipos = Agente::all();
+        $tipos = Agente::orderBy('apellido', 'asc')->get();
         return $this->respondWith($tipos, new AgenteTransformer);
     }
 

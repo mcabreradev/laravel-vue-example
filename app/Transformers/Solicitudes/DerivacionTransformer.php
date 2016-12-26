@@ -31,6 +31,12 @@ class DerivacionTransformer extends TransformerAbstract
      */
     public function transform($resource)
     {
-        return $resource;
+        return [
+            'derivado_el'   => $resource->derivado_el->format('d-m-Y'),
+            'observaciones' => $resource->observaciones,
+            'solicitud_id'  => $resource->solicitud_id,
+            'area_id'       => $resource->area_id,
+            'agente_id'     => $resource->agente_id,
+        ];
     }
 }

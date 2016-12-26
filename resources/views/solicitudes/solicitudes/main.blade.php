@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Solicitudes <small>Configuraci&oacute;n</small>
+  Reclamos <small>Solicitudes</small>
 @endsection
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('solicitudes::solicitudes') }}">Solicitudes</a></li>
+<li><a href="{{ route('solicitudes::solicitudes') }}">Reclamos</a></li>
 @endsection
 
 
@@ -18,13 +18,13 @@
     @include('flash::message')
 
     <panal-table-solicitudes
-      :model='{singular: "solicitud", plural: "solicitudes"}'
+      :model='{singular: "reclamo", plural: "reclamos"}'
       :url="{simple: 'solicitudes.solicitudes', doble:'solicitudes::solicitudes'}"
-      :has-modal="true"
+      :has-modal="false"
       :fields="[
-        {name: 'id', title: 'Solicitud #', type: 'text', required: false},
-        {name: 'creado_el', title: 'Fecha', type: 'text', required: false},
-        {name: 'descripcion', title: 'Descripcion', type: 'text', required: false},
+        {name: 'id', title: 'Solicitud #'},
+        {name: 'creado_el', title: 'Fecha'},
+        {name: 'descripcion', title: 'Descripcion'},
         ]"
     ></panal-table-solicitudes>
 

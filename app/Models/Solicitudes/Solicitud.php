@@ -55,7 +55,7 @@ class Solicitud extends AppModel
      * [$dates description]
      * @var [type]
      */
-    protected $dates = ['created_at', 'updated_at'];
+    protected $dates = ['created_at', 'updated_at', 'creado_el'];
 
     /**
      * [getCreadoElAttribute description]
@@ -71,7 +71,23 @@ class Solicitud extends AppModel
      * @param [type] $date [description]
      */
     public function setCreadoElAttribute($date){
-        $this->attributes['creado_el'] = Carbon::parse($date);
+        $this->attributes['creado_el'] = $date == "" ? Carbon::now() : Carbon::parse($date);
+    }
+
+    /**
+     * [setLatAttribute description]
+     * @param [type] $value [description]
+     */
+    public function setLatAttribute($value){
+        $this->attributes['lat'] = $value == "" ? null : $value;
+    }
+
+    /**
+     * [setLatAttribute description]
+     * @param [type] $value [description]
+     */
+    public function setLngAttribute($value){
+        $this->attributes['lng'] = $value == "" ? null : $value;
     }
 
     /**

@@ -40,5 +40,19 @@
      </panal-map> -->
     </div>
 
+    <div class="form-group text-center">
+      <i class="fa fa-picture-o" aria-hidden="true" style="font-size: 15.1em;"></i>
+    </div>
+
+    <div class="form-group">
+      <label for="lat">Latitud</label>
+      <input class="form-control" type="text" name="lat" id="lat" value="{{ old('lat', $solicitud->lat) }}">
+    </div>
+
+    <div class="form-group">
+      <label for="lng">Longitud</label>
+      <input class="form-control" type="text" name="lng" id="lng" value="{{ old('lng', $solicitud->lng) }}">
+    </div>
+
   </div>
 </div>

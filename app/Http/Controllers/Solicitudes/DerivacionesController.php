@@ -49,9 +49,9 @@ class DerivacionesController extends ApiController
    * @return [type]           [description]
    */
 	public function store(Request $request) {
+        // dd($request->all());
 		Derivacion::create($request->all());
-		Flash::success('El registro se creó correctamente');
-		return redirect(route("solicitudes::solicitudes"));
+        return $this->respondWithOk(201, 'ok');
 	}
 
   /**

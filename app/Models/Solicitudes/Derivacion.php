@@ -2,6 +2,7 @@
 
 namespace App\Models\Solicitudes;
 
+use Carbon\Carbon;
 use App\Models\AppModel;
 
 class Derivacion extends AppModel
@@ -32,6 +33,20 @@ class Derivacion extends AppModel
         'area_id',
         'agente_id',
     ];
+
+    /**
+     * [$dates description]
+     * @var [type]
+     */
+    protected $dates = ['created_at', 'updated_at', 'derivado_el'];
+
+    /**
+     * [setDerivadoElAttribute description]
+     * @param [type] $date [description]
+     */
+    public function setDerivadoElAttribute($date){
+        $this->attributes['derivado_el'] = $date == "" ? Carbon::now() : Carbon::parse($date);
+    }
 
     /**
      * [solicitud description]

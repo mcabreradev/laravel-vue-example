@@ -16,7 +16,7 @@ class CreateSolicitantesTable extends Migration
             $table->bigIncrements('id');
             $table->string('apellido')->nullable();
             $table->string('nombre')->nullable();
-            $table->integer('documento')->nullable();
+            $table->string('documento')->nullable();
             $table->string('telefono')->nullable();
             $table->string('celular')->nullable();
             $table->string('email')->nullable();

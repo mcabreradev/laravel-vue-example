@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Solicitantes <small>Configuraci&oacute;n</small>
+  Reclamos <small>Solicitudes</small>
 @endsection
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('solicitudes::solicitantes') }}">Solicitantes</a></li>
+<li><a href="{{ route('solicitudes::solicitudes') }}">Reclamos</a></li>
 @endsection
 
 @section('content')
@@ -21,11 +21,17 @@
       <panal-indicator></panal-indicator>
     </panal-box-slot>
 
+    <panal-box-slot title="Solicitante">
+      <div slot="body">
+        @include('solicitudes.solicitudes.fields-solicitante')
+      </div>
+      <panal-indicator></panal-indicator>
+    </panal-box-slot>
+
      <panal-box-slot title="Ubicación">
       <div slot="body">
         @include('solicitudes.solicitudes.fields-ubicacion')
       </div>
-
       <div slot="footer">
         @include('common.form-buttons', ['route' => 'solicitudes::solicitudes'])
       </div>

@@ -18,6 +18,13 @@
       v-bind:placeholder="field.title"
       v-bind:required="field.required">
 
+    <panal-calendar
+      v-if="field.type === 'calendar'"
+      :name="name"
+      :value="value"
+      :placeholder="title"
+    ></panal-calendar>
+
     <textarea v-if="field.type === 'textarea'"
       class="form-control"
       v-bind:id="field.id"
@@ -33,5 +40,19 @@
   export default {
     name: 'panal-inputs',
     props: ['field', 'data'],
+    data: function(){
+      return {
+        value: this.isUndefinedOrDefined(this.data[this.field.name]),
+        name: this.isUndefinedOrDefined(this.field.name),
+        title: this.isUndefinedOrDefined(this.field.title),
+      }
+    },
+    methods:{
+      isUndefinedOrDefined: function (thing){
+        return typeof thing == 'undefined'  ? '' : thing
+      }
+    },
+    mounted() {
+    },
   }
 </script>
