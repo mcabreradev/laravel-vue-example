@@ -106,7 +106,7 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">{{tipo}} Derivar Solicitud</h4>
+            <h4 class="modal-title">Derivar Solicitud</h4>
           </div>
           <form class="form-horizontal" v-on:submit.prevent="derivacionesSubmit(tipo)">
             <div class="modal-body smart-modal-form">
