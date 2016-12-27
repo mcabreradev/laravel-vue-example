@@ -49,7 +49,6 @@ class DerivacionesController extends ApiController
    * @return [type]           [description]
    */
 	public function store(Request $request) {
-        // dd($request->all());
 		Derivacion::create($request->all());
         return $this->respondWithOk(201, 'ok');
 	}
@@ -84,10 +83,9 @@ class DerivacionesController extends ApiController
    * @return [type]           [description]
    */
 	public function update(Request $request, $id) {
-		$data = Derivacion::findOrFail($id);
-		$data->update($request->all());
-		Flash::success('El registro se edito correctamente');
-		return redirect(route("solicitudes::solicitudes"));
+        $tipo = Derivacion::findOrFail($id);
+        $tipo->update($request->all());
+        return $this->respondWithOk(200, 'Updated');
 	}
 
   /**
