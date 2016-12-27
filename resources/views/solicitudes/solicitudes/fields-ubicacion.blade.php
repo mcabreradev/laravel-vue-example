@@ -9,7 +9,7 @@
     </div>
 
     <div class="form-group">
-      <label for="lugar_numero">Nro</label>
+      <label for="lugar_numero">Número</label>
       <input class="form-control" type="text" name="lugar_numero" id="lugar_numero" value="{{ old('lugar_numero', $solicitud->lugar_numero) }}">
     </div>
 

@@ -24,7 +24,7 @@
 
   <div class="col-md-4 col-xs-12">
     <div class="form-group">
-      <label for="telefono">Telefono</label>
+      <label for="telefono">Teléfono</label>
       <input class="form-control" type="text" name="solicitante[telefono]" id="telefono" value="{{ old('telefono', $solicitud->telefono) }}">
     </div>
   </div>

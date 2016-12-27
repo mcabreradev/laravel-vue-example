@@ -39,6 +39,12 @@
 <!-- bootstrap-material-datetimepicker -->
 <script src="{{ asset('/compiled/js/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js') }}"></script>
 
+<script>
+    window.Laravel = <?php echo json_encode(['csrfToken' => csrf_token()]); ?>
+</script>
+
+<script src="{{ asset('js/app.js') }}"></script>
+
 <!-- Date, time and datetieme polyfills -->
 <script>
   (function($, Modernizr) {
@@ -67,9 +73,3 @@
 
   })(window.jQuery, window.Modernizr);
 </script>
-
-<script>
-    window.Laravel = <?php echo json_encode(['csrfToken' => csrf_token()]); ?>
-</script>
-
-<script src="{{ asset('js/app.js') }}"></script>

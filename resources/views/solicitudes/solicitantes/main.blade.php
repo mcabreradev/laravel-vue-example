@@ -25,7 +25,7 @@
         {name: 'apellido', title: 'Apellido', type: 'text', required: false},
         {name: 'nombre', title: 'Nombre', type: 'text', required: false},
         {name: 'documento', title: 'Documento', type: 'text', required: false},
-        {name: 'telefono', title: 'Telefono', type: 'text', required: false},
+        {name: 'telefono', title: 'Teléfono', type: 'text', required: false},
         {name: 'celular', title: 'Celular', type: 'text', required: false},
         {name: 'email', title: 'Email', type: 'text', required: false},
         ]"
