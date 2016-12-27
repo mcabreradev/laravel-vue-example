@@ -95,7 +95,7 @@
       },
       value: {
         type: String,
-        default: () => {},
+        default: () => { return ''},
         required: false
       },
       format: {
@@ -192,7 +192,6 @@
       document.addEventListener('click', this._blur)
       Events.$on('calendar.value.fromParent', (value) => {
           this.inputValue = value;
-          console.log(this.inputValue)
       });
     },
     beforeDestroy() {
