@@ -33,6 +33,12 @@
       v-bind:placeholder="field.title"
       v-bind:required="field.required">
     </textarea>
+
+    <input v-if="field.type === 'hidden'"
+      type="hidden"
+      v-model="data[field.name]"
+      v-bind:name="field.name">
+
   </div>
 </template>
 
@@ -53,6 +59,7 @@
       }
     },
     mounted() {
+
     },
   }
 </script>

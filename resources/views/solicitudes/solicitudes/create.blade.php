@@ -4,7 +4,6 @@
   Reclamos <small>Solicitudes</small>
 @endsection
 
-
 @section('content-breadcrumb')
 <li><a href="{{ route('solicitudes::solicitudes') }}">Reclamos</a></li>
 @endsection
@@ -28,7 +27,7 @@
       <panal-indicator></panal-indicator>
     </panal-box-slot>
 
-     <panal-box-slot title="Ubicación">
+    <panal-box-slot title="Ubicación">
       <div slot="body">
         @include('solicitudes.solicitudes.fields-ubicacion')
       </div>

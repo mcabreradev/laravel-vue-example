@@ -1,7 +1,8 @@
 <template>
   <div class="box box-primary">
     <div class="box-header with-border">
-      <h3 class="box-title">Lista de <span class="text-capital">{{ model.plural }}</span></h3>
+      <h3 class="box-title" v-if="title">{{ title }}</h3>
+      <h3 class="box-title" v-else>Lista de <span class="text-capital">{{ model.plural }}</span></h3>
     </div>
     <!--box-body-->
     <div class="box-body">
@@ -161,6 +162,11 @@
     name: 'panal-tabla-solicitudes',
 
     props: {
+      title: {
+        type: String,
+        default: () => {},
+        required: false
+      },
       fields: {
         type: Array,
         default: () => {

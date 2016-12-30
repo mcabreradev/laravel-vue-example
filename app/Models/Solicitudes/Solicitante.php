@@ -26,4 +26,14 @@ class Solicitante extends AppModel
      * @var array
      */
     protected $fillable = ['nombre', 'apellido', 'documento', 'telefono', 'celular', 'email'];
+
+    /**
+     *  Las solicitudes (reclamos) del solicitante
+     *
+     * @return [type] [description]
+     */
+    public function solicitud()
+    {
+        return $this->hasMany('App\Models\Solicitudes\Solicitud');
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Solicitudes;
 
 use Illuminate\Http\Request;
 
+use DB;
 use Flash;
 use App\Http\Requests;
 use App\Models\Solicitudes\Tipo;
@@ -39,6 +40,7 @@ class SolicitudesController extends ApiController
    * @return [type] [description]
    */
 	public function create(){
+
 		return view('solicitudes.solicitudes.create', [
             'solicitud' => new Solicitud(),
             'origenes' => Origen::orderBy('nombre', 'asc')->get(),
@@ -50,16 +52,19 @@ class SolicitudesController extends ApiController
 	}
 
   /**
-   * [store description]
+   * Agrega el reclamo/solicitud y a su vez guarda el solicitante asociado
+   *
    * @param  Request $request [description]
    * @return [type]           [description]
    */
 	public function store(Request $request) {
-		$solicitud = Solicitud::create($request->all());
+        $solicitud = Solicitud::create($request->all());
 
-        // if($this->hasSolicitante($request->input('solicitante'))){
-        //     $solicitud->solicitante()->sync($request->input('solicitante') ?: null);
-        // }
+        if($this->requestHasData($request->input('solicitante'))){
+            $solicitante = Solicitante::create($request->input('solicitante'));
+            $solicitud->solicitante()->associate($solicitante);
+            $solicitud->save();
+        }
 
 		Flash::success('El registro se creó correctamente');
 		return redirect(route("solicitudes::solicitudes"));
@@ -67,7 +72,7 @@ class SolicitudesController extends ApiController
 
   /**
    * [show description]
-   * @param  [type] $id [description]
+   * @param  {Integer} $id [description]
    * @return [type]     [description]
    */
 	public function show($id) {
@@ -81,13 +86,15 @@ class SolicitudesController extends ApiController
    * @return [type]     [description]
    */
 	public function edit($id) {
+        $solicitud = Solicitud::findOrFail($id);
+
 		return view('solicitudes.solicitudes.edit', [
-            'solicitud' => Solicitud::findOrFail($id),
+            'solicitud' => $solicitud,
             'origenes' => Origen::orderBy('nombre', 'asc')->get(),
             'tipos' => Tipo::orderBy('nombre', 'asc')->get(),
             'estados' => Estado::orderBy('nombre', 'asc')->get(),
             'prioridades' => Prioridad::orderBy('nombre', 'asc')->get(),
-            'solicitantes' => Solicitante::orderBy('nombre', 'asc')->get(),
+            'solicitante' => Solicitante::orderBy('nombre', 'asc')->get(),
         ]);
 	}
 
@@ -98,8 +105,10 @@ class SolicitudesController extends ApiController
    * @return [type]           [description]
    */
 	public function update(Request $request, $id) {
-		$data = Solicitud::findOrFail($id);
-		$data->update($request->all());
+		$solicitud = Solicitud::findOrFail($id);
+		$solicitud->update($request->all());
+        $solicitud->solicitante()->update($request->input('solicitante'));
+
 		Flash::success('El registro se edito correctamente');
 		return redirect(route("solicitudes::solicitudes"));
 	}
@@ -119,16 +128,15 @@ class SolicitudesController extends ApiController
    * @param  [type] $request [description]
    * @return [type]          [description]
    */
-    public function hasSolicitante($request) {
-        $hasSolicitante = false;
-
-        foreach ($request as $input){
-            if ( $input != "") {
-                $hasSolicitante = true;
+    public function requestHasData($request) {
+        $has_data = false;
+        foreach ($request as $field){
+            if ( $field != "") {
+                $has_data = true;
                 continue;
             }
         }
 
-        return $hasSolicitante;
+        return $has_data;
     }
 }
