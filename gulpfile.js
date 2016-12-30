@@ -79,6 +79,12 @@ elixir(function (mix) {
   mix.copy('node_modules/datatables.net-bs', 'public/compiled/vendors/datatables');
   mix.copy('node_modules/datatables.net/js', 'public/compiled/vendors/datatables/js');
 
+  // Font-awesome
+  mix.copy('node_modules/font-awesome', 'public/compiled/vendors/font-awesome');
+
+  // Select2
+  mix.copy('node_modules/select2/dist', 'public/compiled/vendors/select2');
+
   // Routes from laravel to javascript
   mix.routes();
 

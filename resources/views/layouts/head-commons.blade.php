@@ -5,7 +5,7 @@
 <title>DPOSS | Oficina Virtual</title>
 
 <!-- Fonts -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css" rel='stylesheet' type='text/css'>
+<link rel="stylesheet" type="text/css" href="{{ asset('/compiled/vendors/font-awesome/css/font-awesome.min.css') }}">>
 
 <!-- bootstrap (also on body-commons) -->
 <link href="{{ asset('/compiled/css/bootstrap/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet">
@@ -15,6 +15,9 @@
 
 <!-- SweetAlert (also in body-commons) -->
 <link rel="stylesheet" type="text/css" href="{{ asset('/compiled/js/sweetalert/sweetalert.css') }}">
+
+<!-- Select2 (also in body-commons) -->
+<link rel="stylesheet" type="text/css" href="{{ asset('/compiled/vendors/select2/css/select2.min.css') }}">
 
 <!-- bootstrap-material-datetimepicker (also in body-commons) -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

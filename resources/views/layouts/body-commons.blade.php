@@ -33,6 +33,9 @@
 <!-- SweetAlert (also in head-commons) -->
 <script src="{{ asset('/compiled/js/sweetalert/sweetalert.min.js') }}"></script>
 
+<!-- Select2 (also in head-commons) -->
+<script src="{{ asset('/compiled/vendors/select2/js/select2.min.js') }}"></script>
+
 <!-- momentJs -->
 <script src="{{ asset('/compiled/js/momentjs/moment-with-locales.min.js') }}"></script>
 
@@ -72,4 +75,14 @@
     }
 
   })(window.jQuery, window.Modernizr);
+</script>
+<script>
+  (function($){
+    $('.select2').select2({
+      language: 'es',
+      placeholder: 'Seleccione',
+    });
+      // Hack para que tome el 100% de width
+    $('.select2, span.select2, li.select2-search, input.select2-search__field').css('width', '100%');
+  })(window.jQuery);
 </script>
