@@ -36,6 +36,10 @@ window.Vue = require('vue');
 
 require('vue-resource');
 
+
+/**
+ *  Events is a var that has a vue instance for haddle events such as emit, on, off
+ */
 window.Events = new Vue({});
 
 /**
@@ -63,6 +67,7 @@ window.Router = require('./routes.js');
 */
 
 require('./config');
+
 
 /**
 * Filters

@@ -1,33 +1,26 @@
 <template>
   <div class="box box-primary">
-
     <div class="box-header with-border">
       <h3 class="box-title" v-if="title">{{ title }}</h3>
       <h3 class="box-title" v-else>Lista de <span class="text-capital">{{ model.plural }}</span></h3>
     </div>
-
     <!--box-body-->
     <div class="box-body">
-
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12 mb-25">
           <a class="btn btn-primary pull pull-right" v-if="hasModal" v-on:click="openCreateModal" name="btnadd" id="modalBtn">
-            <i class="fa fa-plus"></i> Agregar <span class="text-capital">{{ model.singular }}</span>
+            <i class="fa fa-plus"></i> {{ panal.lang.button.create }} <span class="text-capital">{{ model.singular }}</span>
           </a>
-
           <a :href="route.create" class="btn btn-primary pull pull-right" v-else name="btnadd">
-            <i class="fa fa-plus"></i> Agregar <span class="text-capital">{{ model.singular }}</span>
+            <i class="fa fa-plus"></i> {{ panal.lang.button.create }} <span class="text-capital">{{ model.singular }}</span>
           </a>
-
         </div>
       </div>
-
       <div class="row">
         <!-- Table container -->
         <div class="col-md-12 col-sm-12 col-xs-12 table-container">
-
           <div class="table-responsive">
-            <table id="smartTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
+            <table :id="tableId" class="table table-striped table-bordered" cellspacing="0" width="100%">
               <thead>
                 <tr>
                   <th v-for="field in fields" v-if="field.type !='hidden'">{{ field.title }}</th>
@@ -44,27 +37,19 @@
                 <tr v-for="row in rows">
                   <td v-for="field in fields" v-if="field.type !='hidden'">
                     <!-- si es un imput de color / colorpicker -->
-                    <div v-if="field.name === 'color'"
-                      role="button"
-                      v-bind:style="{'background-color': row[field.name]}"
-                      class="color-square"
-                      v-on:click="openUpdateModal(row.id)"
-                      data-toggle="modal"
-                      data-target="#modal">
+                    <div v-if="field.name === 'color'" role="button" v-bind:style="{'background-color': row[field.name]}" class="color-square"
+                      v-on:click="openUpdateModal(row.id)">
                     </div>
-
                     <div v-else>{{ row[field.name] }}</div>
                   </td>
                   <td>
                     <div>
-                      <a role="button" class='btn btn-primary btn-sm' v-if="hasModal" v-on:click="openUpdateModal(row.id)" data-toggle="modal" data-target="#modal">
+                      <a role="button" class='btn btn-primary btn-sm' v-if="hasModal" v-on:click="openUpdateModal(row.id)">
                         <span class="fa fa-pencil"></span>
                       </a>
-
                       <a :href="route.edit(row.id)" class="btn btn-primary btn-sm" v-else>
                         <span class="fa fa-pencil"></span>
                       </a>
-
                       <a role="button" class="btn btn-danger btn-sm" v-on:click="destroy(row.id)">
                         <span class="fa fa-trash"></span>
                       </a>
@@ -74,50 +59,38 @@
               </tbody>
             </table>
           </div>
-
         </div>
         <!--End table container-->
       </div>
-
     </div>
     <!--end box-body-->
-
     <panal-indicator></panal-indicator>
 
     <!-- main modal -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal fade" tabindex="-1" role="dialog" :id="modalId">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">{{ modal.type }} <span class="text-capital">{{ model.singular }}</span></h4>
           </div>
-
           <form class="form-horizontal" v-on:submit.prevent="submit(modal.action)">
             <div class="modal-body smart-modal-form">
               <div class="messages"></div>
-
               <!--Loop de columnas-->
               <div class="form-group" v-for="field in fields" :key="field.id">
-                <label v-bind:for="field" class="col-sm-2 control-label">{{ field.title }}</label>
+                <label class="col-sm-2 control-label" v-bind:for="field">{{ field.title }}</label>
                 <div class="col-sm-10">
-
-                  <panal-inputs
-                    :field="field"
-                    :data="data">
-                  </panal-inputs>
-
+                  <panal-inputs :field="field" :data="data"></panal-inputs>
                 </div>
               </div>
               <!--Fin Loop de columnas-->
-
             </div>
             <div class="modal-footer">
-              <a type="button" class="btn btn-default" data-dismiss="modal">Cancelar</a>
+              <a type="button" class="btn btn-default" data-dismiss="modal">{{ panal.lang.button.cancel }}</a>
               <button type="submit" class="btn btn-primary">{{ modal.type }}</button>
             </div>
           </form>
-
         </div>
         <!-- /.modal-content -->
       </div>
@@ -125,17 +98,15 @@
     </div>
     <!-- /main modal -->
 
-
   </div>
 </template>
-
 <script>
-
-  import { Lang } from './table.lang.js';
-
   export default {
     name: 'panal-table',
 
+    /**
+     *  Variables que se utlizan como entrada
+    **/
     props: {
       title: {
         type: String,
@@ -144,7 +115,9 @@
       },
       fields: {
         type: Array,
-        default: () => { return [] },
+        default: () => {
+          return []
+        },
         required: true
       },
       showTfoot: {
@@ -162,58 +135,78 @@
       },
       model: {
         type: Object,
-        default: function() {
-          return { singular: '', plural: '' };
+        default: function () {
+          return {
+            singular: '',
+            plural: ''
+          };
         },
       },
       url: {
         type: Object,
-        default: () => { return {} },
+        default: () => {
+          return {}
+        },
         required: true
       },
       params: {
         type: Object,
-        default: () => { return {} },
+        default: () => {
+          return {}
+        },
         required: false
       }
     },
 
-    data: function() {
+    /**
+     *  Inicializacion de variables internas
+    **/
+    data: function () {
       var vm = this;
 
       return {
+        panal: panal,
         rows: [],
         data: {},
-        modal: {},
+        modal: {type: panal.lang.button.create, action: 'create'},
         route: vm.hasModal ? {} : {
-          create: Router.route(vm.url.doble + '.create') ,
-          edit: function(id){
-            return Router.route(vm.url.doble + '.edit', {id:id})
+          create: Router.route(vm.url.doble + '.create'),
+          edit: function (id) {
+            return Router.route(vm.url.doble + '.edit', {
+              id: id
+            })
           },
         },
         apiRoute: _.join([API, vm.url.simple, ''], '.'),
+        tableId: 'table-id-' + _.random(9999999, 99999999),
+        modalId: 'modal-id-' + _.random(9999999, 99999999),
       }
     },
 
+    /**
+     *  Cuando el componente esta listo y montado
+    **/
     mounted() {
-      var self = this;
-
       Events.$emit('indicator.show');
-
+      var self = this;
       this.checkEvents()
         .setObjectsFromFormFields()
-        .fetchDataFromApi()
+        .findAll()
         .makeDomFixes();
     },
 
+    /**
+     *  Metodos del componente
+    **/
     methods: {
 
       /**
        *  Funcion para que checkar eventos, se tiggerea desde el metodo mount()
-      **/
-      checkEvents : function(){
+       **/
+      checkEvents: function () {
         var self = this;
 
+        // Aqui se listaran los listeners de eventos
         Events.$on('calendar.value.fromChildren', (value) => {
           self.data[self.getCalendarFieldName()] = value;
         });
@@ -221,20 +214,36 @@
         return self;
       },
 
-      getCalendarFieldName: function(){
-        var field = _.find(this.fields, {type: 'calendar'});
+      /**
+       *  Utilidad para calendario.
+       *
+       *  Funciona de dos maneras
+       *  1- Detecta si en los fields existe el campo "calendar"
+       *  2- Obtiene el nombre del campo "calendar"
+       *
+       **/
+      getCalendarFieldName: function () {
+        var field = _.find(this.fields, {
+          type: 'calendar'
+        });
 
-        if (!_.isUndefined(field) ){
+        if (!_.isUndefined(field)) {
           return field.name;
         }
         return false;
       },
 
-      setObjectsFromFormFields: function() {
+      /**
+       *  Crea un objeto vacio "this.data" con todos los nombres de los fields
+       *  para que funcione el data-binding en los formularios para v-model,
+       *  una vez creados se cambia el valor desde el formulario
+       *
+       **/
+      setObjectsFromFormFields: function () {
         _.each(this.fields, (val) => {
           this.data[val.name] = '';
-          if(val.type == 'hidden'){
-              this.data[val.name] = val.value;
+          if (val.type == 'hidden') {
+            this.data[val.name] = val.value;
           }
 
         });
@@ -242,40 +251,51 @@
         return this;
       },
 
-      toggleModal: function(){
-        $('#modal').modal('toggle');
+      /**
+       *  Muestra y oculta el modal
+       **/
+      toggleModal: function () {
+        $('#' + this.modalId ).modal('toggle');
         return this;
       },
 
-      fetchDataFromApi: function() {
+      /**
+       *  Trae la lista de data a mostrar en la tabla
+       **/
+      findAll: function () {
         var self = this;
 
         // Default query route for index
         var route = Router.route(self.apiRoute + 'index');
 
         // query with conditions
-        if (self.where){
-          route = Router.route(self.apiRoute + 'show', { [self.model.plural] : self.where.id});
+        if (self.where) {
+          route = Router.route(self.apiRoute + 'show', {
+            [self.model.plural]: self.where.id
+          });
         }
 
         self.$http.get(route).then((res) => {
-          if (res.ok) {
-            self.rows = res.body.data;
-          }
-          self.startSmartTable();
-          Events.$emit('indicator.hide');
-        },
-        (err) =>{
-          console.error('Error:: ', err);
-        });
+            if (res.ok) {
+              self.rows = res.body.data;
+            }
+            self.startDataTable();
+            Events.$emit('indicator.hide');
+          },
+          (err) => {
+            console.error('Error:: ', err);
+          });
 
         return self;
       },
 
-      startSmartTable: function() {
-        setTimeout(function() {
-          this.table = $('#smartTable').DataTable({
-            "language": Lang,
+      /**
+       *  Inicia el plugin para la DataTable
+       **/
+      startDataTable: function () {
+        setTimeout(function () {
+          this.table = $('#' + this.tableId).DataTable({
+            "language": panal.lang.datatable,
             "aoColumnDefs": [{
               'bSortable': false,
               'aTargets': [-1]
@@ -286,29 +306,41 @@
         return this;
       },
 
-      reloadSmartTable: function() {
+      /**
+       *  Destruye la tabla y la vuelve a cargar
+       **/
+      reloadDataTable: function () {
         $('#smartTable').DataTable({
           destroy: true
         }).destroy();
-        this.fetchDataFromApi();
+        this.findAll();
 
         return this;
       },
 
-      makeDomFixes: function(){
-        setTimeout(function(){
+      /**
+       *  Hace algunos fixes necesarios
+       **/
+      makeDomFixes: function () {
+        setTimeout(function () {
           window.$('#smartTable_length, #smartTable_filter').parent().addClass('col-xs-6')
           window.$('#smartTable_wrapper').addClass('mt-20 ');
-        },'2000');
+        }, '2000');
 
         return this;
       },
 
-      submit: function(type) {
+      /**
+       *  Funcion que es llamada cuando se hace click en el boton
+       **/
+      submit: function (type) {
         (type == 'create') ? this.create(): this.update();
       },
 
-      openCreateModal: function() {
+      /**
+       *  Funcion que se carga al abrir un modal create, prepara la data para ser guardada
+       **/
+      openCreateModal: function () {
         var self = this;
         self.setObjectsFromFormFields();
         self.toggleModal();
@@ -316,51 +348,72 @@
           type: 'Agregar',
           action: 'create'
         };
+        console.log('aqio estamos');
       },
 
+      /**
+       *  Funcion que se carga al abrir un modal update, prepara la data para ser actulizada
+       **/
       openUpdateModal: function (id) {
-          var self = this;
-          self.data = _.find(self.rows, { 'id': id }); // Find the current data in the row array, and load the modal input
-          self.modal = { type: 'Editar', action: 'update' };
+        var self = this;
+        self.data = _.find(self.rows, {
+          'id': id
+        }); // Find the current data in the row array, and load the modal input
+        self.modal = {
+          type: 'Editar',
+          action: 'update'
+        };
+        self.toggleModal();
 
-          if (self.getCalendarFieldName() ){
-            Events.$emit('calendar.value.fromParent', self.data[self.getCalendarFieldName()]);
-          }
-        },
+        if (self.getCalendarFieldName()) {
+          Events.$emit('calendar.value.fromParent', self.data[self.getCalendarFieldName()]);
+        }
+      },
 
-      create: function() {
+      /**
+       *  Guarda la data, este evento envia la data post a la api
+       **/
+      create: function () {
         var self = this;
         Events.$emit('indicator.show');
         self.toggleModal();
         self.$http.post(Router.route(self.apiRoute + 'store'), self.data)
-        .then((res) => {
-          self.reloadSmartTable();
-          Events.$emit('indicator.hide');
-        },
-        (err) =>{
-          console.error('Error:: ', err);
-        });
+          .then((res) => {
+              self.reloadDataTable();
+              Events.$emit('indicator.hide');
+            },
+            (err) => {
+              console.error('Error:: ', err);
+            });
       },
 
-      update: function() {
+      /**
+       *  Actualizacion de la data
+       **/
+      update: function () {
         var self = this;
         Events.$emit('indicator.show');
 
-        self.$http.put(Router.route(self.apiRoute + 'update', { [self.model.plural] : self.data.id}), self.data)
-        .then((res) => {
-          self.reloadSmartTable();
-          Events.$emit('indicator.hide');
-          self.toggleModal();
-        },
-        (err) =>{
-          console.error('Error:: ', err);
-        });
+        self.$http.put(Router.route(self.apiRoute + 'update', {
+            [self.model.plural]: self.data.id
+          }), self.data)
+          .then((res) => {
+              self.reloadDataTable();
+              Events.$emit('indicator.hide');
+              self.toggleModal();
+            },
+            (err) => {
+              console.error('Error:: ', err);
+            });
       },
 
+      /**
+       *  Borrado de data
+       **/
       destroy: function (id) {
-          var self = this;
+        var self = this;
 
-          swal({
+        swal({
             title: "Estás seguro/a?",
             type: "warning",
             showCancelButton: true,
@@ -368,22 +421,25 @@
             confirmButtonText: "Si, borrar",
             closeOnConfirm: true
           },
-            () => {
-              Events.$emit('indicator.show');
-              self.$http.delete(Router.route(self.apiRoute + 'destroy', { [self.model.plural]: id })).then((res) => {
-                self.rows = _.reject(self.rows, { 'id': id });
-                self.reloadSmartTable();
-                Events.$emit('indicator.hide');
+          () => {
+            Events.$emit('indicator.show');
+            self.$http.delete(Router.route(self.apiRoute + 'destroy', {
+              [self.model.plural]: id
+            })).then((res) => {
+              self.rows = _.reject(self.rows, {
+                'id': id
               });
+              self.reloadDataTable();
+              Events.$emit('indicator.hide');
             });
-        },
+          });
+      },
 
     }
   }
 </script>
-
 <style lang="sass" scoped>
-  .color-square{
+  .color-square {
     height: 20px;
     width: 20px;
     border: 1px solid #9e9e9e;
@@ -396,12 +452,12 @@
     margin-bottom: 10px;
   }
 
-  .close{
+  .close {
     color: #fff;
     opacity: 0.7;
   }
 
-  .close:hover{
+  .close:hover {
     opacity: 0.9;
   }
 </style>

@@ -7,10 +7,9 @@
 require('./bootstrap');
 
 /**
- * Lista de Componentes
+ * Load the components
  */
-require('./components/Panal/index')
-require('./components/Turnos/index')
+require('./components/index')
 
 const app = new Vue({
   el: '#app'
