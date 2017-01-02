@@ -11,6 +11,7 @@
     "modernizr": "^3.3.1"
   },
   "dependencies": {
+    "@salesforce-ux/design-system": "^2.1.4",
     "admin-lte": "^2.3.8",
     "bootstrap": "^3.3.7",
     "bootstrap-material-datetimepicker": "https://github.com/T00rk/bootstrap-material-datetimepicker/tarball/gh-pages",
