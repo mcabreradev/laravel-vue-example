@@ -41,7 +41,7 @@
                   </td>
                   <td>
                     <div>
-                      <a role="button" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Ver Seguimientos" v-on:click="onClickDerivacion(row.id)">
+                      <a role="button" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Ver Seguimientos" :href="route.seguimientos(row.id)">
                         <span class="fa fa-th-large"></span>
                       </a>
                       <a role="button" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Derivar Solicitud" v-on:click="onClickDerivacion(row.id)">
@@ -192,9 +192,10 @@
         route: self.hasModal ? {} : {
           create: Router.route(self.url.doble + '.create'),
           edit: function (id) {
-            return Router.route(self.url.doble + '.edit', {
-              id: id
-            })
+            return Router.route(self.url.doble + '.edit', {id: id})
+          },
+          seguimientos: function(id){
+            return Router.route(self.url.doble + '.seguimientos', {id:id})
           },
         },
         apiRoute: _.join([API, self.url.simple, ''], '.'),

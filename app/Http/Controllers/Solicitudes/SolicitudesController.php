@@ -13,6 +13,7 @@ use App\Models\Solicitudes\Estado;
 use App\Models\Solicitudes\Solicitud;
 use App\Models\Solicitudes\Prioridad;
 use App\Models\Solicitudes\Solicitante;
+use App\Models\Solicitudes\Seguimiento;
 use App\Http\Controllers\ApiController;
 use App\Transformers\Solicitudes\SolicitudTransformer;
 
@@ -42,11 +43,11 @@ class SolicitudesController extends ApiController
 	public function create(){
 
 		return view('solicitudes.solicitudes.create', [
-            'solicitud' => new Solicitud(),
-            'origenes' => Origen::orderBy('nombre', 'asc')->get(),
-            'tipos' => Tipo::orderBy('nombre', 'asc')->get(),
-            'estados' => Estado::orderBy('nombre', 'asc')->get(),
-            'prioridades' => Prioridad::orderBy('nombre', 'asc')->get(),
+            'solicitud'    => new Solicitud(),
+            'origenes'     => Origen::orderBy('nombre', 'asc')->get(),
+            'tipos'        => Tipo::orderBy('nombre', 'asc')->get(),
+            'estados'      => Estado::orderBy('nombre', 'asc')->get(),
+            'prioridades'  => Prioridad::orderBy('nombre', 'asc')->get(),
             'solicitantes' => Solicitante::orderBy('nombre', 'asc')->get(),
         ]);
 	}
@@ -89,10 +90,10 @@ class SolicitudesController extends ApiController
         $solicitud = Solicitud::findOrFail($id);
 
 		return view('solicitudes.solicitudes.edit', [
-            'solicitud' => $solicitud,
-            'origenes' => Origen::orderBy('nombre', 'asc')->get(),
-            'tipos' => Tipo::orderBy('nombre', 'asc')->get(),
-            'estados' => Estado::orderBy('nombre', 'asc')->get(),
+            'solicitud'   => $solicitud,
+            'origenes'    => Origen::orderBy('nombre', 'asc')->get(),
+            'tipos'       => Tipo::orderBy('nombre', 'asc')->get(),
+            'estados'     => Estado::orderBy('nombre', 'asc')->get(),
             'prioridades' => Prioridad::orderBy('nombre', 'asc')->get(),
             'solicitante' => Solicitante::orderBy('nombre', 'asc')->get(),
         ]);
@@ -139,4 +140,19 @@ class SolicitudesController extends ApiController
 
         return $has_data;
     }
+
+    /**
+   * [show description]
+   * @param  {Integer} $id [description]
+   * @return [type]     [description]
+   */
+	public function seguimientos($id) {
+        $solicitud = Solicitud::findOrFail($id);
+        $seguimientos = Seguimiento::where('solicitud_id', $id)->get();
+
+		return view('solicitudes.solicitudes.seguimientos', [
+            'solicitud'    => $solicitud,
+            'seguimientos' => $seguimientos,
+             ]);
+	}
 }

@@ -366,6 +366,11 @@ Route::group(['middleware' => ['auth']], function() {
             'uses' => 'SolicitudesController@update'
         ])->where('id', '[0-9]+');
 
+        Route::get('solicitudes/{id}/seguimientos', [
+            'as'   => 'solicitudes.seguimientos',
+            'uses' => 'SolicitudesController@seguimientos'
+        ])->where('id', '[0-9]+');
+
         //   Areas
         Route::get('areas', [
             'as'   => 'areas',
