@@ -20,7 +20,6 @@
     <panal-table
       :model='{singular: "tipo", plural: "tipos"}'
       :url="{simple: 'solicitudes.tipos', doble:'solicitudes::tipos'}"
-      :has-modal="false"
       :fields="[
         {name: 'nombre', title: 'Nombre', type: 'text', required: true},
         {name: 'descripcion', title:'Descripción', type: 'textarea'},
