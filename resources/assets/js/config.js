@@ -59,7 +59,7 @@ PanalConf.lang         = {
   },
 
   'button':              {
-    'create':            'Agregar',
+    'create':            'Nuevo',
     'store':             'Guardar',
     'edit':              'Editar',
     'update':            'Editar',

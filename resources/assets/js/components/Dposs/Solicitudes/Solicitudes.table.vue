@@ -9,7 +9,7 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12 mb-25">
           <a :href="route.create" class="btn btn-primary pull pull-right" name="btnadd">
-            <i class="fa fa-plus"></i> Agregar <span class="text-capital">{{ model.singular }}</span>
+            <i class="fa fa-plus"></i> {{ PanalConf.lang.button.create }} <span class="text-capital">{{ model.singular }}</span>
           </a>
         </div>
       </div>
