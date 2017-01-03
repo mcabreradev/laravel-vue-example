@@ -61,7 +61,7 @@ class DerivacionesController extends ApiController
    */
 	public function show($solicitud_id) {
         $data = Derivacion::where('solicitud_id', $solicitud_id)
-        ->orderBy('derivado_el')
+        ->orderBy('derivado_el', 'desc')
         ->get();
 
 		return $this->respondWith($data, new DerivacionTransformer);

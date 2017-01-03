@@ -9,10 +9,10 @@
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12 mb-25">
           <a class="btn btn-primary pull pull-right" v-if="hasModal" v-on:click="openCreateModal" name="btnadd" id="modalBtn">
-            <i class="fa fa-plus"></i> {{ panal.lang.button.create }} <span class="text-capital">{{ model.singular }}</span>
+            <i class="fa fa-plus"></i> {{ PanalConf.lang.button.create }} <span class="text-capital">{{ model.singular }}</span>
           </a>
           <a :href="route.create" class="btn btn-primary pull pull-right" v-else name="btnadd">
-            <i class="fa fa-plus"></i> {{ panal.lang.button.create }} <span class="text-capital">{{ model.singular }}</span>
+            <i class="fa fa-plus"></i> {{ PanalConf.lang.button.create }} <span class="text-capital">{{ model.singular }}</span>
           </a>
         </div>
       </div>
@@ -87,7 +87,7 @@
               <!--Fin Loop de columnas-->
             </div>
             <div class="modal-footer">
-              <a type="button" class="btn btn-default" data-dismiss="modal">{{ panal.lang.button.cancel }}</a>
+              <a type="button" class="btn btn-default" data-dismiss="modal">{{ PanalConf.lang.button.cancel }}</a>
               <button type="submit" class="btn btn-primary">{{ modal.type }}</button>
             </div>
           </form>
@@ -162,22 +162,22 @@
      *  Inicializacion de variables internas
     **/
     data: function () {
-      var vm = this;
+      var self = this;
 
       return {
-        panal: panal,
+        PanalConf: PanalConf,
         rows: [],
         data: {},
-        modal: {type: panal.lang.button.create, action: 'create'},
-        route: vm.hasModal ? {} : {
-          create: Router.route(vm.url.doble + '.create'),
+        modal: {type: PanalConf.lang.button.create, action: 'create'},
+        route: self.hasModal ? {} : {
+          create: Router.route(self.url.doble + '.create'),
           edit: function (id) {
-            return Router.route(vm.url.doble + '.edit', {
+            return Router.route(self.url.doble + '.edit', {
               id: id
             })
           },
         },
-        apiRoute: _.join([API, vm.url.simple, ''], '.'),
+        apiRoute: _.join([API, self.url.simple, ''], '.'),
         tableId: 'table-id-' + _.random(9999999, 99999999),
         modalId: 'modal-id-' + _.random(9999999, 99999999),
       }
@@ -293,9 +293,10 @@
        *  Inicia el plugin para la DataTable
        **/
       startDataTable: function () {
+        var self = this;
         setTimeout(function () {
-          this.table = $('#' + this.tableId).DataTable({
-            "language": panal.lang.datatable,
+          self.table = $('#' + self.tableId).DataTable({
+            "language": self.PanalConf.lang.datatable,
             "aoColumnDefs": [{
               'bSortable': false,
               'aTargets': [-1]
@@ -303,7 +304,7 @@
           });
         }, 50);
 
-        return this;
+        return self;
       },
 
       /**
@@ -322,9 +323,10 @@
        *  Hace algunos fixes necesarios
        **/
       makeDomFixes: function () {
+        var self = this;
         setTimeout(function () {
-          window.$('#smartTable_length, #smartTable_filter').parent().addClass('col-xs-6')
-          window.$('#smartTable_wrapper').addClass('mt-20 ');
+          window.$('#' + self.tableId + '_length, #'+ self.tableId + '_filter').parent().addClass('col-xs-6')
+          window.$('#' + self.tableId + '_wrapper').addClass('mt-20 ');
         }, '2000');
 
         return this;
@@ -348,7 +350,6 @@
           type: 'Agregar',
           action: 'create'
         };
-        console.log('aqio estamos');
       },
 
       /**
@@ -356,15 +357,14 @@
        **/
       openUpdateModal: function (id) {
         var self = this;
-        self.data = _.find(self.rows, {
-          'id': id
-        }); // Find the current data in the row array, and load the modal input
+        self.data = _.find(self.rows, {'id': id}); // Find the current data in the row array, and load the modal input
         self.modal = {
           type: 'Editar',
           action: 'update'
         };
         self.toggleModal();
 
+         // Si hay un campo calendario, emitir evento para que lo reciba el calendario
         if (self.getCalendarFieldName()) {
           Events.$emit('calendar.value.fromParent', self.data[self.getCalendarFieldName()]);
         }

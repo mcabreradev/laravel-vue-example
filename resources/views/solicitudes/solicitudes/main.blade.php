@@ -17,7 +17,7 @@
 
     @include('flash::message')
 
-    <panal-table-solicitudes
+    <dposs-tabla-solicitudes
       :model='{singular: "reclamo", plural: "reclamos"}'
       :url="{simple: 'solicitudes.solicitudes', doble:'solicitudes::solicitudes'}"
       :has-modal="false"
@@ -26,7 +26,7 @@
         {name: 'creado_el', title: 'Fecha'},
         {name: 'descripcion', title: 'Descripcion'},
         ]"
-    ></panal-table-solicitudes>
+    ></dposs-tabla-solicitudes>
 
   </div>
 </div>

@@ -63,7 +63,7 @@ class Derivacion extends AppModel
      */
     public function area()
     {
-        return $this->belongsTo('App\Models\Solicitudes\Derivaciones\Area');
+        return $this->belongsTo('App\Models\Solicitudes\Area');
     }
 
     /**
@@ -72,6 +72,6 @@ class Derivacion extends AppModel
      */
     public function agente()
     {
-        return $this->belongsTo('App\Models\Solicitudes\Derivaciones\Agente');
+        return $this->belongsTo('App\Models\Solicitudes\Agente');
     }
 }

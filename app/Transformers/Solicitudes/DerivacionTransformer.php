@@ -14,14 +14,14 @@ class DerivacionTransformer extends TransformerAbstract
      *
      * @var array
      */
-    protected $availableIncludes = [];
+    protected $availableIncludes   = [];
 
     /**
      * List of resources to automatically include
      *
      * @var array
      */
-    protected $defaultIncludes = [];
+    protected $defaultIncludes     = [];
 
     /**
      * Transform object into a generic array
@@ -32,12 +32,47 @@ class DerivacionTransformer extends TransformerAbstract
     public function transform($resource)
     {
         return [
-            'derivacion_id' => $resource->id,
-            'derivado_el'   => $resource->derivado_el->format('d-m-Y'),
-            'observaciones' => $resource->observaciones,
-            'solicitud_id'  => $resource->solicitud_id,
-            'area_id'       => $resource->area_id,
-            'agente_id'     => $resource->agente_id,
+            'id'                  => $resource->id,
+            'derivacion_id'       => $resource->id,
+            'derivado_el'         => $resource->derivado_el->format('d-m-Y'),
+            'observaciones'       => $resource->observaciones,
+            'solicitud_id'        => $resource->solicitud_id,
+            'solicitud'           => [
+                'descripcion'     => $resource->solicitud->descripcionid,
+                'origen'          => [
+                    'id'          => $resource->solicitud->origen->id,
+                    'nombre'      => $resource->solicitud->origen->nombre,
+                ],
+                'tipo'            => [
+                    'id'          => $resource->solicitud->tipo->id,
+                    'nombre'      => $resource->solicitud->tipo->nombre,
+                ],
+                'estado'          => [
+                    'id'          => $resource->solicitud->estado->id,
+                    'nombre'      => $resource->solicitud->estado->nombre,
+                ],
+                'prioridad'       => [
+                    'id'          => $resource->solicitud->prioridad->id,
+                    'nombre'      => $resource->solicitud->prioridad->nombre,
+                ],
+                'solicitante'     => [
+                    'id'          => $resource->solicitud->solicitante->id,
+                    'nombre'      => $resource->solicitud->solicitante->nombre,
+                    'apellido'    => $resource->solicitud->solicitante->apellido,
+                'nombre_completo' => $resource->solicitud->solicitante->apellido . ', '.$resource->solicitud->solicitante->nombre,
+                ],
+            ],
+            'area_id'             => $resource->area_id,
+            'area'                => [
+                'nombre'          => $resource->area->nombre,
+            ],
+            'agente_id'           => $resource->agente_id,
+            'agente'              => [
+                'nombre'          => $resource->agente->nombre,
+                'apellido'        => $resource->agente->apellido,
+                'nombre_completo' => $resource->agente->apellido . ', '.$resource->agente->nombre,
+                'legajo'          => $resource->agente->legajo,
+            ]
         ];
     }
 }

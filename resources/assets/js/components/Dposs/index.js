@@ -5,4 +5,6 @@
 *
 */
 
-Vue.component('dposs-tabla-solicitudes', require('./Solicitudes/solicitudes.tabla.vue'));
+require('./Solicitudes/index')
+require('./Derivaciones/index')
+require('./Turnos/index')

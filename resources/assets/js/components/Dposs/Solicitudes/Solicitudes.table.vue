@@ -8,11 +8,7 @@
     <div class="box-body">
       <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12 mb-25">
-          <button class="btn btn-primary pull pull-right" v-if="hasModal" v-on:click="createModal" name="btnadd" data-toggle="modal"
-            data-target="#modal" id="modalBtn">
-            <i class="fa fa-plus"></i> Agregar <span class="text-capital">{{ model.singular }}</span>
-          </button>
-          <a :href="route.create" class="btn btn-primary pull pull-right" v-else name="btnadd">
+          <a :href="route.create" class="btn btn-primary pull pull-right" name="btnadd">
             <i class="fa fa-plus"></i> Agregar <span class="text-capital">{{ model.singular }}</span>
           </a>
         </div>
@@ -39,16 +35,19 @@
                   <td v-for="field in fields">
                     <!-- si es un imput de color / colorpicker -->
                     <div v-if="field.name === 'color'" role="button" v-bind:style="{'background-color': row[field.name]}" class="color-square"
-                      v-on:click="updateModal(row.id)" data-toggle="modal" data-target="#modal">
+                      v-on:click="openUpdateModal(row.id)" data-toggle="modal" data-target="#modal">
                     </div>
                     <div v-else>{{ row[field.name] }}</div>
                   </td>
                   <td>
                     <div>
-                      <a role="button" class='btn btn-default btn-sm' v-on:click="onClickDerivacion(row.id)">
+                      <a role="button" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Ver Seguimientos" v-on:click="onClickDerivacion(row.id)">
+                        <span class="fa fa-th-large"></span>
+                      </a>
+                      <a role="button" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Derivar Solicitud" v-on:click="onClickDerivacion(row.id)">
                         <span class="fa fa-repeat"></span>
                       </a>
-                      <a role="button" class='btn btn-primary btn-sm' v-if="hasModal" v-on:click="updateModal(row.id)" data-toggle="modal" data-target="#modal">
+                      <a role="button" class='btn btn-primary btn-sm' v-if="hasModal" v-on:click="openUpdateModal(row.id)" data-toggle="modal" data-target="#modal">
                         <span class="fa fa-pencil"></span>
                       </a>
                       <a :href="route.edit(row.id)" class="btn btn-primary btn-sm" v-else>
@@ -69,38 +68,7 @@
     </div>
     <!--end box-body-->
     <panal-indicator></panal-indicator>
-    <!-- main modal -->
-    <div class="modal fade" tabindex="-1" role="dialog" id="modal">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">{{ modal.type }} <span class="text-capital">{{ model.singular }}</span></h4>
-          </div>
-          <form class="form-horizontal" v-on:submit.prevent="submit(modal.action)">
-            <div class="modal-body smart-modal-form">
-              <div class="messages"></div>
-              <!--Loop de columnas-->
-              <div class="form-group" v-for="field in fields" :key="field.id">
-                <label v-bind:for="field" class="col-sm-2 control-label">{{ field.title }}</label>
-                <div class="col-sm-10">
-                  <panal-inputs :field="field" :data="data">
-                  </panal-inputs>
-                </div>
-              </div>
-              <!--Fin Loop de columnas-->
-            </div>
-            <div class="modal-footer">
-              <a type="button" class="btn btn-default" data-dismiss="modal">Cancelar</a>
-              <button type="submit" class="btn btn-primary">{{ modal.type }}</button>
-            </div>
-          </form>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-    <!-- /main modal -->
+
     <!-- derivacions modal -->
     <div class="modal fade derivaciones" tabindex="-1" role="dialog">
       <div class="modal-dialog" role="document">
@@ -154,12 +122,9 @@
   </div>
 </template>
 <script>
-  import {
-    Lang
-  } from './table.lang.js';
 
   export default {
-    name: 'panal-tabla-solicitudes',
+    name: 'dposs-tabla-solicitudes',
 
     props: {
       title: {
@@ -180,7 +145,8 @@
       },
       hasModal: {
         type: Boolean,
-        default: true
+        default: false,
+        required: false
       },
       model: {
         type: Object,
@@ -200,10 +166,14 @@
       }
     },
 
+    /**
+     *  Inicializacion de variables internas
+    **/
     data: function () {
       var self = this;
 
       return {
+        PanalConf: PanalConf,
         rows: [],
         data: {},
         derivaciones_data: {
@@ -218,7 +188,7 @@
         areas: [],
         agentes: [],
         tipo: '',
-        modal: {},
+        modal: {type: PanalConf.lang.button.create, action: 'create'},
         route: self.hasModal ? {} : {
           create: Router.route(self.url.doble + '.create'),
           edit: function (id) {
@@ -228,48 +198,97 @@
           },
         },
         apiRoute: _.join([API, self.url.simple, ''], '.'),
+        tableId: 'table-id-' + _.random(9999999, 99999999),
+        modalId: 'modal-id-' + _.random(9999999, 99999999),
       }
     },
 
     mounted() {
-      var self = this;
       Events.$emit('indicator.show');
-      self.setObjectsFromFormFields()
-        .fetchDataFromApi()
+      var self = this;
+      self.checkEvents()
+        .setObjectsFromFormFields()
+        .findAll()
         .makeDomFixes()
         .derivacionesPrepared();
-      Events.$on('calendar.value.fromChildren', (value) => {
-        self.derivaciones_data.derivado_el = value;
-      });
     },
 
     methods: {
-      setObjectsFromFormFields: function () {
+
+      /**
+       *  Funcion para que checkar eventos, se tiggerea desde el metodo mount()
+       **/
+      checkEvents: function () {
         var self = this;
-        _.each(self.fields, (val) => {
-          self.data[val] = '';
+
+        // Aqui se listaran los listeners de eventos
+        Events.$on('calendar.value.fromChildren', (value) => {
+          self.derivaciones_data.derivado_el = value;
+        });
+
+        return self;
+      },
+
+      /**
+       *  Utilidad para calendario.
+       *
+       *  Funciona de dos maneras
+       *  1- Detecta si en los fields existe el campo "calendar"
+       *  2- Obtiene el nombre del campo "calendar"
+       *
+       **/
+      getCalendarFieldName: function () {
+        var field = _.find(this.fields, {
+          type: 'calendar'
+        });
+
+        if (!_.isUndefined(field)) {
+          return field.name;
+        }
+        return false;
+      },
+
+      /**
+       *  Crea un objeto vacio "this.data" con todos los nombres de los fields
+       *  para que funcione el data-binding en los formularios para v-model,
+       *  una vez creados se cambia el valor desde el formulario
+       *
+       **/
+      setObjectsFromFormFields: function () {
+        _.each(this.fields, (val) => {
+          this.data[val.name] = '';
+          if (val.type == 'hidden') {
+            this.data[val.name] = val.value;
+          }
+
         });
 
         return this;
       },
 
-      fetchDataFromApi: function () {
+      /**
+       *  Trae la lista de data a mostrar en la tabla
+       **/
+      findAll: function () {
         var self = this;
         self.$http.get(Router.route(self.apiRoute + 'index')).then((res) => {
           if (res.ok) {
             self.rows = res.body.data;
           }
-          self.startSmartTable();
+          self.startDataTable();
           Events.$emit('indicator.hide');
         });
 
         return this;
       },
 
-      startSmartTable: function () {
+      /**
+       *  Inicia el plugin para la DataTable
+       **/
+      startDataTable: function () {
         setTimeout(function () {
           this.table = $('#smartTable').DataTable({
-            "language": Lang,
+            "language": PanalConf.lang.datatable,
             "aoColumnDefs": [{
               'bSortable': false,
               'aTargets': [-1]
@@ -280,16 +299,22 @@
         return this;
       },
 
-      reloadSmartTable: function () {
+      /**
+       *  Destruye la tabla y la vuelve a cargar
+       **/
+      reloadDataTable: function () {
         var self = this;
         $('#smartTable').DataTable({
           destroy: true
         }).destroy();
-        self.fetchDataFromApi();
+        self.findAll();
 
         return this;
       },
 
+      /**
+       *  Hace algunos fixes necesarios
+       **/
       makeDomFixes: function () {
         setTimeout(function () {
           window.$('#smartTable_length, #smartTable_filter').parent().addClass('col-xs-6')
@@ -299,20 +324,46 @@
         return this;
       },
 
+      /**
+       *  Funcion que es llamada cuando se hace click en el boton
+       **/
       submit: function (type) {
         var self = this;
         (type == 'create') ? self.create(): self.update();
       },
 
-      createModal: function () {
+      /**
+       *  Funcion que se carga al abrir un modal create, prepara la data para ser guardada
+       **/
+      openCreateModal: function () {
         var self = this;
-        self.data = {}; // Initalized as empty object :)
+        self.setObjectsFromFormFields();
         self.modal = {
           type: 'Agregar',
           action: 'create'
         };
       },
 
+      /**
+       *  Funcion que se carga al abrir un modal update, prepara la data para ser actulizada
+       **/
+      openUpdateModal: function (id) {
+        var self = this;
+        self.data = _.find(self.rows, {'id': id}); // Find the current data in the row array, and load the modal input
+        self.modal = {
+          type: 'Editar',
+          action: 'update'
+        };
+
+        // Si hay un campo calendario, emitir evento para que lo reciba el calendario
+        if (self.getCalendarFieldName()) {
+          Events.$emit('calendar.value.fromParent', self.data[self.getCalendarFieldName()]);
+        }
+      },
+
+      /**
+       *  Guarda la data, este evento envia la data post a la api
+       **/
       create: function () {
         var self = this;
         Events.$emit('indicator.show');
@@ -320,7 +371,7 @@
         $('#modal').modal('toggle');
 
         self.$http.post(Router.route(self.apiRoute + 'store'), self.data).then((res) => {
-          self.reloadSmartTable();
+          self.reloadDataTable();
           Events.$emit('indicator.hide');
 
         }, (err) => {
@@ -328,15 +379,9 @@
         });
       },
 
-      updateModal: function (id) {
-        var self = this;
-        self.data = _.find(self.rows, {'id': id}); // Find the current data in the row array, and load the modal input
-        self.modal = {
-          type: 'Editar',
-          action: 'update'
-        };
-      },
-
+      /**
+       *  Actualizacion de la data
+       **/
       update: function () {
         var self = this;
         Events.$emit('indicator.show');
@@ -344,12 +389,18 @@
         self.$http.put(Router.route(self.apiRoute + 'update', {
           [self.model.plural]: self.data.id
         }), self.data).then((res) => {
-          self.reloadSmartTable();
+          self.reloadDataTable();
           Events.$emit('indicator.hide');
           $('#modal').modal('toggle');
+        },
+        (err) => {
+          console.error('Error:: ', err);
         });
       },
 
+      /**
+       *  Borrado de data
+       **/
       destroy: function (id) {
         var self = this;
 
@@ -369,7 +420,7 @@
               self.rows = _.reject(self.rows, {
                 'id': id
               });
-              self.reloadSmartTable();
+              self.reloadDataTable();
               Events.$emit('indicator.hide');
             });
 
@@ -434,7 +485,8 @@
 
       derivacionesSubmit: function (tipo) {
         var self = this;
-        (self.tipo == 'store') ? self.derivacionStore(): self.derivacionUpdate();
+        // (self.tipo == 'store') ? self.derivacionStore(): self.derivacionUpdate();
+        self.derivacionStore();
       },
 
       derivacionStore: function () {

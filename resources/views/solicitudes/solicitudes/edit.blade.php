@@ -40,21 +40,18 @@
         </div>
     </panal-box-slot>
 
-    <panal-table
-      title="Derivaciones"
+    <dposs-derivaciones-tabla title="Derivaciones"
       :model='{singular: "derivacion", plural: "derivaciones"}'
       :url="{simple: 'solicitudes.derivaciones', doble:'solicitudes::derivaciones'}"
-      :has-modal="true"
       :where="{id: {{ $solicitud->id }} }"
       :fields="[
-        {name: 'generado_el', title: 'Fecha', type: 'calendar', required: true},
-        {name: 'descripcion', title:'Descripción', type: 'textarea'},
+        {name: 'derivado_el', title: 'Fecha', type: 'calendar', required: true},
+        {name: 'observaciones', title:'Observación', type: 'textarea'},
         {name: 'solicitud_id', type: 'hidden', value: {{$solicitud->id}} }
         ]"
-    ></panal-table>
+    ></dposs-derivaciones-tabla>
 
-    <panal-table
-      title="Seguimientos"
+    <panal-table title="Seguimientos"
       :model='{singular: "seguimiento", plural: "seguimientos"}'
       :url="{simple: 'solicitudes.seguimientos', doble:'solicitudes::seguimientos'}"
       :has-modal="true"
