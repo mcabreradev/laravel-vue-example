@@ -59,7 +59,7 @@ class Solicitud extends AppModel
 
     /**
      * [getCreadoElAttribute description]
-     * @param  [type] $date [description]
+     * @param  {datetime} $date [description]
      * @return [type]       [description]
      */
     public function getCreadoElAttribute($date){
@@ -75,24 +75,63 @@ class Solicitud extends AppModel
     }
 
     /**
-     * [setLatAttribute description]
-     * @param [type] $value [description]
+     * Setea la latitud por defecto
+     *
+     * @param {decimal} $value
      */
     public function setLatAttribute($value){
-        $this->attributes['lat'] = $value == "" ? null : $value;
+        $this->attributes['lat'] = $value == "" ? (float) $value : $value;
     }
 
     /**
-     * [setLatAttribute description]
-     * @param [type] $value [description]
+     * Setea la longitud por defecto
+     *
+     * @param {decimal} $value
      */
     public function setLngAttribute($value){
-        $this->attributes['lng'] = $value == "" ? null : $value;
+        $this->attributes['lng'] = $value == "" ? (float) $value : $value;
     }
 
     /**
-     * [origen description]
-     * @return [type] [description]
+     * Setea el origen por defecto
+     *
+     * @param {int} $value
+     */
+    public function setOrigenIdAttribute($value){
+        $this->attributes['origen_id'] = $value == "" ? null : $value;
+    }
+
+    /**
+     * Setea el tipo por defecto
+     *
+     * @param {int} $value
+     */
+    public function setTipoIdAttribute($value){
+        $this->attributes['tipo_id'] = $value == "" ? null : $value;
+    }
+
+    /**
+     * Setea el estado por defecto
+     *
+     * @param {int} $value
+     */
+    public function setEstadoIdAttribute($value){
+        $this->attributes['estado_id'] = $value == "" ? null : $value;
+    }
+
+    /**
+     * Setea la prioridad por defecto
+     *
+     * @param {int} $value
+     */
+    public function setPrioridadIdAttribute($value){
+        $this->attributes['prioridad_id'] = $value == "" ? null : $value;
+    }
+
+    /**
+     * El origen de la solicitud
+     *
+     * @return {Collection}
      */
     public function origen()
     {
@@ -100,8 +139,9 @@ class Solicitud extends AppModel
     }
 
     /**
-     * [tipo description]
-     * @return [type] [description]
+     * El tipo de solicitud
+     *
+     * @return {Collection}
      */
     public function tipo()
     {
@@ -109,8 +149,9 @@ class Solicitud extends AppModel
     }
 
     /**
-     * [estado description]
-     * @return [type] [description]
+     * El estado de la solicitud
+     *
+     * @return {Collection}
      */
     public function estado()
     {
@@ -118,8 +159,9 @@ class Solicitud extends AppModel
     }
 
     /**
-     * [prioridad description]
-     * @return [type] [description]
+     * La prioridad de la solicitud
+     *
+     * @return {Collection}
      */
     public function prioridad()
     {
@@ -127,8 +169,9 @@ class Solicitud extends AppModel
     }
 
     /**
-     * [solicitante description]
-     * @return [type] [description]
+     * El solicitante de la solicitud
+     *
+     * @return {Collection}
      */
     public function solicitante()
     {
@@ -136,8 +179,9 @@ class Solicitud extends AppModel
     }
 
     /**
-     * [derivaciones description]
-     * @return [type] [description]
+     * Las derivaciones de la solicitud
+     *
+     * @return {Collection}
      */
     public function derivaciones()
     {

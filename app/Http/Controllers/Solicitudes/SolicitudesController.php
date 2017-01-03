@@ -61,10 +61,8 @@ class SolicitudesController extends ApiController
 	public function store(Request $request) {
         $solicitud = Solicitud::create($request->all());
 
-        if($this->requestHasData($request->input('solicitante'))){
-            $solicitante = Solicitante::create($request->input('solicitante'));
-            $solicitud->solicitante()->associate($solicitante);
-            $solicitud->save();
+        if ($this->requestHasData($request->input('solicitante'))) {
+            $this->storeSolicitante($request, $solicitud);
         }
 
 		Flash::success('El registro se creó correctamente');
@@ -108,7 +106,17 @@ class SolicitudesController extends ApiController
 	public function update(Request $request, $id) {
 		$solicitud = Solicitud::findOrFail($id);
 		$solicitud->update($request->all());
-        $solicitud->solicitante()->update($request->input('solicitante'));
+
+        // Si existe el Solicitante, editar
+        if ( $request->input('solicitante.id') !== null &&  $request->input('solicitante.id') !== "") {
+            $solicitud->solicitante()->update($request->input('solicitante'));
+        }
+        // Sino existe, crearlo y asociarlo a la solicitud
+        elseif($this->requestHasData($request->input('solicitante'))){
+            $solicitante = Solicitante::create($request->input('solicitante'));
+            $solicitud->solicitante()->associate($solicitante);
+            $solicitud->save();
+        }
 
 		Flash::success('El registro se edito correctamente');
 		return redirect(route("solicitudes::solicitudes"));
@@ -131,6 +139,10 @@ class SolicitudesController extends ApiController
    */
     public function requestHasData($request) {
         $has_data = false;
+
+        if ($request == "") {
+            return false;
+        }
         foreach ($request as $field){
             if ( $field != "") {
                 $has_data = true;
