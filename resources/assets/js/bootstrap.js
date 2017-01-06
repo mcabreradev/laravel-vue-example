@@ -20,6 +20,9 @@ window._ = require('lodash');
 
 window.moment = require('moment');
 
+// Set Spanish for momentjs locate
+moment.locale('es');
+
 /**
  * Vue is a modern JavaScript library for building interactive web interfaces
  * using reactive data binding and reusable components. Vue's API is clean
@@ -35,6 +38,18 @@ window.Vue = require('vue');
  */
 
 require('vue-resource');
+
+/**
+ *@TODO hay un error con la directiva "fields" entre este componente y el panal-table
+
+ * vee-validate is a lightweight plugin for Vue.js that allows you
+ * to validate input fields, and display errors.
+ *
+ * https://github.com/logaretm/vee-validate
+ * https://dotdev.co/form-validation-using-vue-js-2-35abd6b18c5d#.8pk69tnas
+ */
+// window.VeeValidate = require('vee-validate');
+// Vue.use(require('vee-validate'));
 
 
 /**
@@ -74,3 +89,9 @@ require('./config');
 */
 
 require('./filters');
+
+/**
+* Mixins
+*/
+
+require('./mixins/index');
