@@ -63,15 +63,7 @@ class Solicitud extends AppModel
      * @return [type]       [description]
      */
     public function getCreadoElAttribute($date){
-        return date_format(date_create($date),"d-m-Y");
-    }
-
-    /**
-     * [setCreadoElAttribute description]
-     * @param [type] $date [description]
-     */
-    public function setCreadoElAttribute($date){
-        $this->attributes['creado_el'] = $date == "" ? Carbon::now() : Carbon::parse($date);
+        return;
     }
 
     /**
@@ -80,7 +72,7 @@ class Solicitud extends AppModel
      * @param {decimal} $value
      */
     public function setLatAttribute($value){
-        $this->attributes['lat'] = $value == "" ? (float) $value : $value;
+        $this->attributes['lat'] = $value == "" ? NULL : $value;
     }
 
     /**
@@ -89,7 +81,7 @@ class Solicitud extends AppModel
      * @param {decimal} $value
      */
     public function setLngAttribute($value){
-        $this->attributes['lng'] = $value == "" ? (float) $value : $value;
+        $this->attributes['lng'] = $value == "" ? null : $value;
     }
 
     /**

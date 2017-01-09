@@ -81,17 +81,23 @@ window.Router = require('./routes.js');
 * Config
 */
 
-require('./config');
+require('./config/index');
 
 
 /**
 * Filters
 */
 
-require('./filters');
+require('./filters/index');
 
 /**
 * Mixins
 */
 
 require('./mixins/index');
+
+/**
+* Vendors or External Components
+*/
+
+require('./vendors');

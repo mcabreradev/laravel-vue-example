@@ -23,8 +23,8 @@
       :has-modal="false"
       :fields="[
         {name: 'id', title: 'Solicitud #'},
-        {name: 'creado_el', title: 'Fecha'},
-        {name: 'descripcion', title: 'Descripcion'},
+        {name: 'creado_el', title: 'Fecha', type:'datetime'},
+        {name: 'descripcion', title: 'Descripción', type: 'textarea'},
         ]"
     ></dposs-tabla-solicitudes>
 

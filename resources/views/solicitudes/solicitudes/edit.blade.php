@@ -45,7 +45,7 @@
       :url="{simple: 'solicitudes.derivaciones', doble:'solicitudes::derivaciones'}"
       :where="{id: {{ $solicitud->id }} }"
       :fields="[
-        {name: 'derivado_el', title: 'Fecha', type: 'calendar', required: true},
+        {name: 'derivado_el', title: 'Fecha', type: 'datetime', required: true},
         {name: 'observaciones', title:'Observación', type: 'textarea'},
         {name: 'solicitud_id', type: 'hidden', value: {{$solicitud->id}} }
         ]"
@@ -57,7 +57,7 @@
       :has-modal="true"
       :where="{id: {{ $solicitud->id }} }"
       :fields="[
-        {name: 'generado_el', title: 'Fecha', type: 'calendar', required: true},
+        {name: 'generado_el', title: 'Fecha', type: 'datetime', required: true},
         {name: 'descripcion', title:'Descripción', type: 'textarea'},
         {name: 'solicitud_id', type: 'hidden', value: {{$solicitud->id}} }
         ]"

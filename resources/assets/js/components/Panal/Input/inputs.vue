@@ -22,8 +22,15 @@
       v-if="field.type === 'calendar'"
       :name="name"
       :value="value"
-      :placeholder="title"
+      v-model.trim="data[field.name]"
     ></panal-calendar>
+
+    <panal-datetime
+      v-if="field.type === 'datetime'"
+      :name="name"
+      :value="value"
+      :placeholder="title"
+    ></panal-datetime>
 
     <textarea v-if="field.type === 'textarea'"
       class="form-control"

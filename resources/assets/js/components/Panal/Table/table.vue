@@ -36,10 +36,10 @@
               <tbody>
                 <tr v-for="row in rows">
                   <td v-for="field in fields" v-if="field.type !='hidden'">
-                    <!-- si es un imput de color / colorpicker -->
                     <div v-if="field.name === 'color'" role="button" v-bind:style="{'background-color': row[field.name]}" class="color-square"
                       v-on:click="openUpdateModal(row.id)">
                     </div>
+                    <div v-if="field.type === 'datetime'">{{ row[field.name] | datetimeFromNow }}</div>
                     <div v-else>{{ row[field.name] }}</div>
                   </td>
                   <td>
@@ -179,6 +179,7 @@
         },
         apiRoute: _.join([API, self.url.simple, ''], '.'),
         tableId: 'table-id-' + _.random(9999999, 99999999),
+        table : null,
         modalId: 'modal-id-' + _.random(9999999, 99999999),
       }
     },
@@ -311,9 +312,8 @@
        *  Destruye la tabla y la vuelve a cargar
        **/
       reloadDataTable: function () {
-        $('#smartTable').DataTable({
-          destroy: true
-        }).destroy();
+        var self = this;
+        self.table.destroy();
         this.findAll();
 
         return this;
@@ -377,6 +377,7 @@
         var self = this;
         Events.$emit('indicator.show');
         self.toggleModal();
+
         self.$http.post(Router.route(self.apiRoute + 'store'), self.data)
           .then((res) => {
               self.reloadDataTable();
@@ -384,6 +385,7 @@
             },
             (err) => {
               console.error('Error:: ', err);
+              self.toggleModal();
             });
       },
 
@@ -393,6 +395,7 @@
       update: function () {
         var self = this;
         Events.$emit('indicator.show');
+        self.toggleModal();
 
         self.$http.put(Router.route(self.apiRoute + 'update', {
             [self.model.plural]: self.data.id
@@ -400,10 +403,10 @@
           .then((res) => {
               self.reloadDataTable();
               Events.$emit('indicator.hide');
-              self.toggleModal();
             },
             (err) => {
               console.error('Error:: ', err);
+              self.toggleModal();
             });
       },
 

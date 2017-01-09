@@ -92,8 +92,6 @@ export default {
       .findAll()
       .findAllOptions()
       .makeDomFixes();
-
-    console.log('migue me quede en la edicion de la derivacion, esta tiradno error.. falta eliminar y la timeline de seguimientos');
   },
 
   /**
@@ -165,6 +163,9 @@ export default {
     findAllOptions: function () {
       var self = this;
 
+      /**
+       *  Obtiene las solicitudes del API
+       */
       this.$http
         .get(Router.route(API + '.solicitudes.derivaciones.index'))
         .then((res) => {
@@ -173,6 +174,9 @@ export default {
           console.error('Error: ', err);
         });
 
+      /**
+       *  Obtiene las areas del API
+       */
       this.$http
         .get(Router.route(API + '.solicitudes.areas.index'))
         .then((res) => {
@@ -181,6 +185,9 @@ export default {
           console.error('Error: ', err);
         });
 
+      /**
+       *  Obtiene los agentes del API
+       */
       this.$http
         .get(Router.route(API + '.solicitudes.agentes.index'))
         .then((res) => {
@@ -302,11 +309,12 @@ export default {
       self.toggleModal();
       self.$http.post(Router.route(self.apiRoute + 'store'), self.data)
         .then((res) => {
-            self.toggleModal();
             self.reloadDataTable();
             Events.$emit('indicator.hide');
           },
           (err) => {
+            self.toggleModal();
+            Events.$emit('indicator.hide');
             console.error('Error:: ', err);
         });
     },
@@ -345,9 +353,12 @@ export default {
           self.toggleModal();
           self.reloadDataTable();
           Events.$emit('indicator.hide');
+          console.log(res);
           },
           (err) => {
             console.error('Error:: ', err);
+            Events.$emit('indicator.hide');
+            self.toggleModal();
           });
     },
 
@@ -396,5 +407,18 @@ export default {
       };
     },
 
+    /**
+     *  Retorna nombre completo del agente si existe
+     */
+    getAgenteName: function (agente) {
+      return _.isNull(agente) ? null : agente.apellido + ', '+ agente.nombre;
+    },
+
+    /**
+     * Retorna el nombre del area si existe
+     */
+    getAreaName: function(area){
+      return _.isNull(area) ? null : area.nombre;
+    },
   }
 }

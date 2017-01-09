@@ -11,6 +11,4 @@ require('./bootstrap');
  */
 require('./components/index')
 
-const app = new Vue({
-  el: '#app'
-});
+const app = new Vue().$mount('#app');

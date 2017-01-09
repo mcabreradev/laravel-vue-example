@@ -41,11 +41,30 @@ class Derivacion extends AppModel
     protected $dates = ['created_at', 'updated_at', 'derivado_el'];
 
     /**
-     * [setDerivadoElAttribute description]
-     * @param [type] $date [description]
+     * Setea la solicitud por defecto
+     *
+     * @param {int} $value
      */
-    public function setDerivadoElAttribute($date){
-        $this->attributes['derivado_el'] = $date == "" ? Carbon::now() : Carbon::parse($date);
+    public function setSolicitudIdAttribute($value){
+        $this->attributes['solicitud_id'] = $value == "" ? null : $value;
+    }
+
+    /**
+     * Setea el area por defecto
+     *
+     * @param {int} $value
+     */
+    public function setAreaIdAttribute($value){
+        $this->attributes['area_id'] = $value == "" ? null : $value;
+    }
+
+    /**
+     * Setea el agente por defecto
+     *
+     * @param {int} $value
+     */
+    public function setAgenteIdAttribute($value){
+        $this->attributes['agente_id'] = $value == "" ? null : $value;
     }
 
     /**

@@ -40,9 +40,9 @@
             <tbody>
               <tr v-for="row in rows">
                 <td><div>{{ row.derivacion_id }}</div></td>
-                <td><div>{{ row.derivado_el }}</div></td>
-                <td><div>{{ row.area.nombre }}</div></td>
-                <td><div>{{ row.agente.nombre_completo }}</div></td>
+                <td><div>{{ row.derivado_el | datetimeFromNow }}</div></td>
+                <td><div>{{ getAreaName(row.area) }}</div></td>
+                <td><div>{{ getAgenteName(row.agente) }}</div></td>
                 <td><div>{{ row.observaciones }}</div></td>
                 <td>
                   <div>
@@ -79,23 +79,25 @@
             <div class="form-group">
               <label for="derivado_el" class="col-sm-2 control-label">Fecha</label>
               <div class="col-sm-10">
-                <panal-calendar name="derivado_el" :value="data.derivado_el"></panal-calendar>
+                <panal-datetime name="derivado_el" :value="data.derivado_el"></panal-datetime>
               </div>
             </div>
             <div class="form-group">
               <label for="area_id" class="col-sm-2 control-label">Area</label>
               <div class="col-sm-10">
-                <select class="form-control" name="area_id" id="area_id" v-model="data.area_id" required>
-                    <option v-for="area in areas" :value="area.id">{{ area.nombre }}</option>
-                  </select>
+                <select class="form-control" name="area_id" id="area_id" v-model="data.area_id">
+                  <option value="">Seleccione</option>
+                  <option v-for="area in areas" :value="area.id">{{ area.nombre }}</option>
+                </select>
               </div>
             </div>
             <div class="form-group">
               <label for="agente_id" class="col-sm-2 control-label">Agente</label>
               <div class="col-sm-10">
-                <select class="form-control" name="agente_id" id="agente_id" v-model="data.agente_id" required>
-                    <option v-for="agente in agentes" :value="agente.id">{{ agente.nombre_completo }}</option>
-                  </select>
+                <select class="form-control" name="agente_id" id="agente_id" v-model="data.agente_id">
+                  <option value="">Seleccione</option>
+                  <option v-for="agente in agentes" :value="agente.id">{{ agente.nombre_completo }}</option>
+                </select>
               </div>
             </div>
             <div class="form-group">

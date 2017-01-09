@@ -9,6 +9,6 @@ Vue.filter('hourSecondsOnly', function (value) {
   return moment(value, 'HH:mm:ss').format('HH:mm');
 });
 
-Vue.filter('fromNow', function (value) {
+Vue.filter('datetimeFromNow', function (value) {
   return moment(value).fromNow();
 });

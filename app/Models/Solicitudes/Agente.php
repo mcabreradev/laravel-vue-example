@@ -34,6 +34,11 @@ class Agente extends AppModel
         'nombre_completo'
     ];
 
+    public function getNombreCompletoAttribute()
+    {
+        return $this->apellido . ', ' . $this->nombre;
+    }
+
     /**
      * [derivaciones description]
      * @return [type] [description]

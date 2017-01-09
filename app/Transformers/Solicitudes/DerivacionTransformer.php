@@ -34,45 +34,22 @@ class DerivacionTransformer extends TransformerAbstract
         return [
             'id'                  => $resource->id,
             'derivacion_id'       => $resource->id,
-            'derivado_el'         => $resource->derivado_el->format('d-m-Y'),
+            'derivado_el'         => $resource->derivado_el->format('Y-m-d h:m:s'),
             'observaciones'       => $resource->observaciones,
             'solicitud_id'        => $resource->solicitud_id,
             'solicitud'           => [
-                'descripcion'     => $resource->solicitud->descripcionid,
-                'origen'          => [
-                    'id'          => $resource->solicitud->origen->id,
-                    'nombre'      => $resource->solicitud->origen->nombre,
-                ],
-                'tipo'            => [
-                    'id'          => $resource->solicitud->tipo->id,
-                    'nombre'      => $resource->solicitud->tipo->nombre,
-                ],
-                'estado'          => [
-                    'id'          => $resource->solicitud->estado->id,
-                    'nombre'      => $resource->solicitud->estado->nombre,
-                ],
-                'prioridad'       => [
-                    'id'          => $resource->solicitud->prioridad->id,
-                    'nombre'      => $resource->solicitud->prioridad->nombre,
-                ],
-                'solicitante'     => [
-                    'id'          => isSetOrNull($resource->solicitud->solicitante->id) ,
-                    'nombre'      => isSetOrNull($resource->solicitud->solicitante->nombre),
-                    'apellido'    => isSetOrNull($resource->solicitud->solicitante->apellido),
-                'nombre_completo' => isSetOrNull($resource->solicitud->solicitante->apellido) && isSetOrNull($resource->solicitud->solicitante->nombre) ? $resource->solicitud->solicitante->apellido . ', '.$resource->solicitud->solicitante->nombre: null,
-                ],
+                'id'              => $resource->solicitud->id,
+                'descripcion'     => $resource->solicitud->descripcion,
+                'origen'          => isSetOrNull($resource->solicitud->origen),
+                'tipo'            => isSetOrNull($resource->solicitud->tipo),
+                'estado'          => isSetOrNull($resource->solicitud->estado),
+                'prioridad'       => isSetOrNull($resource->solicitud->prioridad),
+                'solicitante'     => isSetOrNull($resource->solicitud->solicitante),
             ],
             'area_id'             => $resource->area_id,
-            'area'                => [
-                'nombre'          => $resource->area->nombre,
-            ],
+            'area'                => isSetOrNull($resource->area),
             'agente_id'           => $resource->agente_id,
-            'agente'              => [
-                'nombre'          => $resource->agente->nombre,
-                'apellido'        => $resource->agente->apellido,
-                'nombre_completo' => $resource->agente->apellido . ', '.$resource->agente->nombre,
-                'legajo'          => $resource->agente->legajo,
-            ]
+            'agente'              => isSetOrNull($resource->agente),
         ];
     }
 }

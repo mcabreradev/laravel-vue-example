@@ -1,0 +1,18 @@
+  .dtp {
+    background: rgba(0, 0, 0, 0.4) !important;
+  }
+
+  .dtp .dtp-header,
+  .dtp .dtp-date,
+  .dtp a.selected {
+    background: #3c8dbc !important;
+  }
+
+  .dtp>.dtp-content>.dtp-date-view>header.dtp-header {
+    background: #357ca5;
+    color: #fff;
+  }
+
+  .dtp .dtp-date i {
+    color: white;
+  }

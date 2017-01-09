@@ -5,7 +5,7 @@
 <title>DPOSS | Oficina Virtual</title>
 
 <!-- Fonts -->
-<link rel="stylesheet" type="text/css" href="{{ asset('/compiled/vendors/font-awesome/css/font-awesome.min.css') }}">>
+<link rel="stylesheet" type="text/css" href="{{ asset('/compiled/vendors/font-awesome/css/font-awesome.min.css') }}">
 
 <!-- bootstrap (also on body-commons) -->
 <link href="{{ asset('/compiled/css/bootstrap/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet">

@@ -33,10 +33,15 @@
               <tbody>
                 <tr v-for="row in rows">
                   <td v-for="field in fields">
-                    <!-- si es un imput de color / colorpicker -->
-                    <div v-if="field.name === 'color'" role="button" v-bind:style="{'background-color': row[field.name]}" class="color-square"
-                      v-on:click="openUpdateModal(row.id)" data-toggle="modal" data-target="#modal">
+                    <div v-if="field.name === 'color'"
+                      role="button"
+                      v-bind:style="{'background-color': row[field.name]}"
+                      class="color-square"
+                      v-on:click="openUpdateModal(row.id)"
+                      data-toggle="modal"
+                      data-target="#modal">
                     </div>
+                    <div v-if="field.type === 'datetime'">{{ row[field.name] | datetimeFromNow }} </div>
                     <div v-else>{{ row[field.name] }}</div>
                   </td>
                   <td>
@@ -82,7 +87,7 @@
               <div class="form-group">
                 <label for="derivado_el" class="col-sm-2 control-label">Fecha</label>
                 <div class="col-sm-10">
-                  <panal-calendar name="derivado_el" :value="derivaciones_data.derivado_el"></panal-calendar>
+                  <panal-datetime name="derivado_el" :value="derivaciones_data.derivado_el"></panal-datetime>
                 </div>
               </div>
               <div class="form-group">
@@ -369,7 +374,10 @@
         var self = this;
         Events.$emit('indicator.show');
 
+        console.log(self.data); return;
+
         $('#modal').modal('toggle');
+
 
         self.$http.post(Router.route(self.apiRoute + 'store'), self.data).then((res) => {
           self.reloadDataTable();
