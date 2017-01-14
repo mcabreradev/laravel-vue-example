@@ -58,12 +58,12 @@ class Solicitud extends AppModel
     protected $dates = ['created_at', 'updated_at', 'creado_el'];
 
     /**
-     * [getCreadoElAttribute description]
-     * @param  {datetime} $date [description]
-     * @return [type]       [description]
+     * La fecha el que fue creada la solicutud
+     *
+     * @param  {value} $value [description]
      */
-    public function getCreadoElAttribute($date){
-        return;
+    public function getCreadoElAttribute($value){
+        return $value;
     }
 
     /**
@@ -72,7 +72,7 @@ class Solicitud extends AppModel
      * @param {decimal} $value
      */
     public function setLatAttribute($value){
-        $this->attributes['lat'] = $value == "" ? NULL : $value;
+        $this->attributes['lat'] = $value == "" ? null : $value;
     }
 
     /**

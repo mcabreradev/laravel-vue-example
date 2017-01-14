@@ -59,7 +59,14 @@ export default {
     return {
       PanalConf: PanalConf,
       rows: [],
-      data: self.cleanData(),
+      data: {
+        id:            null,
+        solicitud_id:  null,
+        derivado_el:   null,
+        agente_id:     null,
+        area_id:       null,
+        observaciones: null
+      },
       solicitudes: [],
       areas: [],
       agentes: [],
@@ -104,11 +111,6 @@ export default {
      **/
     checkEvents: function () {
       var self = this;
-
-      // Aqui se listaran los listeners de eventos
-      Events.$on('calendar.value.fromChildren', (value) => {
-        self.data[self.getCalendarFieldName()] = value;
-      });
 
       return self;
     },
@@ -396,14 +398,14 @@ export default {
      *
      */
     cleanData: function () {
-      Events.$emit('calendar.value.fromParent', '');
-      return {
-        id:            '',
-        solicitud_id:  '',
-        derivado_el:   '',
-        agente_id:     '',
-        area_id:       '',
-        observaciones: ''
+      var self = this;
+      self.$data.data = {
+        id:            null,
+        solicitud_id:  null,
+        derivado_el:   null,
+        agente_id:     null,
+        area_id:       null,
+        observaciones: null
       };
     },
 

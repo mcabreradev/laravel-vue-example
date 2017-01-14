@@ -41,7 +41,11 @@
                       data-toggle="modal"
                       data-target="#modal">
                     </div>
-                    <div v-if="field.type === 'datetime'">{{ row[field.name] | datetimeFromNow }} </div>
+                    <div v-if="field.type === 'datetime'">
+                      <panal-tooltip :title="row[field.name] | datetimeToHuman">
+                        {{ row[field.name] | datetimeFromNow }}
+                      </panal-tooltip>
+                    </div>
                     <div v-else>{{ row[field.name] }}</div>
                   </td>
                   <td>
@@ -82,7 +86,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             <h4 class="modal-title">Derivar Solicitud</h4>
           </div>
-          <form class="form-horizontal" v-on:submit.prevent="derivacionesSubmit(tipo)">
+          <form class="form-horizontal" v-on:submit.prevent="derivacionesSubmit()">
             <div class="modal-body smart-modal-form">
               <div class="form-group">
                 <label for="derivado_el" class="col-sm-2 control-label">Fecha</label>
@@ -94,6 +98,7 @@
                 <label for="area_id" class="col-sm-2 control-label">Area</label>
                 <div class="col-sm-10">
                   <select class="form-control" name="area_id" id="area_id" v-model="derivaciones_data.area_id" required>
+                      <option value="">Seleccione</option>
                       <option v-for="area in areas" :value="area.id">{{ area.nombre }}</option>
                     </select>
                 </div>
@@ -102,6 +107,7 @@
                 <label for="agente_id" class="col-sm-2 control-label">Agente</label>
                 <div class="col-sm-10">
                   <select class="form-control" name="agente_id" id="agente_id" v-model="derivaciones_data.agente_id" required>
+                      <option value="">Seleccione</option>
                       <option v-for="agente in agentes" :value="agente.id">{{ agente.nombre_completo }}</option>
                     </select>
                 </div>
@@ -180,19 +186,11 @@
       return {
         PanalConf: PanalConf,
         rows: [],
-        data: {},
-        derivaciones_data: {
-          derivacion_id: '',
-          solicitud_id: '',
-          derivado_el: '',
-          agente_id: '',
-          area_id: '',
-          observaciones: ''
-        },
+        solicitudes_data: {},
+        derivaciones_data: {},
         solicitudes: [],
         areas: [],
         agentes: [],
-        tipo: '',
         modal: {type: PanalConf.lang.button.create, action: 'create'},
         route: self.hasModal ? {} : {
           create: Router.route(self.url.doble + '.create'),
@@ -255,16 +253,16 @@
       },
 
       /**
-       *  Crea un objeto vacio "this.data" con todos los nombres de los fields
+       *  Crea un objeto vacio "this.solicitudes_data" con todos los nombres de los fields
        *  para que funcione el data-binding en los formularios para v-model,
        *  una vez creados se cambia el valor desde el formulario
        *
        **/
       setObjectsFromFormFields: function () {
         _.each(this.fields, (val) => {
-          this.data[val.name] = '';
+          this.solicitudes_data[val.name] = '';
           if (val.type == 'hidden') {
-            this.data[val.name] = val.value;
+            this.solicitudes_data[val.name] = val.value;
           }
 
         });
@@ -355,7 +353,7 @@
        **/
       openUpdateModal: function (id) {
         var self = this;
-        self.data = _.find(self.rows, {'id': id}); // Find the current data in the row array, and load the modal input
+        self.solicitudes_data = _.find(self.rows, {'id': id}); // Find the current data in the row array, and load the modal input
         self.modal = {
           type: 'Editar',
           action: 'update'
@@ -363,7 +361,7 @@
 
         // Si hay un campo calendario, emitir evento para que lo reciba el calendario
         if (self.getCalendarFieldName()) {
-          Events.$emit('calendar.value.fromParent', self.data[self.getCalendarFieldName()]);
+          Events.$emit('calendar.value.fromParent', self.solicitudes_data[self.getCalendarFieldName()]);
         }
       },
 
@@ -374,12 +372,12 @@
         var self = this;
         Events.$emit('indicator.show');
 
-        console.log(self.data); return;
+        console.log(self.solicitudes_data); return;
 
         $('#modal').modal('toggle');
 
 
-        self.$http.post(Router.route(self.apiRoute + 'store'), self.data).then((res) => {
+        self.$http.post(Router.route(self.apiRoute + 'store'), self.solicitudes_data).then((res) => {
           self.reloadDataTable();
           Events.$emit('indicator.hide');
 
@@ -396,8 +394,8 @@
         Events.$emit('indicator.show');
 
         self.$http.put(Router.route(self.apiRoute + 'update', {
-          [self.model.plural]: self.data.id
-        }), self.data).then((res) => {
+          [self.model.plural]: self.solicitudes_data.id
+        }), self.solicitudes_data).then((res) => {
           self.reloadDataTable();
           Events.$emit('indicator.hide');
           $('#modal').modal('toggle');
@@ -436,22 +434,17 @@
           });
       },
 
+      /**
+       * Abre o cierra el modal
+       */
       toggleDerivacionModal: () => {
-        $('.derivaciones').modal('toggle')
+        $('.derivaciones').modal('toggle');
         return this;
       },
 
-      clearDerivacionesData: () => {
-        return {
-          derivacion_id: '',
-          solicitud_id: '',
-          derivado_el: '',
-          agente_id: '',
-          area_id: '',
-          observaciones: ''
-        }
-      },
-
+      /**
+       * Funcion que prepara las derivaciones, las llamadas a las api y asignacion de variables
+       */
       derivacionesPrepared: function () {
         var self = this;
 
@@ -470,34 +463,56 @@
         return this;
       },
 
+      /**
+       * Los campos del formulario limpios con valor null
+       */
+      clearDerivacionesDataFields: function() {
+        return {
+          derivacion_id: null,
+          observaciones: null,
+          solicitud_id:  null,
+          derivado_el:   null,
+          agente_id:     null,
+          area_id:       null,
+        };
+      },
+
+      /**
+       * Funcion que limpia los campos del formulario
+       */
+      clearDerivacionesData: function() {
+        var self = this;
+        self.derivaciones_data = self.clearDerivacionesDataFields();
+
+         return this;
+      },
+
+      /**
+       * Cuando se hace click en el icono de
+       */
       onClickDerivacion: function (solicitud_id) {
         var self = this;
-        var solicitudHasDerivacion = _.find(self.derivaciones, {'solicitud_id': solicitud_id});
-
         self.toggleDerivacionModal();
+        var q =  _.find(self.derivaciones, {'solicitud_id': solicitud_id});
+        _.isUndefined(q) ? self.$data.derivaciones_data = self.clearDerivacionesDataFields() : self.$data.derivaciones_data = q;
 
-        // UPDATE
-        if(!_.isUndefined(solicitudHasDerivacion) ){
-          self.tipo = 'update';
-          self.derivaciones_data = solicitudHasDerivacion;
-          Events.$emit('calendar.value.fromParent', self.derivaciones_data.derivado_el);
-
-          return this;
-        }
-        // CREATE
-        self.tipo = 'store';
-        self.derivaciones_data = self.clearDerivacionesData();
-        Events.$emit('calendar.value.fromParent', self.derivaciones_data.derivado_el);
-
-        return this;
+        return self;
       },
 
-      derivacionesSubmit: function (tipo) {
+      /**
+       *  Es la funcion que se llama al hacer submit en el formulario
+       *  bien podria ser update, pero por se un caso 'custom' es solo store
+       */
+      derivacionesSubmit: function () {
         var self = this;
-        // (self.tipo == 'store') ? self.derivacionStore(): self.derivacionUpdate();
         self.derivacionStore();
+
+        return self;
       },
 
+      /**
+       *
+       */
       derivacionStore: function () {
         var self = this;
         Events.$emit('indicator.show');
@@ -508,11 +523,17 @@
         }, (err) => {
           console.error('Error: ', err);
         });
+
+        return self;
       },
 
+      /**
+       *
+       */
       derivacionUpdate: function () {
         var self = this;
         self.toggleDerivacionModal();
+
         Events.$emit('indicator.show');
 
         self.$http.put(Router.route(API + '.solicitudes.derivaciones.update', {
@@ -521,6 +542,7 @@
           Events.$emit('indicator.hide');
         });
 
+        return self;
       },
     }
   }

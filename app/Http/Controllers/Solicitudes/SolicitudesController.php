@@ -62,7 +62,9 @@ class SolicitudesController extends ApiController
         $solicitud = Solicitud::create($request->all());
 
         if ($this->requestHasData($request->input('solicitante'))) {
-            $this->storeSolicitante($request, $solicitud);
+            $solicitante = Solicitante::create($request->input('solicitante'));
+            $solicitud->solicitante()->associate($solicitante);
+            $solicitud->save();
         }
 
 		Flash::success('El registro se creó correctamente');

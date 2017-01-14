@@ -39,7 +39,11 @@
                     <div v-if="field.name === 'color'" role="button" v-bind:style="{'background-color': row[field.name]}" class="color-square"
                       v-on:click="openUpdateModal(row.id)">
                     </div>
-                    <div v-if="field.type === 'datetime'">{{ row[field.name] | datetimeFromNow }}</div>
+                    <div v-if="field.type === 'datetime'">
+                      <panal-tooltip :title="row[field.name] | datetimeToHuman">
+                        {{ row[field.name] | datetimeFromNow }}
+                      </panal-tooltip>
+                    </div>
                     <div v-else>{{ row[field.name] }}</div>
                   </td>
                   <td>

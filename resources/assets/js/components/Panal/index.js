@@ -15,4 +15,5 @@ require('./Modal/index')
 require('./Table/index')
 require('./Datetime/index')
 require('./Select/index')
+require('./Tooltip/index')
 

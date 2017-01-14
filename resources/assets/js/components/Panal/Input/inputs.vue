@@ -27,9 +27,8 @@
 
     <panal-datetime
       v-if="field.type === 'datetime'"
-      :name="name"
-      :value="value"
-      :placeholder="title"
+      placeholder="Fecha y hora"
+      v-model="data[field.name]"
     ></panal-datetime>
 
     <textarea v-if="field.type === 'textarea'"

@@ -12,3 +12,7 @@ Vue.filter('hourSecondsOnly', function (value) {
 Vue.filter('datetimeFromNow', function (value) {
   return moment(value).fromNow();
 });
+
+Vue.filter('datetimeToHuman', function (value) {
+  return moment(value).format('LLLL');
+});
