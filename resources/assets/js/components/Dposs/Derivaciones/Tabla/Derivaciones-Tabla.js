@@ -112,6 +112,10 @@ export default {
     checkEvents: function () {
       var self = this;
 
+      Events.$on('datetimepicker.change', (value) =>{
+        self.data.derivado_el = value;
+      });
+
       return self;
     },
 
@@ -293,7 +297,7 @@ export default {
      **/
     openCreateModal: function () {
       var self = this;
-      self.cleanData();
+      // self.cleanData();
       self.modal = {
         type: 'Agregar',
         action: 'create'
@@ -309,15 +313,17 @@ export default {
       var self = this;
       Events.$emit('indicator.show');
       self.toggleModal();
+      console.log(self.data);
       self.$http.post(Router.route(self.apiRoute + 'store'), self.data)
         .then((res) => {
             self.reloadDataTable();
             Events.$emit('indicator.hide');
           },
           (err) => {
-            self.toggleModal();
+            // self.toggleModal();
             Events.$emit('indicator.hide');
-            console.error('Error:: ', err);
+            $('.content-header').html(err.body);
+            console.error('Error:: ', err.body);
         });
     },
 
@@ -422,5 +428,9 @@ export default {
     getAreaName: function(area){
       return _.isNull(area) ? null : area.nombre;
     },
-  }
+
+    foo: function(){
+      console.log('as', this);
+    }
+  },
 }

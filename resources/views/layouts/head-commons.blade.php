@@ -26,6 +26,9 @@
 <!-- Datatables -->
 <link rel="stylesheet" type="text/css" href="{{ asset('/compiled/vendors/datatables/css/dataTables.bootstrap.css') }}">
 
+<!-- Datetimepicker -->
+<link rel="stylesheet" type="text/css" href="{{ asset('/compiled/vendors/datetimepicker/jquery.datetimepicker.min.css') }}">
+
 <!-- Modernizr -->
 <script src="{{ asset('/compiled/js/modernizr/modernizr-build.js') }}"></script>
 

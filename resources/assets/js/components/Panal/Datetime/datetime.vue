@@ -1,6 +1,6 @@
 <template>
   <div>
-    <input type="datetime" class="form-control" :name="name" v-model="value" required>
+    <input type="text" v-datetimepicker class="form-control" v-model="value" :required="required">
   </div>
 </template>
 <script>
@@ -18,4 +18,5 @@
       },
     },
   }
+
 </script>

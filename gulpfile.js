@@ -85,6 +85,9 @@ elixir(function (mix) {
   // Select2
   mix.copy('node_modules/select2/dist', 'public/compiled/vendors/select2');
 
+  // Datetimepicker
+  mix.copy('node_modules/datetimepicker/build', 'public/compiled/vendors/datetimepicker');
+
   // Routes from laravel to javascript
   mix.routes();
 

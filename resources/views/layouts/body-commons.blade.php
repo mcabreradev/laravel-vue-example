@@ -42,6 +42,10 @@
 <!-- bootstrap-material-datetimepicker -->
 <script src="{{ asset('/compiled/js/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js') }}"></script>
 
+<!-- datetimepicker -->
+<script src="{{ asset('/compiled/vendors/datetimepicker/jquery.datetimepicker.full.min.js') }}"></script>
+<script>$.datetimepicker.setLocale('es');</script>
+
 <script>
     window.Laravel = <?php echo json_encode(['csrfToken' => csrf_token()]); ?>
 </script>
@@ -84,5 +88,10 @@
     });
       // Hack para que tome el 100% de width
     $('.select2, span.select2, li.select2-search, input.select2-search__field').css('width', '100%');
+
+  //
+  // $('input[type=datetimepicker]').datetimepicker({
+  //   format:'Y-m-d H:i:00',
+  // });
   })(window.jQuery);
 </script>

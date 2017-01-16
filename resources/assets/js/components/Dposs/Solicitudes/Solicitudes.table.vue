@@ -50,7 +50,7 @@
                   </td>
                   <td>
                     <div>
-                      <a role="button" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Ver Seguimientos" :href="route.seguimientos(row.id)">
+                      <a role="button" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Ver Timeline" :href="route.timeline(row.id)">
                         <span class="fa fa-th-large"></span>
                       </a>
                       <a role="button" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Derivar Solicitud" v-on:click="onClickDerivacion(row.id)">
@@ -197,8 +197,8 @@
           edit: function (id) {
             return Router.route(self.url.doble + '.edit', {id: id})
           },
-          seguimientos: function(id){
-            return Router.route(self.url.doble + '.seguimientos', {id:id})
+          timeline: function(id){
+            return Router.route(self.url.doble + '.timeline', {id:id})
           },
         },
         apiRoute: _.join([API, self.url.simple, ''], '.'),
@@ -226,7 +226,7 @@
         var self = this;
 
         // Aqui se listaran los listeners de eventos
-        Events.$on('calendar.value.fromChildren', (value) => {
+        Events.$on('datetimepicker.change', (value) => {
           self.derivaciones_data.derivado_el = value;
         });
 

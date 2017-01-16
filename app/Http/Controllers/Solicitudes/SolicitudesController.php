@@ -160,13 +160,7 @@ class SolicitudesController extends ApiController
    * @param  {Integer} $id [description]
    * @return [type]     [description]
    */
-	public function seguimientos($id) {
-        $solicitud = Solicitud::findOrFail($id);
-        $seguimientos = Seguimiento::where('solicitud_id', $id)->get();
-
-		return view('solicitudes.solicitudes.seguimientos', [
-            'solicitud'    => $solicitud,
-            'seguimientos' => $seguimientos,
-             ]);
+	public function timeline($id) {
+		return view('solicitudes.solicitudes.timeline', ['solicitud' => $id]);
 	}
 }

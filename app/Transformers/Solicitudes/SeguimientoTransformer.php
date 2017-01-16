@@ -33,6 +33,7 @@ class SeguimientoTransformer extends TransformerAbstract
     {
         return [
             'id'           => $resource->id,
+            'solicitud_id' => $resource->solicitud_id,
             'generado_el'  => $resource->generado_el->format('Y-m-d H:i:s'),
             'descripcion'  => $resource->descripcion
         ];

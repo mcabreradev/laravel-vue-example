@@ -83,6 +83,12 @@ window.Router = require('./routes.js');
 
 require('./config/index');
 
+/**
+* Directives
+*/
+
+require('./directives/index');
+
 
 /**
 * Filters

@@ -212,7 +212,7 @@
         var self = this;
 
         // Aqui se listaran los listeners de eventos
-        Events.$on('calendar.value.fromChildren', (value) => {
+        Events.$on('datetimepicker.change', (value) => {
           self.data[self.getCalendarFieldName()] = value;
         });
 

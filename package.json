@@ -15,6 +15,7 @@
     "admin-lte": "^2.3.8",
     "bootstrap": "^3.3.7",
     "bootstrap-material-datetimepicker": "https://github.com/T00rk/bootstrap-material-datetimepicker/tarball/gh-pages",
+    "datetimepicker": "github:xdan/datetimepicker",
     "datatables.net": "^1.10.12",
     "datatables.net-bs": "^1.10.12",
     "dropzone": "^4.3.0",
