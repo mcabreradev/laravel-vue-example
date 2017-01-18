@@ -32,7 +32,7 @@ class SolicitudesController extends ApiController
    * [main description]
    * @return [type] [description]
    */
-	public function main(){
+	public function main() {
 		return view('solicitudes.solicitudes.main');
 	}
 
@@ -40,7 +40,7 @@ class SolicitudesController extends ApiController
    * [create description]
    * @return [type] [description]
    */
-	public function create(){
+	public function create() {
 
 		return view('solicitudes.solicitudes.create', [
             'solicitud'    => new Solicitud(),

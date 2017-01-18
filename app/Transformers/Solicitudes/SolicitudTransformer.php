@@ -31,6 +31,28 @@ class SolicitudTransformer extends TransformerAbstract
      */
     public function transform($resource)
     {
-        return $resource;
+        return [
+            "id"                  => $resource->id,
+            "descripcion"         => $resource->descripcion,
+            "creado_el"           => $resource->creado_el,
+            "observaciones"       => $resource->observaciones,
+            "lat"                 => $resource->lat,
+            "lng"                 => $resource->lng,
+            "lugar_calle"         => $resource->lugar_calle,
+            "lugar_numero"        => $resource->lugar_numero,
+            "lugar_entre_1"       => $resource->lugar_entre_1,
+            "lugar_entre_2"       => $resource->lugar_entre_2,
+            "lugar_observaciones" => $resource->lugar_observaciones,
+            "origen_id"           => $resource->origen_id,
+            "origen"              => isSetOrNull($resource->origen),
+            "tipo_id"             => $resource->tipo_id,
+            "tipo"                => isSetOrNull($resource->tipo),
+            "estado_id"           => $resource->estado_id,
+            "estado"              => isSetOrNull($resource->estado),
+            "prioridad_id"        => $resource->prioridad_id,
+            "prioridad"           => isSetOrNull($resource->prioridad),
+            "solicitante_id"      => $resource->solicitante_id,
+            "solicitante"         => isSetOrNull($resource->solicitante),
+        ];
     }
 }

@@ -4,10 +4,11 @@
   <div class="col-md-6 col-xs-12">
     <div class="form-group">
       <label for="creado_el">Fecha</label>
-      <panal-datetime
+      <input
+        type="datetime"
+        class="form-control"
         name="creado_el"
         value="{{ old('creado_el', $solicitud->creado_el) }}">
-      </panal-datetime>
     </div>
   </div>
 
