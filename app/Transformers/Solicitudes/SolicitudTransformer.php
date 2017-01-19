@@ -38,11 +38,7 @@ class SolicitudTransformer extends TransformerAbstract
             "observaciones"       => $resource->observaciones,
             "lat"                 => $resource->lat,
             "lng"                 => $resource->lng,
-            "lugar_calle"         => $resource->lugar_calle,
-            "lugar_numero"        => $resource->lugar_numero,
-            "lugar_entre_1"       => $resource->lugar_entre_1,
-            "lugar_entre_2"       => $resource->lugar_entre_2,
-            "lugar_observaciones" => $resource->lugar_observaciones,
+            "ubicacion"           => $this->getUbicacion($resource),
             "origen"              => isSetOrNull($resource->origen),
             "tipo"                => isSetOrNull($resource->tipo->nombre),
             "estado"              => isSetOrNull($resource->estado),
@@ -61,5 +57,79 @@ class SolicitudTransformer extends TransformerAbstract
                 "agente"          => null
             ],
         ];
+    }
+
+    /**
+    *
+    */
+    public function getUbicacion($resource){
+        // Todos los campos cargados
+        if(
+            (null !== $resource->lugar_calle) &&
+            (null !== $resource->lugar_numero) &&
+            (null !== $resource->lugar_entre_1) &&
+            (null !== $resource->lugar_entre_2) &&
+            (null !== $resource->lugar_observaciones)
+        ){
+            return "{$resource->lugar_calle} {$resource->lugar_numero}, entre {$resource->lugar_entre_1} y {$resource->lugar_entre_2} ({$resource->lugar_observaciones})";
+        }
+
+        // Sólo calle y/o nro
+        if(
+            (null !== $resource->lugar_calle) &&
+            (null !== $resource->lugar_numero) &&
+            (null === $resource->lugar_entre_1) &&
+            (null === $resource->lugar_entre_2) &&
+            (null === $resource->lugar_observaciones)
+        ){
+            return "{$resource->lugar_calle} {$resource->lugar_numero}";
+        }
+
+        // Calle y/o nro más observaciones
+        if(
+            (null !== $resource->lugar_calle) &&
+            (null !== $resource->lugar_numero) &&
+            (null === $resource->lugar_entre_1) &&
+            (null === $resource->lugar_entre_2) &&
+            (null !== $resource->lugar_observaciones)
+        ){
+            return "{$resource->lugar_calle} {$resource->lugar_numero} ({$resource->lugar_observaciones})";
+        }
+
+        // Sólo entre
+        if(
+            (null === $resource->lugar_calle) &&
+            (null === $resource->lugar_numero) &&
+            (null !== $resource->lugar_entre_1) &&
+            (null !== $resource->lugar_entre_2) &&
+            (null === $resource->lugar_observaciones)
+        ){
+            return "entre {$resource->lugar_entre_1} y {$resource->lugar_entre_2}";
+        }
+
+        // Entre más observaciones:
+        if(
+            (null === $resource->lugar_calle) &&
+            (null === $resource->lugar_numero) &&
+            (null !== $resource->lugar_entre_1) &&
+            (null !== $resource->lugar_entre_2) &&
+            (null !== $resource->lugar_observaciones)
+        ){
+            return "entre {$resource->lugar_entre_1} y {$resource->lugar_entre_2} ({$resource->lugar_observaciones})";
+        }
+
+        // Sólo observaciones
+        if(
+            (null === $resource->lugar_calle) &&
+            (null === $resource->lugar_numero) &&
+            (null === $resource->lugar_entre_1) &&
+            (null === $resource->lugar_entre_2) &&
+            (null !== $resource->lugar_observaciones)
+        ){
+            return "({$resource->lugar_observaciones})";
+        }
+        else{
+            return null;
+        }
     }
 }

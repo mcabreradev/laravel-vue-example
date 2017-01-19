@@ -121,6 +121,51 @@ class Solicitud extends AppModel
     }
 
     /**
+     * Setea el lugar calle por defecto
+     *
+     * @param {int} $value
+     */
+    public function setLugarCalleAttribute($value){
+        $this->attributes['lugar_calle'] = $value == "" ? null : $value;
+    }
+
+    /**
+     * Setea el lugar numero por defecto
+     *
+     * @param {int} $value
+     */
+    public function setLugarNumeroAttribute($value){
+        $this->attributes['lugar_numero'] = $value == "" ? null : $value;
+    }
+
+    /**
+     * Setea el lugar entre 1 por defecto
+     *
+     * @param {int} $value
+     */
+    public function setLugarEntre1Attribute($value){
+        $this->attributes['lugar_entre_1'] = $value == "" ? null : $value;
+    }
+
+    /**
+     * Setea el lugar entre 2 por defecto
+     *
+     * @param {int} $value
+     */
+    public function setLugarEntre2Attribute($value){
+        $this->attributes['lugar_entre_2'] = $value == "" ? null : $value;
+    }
+
+    /**
+     * Setea el lugar obeservaciones por defecto
+     *
+     * @param {int} $value
+     */
+    public function setLugarObservacionesAttribute($value){
+        $this->attributes['lugar_observaciones'] = $value == "" ? null : $value;
+    }
+
+    /**
      * El origen de la solicitud
      *
      * @return {Collection}

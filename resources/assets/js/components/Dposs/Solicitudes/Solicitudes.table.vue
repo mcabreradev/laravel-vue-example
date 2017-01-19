@@ -47,7 +47,7 @@
                   <td role="button" :title="solicitud.creado_el | datetimeToHuman">{{ solicitud.creado_el | datetimeFromNow }}</td>
                   <td>{{ solicitud.id }}</td>
                   <td>{{ solicitud.tipo }}</td>
-                  <td>{{ solicitud.lugar_calle }}</td>
+                  <td>{{ solicitud.ubicacion }}</td>
                   <td role="button" :title="solicitud.derivacion.derivado_el | datetimeToHuman ">{{ solicitud.derivacion.derivado_el |date }}</td>
                   <td>{{ solicitud.derivacion.area }}</td>
                   <td>{{ solicitud.derivacion.agente }}</td>
