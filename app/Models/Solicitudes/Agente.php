@@ -31,9 +31,16 @@ class Agente extends AppModel
         'legajo',
         'telefono',
         'email',
-        'nombre_completo'
     ];
 
+    protected $appends = ['nombre_completo'];
+
+    /**
+     * Obtiene el nombre completo
+     *
+     * @param  string  $value
+     * @return string
+     */
     public function getNombreCompletoAttribute()
     {
         return $this->apellido . ', ' . $this->nombre;

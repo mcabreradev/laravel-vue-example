@@ -177,6 +177,16 @@ class Solicitud extends AppModel
      */
     public function derivaciones()
     {
-        return $this->hasMany('App\Models\Solicitudes\Derivaciones\Derivacion', 'solicitud_id');
+        return $this->hasMany('App\Models\Solicitudes\Derivacion', 'solicitud_id');
+    }
+
+    /**
+     * La ultima derivacion de la solicitud
+     *
+     * @return {Collection}
+     */
+    public function derivacion()
+    {
+        return $this->hasOne('App\Models\Solicitudes\Derivacion', 'solicitud_id')->orderBy('id', 'desc');;
     }
 }

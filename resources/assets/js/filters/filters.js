@@ -2,17 +2,21 @@
  * Filtros utiles
  */
 Vue.filter('dateOnly', function (value) {
-  return moment(value).format('DD/MM/Y');
+  return _.isNull(value) ? value : moment(value).format('DD/MM/Y');
 });
 
 Vue.filter('hourSecondsOnly', function (value) {
-  return moment(value, 'HH:mm:ss').format('HH:mm');
+  return _.isNull(value) ? value : moment(value, 'HH:mm:ss').format('HH:mm');
 });
 
 Vue.filter('datetimeFromNow', function (value) {
-  return moment(value).fromNow();
+  return _.isNull(value) ? value : moment(value).fromNow();
 });
 
 Vue.filter('datetimeToHuman', function (value) {
-  return moment(value).format('LLLL');
+  return _.isNull(value) ? value : moment(value).format('LLLL');
+});
+
+Vue.filter('date', function (value) {
+  return _.isNull(value) ? value : moment(value).format('DD/MM/Y HH:mm');
 });

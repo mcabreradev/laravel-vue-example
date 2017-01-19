@@ -14,14 +14,14 @@ class SolicitudTransformer extends TransformerAbstract
      *
      * @var array
      */
-    protected $availableIncludes = [];
+    protected $availableIncludes   = [];
 
     /**
      * List of resources to automatically include
      *
      * @var array
      */
-    protected $defaultIncludes = [];
+    protected $defaultIncludes     = [];
 
     /**
      * Transform object into a generic array
@@ -43,16 +43,23 @@ class SolicitudTransformer extends TransformerAbstract
             "lugar_entre_1"       => $resource->lugar_entre_1,
             "lugar_entre_2"       => $resource->lugar_entre_2,
             "lugar_observaciones" => $resource->lugar_observaciones,
-            "origen_id"           => $resource->origen_id,
             "origen"              => isSetOrNull($resource->origen),
-            "tipo_id"             => $resource->tipo_id,
-            "tipo"                => isSetOrNull($resource->tipo),
-            "estado_id"           => $resource->estado_id,
+            "tipo"                => isSetOrNull($resource->tipo->nombre),
             "estado"              => isSetOrNull($resource->estado),
-            "prioridad_id"        => $resource->prioridad_id,
             "prioridad"           => isSetOrNull($resource->prioridad),
-            "solicitante_id"      => $resource->solicitante_id,
             "solicitante"         => isSetOrNull($resource->solicitante),
+            "derivacion"          => isSetOrNull($resource->derivacion) !== null?[
+                "id"   => isSetOrNull($resource->derivacion->id),
+                "derivado_el"     => isSetOrNull($resource->derivacion->derivado_el !==null ? $resource->derivacion->derivado_el->format('Y-m-d H:i:s') : null),
+                "observaciones"   => isSetOrNull($resource->derivacion->observaciones),
+                "area"            => isSetOrNull($resource->derivacion->area->nombre),
+                "agente"          => isSetOrNull($resource->derivacion->agente->nombre_completo),
+            ]: [
+                "derivado_el"     => null,
+                "observaciones"   => null,
+                "area"            => null,
+                "agente"          => null
+            ],
         ];
     }
 }

@@ -20,49 +20,52 @@
             <table id="smartTable" class="table table-striped table-bordered" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th v-for="field in fields">{{ field.title }}</th>
+                  <th>Fecha</th>
+                  <th>Nro</th>
+                  <th>Tipo</th>
+                  <th>Ubicación</th>
+                  <th>Última derivación
+                  <th>Derivado a</th>
+                  <th>Recibido por</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
               <tfoot v-if="showTfoot">
                 <tr>
-                  <th v-for="field in fields">{{ field.title }}</th>
+                  <th>Fecha</th>
+                  <th>Nro</th>
+                  <th>Tipo</th>
+                  <th>Ubicación</th>
+                  <th>Última derivación
+                  <th>Derivado a</th>
+                  <th>Recibido por</th>
                   <th>Acciones</th>
                 </tr>
               </tfoot>
               <tbody>
-                <tr v-for="row in rows">
-                  <td v-for="field in fields">
-                    <div v-if="field.name === 'color'"
-                      role="button"
-                      v-bind:style="{'background-color': row[field.name]}"
-                      class="color-square"
-                      v-on:click="openUpdateModal(row.id)"
-                      data-toggle="modal"
-                      data-target="#modal">
-                    </div>
-                    <div v-if="field.type === 'datetime'">
-                      <panal-tooltip :title="row[field.name] | datetimeToHuman">
-                        {{ row[field.name] | datetimeFromNow }}
-                      </panal-tooltip>
-                    </div>
-                    <div v-else>{{ row[field.name] }}</div>
-                  </td>
+                <tr v-for="solicitud in rows">
+                  <td role="button" :title="solicitud.creado_el | datetimeToHuman">{{ solicitud.creado_el | datetimeFromNow }}</td>
+                  <td>{{ solicitud.id }}</td>
+                  <td>{{ solicitud.tipo }}</td>
+                  <td>{{ solicitud.lugar_calle }}</td>
+                  <td role="button" :title="solicitud.derivacion.derivado_el | datetimeToHuman ">{{ solicitud.derivacion.derivado_el |date }}</td>
+                  <td>{{ solicitud.derivacion.area }}</td>
+                  <td>{{ solicitud.derivacion.agente }}</td>
                   <td>
                     <div>
-                      <a role="button" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Ver Timeline" :href="route.timeline(row.id)">
+                      <a role="button" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Ver Timeline" :href="route.timeline(solicitud.id)">
                         <span class="fa fa-th-large"></span>
                       </a>
-                      <a role="button" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Derivar Solicitud" v-on:click="onClickDerivacion(row.id)">
+                      <a role="button" class='btn btn-default btn-sm' data-toggle="tooltip" data-placement="top" title="Derivar Solicitud" v-on:click="onClickDerivacion(solicitud.id, solicitud.derivacion.id)">
                         <span class="fa fa-repeat"></span>
                       </a>
-                      <a role="button" class='btn btn-primary btn-sm' v-if="hasModal" v-on:click="openUpdateModal(row.id)" data-toggle="modal" data-target="#modal">
+                      <a role="button" class='btn btn-primary btn-sm' v-if="hasModal" v-on:click="openUpdateModal(solicitud.id)" data-toggle="modal" data-target="#modal">
                         <span class="fa fa-pencil"></span>
                       </a>
-                      <a :href="route.edit(row.id)" class="btn btn-primary btn-sm" v-else>
+                      <a :href="route.edit(solicitud.id)" class="btn btn-primary btn-sm" v-else>
                         <span class="fa fa-pencil"></span>
                       </a>
-                      <a role="button" class="btn btn-danger btn-sm" v-on:click="destroy(row.id)">
+                      <a role="button" class="btn btn-danger btn-sm" v-on:click="destroy(solicitud.id)">
                         <span class="fa fa-trash"></span>
                       </a>
                     </div>
@@ -188,6 +191,7 @@
         rows: [],
         solicitudes_data: {},
         derivaciones_data: {},
+        solicitud_id: null,
         solicitudes: [],
         areas: [],
         agentes: [],
@@ -470,7 +474,7 @@
         return {
           derivacion_id: null,
           observaciones: null,
-          solicitud_id:  null,
+          solicitud_id:  this.$data.solicitud_id,
           derivado_el:   null,
           agente_id:     null,
           area_id:       null,
@@ -490,10 +494,15 @@
       /**
        * Cuando se hace click en el icono de
        */
-      onClickDerivacion: function (solicitud_id) {
+      onClickDerivacion: function (solicitud_id, derivacion_id) {
         var self = this;
+        // Seteo la solicitud para tenerla en variable asi se puede guardar
+        self.solicitud_id = solicitud_id;
+        // Abro el modal
         self.toggleDerivacionModal();
-        var q =  _.find(self.derivaciones, {'solicitud_id': solicitud_id});
+        // Busco en el collection de derivaciones por solicitud y derivacion
+        var q =  _.find(self.derivaciones, {'solicitud_id': solicitud_id, 'derivacion_id': derivacion_id});
+        // si se encontro datos o no
         _.isUndefined(q) ? self.$data.derivaciones_data = self.clearDerivacionesDataFields() : self.$data.derivaciones_data = q;
 
         return self;
@@ -516,11 +525,11 @@
       derivacionStore: function () {
         var self = this;
         Events.$emit('indicator.show');
-
+        self.toggleDerivacionModal();
         self.$http.post(Router.route(API + '.solicitudes.derivaciones.store'), self.derivaciones_data).then((res) => {
-          self.toggleDerivacionModal();
-          Events.$emit('indicator.hide');
+          self.reloadDataTable();
         }, (err) => {
+          Events.$emit('indicator.hide');
           console.error('Error: ', err);
         });
 

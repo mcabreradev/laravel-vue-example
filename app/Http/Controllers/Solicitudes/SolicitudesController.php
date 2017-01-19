@@ -78,7 +78,7 @@ class SolicitudesController extends ApiController
    */
 	public function show($id) {
 		$data = Solicitud::findOrFail($id);
-		return $this->item($data, new SolicitudTransformer);
+		return $this->respondWith($data, new SolicitudTransformer);
 	}
 
   /**
