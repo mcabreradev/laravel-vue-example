@@ -61,6 +61,7 @@ class SolicitudTransformer extends TransformerAbstract
 
     /**
     *
+    *   Metodo custom para obtener la ubicaciones..  parece como cuando estaba junior, esto es muy cabeza.. sorry :(
     */
     public function getUbicacion($resource){
         // Todos los campos cargados
