@@ -69,7 +69,7 @@
 
   <div class="col-md-4 col-xs-12">
     <div class="form-group">
-      <label for="origen_id">Origen</label>
+      <label for="origen_id">Orígen</label>
       <select class="form-control" id="origen_id" name="origen_id" style="width: 100%">
         <option value="">Selecione</option>
         @foreach($origenes as $origen)

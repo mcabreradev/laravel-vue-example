@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Areas <small>Derivaciones</small>
+  Áreas <small>Configuración</small>
 @endsection
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('solicitudes::areas') }}">Areas</a></li>
+<li><a href="{{ route('solicitudes::areas') }}">Áreas</a></li>
 @endsection
 
 

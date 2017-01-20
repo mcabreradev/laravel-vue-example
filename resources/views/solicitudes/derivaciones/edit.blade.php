@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Solicitantes <small>Configuraci&oacute;n</small>
+  Solicitantes <small>Configuración</small>
 @endsection
 
 

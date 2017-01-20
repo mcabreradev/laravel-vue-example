@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Derivaciones <small>Configuraci&oacute;n</small>
+  Derivaciones <small>Configuración</small>
 @endsection
 
 
@@ -22,11 +22,11 @@
       :url="{simple: 'solicitudes.derivaciones', doble:'solicitudes::derivaciones'}"
       :has-modal="false"
       :fields="[
-        {name: 'id', title: 'Derivacion', type: 'text', required: false},
+        {name: 'id', title: 'Derivación', type: 'text', required: false},
         {name: 'derivado_el', title: 'Fecha', type: 'text', required: false},
         {name: 'observaciones', title: 'Observaciones', type: 'text', required: false},
         {name: 'solicitud_id', title: 'Solicitud', type: 'text', required: false},
-        {name: 'area_id', title: 'Area', type: 'text', required: false},
+        {name: 'area_id', title: 'Área', type: 'text', required: false},
         ]"
     ></panal-table>
 

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Prioridades <small>Configuraci&oacute;n</small>
+  Prioridades <small>Configuración</small>
 @endsection
 
 

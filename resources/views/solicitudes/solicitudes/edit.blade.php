@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Reclamos <small>Solicitudes</small>
+  Reclamos <small>Reclamos</small>
 @endsection
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('solicitudes::solicitantes') }}">Reclamos</a></li>
+<li><a href="{{ route('solicitudes::solicitudes') }}">Reclamos</a></li>
 @endsection
 
 @section('content')

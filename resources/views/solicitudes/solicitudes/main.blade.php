@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Reclamos <small>Solicitudes</small>
+  Reclamos <small>Reclamos</small>
 @endsection
 
 

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Agentes <small>Derivaciones</small>
+  Agentes <small>Configuración</small>
 @endsection
 
 

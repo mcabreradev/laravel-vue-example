@@ -1,12 +1,12 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Origenes <small>Configuraci&oacute;n</small>
+  Orígenes <small>Configuración</small>
 @endsection
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('solicitudes::origenes') }}">Origenes</a></li>
+<li><a href="{{ route('solicitudes::origenes') }}">Orígenes</a></li>
 @endsection
 
 

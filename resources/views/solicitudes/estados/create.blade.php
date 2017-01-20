@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Estados <small>Configuraci&oacute;n</small>
+  Estados <small>Configuración</small>
 @endsection
 
 

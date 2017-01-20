@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Tipos <small>Configuraci&oacute;n</small>
+  Tipos <small>Configuración</small>
 @endsection
 
 

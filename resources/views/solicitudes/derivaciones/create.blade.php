@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Derivaciones <small>Configuraci&oacute;n</small>
+  Derivaciones <small>Configuración</small>
 @endsection
 
 
