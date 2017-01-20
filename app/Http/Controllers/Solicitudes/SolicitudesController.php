@@ -68,7 +68,7 @@ class SolicitudesController extends ApiController
         }
 
 		Flash::success('El registro se creó correctamente');
-		return redirect(route("solicitudes::solicitudes"));
+		return redirect(route('solicitudes::solicitudes.edit', $solicitud->id));
 	}
 
   /**
@@ -121,7 +121,7 @@ class SolicitudesController extends ApiController
         }
 
 		Flash::success('El registro se edito correctamente');
-		return redirect(route("solicitudes::solicitudes"));
+		return redirect(route('solicitudes::solicitudes.edit', $solicitud->id));
 	}
 
   /**
