@@ -1,4 +1,16 @@
 /**
+ * Shortcut for !_.isUndefined
+ *
+ * @param {mixed} e Item to be tested
+ * @return {boolean}
+ */
+_.mixin({
+  'isDefined': function (e) {
+    return !_.isUndefined(e);
+  }
+});
+
+/**
  * MaybeNull
  * devuelve la ejecucion de operador ternario
  *
@@ -9,9 +21,9 @@
  * @param  {String|Int|Array|Object} variable a estudiar
  */
 _.mixin({
-    'maybeNull': function(e) {
-        return _.isNull(e) ? null : e;
-    }
+  'maybeNull': function (e) {
+    return _.isNull(e) ? null : e;
+  }
 });
 
 /**
@@ -23,11 +35,11 @@ _.mixin({
  * @return
  */
 _.mixin({
-    'findByValues': function(collection, property, values) {
-        return _.filter(collection, function(item) {
-            return _.contains(values, item[property]);
-        });
-    }
+  'findByValues': function (collection, property, values) {
+    return _.filter(collection, function (item) {
+      return _.contains(values, item[property]);
+    });
+  }
 });
 
 
@@ -40,19 +52,19 @@ _.mixin({
  * @return {[type]}   [description]
  */
 _.mixin({
-    'findByFilters': function(data, filters) {
-        // si no hay filtros, devuelve la data en crudo sin filtrar
-        if (Object.keys(filters).length < 1) {
-            return data;
-        }
-
-        // crea un array con objetos
-        var filtered = [filters];
-
-        var result = _.flatten(_.map(filtered, function(filter) {
-            return _.where(data, filter);
-        }));
-
-        return result;
+  'findByFilters': function (data, filters) {
+    // si no hay filtros, devuelve la data en crudo sin filtrar
+    if (Object.keys(filters).length < 1) {
+      return data;
     }
+
+    // crea un array con objetos
+    var filtered = [filters];
+
+    var result = _.flatten(_.map(filtered, function (filter) {
+      return _.where(data, filter);
+    }));
+
+    return result;
+  }
 });

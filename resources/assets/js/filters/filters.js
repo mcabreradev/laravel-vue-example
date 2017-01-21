@@ -6,7 +6,7 @@ Vue.filter('dateOnly', function (value) {
 });
 
 Vue.filter('hourSecondsOnly', function (value) {
-  return _.isNull(value) ? value : moment(value, 'HH:mm:ss').format('HH:mm');
+  return _.isNull(value) ? value : moment(value).format('HH:mm');
 });
 
 Vue.filter('datetimeFromNow', function (value) {

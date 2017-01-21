@@ -1,27 +1,23 @@
 <template>
   <div>
-    <h4>Reclamo: ""</h4>
+    <h4>Reclamo: {{ solicitud }}</h4>
     <br>
     <ul class="timeline">
-      <!-- timeline time label -->
-      <li class="time-label">
-        <span class="bg-gray-light">
-
-            </span>
-      </li>
-      <!-- /.timeline-label -->
-      <!-- timeline item -->
-      <li>
-        <!-- timeline icon -->
-        <i class="fa fa-envelope bg-light-blue"></i>
-        <div class="timeline-item">
-          <h3 class="timeline-header no-border"><b>Seguimiento:</b> #{{ solicitud }}</h3>
-        </div>
-      </li>
-      <!-- END timeline item -->
-      <li>
-        <i class="fa fa-clock-o bg-light-blue"></i>
-      </li>
+      <template v-for="(items, i) in timeline">
+        <template v-for="(item, j) in items">
+          <li v-if="j == 0" class="time-label"><span class="bg-blue">{{ item | dateOnly }}</span></li>
+          <li v-else>
+            <i v-if="item.tipo == 'Seguimiento'" class="fa fa-random bg-orange" :title="item.tipo"></i>
+            <i v-else class="fa fa-repeat bg-green" :title="item.tipo"></i>
+            <div class="timeline-item">
+              <span class="time"><i class="fa fa-clock-o"></i> {{ item.datetime | hourSecondsOnly}} hs</span>
+              <h3 class="timeline-header no-border"><b>{{ item.tipo }}:</b> #{{ item.id }}</h3>
+              <div class="timeline-body">{{ item.comentario }}</div>
+            </div>
+          </li>
+        </template>
+      </template>
+      <li><i class="fa fa-clock-o bg-gray"></i></li>
     </ul>
   </div>
 </template>
@@ -34,6 +30,7 @@
         required: true
       },
     },
+
     data: () => {
       return {
         seguimientos: [],
@@ -41,6 +38,7 @@
         timeline: []
       }
     },
+
     mounted() {
       this.getAll();
     },
@@ -58,42 +56,55 @@
         self.$http
           .get(Router.route(API + '.solicitudes.derivaciones.index'))
           .then((res) => {
-            console.log('derivaciones');
             this.derivaciones = res.body.data;
-
             self.getSeguimientos();
-          }, (err) => {
-            console.error('Error: ', err);
-          });
+          }, (err) => console.error('Error: ', err));
 
         return self;
       },
-      getSeguimientos: function(){
+
+      getSeguimientos: function () {
         var self = this;
         self.$http
           .get(Router.route(API + '.solicitudes.seguimientos.index'))
           .then((res) => {
-            console.log('seguimientos');
-            this.seguimientos = res.body.data;
-
-            self.mergeAll();
-          }, (err) => {
-            console.error('Error: ', err);
-          });
+            this.seguimientos = res.body.data
+            self.buildTimeline();
+          }, (err) => console.error('Error: ', err));
 
         return self;
       },
 
-      mergeAll: function (){
+      buildTimeline: function () {
         var self = this;
+        var datetime_arrays = [];
+        var full_data = [];
+        self.$data.timeline = [];
 
-        self.timeline = _.concat(self.derivaciones, self.seguimientos);
+        var concat_data = _
+          .chain(_.concat(self.derivaciones, self.seguimientos))
+          .each((item) => {
+            var datetime = _.isDefined(item.derivado_el) ? item.derivado_el : item.generado_el;
+            item.datetime = datetime;
+            item.date = _.parseInt(moment(datetime).format('YMMDD')); // Parseado a entero para el agrupamiento y ordenamiento
+            item.time = moment(datetime).format('HH:mm');
+            item.comentario = _.isDefined(item.derivado_el) ? item.observaciones : item.descripcion;
+            item.tipo = _.isDefined(item.derivado_el) ? 'Derivacion' : 'Seguimiento';
+          })
+          .orderBy('datetime', 'desc')
+          .groupBy('date')
+          .value();
 
-        _.each(self.timeline, (val, key) => {
-          return self.timeline[key]['datetime'] = !_.isUndefined(val.derivado_el) ? val.derivado_el: val.generado_el;
-          return self.timeline[key]['tipo']     = !_.isUndefined(val.derivado_el) ? 'derivacion' : 'seguimiento';
+        _.each(concat_data, (item, index) => {
+          datetime_arrays.push(index);
+          self.timeline.push(item);
         });
-        console.log('merge', self.timeline);
+
+        _.each(self.timeline, (item, index) => {
+          self.timeline[index].unshift(datetime_arrays[index]);
+        });
+
+        self.timeline.reverse();
 
         return self;
       }

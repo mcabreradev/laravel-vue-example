@@ -34,7 +34,7 @@ class DerivacionTransformer extends TransformerAbstract
         return [
             'id'                  => $resource->id,
             'derivacion_id'       => $resource->id,
-            'derivado_el'         => $resource->derivado_el->format('Y-m-d h:m:s'),
+            'derivado_el'         => $resource->derivado_el->format('Y-m-d H:i:s'),
             'observaciones'       => $resource->observaciones,
             'solicitud_id'        => $resource->solicitud_id,
             'solicitud'           => [
