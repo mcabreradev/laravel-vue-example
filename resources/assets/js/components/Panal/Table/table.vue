@@ -213,23 +213,24 @@
 
         // Aqui se listaran los listeners de eventos
         Events.$on('datetimepicker.change', (value) => {
-          self.data[self.getCalendarFieldName()] = value;
+          self.$data.data[self.getDatetimeFieldName()] = value;
+          console.log('on datetimepicker');
         });
 
         return self;
       },
 
       /**
-       *  Utilidad para calendario.
+       *  Utilidad para datetime.
        *
        *  Funciona de dos maneras
-       *  1- Detecta si en los fields existe el campo "calendar"
-       *  2- Obtiene el nombre del campo "calendar"
+       *  1- Detecta si en los fields existe el campo "datetime"
+       *  2- Obtiene el nombre del campo "datetime"
        *
        **/
-      getCalendarFieldName: function () {
+      getDatetimeFieldName: function () {
         var field = _.find(this.fields, {
-          type: 'calendar'
+          type: 'datetime'
         });
 
         if (!_.isUndefined(field)) {
@@ -369,8 +370,8 @@
         self.toggleModal();
 
          // Si hay un campo calendario, emitir evento para que lo reciba el calendario
-        if (self.getCalendarFieldName()) {
-          Events.$emit('calendar.value.fromParent', self.data[self.getCalendarFieldName()]);
+        if (self.getDatetimeFieldName()) {
+          Events.$emit('calendar.value.fromParent', self.data[self.getDatetimeFieldName()]);
         }
       },
 
