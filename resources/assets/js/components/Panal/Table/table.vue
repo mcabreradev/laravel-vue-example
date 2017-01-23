@@ -41,7 +41,7 @@
                     </div>
                     <div v-if="field.type === 'datetime'">
                       <panal-tooltip :title="row[field.name] | datetimeToHuman">
-                        {{ row[field.name] | datetimeFromNow }}
+                        {{ row[field.name] | date }}
                       </panal-tooltip>
                     </div>
                     <div v-else>{{ row[field.name] }}</div>

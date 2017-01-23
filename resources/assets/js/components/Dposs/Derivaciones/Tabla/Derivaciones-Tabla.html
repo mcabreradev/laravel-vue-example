@@ -40,7 +40,7 @@
             <tbody>
               <tr v-for="row in rows">
                 <td><div>{{ row.derivacion_id }}</div></td>
-                <td><panal-tooltip :title="row.derivado_el | datetimeToHuman">{{ row.derivado_el | datetimeFromNow }}</panal-tooltip></td>
+                <td><panal-tooltip :title="row.derivado_el | datetimeToHuman">{{ row.derivado_el | date }}</panal-tooltip></td>
                 <td><div>{{ getAreaName(row.area) }}</div></td>
                 <td><div>{{ getAgenteName(row.agente) }}</div></td>
                 <td><div>{{ row.observaciones }}</div></td>
