@@ -1,5 +1,5 @@
 /**
- * Filtros utiles
+ * Filtros basico para Datetime
  */
 Vue.filter('dateOnly', function (value) {
   return _.isNull(value) ? value : moment(value).format('DD/MM/Y');
