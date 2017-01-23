@@ -18,7 +18,7 @@
     @include('flash::message')
 
     <panal-table
-      :model='{singular: "area", plural: "areas"}'
+      :model='{singular: "área", plural: "áreas"}'
       :url="{simple: 'solicitudes.areas', doble:'solicitudes::areas'}"
       :has-modal="true"
       :fields="[

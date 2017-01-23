@@ -40,8 +40,9 @@
         </div>
     </panal-box-slot>
 
-    <dposs-derivaciones-tabla title="Derivaciones"
-      :model='{singular: "derivacion", plural: "derivaciones"}'
+    <dposs-derivaciones-tabla
+      title="Derivaciones"
+      :model='{singular: "derivación", plural: "derivaciones"}'
       :url="{simple: 'solicitudes.derivaciones', doble:'solicitudes::derivaciones'}"
       :where="{id: {{ $solicitud->id }} }"
       :fields="[
