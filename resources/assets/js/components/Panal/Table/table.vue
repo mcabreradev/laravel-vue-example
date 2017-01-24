@@ -172,6 +172,7 @@
         PanalConf: PanalConf,
         rows: [],
         data: {},
+        data_model: {plural: _.deburr(self.model.plural), singular: _.deburr(self.model.singular)},
         modal: {type: PanalConf.lang.button.create, action: 'create'},
         route: self.hasModal ? {} : {
           create: Router.route(self.url.doble + '.create'),
@@ -277,7 +278,7 @@
         // query with conditions
         if (self.where) {
           route = Router.route(self.apiRoute + 'show', {
-            [self.model.plural]: self.where.id
+            [self.data_model.plural]: self.where.id
           });
         }
 
@@ -403,7 +404,7 @@
         self.toggleModal();
 
         self.$http.put(Router.route(self.apiRoute + 'update', {
-            [self.model.plural]: self.data.id
+            [self.data_model.plural]: self.data.id
           }), self.data)
           .then((res) => {
               self.reloadDataTable();
@@ -432,7 +433,7 @@
           () => {
             Events.$emit('indicator.show');
             self.$http.delete(Router.route(self.apiRoute + 'destroy', {
-              [self.model.plural]: id
+              [self.data_model.plural]: id
             })).then((res) => {
               res.json().then((data) => {
                 if (data.hasOwnProperty('error')) {
