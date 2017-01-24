@@ -58,6 +58,12 @@ class Solicitud extends AppModel
     protected $dates = ['created_at', 'updated_at', 'creado_el'];
 
     /**
+     * Incluye estos campos en la query
+     * @var [type]
+     */
+    protected $appends = ['ubicacion'];
+
+    /**
      * La fecha el que fue creada la solicutud
      *
      * @param  {value} $value [description]
@@ -163,6 +169,71 @@ class Solicitud extends AppModel
      */
     public function setLugarObservacionesAttribute($value){
         $this->attributes['lugar_observaciones'] = $value == "" ? null : $value;
+    }
+
+    /**
+     * Obtiene la ubicacion
+     *
+     * @return {string} La ubicacion dependiendo las condiciones dadas
+     */
+    public function getUbicacionAttribute(){
+        // Todos los campos cargados
+        if( (null !== $this->lugar_calle) &&
+            (null !== $this->lugar_numero) &&
+            (null !== $this->lugar_entre_1) &&
+            (null !== $this->lugar_entre_2) &&
+            (null !== $this->lugar_observaciones) ){
+            return "{$this->lugar_calle} {$this->lugar_numero}, entre {$this->lugar_entre_1} y {$this->lugar_entre_2} ({$this->lugar_observaciones})";
+        }
+
+        // Sólo calle y/o nro
+        if((null !== $this->lugar_calle) &&
+            (null !== $this->lugar_numero) &&
+            (null === $this->lugar_entre_1) &&
+            (null === $this->lugar_entre_2) &&
+            (null === $this->lugar_observaciones)){
+            return "{$this->lugar_calle} {$this->lugar_numero}";
+        }
+
+        // Calle y/o nro más observaciones
+        if((null !== $this->lugar_calle) &&
+            (null !== $this->lugar_numero) &&
+            (null === $this->lugar_entre_1) &&
+            (null === $this->lugar_entre_2) &&
+            (null !== $this->lugar_observaciones)){
+            return "{$this->lugar_calle} {$this->lugar_numero} ({$this->lugar_observaciones})";
+        }
+
+        // Sólo entre
+        if((null === $this->lugar_calle) &&
+            (null === $this->lugar_numero) &&
+            (null !== $this->lugar_entre_1) &&
+            (null !== $this->lugar_entre_2) &&
+            (null === $this->lugar_observaciones)){
+            return "entre {$this->lugar_entre_1} y {$this->lugar_entre_2}";
+        }
+
+        // Entre más observaciones:
+        if((null === $this->lugar_calle) &&
+            (null === $this->lugar_numero) &&
+            (null !== $this->lugar_entre_1) &&
+            (null !== $this->lugar_entre_2) &&
+            (null !== $this->lugar_observaciones)){
+            return "entre {$this->lugar_entre_1} y {$this->lugar_entre_2} ({$this->lugar_observaciones})";
+        }
+
+        // Sólo observaciones
+        if((null === $this->lugar_calle) &&
+            (null === $this->lugar_numero) &&
+            (null === $this->lugar_entre_1) &&
+            (null === $this->lugar_entre_2) &&
+            (null !== $this->lugar_observaciones)){
+            return "({$this->lugar_observaciones})";
+        }
+
+        else {
+            return null;
+        }
     }
 
     /**
