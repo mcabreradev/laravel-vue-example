@@ -371,6 +371,11 @@ Route::group(['middleware' => ['auth']], function() {
             'uses' => 'SolicitudesController@timeline'
         ])->where('id', '[0-9]+');
 
+        Route::get('solicitudes/{id}/imprimir', [
+            'as'   => 'solicitudes.imprimir',
+            'uses' => 'SolicitudesController@imprimir'
+        ])->where('id', '[0-9]+');
+
         //   Areas
         Route::get('areas', [
             'as'   => 'areas',
