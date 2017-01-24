@@ -36,6 +36,15 @@ class Agente extends AppModel
     protected $appends = ['nombre_completo'];
 
     /**
+     * Setea el legajo
+     *
+     * @param {decimal} $value
+     */
+    public function setLegajoAttribute($value){
+        $this->attributes['legajo'] = $value == "" ? null : $value;
+    }
+
+    /**
      * Obtiene el nombre completo
      *
      * @param  string  $value
