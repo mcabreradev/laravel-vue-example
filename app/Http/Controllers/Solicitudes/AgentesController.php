@@ -79,7 +79,11 @@ class AgentesController extends ApiController
      * @return [type]     [description]
      */
     public function destroy($id) {
-        Agente::destroy($id);
-        return $this->respondWithOk(200, 'Deleted');
+        try {
+            Agente::destroy($id);
+            return $this->respondWithOk(200, 'Deleted');
+        } catch(\Illuminate\Database\QueryException $e) {
+            return $this->respondWithError('El registro se encuentra en uso y no puede ser borrado', 409);
+        }
     }
 }

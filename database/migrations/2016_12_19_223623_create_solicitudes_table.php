@@ -21,7 +21,7 @@ class CreateSolicitudesTable extends Migration
             $table->decimal('lng', 8, 6)->nullable();
 
             $table->string('lugar_calle')->nullable();
-            $table->string('lugar_numero')->unsigned()->nullable();
+            $table->string('lugar_numero')->nullable();
             $table->string('lugar_entre_1')->nullable();
             $table->string('lugar_entre_2')->nullable();
             $table->mediumText('lugar_observaciones')->nullable();
@@ -31,7 +31,6 @@ class CreateSolicitudesTable extends Migration
                   ->references('id')
                   ->on('origenes')
                   ->onDelete('cascade');
-
 
             $table->integer('tipo_id')->unsigned()->nullable();
             $table->foreign('tipo_id')

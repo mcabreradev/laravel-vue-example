@@ -92,8 +92,11 @@ class PrioridadesController extends ApiController
      * @return [type]     [description]
      */
     public function destroy($id) {
-        Prioridad::destroy($id);
-
-        return $this->respondWithOk(201, 'Deleted');
+        try {
+            Prioridad::destroy($id);
+            return $this->respondWithOk(200, 'Deleted');
+        } catch(\Illuminate\Database\QueryException $e) {
+            return $this->respondWithError('El registro se encuentra en uso y no puede ser borrado', 409);
+        }
     }
 }

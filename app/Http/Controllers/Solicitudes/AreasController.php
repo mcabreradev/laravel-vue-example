@@ -79,7 +79,11 @@ class AreasController extends ApiController
      * @return [type]     [description]
      */
     public function destroy($id) {
-        Area::destroy($id);
-        return $this->respondWithOk(200, 'Deleted');
+        try {
+            Area::destroy($id);
+            return $this->respondWithOk(200, 'Deleted');
+        } catch(\Illuminate\Database\QueryException $e) {
+            return $this->respondWithError('El registro se encuentra en uso y no puede ser borrado', 409);
+        }
     }
 }

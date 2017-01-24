@@ -434,11 +434,21 @@
             self.$http.delete(Router.route(self.apiRoute + 'destroy', {
               [self.model.plural]: id
             })).then((res) => {
-              self.rows = _.reject(self.rows, {
-                'id': id
+              res.json().then((data) => {
+                if (data.hasOwnProperty('error')) {
+                  swal({
+                    type:'error',
+                    title: data.error.message
+                  });
+                }
+                else {
+                  self.rows = _.reject(self.rows, {
+                    'id': id
+                  });
+                  self.reloadDataTable();
+                }
+                Events.$emit('indicator.hide');
               });
-              self.reloadDataTable();
-              Events.$emit('indicator.hide');
             });
           });
       },
