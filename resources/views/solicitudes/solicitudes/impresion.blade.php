@@ -54,7 +54,7 @@
     </tr>
     <tr>
       <td colspan="3">
-        <p><strong>Ubicación:</strong> {{$solicitud->getUbicacion()}}</p>
+        <p><strong>Ubicación:</strong> {{$solicitud->ubicacion}}</p>
       </td>
     </tr>
     <tr>
