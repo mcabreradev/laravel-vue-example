@@ -266,6 +266,40 @@ class Solicitud extends AppModel
      */
     public function derivacion()
     {
-        return $this->hasOne('App\Models\Solicitudes\Derivacion', 'solicitud_id')->orderBy('id', 'desc');;
+        return $this->hasOne('App\Models\Solicitudes\Derivacion', 'solicitud_id')->orderBy('id', 'desc');
+    }
+
+    /**
+     * solicitud padre
+     *
+     * @return {Collection}
+     */
+    public function padre()
+    {
+        return $this->belongsTo('App\Models\Solicitudes\Solicitud', 'padre_id', 'id');
+    }
+
+    /**
+     * solicitudes hijas
+     * @return [type] [description]
+     */
+    public function hijos()
+    {
+        return $this->hasMany('App\Models\Solicitudes\Solicitud', 'padre_id', 'id');
+    }
+
+    /**
+     * solicitudes relacionadas. Mezcla padres e hijos
+     * @return [type] [description]
+     */
+    public function relacionados()
+    {
+        return Solicitud::where('id', '!=', $this->id)
+            ->where(function($q) {
+                $q->where('id', '=', $this->padre_id) // padre
+                  ->orWhere('padre_id', '=', $this->padre_id) // hermano
+                  ->orWhere('padre_id', '=', $this->id); // hijo
+            });
+
     }
 }
