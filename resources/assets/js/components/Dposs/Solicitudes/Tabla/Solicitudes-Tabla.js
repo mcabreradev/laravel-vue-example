@@ -66,6 +66,9 @@ export default {
       },
       route: self.hasModal ? {} : {
         create: Router.route(self.url.doble + '.create'),
+        imprimir: (id) => Router.route(self.url.doble + '.imprimir', {
+          id: id
+        }),
         edit: function (id) {
           return Router.route(self.url.doble + '.edit', {
             id: id

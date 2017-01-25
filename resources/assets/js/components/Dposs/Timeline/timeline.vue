@@ -7,8 +7,8 @@
         <template v-for="(item, j) in items">
           <li v-if="j == 0" class="time-label"><span class="bg-blue">{{ item | dateOnly }}</span></li>
           <li v-else>
-            <i v-if="item.tipo == 'Seguimiento'" class="fa fa-random bg-orange" :title="item.tipo"></i>
-            <i v-else class="fa fa-repeat bg-green" :title="item.tipo"></i>
+            <i v-if="item.tipo == 'Seguimiento'" class="fa fa-commenting-o bg-orange" :title="item.tipo"></i>
+            <i v-else class="fa fa-paper-plane bg-green" :title="item.tipo"></i>
             <div class="timeline-item">
               <span class="time"><i class="fa fa-clock-o"></i> {{ item.datetime | hourSecondsOnly}} hs</span>
               <h3 class="timeline-header no-border"><b>{{ item.tipo }}:</b> #{{ item.id }}</h3>

@@ -23,10 +23,10 @@
                 <th>Nro</th>
                 <th>Tipo</th>
                 <th>Ubicación</th>
-                <th>Última derivación
-                  <th>Derivado a</th>
-                  <th>Recibido por</th>
-                  <th>Acciones</th>
+                <th>Última derivación</th>
+                <th>Derivado a</th>
+                <th>Recibido por</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tfoot v-if="showTfoot">
@@ -35,10 +35,10 @@
                 <th>Nro</th>
                 <th>Tipo</th>
                 <th>Ubicación</th>
-                <th>Última derivación
-                  <th>Derivado a</th>
-                  <th>Recibido por</th>
-                  <th>Acciones</th>
+                <th>Última derivación</th>
+                <th>Derivado a</th>
+                <th>Recibido por</th>
+                <th>Acciones</th>
               </tr>
             </tfoot>
             <tbody>
@@ -52,25 +52,28 @@
                 <td>{{ solicitud.derivacion.agente }}</td>
                 <td>
                   <div>
-                    <a role="button" class='btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Ver Timeline" :href="route.timeline(solicitud.id)">
-                      <span class="fa fa-th-large"></span>
+                    <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Crear Seguimiento" v-on:click="onClickSeguimiento(solicitud.id)">
+                      <span class="fa fa-commenting-o"></span>
                     </a>
-                    <a role="button" class='btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Crear Seguimiento" v-on:click="onClickSeguimiento(solicitud.id)">
-                      <span class="fa fa-random"></span>
+                    <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Derivar Solicitud" v-on:click="onClickDerivacion(solicitud.id, solicitud.derivacion.id)">
+                      <span class="fa fa-paper-plane"></span>
                     </a>
-                    <a role="button" class='btn btn-default btn-xs' data-toggle="tooltip" data-placement="top" title="Derivar Solicitud" v-on:click="onClickDerivacion(solicitud.id, solicitud.derivacion.id)">
-                      <span class="fa fa-repeat"></span>
+                    <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Imprimir" :href="route.imprimir(solicitud.id)" target="_blank">
+                      <span class="fa fa-print"></span>
                     </a>
-                    <a role="button" class='btn btn-primary btn-xs' v-if="hasModal" v-on:click="openUpdateModal(solicitud.id)" data-toggle="modal"
+                    <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Ver Timeline" :href="route.timeline(solicitud.id)">
+                      <span class="fa fa-clock-o"></span>
+                    </a>
+                    <a role="button" class='btn btn-primary' v-if="hasModal" v-on:click="openUpdateModal(solicitud.id)" data-toggle="modal"
                       data-target="#modal">
                       <span class="fa fa-pencil"></span>
-                      </a>
-                      <a :href="route.edit(solicitud.id)" class="btn btn-primary btn-xs" v-else>
-                        <span class="fa fa-pencil"></span>
-                      </a>
-                      <a role="button" class="btn btn-danger btn-xs" v-on:click="destroy(solicitud.id)">
-                        <span class="fa fa-trash"></span>
-                      </a>
+                    </a>
+                    <a :href="route.edit(solicitud.id)" class="btn btn-primary" v-else>
+                      <span class="fa fa-pencil"></span>
+                    </a>
+                    <a role="button" class="btn btn-danger" v-on:click="destroy(solicitud.id)">
+                      <span class="fa fa-trash"></span>
+                    </a>
                   </div>
                 </td>
               </tr>
