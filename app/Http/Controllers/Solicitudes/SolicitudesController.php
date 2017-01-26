@@ -35,9 +35,6 @@ class SolicitudesController extends ApiController
    * @return [type] [description]
    */
 	public function main() {
-        $s = Solicitud::find(12);
-        dd($s->relacionados()->get());
-
 		return view('solicitudes.solicitudes.main');
 	}
 
