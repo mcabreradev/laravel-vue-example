@@ -301,5 +301,13 @@ class Solicitud extends AppModel
                   ->orWhere('padre_id', '=', $this->id); // hijo
             });
 
+    /**
+     * Las derivaciones de la solicitud
+     *
+     * @return {Collection}
+     */
+    public function seguimientos()
+    {
+        return $this->hasMany('App\Models\Solicitudes\Seguimiento', 'solicitud_id');
     }
 }

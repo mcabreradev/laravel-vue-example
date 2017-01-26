@@ -17,7 +17,7 @@
           </li>
         </template>
       </template>
-      <li><i class="fa fa-clock-o bg-gray"></i></li>
+      <li v-if="timeline.length > 0"><i class="fa fa-clock-o bg-gray"></i></li>
     </ul>
   </div>
 </template>
@@ -35,6 +35,7 @@
       return {
         seguimientos: [],
         derivaciones: [],
+        solicitudes: [],
         timeline: []
       }
     },
@@ -46,29 +47,20 @@
 
       getAll: function() {
         var self = this;
-        self.getDerivaciones();
+        self.getSolicitudes();
 
         return self;
       },
 
-      getDerivaciones: function(){
+      getSolicitudes: function(){
         var self = this;
-        self.$http
-          .get(Router.route(API + '.solicitudes.derivaciones.index'))
-          .then((res) => {
-            this.derivaciones = res.body.data;
-            self.getSeguimientos();
-          }, (err) => console.error('Error: ', err));
 
-        return self;
-      },
-
-      getSeguimientos: function () {
-        var self = this;
         self.$http
-          .get(Router.route(API + '.solicitudes.seguimientos.index'))
+          .get(Router.route(API + '.solicitudes.solicitudes.show', {solicitudes: self.solicitud}))
           .then((res) => {
-            this.seguimientos = res.body.data
+            self.$data.solicitudes  = res.data;
+            self.$data.seguimientos = res.data.seguimientos;
+            self.$data.derivaciones = res.data.derivaciones;
             self.buildTimeline();
           }, (err) => console.error('Error: ', err));
 

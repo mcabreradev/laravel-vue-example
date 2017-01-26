@@ -50,7 +50,9 @@ class SolicitudTransformer extends TransformerAbstract
                 "observaciones"   => isSetOrNull($resource->derivacion, 'observaciones'),
                 "area"            => isSetOrNull($resource->derivacion, 'area', 'nombre'),
                 "agente"          => isSetOrNull($resource->derivacion, 'agente', 'nombre_completo'),
-            ]
+            ],
+            'derivaciones'        => isSetOrNull($resource->derivaciones),
+            'seguimientos'        => isSetOrNull($resource->seguimientos)
         ];
     }
 
