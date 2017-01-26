@@ -25,8 +25,16 @@ class SolicitudesController extends ApiController
    * [index description]
    * @return [type] [description]
    */
-	public function index() {
-		$data = Solicitud::all();
+	public function index(Request $request) {
+        if (is_null($request->input('cerrado')) || $request->input('cerrado') == 'false'){
+            $data = Solicitud::where('estado_id', '<>', 3)
+            ->orWhere('estado_id', null)
+            ->get();
+        }
+        else {
+            $data = Solicitud::where('estado_id', '=', 3)->get();
+        }
+
 		return $this->respondWith($data, new SolicitudTransformer);
 	}
 
@@ -34,8 +42,8 @@ class SolicitudesController extends ApiController
    * [main description]
    * @return [type] [description]
    */
-	public function main() {
-		return view('solicitudes.solicitudes.main');
+	public function main($estado = null) {
+		return view('solicitudes.solicitudes.main', ['estado' => $estado == 'cerrado' ? 'cerrado' : '' ]);
 	}
 
   /**

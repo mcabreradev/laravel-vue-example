@@ -41,6 +41,11 @@ export default {
         return {}
       },
       required: true
+    },
+    estadoCerrado: {
+      type: Boolean,
+      default: () => false,
+      required: false
     }
   },
 
@@ -155,7 +160,7 @@ export default {
      **/
     findAll: function () {
       var self = this;
-      self.$http.get(Router.route(self.apiRoute + 'index')).then((res) => {
+      self.$http.get(Router.route(self.apiRoute + 'index') + '?cerrado=' + self.estadoCerrado).then((res) => {
         if (res.ok) {
           self.rows = res.body.data;
         }
@@ -170,8 +175,9 @@ export default {
      *  Inicia el plugin para la DataTable
      **/
     startDataTable: function () {
+      var self = this;
       setTimeout(function () {
-        this.table = $('#smartTable').DataTable({
+        self.table = $('#' + self.tableId).DataTable({
           "language": PanalConf.lang.datatable,
           "aoColumnDefs": [{
             'bSortable': false,
@@ -188,7 +194,7 @@ export default {
      **/
     reloadDataTable: function () {
       var self = this;
-      $('#smartTable').DataTable({
+      $('#' + self.tableId).DataTable({
         destroy: true
       }).destroy();
       self.findAll();
@@ -200,9 +206,10 @@ export default {
      *  Hace algunos fixes necesarios
      **/
     makeDomFixes: function () {
+      var self = this;
       setTimeout(function () {
-        window.$('#smartTable_length, #smartTable_filter').parent().addClass('col-xs-6')
-        window.$('#smartTable_wrapper').addClass('mt-20 ');
+        window.$('#' + self.tableId + '_length, #' + self.tableId + '_filter').parent().addClass('col-xs-6')
+        window.$('#' + self.tableId + '_wrapper').addClass('mt-20 ');
       }, '2000');
 
       return this;

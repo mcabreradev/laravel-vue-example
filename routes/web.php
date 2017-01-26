@@ -343,14 +343,16 @@ Route::group(['middleware' => ['auth']], function() {
         ])->where('id', '[0-9]+');
 
         // Solicitudes
-        Route::get('solicitudes', [
+        Route::get('solicitudes/estado/{estado?}', [
             'as'   => 'solicitudes',
             'uses' => 'SolicitudesController@main'
-        ]);
+        ])->where('id', '[a-z]+');
+
         Route::get('solicitudes/create', [
             'as'   => 'solicitudes.create',
             'uses' => 'SolicitudesController@create'
         ]);
+
         Route::get('solicitudes/edit/{id}', [
             'as'   => 'solicitudes.edit',
             'uses' => 'SolicitudesController@edit'
