@@ -33,9 +33,6 @@
 
     data: () => {
       return {
-        seguimientos: [],
-        derivaciones: [],
-        solicitudes: [],
         timeline: []
       }
     },
@@ -58,30 +55,26 @@
         self.$http
           .get(Router.route(API + '.solicitudes.solicitudes.show', {solicitudes: self.solicitud}))
           .then((res) => {
-            self.$data.solicitudes  = res.data;
-            self.$data.seguimientos = res.data.seguimientos;
-            self.$data.derivaciones = res.data.derivaciones;
-            self.buildTimeline();
+            self.buildTimeline(_.concat(res.data.derivaciones, res.data.seguimientos));
           }, (err) => console.error('Error: ', err));
 
         return self;
       },
 
-      buildTimeline: function () {
+      buildTimeline: function (concated) {
         var self = this;
         var datetime_arrays = [];
-        var full_data = [];
         self.$data.timeline = [];
 
         var concat_data = _
-          .chain(_.concat(self.derivaciones, self.seguimientos))
+          .chain(concated)
           .each((item) => {
-            var datetime = _.isDefined(item.derivado_el) ? item.derivado_el : item.generado_el;
-            item.datetime = datetime;
-            item.date = _.parseInt(moment(datetime).format('YMMDD')); // Parseado a entero para el agrupamiento y ordenamiento
-            item.time = moment(datetime).format('HH:mm');
-            item.comentario = _.isDefined(item.derivado_el) ? item.observaciones : item.descripcion;
-            item.tipo = _.isDefined(item.derivado_el) ? 'Derivacion' : 'Seguimiento';
+            var datetime    = _.isDefined(item.derivado_el) ? item.derivado_el:   item.generado_el;
+            item.datetime   = datetime;
+            item.date       = _.parseInt(moment(datetime).format('YMMDD')); // Parseado a entero para el agrupamiento y ordenamiento
+            item.time       = moment(datetime).format('HH:mm');
+            item.comentario = _.isDefined(item.derivado_el) ? item.observaciones: item.descripcion;
+            item.tipo       = _.isDefined(item.derivado_el) ? 'Derivacion':       'Seguimiento';
           })
           .orderBy('datetime', 'desc')
           .groupBy('date')
