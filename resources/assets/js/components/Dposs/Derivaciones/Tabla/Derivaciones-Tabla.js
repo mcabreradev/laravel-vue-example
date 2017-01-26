@@ -297,7 +297,7 @@ export default {
      **/
     openCreateModal: function () {
       var self = this;
-      // self.cleanData();
+      self.cleanData();
       self.modal = {
         type: 'Agregar',
         action: 'create'

@@ -131,7 +131,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <a type="button" class="btn btn-default" data-dismiss="modal">Cancelar</a>
+            <a type="button" class="btn btn-default" @click="toggleDerivacionModal" data-dismiss="modal">Cancelar</a>
             <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
         </form>
@@ -165,7 +165,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <a type="button" class="btn btn-default" data-dismiss="modal">{{ PanalConf.lang.button.cancel }}</a>
+            <a type="button" class="btn btn-default" @click="toggleSeguimientosModal" data-dismiss="modal">{{ PanalConf.lang.button.cancel }}</a>
             <button type="submit" class="btn btn-primary">{{ PanalConf.lang.button.store }}</button>
           </div>
         </form>

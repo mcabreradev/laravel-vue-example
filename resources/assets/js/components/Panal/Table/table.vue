@@ -215,7 +215,6 @@
         // Aqui se listaran los listeners de eventos
         Events.$on('datetimepicker.change', (value) => {
           self.$data.data[self.getDatetimeFieldName()] = value;
-          console.log('on datetimepicker');
         });
 
         return self;

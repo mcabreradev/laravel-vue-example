@@ -372,7 +372,7 @@ export default {
      */
     clearDerivacionesData: function () {
       var self = this;
-      self.derivaciones_data = self.clearDerivacionesDataFields();
+      self.$data.derivaciones_data = self.clearDerivacionesDataFields();
 
       return this;
     },
@@ -382,21 +382,11 @@ export default {
      */
     onClickDerivacion: function (solicitud_id, derivacion_id) {
       var self = this;
-
       // Seteo la solicitud para tenerla en variable asi se puede guardar
       self.solicitud_id = solicitud_id;
-
       // Abro el modal
       self.toggleDerivacionModal();
-
-      // Busco en el collection de derivaciones por solicitud y derivacion
-      var q = _.find(self.derivaciones, {
-        'solicitud_id': solicitud_id,
-        'derivacion_id': derivacion_id
-      });
-
-      // si se encontro datos o no
-      _.isUndefined(q) ? self.$data.derivaciones_data = self.clearDerivacionesDataFields() : self.$data.derivaciones_data = q;
+      self.clearDerivacionesData();
 
       return self;
     },
@@ -443,12 +433,9 @@ export default {
      */
     onClickSeguimiento: function (solicitud_id) {
       var self = this;
-      // Seteo la solicitud para tenerla en variable asi se puede guardar
       self.solicitud_id = solicitud_id;
-      // Abro el modal
       self.toggleSeguimientosModal();
-
-      self.$data.seguimientos_data = self.clearSeguimimentosDataFields()
+      self.$data.seguimientos_data = self.clearSeguimimentosDataFields();
 
       return self;
     },
