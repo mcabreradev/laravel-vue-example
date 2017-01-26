@@ -29,6 +29,19 @@
     </div>
 
     <div class="form-group">
+      <label for="localidad_id">Localidad</label>
+      <select class="form-control" id="localidad_id" name="localidad_id" style="width: 100%">
+        @foreach($localidades as $localidad)
+          @if( collect($solicitud->localidad_id)->contains($localidad->id))
+            <option value="{{ $localidad->id }}" selected>{{ $localidad->nombre }}</option>
+          @else
+            <option value="{{ $localidad->id }}">{{ $localidad->nombre }}</option>
+          @endif
+        @endforeach
+      </select>
+    </div>
+
+    <div class="form-group">
       <button id="inferir-coordenadas-btn" type="button" class="btn btn-primary" data-loading-text="Infiriendo...">
         <span class="fa fa-map-marker"></span> Inferir coordenadas
       </button>

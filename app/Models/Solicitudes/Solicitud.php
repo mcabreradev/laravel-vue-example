@@ -42,6 +42,7 @@ class Solicitud extends AppModel
         'estado_id',
         'prioridad_id',
         'solicitante_id',
+        'localidad_id'
     ];
 
     /**
@@ -116,6 +117,16 @@ class Solicitud extends AppModel
      */
     public function setEstadoIdAttribute($value){
         $this->attributes['estado_id'] = $value == "" ? 1 : $value;
+    }
+
+    /**
+     * @TODO: valor localidad hardcodeado a 1 (Ushuaia)
+     * Setea la localidad por defecto
+     *
+     * @param {int} $value
+     */
+    public function setLocalidadIdAttribute($value){
+        $this->attributes['localidad_id'] = $value == "" ? 1 : $value;
     }
 
     /**
@@ -311,6 +322,16 @@ class Solicitud extends AppModel
     public function seguimientos()
     {
         return $this->hasMany('App\Models\Solicitudes\Seguimiento', 'solicitud_id');
+    }
+
+    /**
+     * La localidad de la solicitud
+     *
+     * @return {Collection}
+     */
+    public function localidad()
+    {
+        return $this->belongsTo('App\Models\Solicitudes\Localidad');
     }
 
 }

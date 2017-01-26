@@ -17,5 +17,6 @@ class SolicitudesDatabaseSeeder extends Seeder
         $this->call(SolicitudesOrigenesTableSeeder::class);
         $this->call(SolicitudesPrioridadesTableSeeder::class);
         $this->call(SolicitudesTiposTableSeeder::class);
+        $this->call(LocalidadesTableSeeder::class);
     }
 }

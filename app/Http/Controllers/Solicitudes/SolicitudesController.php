@@ -10,6 +10,7 @@ use App\Http\Requests;
 use App\Models\Solicitudes\Tipo;
 use App\Models\Solicitudes\Origen;
 use App\Models\Solicitudes\Estado;
+use App\Models\Solicitudes\Localidad;
 use App\Models\Solicitudes\Solicitud;
 use App\Models\Solicitudes\Prioridad;
 use App\Models\Solicitudes\Solicitante;
@@ -59,6 +60,7 @@ class SolicitudesController extends ApiController
             'estados'      => Estado::orderBy('nombre', 'asc')->get(),
             'prioridades'  => Prioridad::orderBy('nombre', 'asc')->get(),
             'solicitantes' => Solicitante::orderBy('nombre', 'asc')->get(),
+            'localidades'  => Localidad::all(),
         ]);
 	}
 
@@ -106,6 +108,7 @@ class SolicitudesController extends ApiController
             'estados'     => Estado::orderBy('nombre', 'asc')->get(),
             'prioridades' => Prioridad::orderBy('nombre', 'asc')->get(),
             'solicitante' => Solicitante::orderBy('nombre', 'asc')->get(),
+            'localidades' => Localidad::all(),
         ]);
 	}
 
