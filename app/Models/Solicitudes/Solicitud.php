@@ -109,12 +109,13 @@ class Solicitud extends AppModel
     }
 
     /**
+     * @TODO: valor del estado hardcodeado a 1 (en proceso)
      * Setea el estado por defecto
      *
      * @param {int} $value
      */
     public function setEstadoIdAttribute($value){
-        $this->attributes['estado_id'] = $value == "" ? null : $value;
+        $this->attributes['estado_id'] = $value == "" ? 1 : $value;
     }
 
     /**
@@ -300,6 +301,7 @@ class Solicitud extends AppModel
                   ->orWhere('padre_id', '=', $this->padre_id) // hermano
                   ->orWhere('padre_id', '=', $this->id); // hijo
             });
+    }
 
     /**
      * Las derivaciones de la solicitud
@@ -310,4 +312,5 @@ class Solicitud extends AppModel
     {
         return $this->hasMany('App\Models\Solicitudes\Seguimiento', 'solicitud_id');
     }
+
 }
