@@ -19,3 +19,11 @@
 .close:hover {
   opacity: .9;
 }
+
+.actions-column {
+  min-width: 125px;
+
+  .actions-group {
+    margin-bottom: 5px;
+  }
+}
