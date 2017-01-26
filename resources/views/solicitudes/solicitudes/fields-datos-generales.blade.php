@@ -28,10 +28,17 @@
     </div>
   </div>
 
-  <div class="col-md-12 col-xs-12">
+  <div class="col-xs-12">
     <div class="form-group">
       <label for="descripcion">Descripción</label>
-      <textarea class="form-control" id="descripcion" name="descripcion" required>{{ old('descripcion', $solicitud->descripcion) }}</textarea>
+      <textarea class="form-control" id="descripcion" name="descripcion" required rows="5">{{ old('descripcion', $solicitud->descripcion) }}</textarea>
+    </div>
+  </div>
+
+  <div class="col-xs-12">
+    <div class="form-group">
+      <label for="observaciones">Observaciones</label>
+      <textarea class="form-control" id="observaciones" name="observaciones" required rows="5">{{ old('observaciones', $solicitud->observaciones) }}</textarea>
     </div>
   </div>
 
