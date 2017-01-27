@@ -88,9 +88,19 @@ class SolicitudesController extends ApiController
    * @param  {Integer} $id [description]
    * @return [type]     [description]
    */
-	public function show($id) {
-		$data = Solicitud::findOrFail($id);
-		return $this->respondWith($data, new SolicitudTransformer);
+	public function show($id)
+    {
+        try {
+
+            $data = Solicitud::find($id);
+
+		    return $this->respondWith($data, new SolicitudTransformer);
+
+        } catch (ModelNotFoundException $e) {
+
+            return $this->response->errorNotFound();
+
+        }
 	}
 
   /**
