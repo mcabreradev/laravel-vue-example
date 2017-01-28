@@ -157,9 +157,13 @@
           address += ubicacionData.entre1 + ' y ' + ubicacionData.entre2;
         }
 
-        // siempre agrego la ciudad
-        address += ', Ushuaia, Tierra del Fuego, Argentina';
+        // agrego la ciudad
+        address += ', ' + $('#localidad_id option:selected').text();
 
+        // completo con provincia y pais
+        address += ', Tierra del Fuego, Argentina';
+
+        // servicio de google para inferir un punto a partir de la direccion
         geocoder.geocode({'address': address}, function(results, status) {
           if (status === google.maps.GeocoderStatus.OK) {
 

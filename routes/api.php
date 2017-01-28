@@ -21,8 +21,8 @@ Route::group([
     });
 
     /**
-        * Alertas
-        */
+     * Alertas
+     */
 
     Route::get('alertas/nivel-agua', [
         'uses' => 'Alertas\NivelAguaRegistroController@nivelAguaActual',
@@ -55,8 +55,8 @@ Route::group([
     ]);
 
     /**
-        * Oficina Virtual
-        */
+     * Oficina Virtual
+     */
 
     Route::post('oficina-virtual/libre-deuda', [
         'uses' => 'OficinaVirtual\PedidoController@solicitarLibreDeuda',
@@ -74,8 +74,8 @@ Route::group([
     ]);
 
     /**
-        * Turnos
-        */
+     * Turnos
+     */
     Route::group([
         'namespace' => 'Turnos',
         'prefix'    => 'turnos',
@@ -105,8 +105,8 @@ Route::group([
 Route::group(['prefix' => 'v2'], function () {
 
     /**
-    * Solicitudes
-    */
+     * Solicitudes
+     */
     Route::group(['namespace'  => 'Solicitudes', 'prefix' => 'solicitudes'], function()
     {
         Route::resource('estados', 'EstadosController');
