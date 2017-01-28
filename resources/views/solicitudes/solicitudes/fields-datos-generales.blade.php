@@ -38,7 +38,7 @@
   <div class="col-xs-12">
     <div class="form-group">
       <label for="observaciones">Observaciones</label>
-      <textarea class="form-control" id="observaciones" name="observaciones" required rows="5">{{ old('observaciones', $solicitud->observaciones) }}</textarea>
+      <textarea class="form-control" id="observaciones" name="observaciones" rows="5">{{ old('observaciones', $solicitud->observaciones) }}</textarea>
     </div>
   </div>
 
