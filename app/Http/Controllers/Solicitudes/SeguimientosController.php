@@ -48,7 +48,16 @@ class SeguimientosController extends ApiController
    * @return [type]           [description]
    */
 	public function store(Request $request) {
-		Seguimiento::create($request->all());
+		$seguimiento = Seguimiento::create($request->all());
+
+        if ($request->has('relacionados') && count($request->input('relacionados'))) {
+            foreach ($request->input('relacionados') as $reclamoId) {
+                $rel = $seguimiento->replicate();
+                $rel->solicitud()->associate($reclamoId);
+                $rel->save();
+            }
+        }
+
         return $this->respondWithOk(201, 'ok');
 	}
 

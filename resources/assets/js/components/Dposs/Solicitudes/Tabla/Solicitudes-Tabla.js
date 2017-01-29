@@ -62,6 +62,7 @@ export default {
       derivaciones_data: {},
       seguimientos_data: {},
       solicitud_id: null,
+      solicitud_relacionados: [],
       solicitudes: [],
       areas: [],
       agentes: [],
@@ -422,20 +423,23 @@ export default {
      */
     clearSeguimimentosDataFields: function () {
       return {
-        solicitud_id: this.$data.solicitud_id,
+        solicitud_id: this.solicitud_id,
         generado_el: null,
         descripcion: null,
+        relacionados: []
       };
     },
 
     /**
      * Cuando se hace click en el icono de
      */
-    onClickSeguimiento: function (solicitud_id) {
+    onClickSeguimiento: function (solicitud) {
       var self = this;
-      self.solicitud_id = solicitud_id;
+      self.solicitud_id = solicitud.id;
+      self.solicitud_relacionados = solicitud.relacionados;
+
       self.toggleSeguimientosModal();
-      self.$data.seguimientos_data = self.clearSeguimimentosDataFields();
+      self.seguimientos_data = self.clearSeguimimentosDataFields();
 
       return self;
     },
@@ -447,6 +451,7 @@ export default {
       var self = this;
       Events.$emit('indicator.show');
       self.toggleSeguimientosModal();
+
       self.$http.post(Router.route(API + '.solicitudes.seguimientos.store'), self.seguimientos_data).then((res) => {
         self.reloadDataTable();
       }, (err) => {

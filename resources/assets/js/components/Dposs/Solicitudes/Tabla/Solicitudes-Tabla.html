@@ -53,7 +53,7 @@
                 <td>{{ solicitud.derivacion.agente }}</td>
                 <td class="actions-column">
                   <div class="actions-group">
-                    <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Crear Seguimiento" v-on:click="onClickSeguimiento(solicitud.id)">
+                    <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Crear Seguimiento" v-on:click="onClickSeguimiento(solicitud)">
                       <span class="fa fa-commenting-o"></span>
                     </a>
                     <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Derivar Solicitud" v-on:click="onClickDerivacion(solicitud.id, solicitud.derivacion.id)">
@@ -161,6 +161,15 @@
               <label for="descripcion" class="col-sm-2 control-label">Descripción</label>
               <div class="col-sm-10">
                 <textarea class="form-control" id="descripcion" name="descripcion" v-model="seguimientos_data.descripcion" required></textarea>
+              </div>
+            </div>
+
+            <div class="form-group" v-if="solicitud_relacionados.length">
+              <p class="col-xs-12"><strong>Copiar a reclamos relacionados</strong></p>
+              <div class="checkbox col-xs-12" v-for="rel in solicitud_relacionados">
+                <label>
+                  <input type="checkbox" :value="rel.id" v-model="seguimientos_data.relacionados"> {{rel.id}} - {{rel.ubicacion}}
+                </label>
               </div>
             </div>
           </div>

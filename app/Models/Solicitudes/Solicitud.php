@@ -309,7 +309,7 @@ class Solicitud extends AppModel
         return Solicitud::where('id', '!=', $this->id)
             ->where(function($q) {
                 $q->where('id', '=', $this->padre_id) // padre
-                  ->orWhere('padre_id', '=', $this->padre_id) // hermano
+                  ->orWhere('padre_id', '=', ($this->padre_id ?: 0)) // hermano
                   ->orWhere('padre_id', '=', $this->id); // hijo
             });
     }
