@@ -90,11 +90,10 @@
   <!--end box-body-->
   <panal-indicator></panal-indicator>
   <!-- derivacions modal -->
-  <div class="modal fade derivaciones" tabindex="-1" role="dialog">
+  <div class="modal fade derivaciones" tabindex="-1" role="dialog" data-keyboard="false">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">Derivar Solicitud</h4>
         </div>
         <form class="form-horizontal" v-on:submit.prevent="derivacionesSubmit()">
@@ -142,11 +141,10 @@
   </div>
   <!-- /derivacions modal -->
   <!-- seguimientos modal -->
-  <div class="modal fade seguimientos" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
+  <div class="modal fade seguimientos" tabindex="-1" role="dialog" data-keyboard="false">
+    <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           <h4 class="modal-title">Crear Seguimiento</h4>
         </div>
         <form class="form-horizontal" v-on:submit.prevent="seguimientosSubmit()">
