@@ -1,7 +1,34 @@
 <template>
   <div>
-    <h4>Reclamo: {{ solicitud }}</h4>
-    <br>
+    <div class="box"> <!-- BOX -->
+      <div class="box-header with-border">
+        <h3 class="box-title">Reclamo nro {{solicitudData.id}}</h3>
+      </div>
+
+      <div class="box-body">
+        <ul>
+          <li><strong>Fecha de inicio:</strong> {{ solicitudData.creado_el | date }}</li>
+          <li v-if="solicitudData.tipo != null"><strong>Tipo:</strong> {{ solicitudData.tipo }}</li>
+          <li v-if="solicitudData.estado != null"><strong>Estado:</strong> {{ solicitudData.estado.nombre }}</li>
+          <li><strong>Ubicación:</strong> {{ solicitudData.ubicacion }}</li>
+          <li>
+            <strong>Solicitante:</strong> {{solicitudData.solicitante == null ? 'Anónimo': ''}}
+            <ul v-if="solicitudData.solicitante != null">
+              <li v-if="solicitudData.solicitante.apellido.length"><strong>Apellido:</strong> {{solicitudData.solicitante.apellido}}</li>
+              <li v-if="solicitudData.solicitante.nombre.length"><strong>Nombre:</strong> {{solicitudData.solicitante.nombre}}</li>
+              <li v-if="solicitudData.solicitante.documento.length"><strong>Documento:</strong> {{solicitudData.solicitante.documento}}</li>
+              <li v-if="solicitudData.solicitante.celular.length"><strong>Celular:</strong> {{solicitudData.solicitante.celular}}</li>
+              <li v-if="solicitudData.solicitante.email.length"><strong>Email:</strong> {{solicitudData.solicitante.email}}</li>
+              <li v-if="solicitudData.solicitante.telefono.length"><strong>Teléfono:</strong> {{solicitudData.solicitante.telefono}}</li>
+            </ul>
+          </li>
+          <li><strong>Descripción:</strong> {{ solicitudData.descripcion }}</li>
+          <li><strong>Observaciones:</strong> {{ solicitudData.observaciones }}</li>
+        </ul>
+      </div>
+    </div> <!-- BOX end -->
+
+    <h4>Historia del reclamo</h4>
     <ul class="timeline">
       <template v-for="(items, i) in timeline">
         <template v-for="(item, j) in items">
@@ -33,7 +60,8 @@
 
     data: () => {
       return {
-        timeline: []
+        timeline: [],
+        solicitudData: {}
       }
     },
 
@@ -55,6 +83,7 @@
         self.$http
           .get(Router.route(API + '.solicitudes.solicitudes.show', {solicitudes: self.solicitud}))
           .then((res) => {
+            self.solicitudData = res.data;
             self.buildTimeline(_.concat(res.data.derivaciones, res.data.seguimientos));
           }, (err) => console.error('Error: ', err));
 
@@ -69,11 +98,11 @@
         var concat_data = _
           .chain(concated)
           .each((item) => {
-            var datetime    = _.isDefined(item.derivado_el) ? item.derivado_el:   item.generado_el;
+            var datetime    = _.isDefined(item.derivado_el) ? item.derivado_el : item.generado_el;
             item.datetime   = datetime;
             item.date       = _.parseInt(moment(datetime).format('YMMDD')); // Parseado a entero para el agrupamiento y ordenamiento
             item.time       = moment(datetime).format('HH:mm');
-            item.comentario = _.isDefined(item.derivado_el) ? item.observaciones: item.descripcion;
+            item.comentario = _.isDefined(item.derivado_el) ? item.observaciones : item.descripcion;
             item.tipo       = _.isDefined(item.derivado_el) ? 'Derivacion':       'Seguimiento';
           })
           .orderBy('datetime', 'desc')

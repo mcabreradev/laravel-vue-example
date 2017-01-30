@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title></title>
+  <title></title>
   <style>
     .c10% { width: 10%; }
     .c20% { width: 20%; }
-		.c25% { width: 25%; }
+    .c25% { width: 25%; }
     .c33% { width: 33%; }
     .c40% { width: 40%; }
     .c50% { width: 50%; }
-		.c50% { width: 50%; }
-		.c75% { width: 75%; }
-		.c100% { width: 100%; }
+    .c50% { width: 50%; }
+    .c75% { width: 75%; }
+    .c100% { width: 100%; }
 
     table { width: 100%; }
     td { vertical-align: top; }
@@ -35,16 +35,16 @@
 </head>
 <body>
 
-	<table>
-		<tr>
-			<td class="c40%">
-				<img src="{{ public_path('img/boleta-pago-logo.png') }}" alt="DPOSS logo">
-			</td>
+  <table>
+    <tr>
+      <td class="c40%">
+        <img src="{{ public_path('img/boleta-pago-logo.png') }}" alt="DPOSS logo">
+      </td>
       <td class="c10%">&nbsp;</td>
-			<td class="c50%">
-				<h1>Reclamo nro: {{$solicitud->id}}</h1>
-			</td>
-		</tr>
+      <td class="c50%">
+        <h1>Reclamo nro: {{$solicitud->id}}</h1>
+      </td>
+    </tr>
     <tr><td colspan="3"><p>&nbsp;</p></td></tr>
     <tr><td colspan="3"><p>&nbsp;</p></td></tr>
     <tr>
@@ -91,6 +91,6 @@
       </td>
       <td class="c33%"></td>
     </tr>
-	</table>
+  </table>
 </body>
 </html>
