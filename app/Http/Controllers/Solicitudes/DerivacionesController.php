@@ -49,7 +49,16 @@ class DerivacionesController extends ApiController
    * @return [type]           [description]
    */
 	public function store(Request $request) {
-		Derivacion::create($request->all());
+		$derivacion = Derivacion::create($request->all());
+
+        if ($request->has('relacionados') && count($request->input('relacionados'))) {
+            foreach ($request->input('relacionados') as $reclamoId) {
+                $rel = $derivacion->replicate();
+                $rel->solicitud()->associate($reclamoId);
+                $rel->save();
+            }
+        }
+
         return $this->respondWithOk(201, 'ok');
 	}
 

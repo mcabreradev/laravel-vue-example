@@ -361,7 +361,8 @@ export default {
       return {
         derivacion_id: null,
         observaciones: null,
-        solicitud_id: this.$data.solicitud_id,
+        solicitud_id: this.solicitud_id,
+        relacionados: [],
         derivado_el: null,
         agente_id: null,
         area_id: null,
@@ -373,7 +374,7 @@ export default {
      */
     clearDerivacionesData: function () {
       var self = this;
-      self.$data.derivaciones_data = self.clearDerivacionesDataFields();
+      self.derivaciones_data = self.clearDerivacionesDataFields();
 
       return this;
     },
@@ -381,10 +382,13 @@ export default {
     /**
      * Cuando se hace click en el icono de
      */
-    onClickDerivacion: function (solicitud_id, derivacion_id) {
+    onClickDerivacion: function (solicitud) {
       var self = this;
       // Seteo la solicitud para tenerla en variable asi se puede guardar
-      self.solicitud_id = solicitud_id;
+      self.solicitud_id = solicitud.id;
+      // me guardo los reclamos relacionados
+      self.solicitud_relacionados = solicitud.relacionados;
+
       // Abro el modal
       self.toggleDerivacionModal();
       self.clearDerivacionesData();
