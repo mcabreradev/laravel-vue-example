@@ -208,6 +208,10 @@ class Solicitud extends AppModel
             $ubicacion .= ($ubicacion ? ' ' : '') . "({$this->lugar_observaciones})";
         }
 
+        if ($this->localidad) {
+            $ubicacion .= ($ubicacion ? ', ' : '') . $this->localidad->nombre;
+        }
+
         return $ubicacion;
     }
 
