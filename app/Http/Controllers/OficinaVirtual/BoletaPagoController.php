@@ -43,8 +43,10 @@ class BoletaPagoController extends Controller
         curl_setopt($ch, CURLOPT_TIMEOUT, 8);
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-        $head = json_decode(curl_exec($ch));
-        $info = curl_getinfo($ch);
+
+        $response = json_decode(curl_exec($ch));
+        $info     = curl_getinfo($ch);
+
         curl_close($ch);
 
         if ($info['http_code'] == 200 && count($response)) {
