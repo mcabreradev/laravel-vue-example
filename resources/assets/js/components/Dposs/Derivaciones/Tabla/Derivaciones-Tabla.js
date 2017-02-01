@@ -67,22 +67,12 @@ export default {
         area_id:       null,
         observaciones: null
       },
-      solicitudes: [],
       areas: [],
       agentes: [],
       modal: {
         type: PanalConf.lang.button.create,
         action: 'create'
       },
-      route: self.hasModal ? {} : {
-        create: Router.route(self.url.doble + '.create'),
-        edit: function (id) {
-          return Router.route(self.url.doble + '.edit', {
-            id: id
-          })
-        },
-      },
-      apiRoute: _.join([API, self.url.simple, ''], '.'),
       tableId: 'table-id-' + _.random(9999999, 99999999),
       modalId: 'modal-id-' + _.random(9999999, 99999999),
     }
@@ -167,40 +157,16 @@ export default {
      *
      */
     findAllOptions: function () {
-      var self = this;
+      var routeAreas   = Laravel.baseUrl + '/' + laroute.route('solicitudes::areas'),
+          routeAgentes = Laravel.baseUrl + '/' + laroute.route('solicitudes::agentes');
 
-      /**
-       *  Obtiene las solicitudes del API
-       */
-      this.$http
-        .get(Router.route(API + '.solicitudes.derivaciones.index'))
-        .then((res) => {
-          this.derivaciones = res.body.data;
-        }, (err) => {
-          console.error('Error: ', err);
-        });
+      this.$http.get(routeAreas).then((res) => {
+        this.areas = res.body.data;
+      });
 
-      /**
-       *  Obtiene las areas del API
-       */
-      this.$http
-        .get(Router.route(API + '.solicitudes.areas.index'))
-        .then((res) => {
-          this.areas = res.body.data;
-        }, (err) => {
-          console.error('Error: ', err);
-        });
-
-      /**
-       *  Obtiene los agentes del API
-       */
-      this.$http
-        .get(Router.route(API + '.solicitudes.agentes.index'))
-        .then((res) => {
-          this.agentes = res.body.data;
-        }, (err) => {
-          console.error('Error: ', err);
-        });
+      this.$http.get(routeAgentes).then((res) => {
+        this.agentes = res.body.data;
+      });
 
       return this;
     },
@@ -213,14 +179,8 @@ export default {
       var self = this;
 
       // Default query route for index
-      var route = Router.route(self.apiRoute + 'index');
-
-      // query with conditions
-      if (self.where) {
-        route = Router.route(self.apiRoute + 'show', {
-          [self.model.plural]: self.where.id
-        });
-      }
+      var route = Laravel.baseUrl + '/' +
+        laroute.route('solicitudes::derivaciones.por-solicitud', {solicitudId: self.data.solicitud_id});
 
       self.$http.get(route).then((res) => {
           if (res.ok) {
@@ -302,6 +262,7 @@ export default {
         type: 'Agregar',
         action: 'create'
       };
+
       self.toggleModal();
     },
 
@@ -310,11 +271,13 @@ export default {
      *
      **/
     create: function () {
-      var self = this;
+      var self  = this,
+          route = Laravel.baseUrl + '/' + laroute.route('solicitudes::derivaciones.store');
+
       Events.$emit('indicator.show');
       self.toggleModal();
-      console.log(self.data);
-      self.$http.post(Router.route(self.apiRoute + 'store'), self.data)
+
+      self.$http.post(route, self.data)
         .then((res) => {
             self.reloadDataTable();
             Events.$emit('indicator.hide');
@@ -334,7 +297,7 @@ export default {
     openUpdateModal: function (id) {
       var self = this;
       self.cleanData();
-      self.data = _.find(self.derivaciones, { 'id': id });
+      self.data = _.find(self.rows, { 'id': id });
       self.modal = {
         type: 'Editar',
         action: 'update'
@@ -351,17 +314,17 @@ export default {
      *
      **/
     update: function () {
-      var self = this;
+      var self  = this,
+          route = Laravel.baseUrl + '/' + laroute.route('solicitudes::derivaciones.update', {id:self.data.id});
+
       Events.$emit('indicator.show');
 
-      self.$http.put(Router.route(self.apiRoute + 'update', {
-          [self.model.plural]: self.data.id
-        }), self.data)
+      self.$http.put(route, self.data)
         .then((res) => {
           self.toggleModal();
           self.reloadDataTable();
           Events.$emit('indicator.hide');
-          console.log(res);
+
           },
           (err) => {
             console.error('Error:: ', err);
@@ -386,10 +349,11 @@ export default {
           closeOnConfirm: true
         },
         () => {
+          var route = Laravel.baseUrl + '/' + laroute.route('solicitudes::derivaciones.destroy', {id:id});
+
           Events.$emit('indicator.show');
-          self.$http.delete(Router.route(self.apiRoute + 'destroy', {
-            [self.model.plural]: id
-          })).then((res) => {
+
+          self.$http.delete(route).then((res) => {
             self.rows = _.reject(self.rows, {
               'id': id
             });
@@ -407,7 +371,7 @@ export default {
       var self = this;
       self.$data.data = {
         id:            null,
-        solicitud_id:  null,
+        solicitud_id:  self.data.solicitud_id,
         derivado_el:   null,
         agente_id:     null,
         area_id:       null,
@@ -427,10 +391,6 @@ export default {
      */
     getAreaName: function(area){
       return _.isNull(area) ? null : area.nombre;
-    },
-
-    foo: function(){
-      console.log('as', this);
     }
   },
 }

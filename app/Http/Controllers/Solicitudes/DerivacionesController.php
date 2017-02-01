@@ -68,7 +68,7 @@ class DerivacionesController extends ApiController
    * @param  {Integer}      $solicitud_id ID de la solicitud
    * @return {Collection}   La lista de derivaciones
    */
-	public function show($solicitud_id) {
+	public function porSolicitud($solicitud_id) {
         $data = Derivacion::where('solicitud_id', $solicitud_id)
         ->orderBy('derivado_el', 'desc')
         ->get();

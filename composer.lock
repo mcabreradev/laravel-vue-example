@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "87c1d2bc0d0828df7fc4702a3bbf3f2a",
+    "content-hash": "ca9afff5802ce89bec4457d02b89656b",
     "packages": [
         {
             "name": "classpreloader/classpreloader",
@@ -973,67 +973,6 @@
             "time": "2016-08-26T11:44:52+00:00"
         },
         {
-            "name": "laravelba/laravel-js-routes",
-            "version": "1.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/LaravelBA/laravel-js-routes.git",
-                "reference": "3e88bf322f61cfba8edcbcfd8898d2174be43425"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/LaravelBA/laravel-js-routes/zipball/3e88bf322f61cfba8edcbcfd8898d2174be43425",
-                "reference": "3e88bf322f61cfba8edcbcfd8898d2174be43425",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/console": "^5.0",
-                "illuminate/filesystem": "^5.0",
-                "illuminate/routing": "^5.0",
-                "illuminate/support": "^5.0",
-                "php": ">=5.6.0"
-            },
-            "require-dev": {
-                "fabpot/php-cs-fixer": "^1.11",
-                "illuminate/events": "^5.0",
-                "jakub-onderka/php-console-highlighter": "^0.3",
-                "jakub-onderka/php-parallel-lint": "^0.9",
-                "mockery/mockery": "^1.0.0@dev",
-                "phpmd/phpmd": "^2.4",
-                "phpunit/phpunit": "^5.3",
-                "squizlabs/php_codesniffer": "^2.6"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "LaravelBA\\LaravelJsRoutes\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Guido Contreras Woda",
-                    "email": "guiwoda@gmail.com"
-                },
-                {
-                    "name": "Fede Isas",
-                    "email": "fedeisas@hotmail.com"
-                }
-            ],
-            "description": "Access Laravel routes from your javascript files.",
-            "keywords": [
-                "generators",
-                "javascript",
-                "laravel",
-                "routes"
-            ],
-            "abandoned": "aaronlord/laroute",
-            "time": "2016-05-24T15:00:37+00:00"
-        },
-        {
             "name": "league/flysystem",
             "version": "1.0.32",
             "source": {
@@ -1178,6 +1117,57 @@
                 "rest"
             ],
             "time": "2016-07-21T09:56:14+00:00"
+        },
+        {
+            "name": "lord/laroute",
+            "version": "v2.4.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aaronlord/laroute.git",
+                "reference": "b9a905ecc27f07239b7f6fe2949cfab6c0dd54bb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aaronlord/laroute/zipball/b9a905ecc27f07239b7f6fe2949cfab6c0dd54bb",
+                "reference": "b9a905ecc27f07239b7f6fe2949cfab6c0dd54bb",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/config": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*",
+                "illuminate/console": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*",
+                "illuminate/filesystem": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*",
+                "illuminate/routing": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*",
+                "illuminate/support": "5.0.*|5.1.*|5.2.*|5.3.*|5.4.*",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "dev-master",
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Lord\\Laroute\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Aaron Lord",
+                    "email": "hello@aaronlord.is"
+                }
+            ],
+            "description": "Access Laravels URL/Route helper functions, from JavaScript.",
+            "keywords": [
+                "javascript",
+                "laravel",
+                "routes",
+                "routing"
+            ],
+            "time": "2017-01-24T22:50:29+00:00"
         },
         {
             "name": "milon/barcode",

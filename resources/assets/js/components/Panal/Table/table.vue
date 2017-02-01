@@ -134,7 +134,7 @@
         required: false
       },
       where: {
-        default: false,
+        default: null,
         required: false
       },
       model: {
@@ -175,14 +175,9 @@
         data_model: {plural: _.deburr(self.model.plural), singular: _.deburr(self.model.singular)},
         modal: {type: PanalConf.lang.button.create, action: 'create'},
         route: self.hasModal ? {} : {
-          create: Router.route(self.url.doble + '.create'),
-          edit: function (id) {
-            return Router.route(self.url.doble + '.edit', {
-              id: id
-            })
-          },
+          create: Laravel.baseUrl + '/' + laroute.route(self.url.create),
+          edit: (id) => Laravel.baseUrl + '/' + laroute.route(self.url.edit, {id: id})
         },
-        apiRoute: _.join([API, self.url.simple, ''], '.'),
         tableId: 'table-id-' + _.random(9999999, 99999999),
         table : null,
         modalId: 'modal-id-' + _.random(9999999, 99999999),
@@ -272,13 +267,13 @@
         var self = this;
 
         // Default query route for index
-        var route = Router.route(self.apiRoute + 'index');
+        var route = Laravel.baseUrl + '/';
 
-        // query with conditions
-        if (self.where) {
-          route = Router.route(self.apiRoute + 'show', {
-            [self.data_model.plural]: self.where.id
-          });
+        if (self.where !== null) {
+          // laroute rompe la propiedad where, por lo que la clono
+          route += laroute.route(self.url.index, _.clone(self.where));
+        } else {
+          route += laroute.route(self.url.index);
         }
 
         self.$http.get(route).then((res) => {
@@ -320,7 +315,6 @@
         var self = this;
         self.table.destroy();
         this.findAll();
-
         return this;
       },
 
@@ -379,11 +373,13 @@
        *  Guarda la data, este evento envia la data post a la api
        **/
       create: function () {
-        var self = this;
+        var self  = this,
+            route = Laravel.baseUrl + '/' + laroute.route(self.url.store);
+
         Events.$emit('indicator.show');
         self.toggleModal();
 
-        self.$http.post(Router.route(self.apiRoute + 'store'), self.data)
+        self.$http.post(route, self.data)
           .then((res) => {
               self.reloadDataTable();
               Events.$emit('indicator.hide');
@@ -398,13 +394,13 @@
        *  Actualizacion de la data
        **/
       update: function () {
-        var self = this;
+        var self  = this,
+            route = Laravel.baseUrl + '/' + laroute.route(self.url.update, {id: self.data.id});
+
         Events.$emit('indicator.show');
         self.toggleModal();
 
-        self.$http.put(Router.route(self.apiRoute + 'update', {
-            [self.data_model.plural]: self.data.id
-          }), self.data)
+        self.$http.put(route, self.data)
           .then((res) => {
               self.reloadDataTable();
               Events.$emit('indicator.hide');
@@ -419,7 +415,8 @@
        *  Borrado de data
        **/
       destroy: function (id) {
-        var self = this;
+        var self = this,
+            route = route = Laravel.baseUrl + '/' + laroute.route(self.url.destroy, {id: id});
 
         swal({
             title: "Estás seguro/a?",
@@ -430,10 +427,10 @@
             closeOnConfirm: true
           },
           () => {
+
             Events.$emit('indicator.show');
-            self.$http.delete(Router.route(self.apiRoute + 'destroy', {
-              [self.data_model.plural]: id
-            })).then((res) => {
+
+            self.$http.delete(route).then((res) => {
               res.json().then((data) => {
                 if (data.hasOwnProperty('error')) {
                   swal({

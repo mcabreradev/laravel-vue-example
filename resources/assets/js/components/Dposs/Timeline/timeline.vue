@@ -78,10 +78,11 @@
       },
 
       getSolicitudes: function(){
-        var self = this;
+        var self  = this,
+            route = Laravel.baseUrl + '/' + laroute.route('solicitudes::show', {id: self.solicitud});
 
         self.$http
-          .get(Router.route(API + '.solicitudes.solicitudes.show', {solicitudes: self.solicitud}))
+          .get(route)
           .then((res) => {
             self.solicitudData = res.data;
             self.buildTimeline(_.concat(res.data.derivaciones, res.data.seguimientos));

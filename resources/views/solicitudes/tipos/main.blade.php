@@ -6,7 +6,7 @@
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('solicitudes::tipos') }}">Tipos</a></li>
+<li><a href="{{ route('solicitudes::tipos.list') }}">Tipos</a></li>
 @endsection
 
 
@@ -19,7 +19,12 @@
 
     <panal-table
       :model='{singular: "tipo", plural: "tipos"}'
-      :url="{simple: 'solicitudes.tipos', doble:'solicitudes::tipos'}"
+      :url="{
+        index: 'solicitudes::tipos',
+        store: 'solicitudes::tipos.store',
+        update: 'solicitudes::tipos.update',
+        destroy: 'solicitudes::tipos.destroy'
+      }"
       :fields="[
         {name: 'nombre', title: 'Nombre', type: 'text', required: true},
         {name: 'descripcion', title:'Descripción', type: 'textarea'},

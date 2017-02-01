@@ -11,7 +11,7 @@
         "elibyy/tcpdf-laravel": "^5.2",
         "milon/barcode": "^5.2",
         "cyvelnet/laravel5-fractal": "^2.0",
-        "laravelba/laravel-js-routes": "^1.0"
+        "lord/laroute": "^2.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

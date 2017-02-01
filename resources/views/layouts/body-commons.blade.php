@@ -1,3 +1,9 @@
+<!-- routes de laravel en js -->
+<script>
+    window.Laravel = <?php echo json_encode(['csrfToken' => csrf_token(), 'baseUrl' => url('/') ]); ?>
+</script>
+<script src="{{ asset('js/laroute.js') }}"></script>
+
 <!-- jQuery -->
 <script src="{{ asset('/compiled/js/jquery/jquery.min.js') }}"></script>
 
@@ -45,10 +51,6 @@
 <!-- datetimepicker -->
 <script src="{{ asset('/compiled/vendors/datetimepicker/jquery.datetimepicker.full.min.js') }}"></script>
 <script>$.datetimepicker.setLocale('es');</script>
-
-<script>
-    window.Laravel = <?php echo json_encode(['csrfToken' => csrf_token()]); ?>
-</script>
 
 <script src="{{ asset('js/app.js') }}"></script>
 

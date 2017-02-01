@@ -35,13 +35,6 @@ export default {
         };
       },
     },
-    url: {
-      type: Object,
-      default: () => {
-        return {}
-      },
-      required: true
-    },
     estadoCerrado: {
       type: Boolean,
       default: () => false,
@@ -58,7 +51,6 @@ export default {
     return {
       PanalConf: PanalConf,
       rows: [],
-      solicitudes_data: {},
       derivaciones_data: {},
       seguimientos_data: {},
       solicitud_id: null,
@@ -70,23 +62,12 @@ export default {
         type: PanalConf.lang.button.create,
         action: 'create'
       },
-      route: self.hasModal ? {} : {
-        create: Router.route(self.url.doble + '.create'),
-        imprimir: (id) => Router.route(self.url.doble + '.imprimir', {
-          id: id
-        }),
-        edit: function (id) {
-          return Router.route(self.url.doble + '.edit', {
-            id: id
-          })
-        },
-        timeline: function (id) {
-          return Router.route(self.url.doble + '.timeline', {
-            id: id
-          })
-        },
+      route: {
+        create: Laravel.baseUrl + '/' + laroute.route('solicitudes::solicitudes.create'),
+        imprimir: (id) => Laravel.baseUrl + '/' + laroute.route('solicitudes::solicitudes.imprimir', {id: id}),
+        edit: (id) => Laravel.baseUrl + '/' + laroute.route('solicitudes::solicitudes.edit', {id: id}),
+        timeline: (id) => Laravel.baseUrl + '/' + laroute.route('solicitudes::solicitudes.timeline', {id: id})
       },
-      apiRoute: _.join([API, self.url.simple, ''], '.'),
       tableId: 'table-id-' + _.random(9999999, 99999999),
       modalId: 'modal-id-' + _.random(9999999, 99999999),
     }
@@ -96,7 +77,6 @@ export default {
     Events.$emit('indicator.show');
     var self = this;
     self.checkEvents()
-      .setObjectsFromFormFields()
       .findAll()
       .makeDomFixes()
       .derivacionesPrepared();
@@ -139,29 +119,13 @@ export default {
     },
 
     /**
-     *  Crea un objeto vacio "this.solicitudes_data" con todos los nombres de los fields
-     *  para que funcione el data-binding en los formularios para v-model,
-     *  una vez creados se cambia el valor desde el formulario
-     *
-     **/
-    setObjectsFromFormFields: function () {
-      _.each(this.fields, (val) => {
-        this.solicitudes_data[val.name] = '';
-        if (val.type == 'hidden') {
-          this.solicitudes_data[val.name] = val.value;
-        }
-
-      });
-
-      return this;
-    },
-
-    /**
      *  Trae la lista de data a mostrar en la tabla
      **/
     findAll: function () {
-      var self = this;
-      self.$http.get(Router.route(self.apiRoute + 'index') + '?cerrado=' + self.estadoCerrado).then((res) => {
+      var self = this,
+          route = Laravel.baseUrl + '/' + laroute.route('solicitudes::index') +
+                  '?cerrado=' + self.estadoCerrado;
+      self.$http.get(route).then((res) => {
         if (res.ok) {
           self.rows = res.body.data;
         }
@@ -217,86 +181,6 @@ export default {
     },
 
     /**
-     *  Funcion que es llamada cuando se hace click en el boton
-     **/
-    submit: function (type) {
-      var self = this;
-      (type == 'create') ? self.create(): self.update();
-    },
-
-    /**
-     *  Funcion que se carga al abrir un modal create, prepara la data para ser guardada
-     **/
-    openCreateModal: function () {
-      var self = this;
-      self.setObjectsFromFormFields();
-      self.modal = {
-        type: 'Agregar',
-        action: 'create'
-      };
-    },
-
-    /**
-     *  Funcion que se carga al abrir un modal update, prepara la data para ser actulizada
-     **/
-    openUpdateModal: function (id) {
-      var self = this;
-      self.solicitudes_data = _.find(self.rows, {
-        'id': id
-      }); // Find the current data in the row array, and load the modal input
-      self.modal = {
-        type: 'Editar',
-        action: 'update'
-      };
-
-      // Si hay un campo calendario, emitir evento para que lo reciba el calendario
-      if (self.getCalendarFieldName()) {
-        Events.$emit('calendar.value.fromParent', self.solicitudes_data[self.getCalendarFieldName()]);
-      }
-    },
-
-    /**
-     *  Guarda la data, este evento envia la data post a la api
-     **/
-    create: function () {
-      var self = this;
-      Events.$emit('indicator.show');
-
-      console.log(self.solicitudes_data);
-      return;
-
-      $('#modal').modal('toggle');
-
-
-      self.$http.post(Router.route(self.apiRoute + 'store'), self.solicitudes_data).then((res) => {
-        self.reloadDataTable();
-        Events.$emit('indicator.hide');
-
-      }, (err) => {
-        console.error('Error: ', err);
-      });
-    },
-
-    /**
-     *  Actualizacion de la data
-     **/
-    update: function () {
-      var self = this;
-      Events.$emit('indicator.show');
-
-      self.$http.put(Router.route(self.apiRoute + 'update', {
-        [self.model.plural]: self.solicitudes_data.id
-      }), self.solicitudes_data).then((res) => {
-          self.reloadDataTable();
-          Events.$emit('indicator.hide');
-          $('#modal').modal('toggle');
-        },
-        (err) => {
-          console.error('Error:: ', err);
-        });
-    },
-
-    /**
      *  Borrado de data
      **/
     destroy: function (id) {
@@ -311,10 +195,9 @@ export default {
           closeOnConfirm: true
         },
         function () {
+          var route = Laravel.baseUrl + '/' + laroute.route('solicitudes::solicitudes.destroy', {id: id});
           Events.$emit('indicator.show');
-          self.$http.delete(Router.route(self.apiRoute + 'destroy', {
-            [self.model.plural]: id
-          })).then((res) => {
+          self.$http.delete(route).then((res) => {
             self.rows = _.reject(self.rows, {
               'id': id
             });
@@ -337,17 +220,15 @@ export default {
      * Funcion que prepara las derivaciones, las llamadas a las api y asignacion de variables
      */
     derivacionesPrepared: function () {
-      var self = this;
+      var self = this,
+          routeAreas = Laravel.baseUrl + '/' + laroute.route('solicitudes::areas'),
+          routeAgentes = Laravel.baseUrl + '/' + laroute.route('solicitudes::agentes');
 
-      this.$http.get(Router.route(API + '.solicitudes.derivaciones.index')).then((res) => {
-        this.derivaciones = res.body.data;
-      });
-
-      this.$http.get(Router.route(API + '.solicitudes.areas.index')).then((res) => {
+      this.$http.get(routeAreas).then((res) => {
         this.areas = res.body.data;
       });
 
-      this.$http.get(Router.route(API + '.solicitudes.agentes.index')).then((res) => {
+      this.$http.get(routeAgentes).then((res) => {
         this.agentes = res.body.data;
       });
 
@@ -401,10 +282,12 @@ export default {
      *  bien podria ser update, pero por se un caso 'custom' es solo store
      */
     derivacionesSubmit: function () {
-      var self = this;
+      var self  = this,
+          route = Laravel.baseUrl + '/' + laroute.route('solicitudes::derivaciones.store');
+
       Events.$emit('indicator.show');
       self.toggleDerivacionModal();
-      self.$http.post(Router.route(API + '.solicitudes.derivaciones.store'), self.derivaciones_data).then((res) => {
+      self.$http.post(route, self.derivaciones_data).then((res) => {
         self.reloadDataTable();
       }, (err) => {
         Events.$emit('indicator.hide');
@@ -452,11 +335,13 @@ export default {
      *
      */
     seguimientosSubmit: function () {
-      var self = this;
+      var self  = this,
+          route = Laravel.baseUrl + '/' + laroute.route('solicitudes::seguimientos.store');
+
       Events.$emit('indicator.show');
       self.toggleSeguimientosModal();
 
-      self.$http.post(Router.route(API + '.solicitudes.seguimientos.store'), self.seguimientos_data).then((res) => {
+      self.$http.post(route, self.seguimientos_data).then((res) => {
         self.reloadDataTable();
       }, (err) => {
         Events.$emit('indicator.hide');

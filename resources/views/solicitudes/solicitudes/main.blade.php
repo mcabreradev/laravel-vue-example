@@ -24,30 +24,25 @@
     </ul>
     <div class="tab-content">
       <div class="tab-pane {{ ($estado === '' ? 'active' : '') }}" id="tab_1">
-        <dposs-tabla-solicitudes
-          :model='{singular: "reclamo", plural: "reclamos"}'
-          :url="{simple: 'solicitudes.solicitudes', doble:'solicitudes::solicitudes'}"
-          :has-modal="false"
-          :fields="[
-            {name: 'id', title: 'Solicitud #'},
-            {name: 'creado_el', title: 'Fecha', type:'datetime'},
-            {name: 'descripcion', title: 'Descripción', type: 'textarea'},
-            ]"
-        ></dposs-tabla-solicitudes>
+        @if($estado === '')
+          <dposs-tabla-solicitudes
+            :model='{singular: "reclamo", plural: "reclamos"}'
+            :has-modal="false"
+            :fields="[]"
+          ></dposs-tabla-solicitudes>
+        @endif
       </div>
       <!-- /.tab-pane -->
       <div class="tab-pane {{ ($estado === 'cerrado' ? 'active' : '') }}" id="tab_2">
-        <dposs-tabla-solicitudes
-          :model='{singular: "reclamo", plural: "reclamos"}'
-          :url="{simple: 'solicitudes.solicitudes', doble:'solicitudes::solicitudes'}"
-          :has-modal="false"
-          :estado-cerrado="true"
-          :fields="[
-            {name: 'id', title: 'Solicitud #'},
-            {name: 'creado_el', title: 'Fecha', type:'datetime'},
-            {name: 'descripcion', title: 'Descripción', type: 'textarea'},
-            ]"
-        ></dposs-tabla-solicitudes>
+        @if($estado === 'cerrado')
+          <dposs-tabla-solicitudes
+            :model='{singular: "reclamo", plural: "reclamos"}'
+            :url="{simple: 'solicitudes.solicitudes', doble:'solicitudes::solicitudes'}"
+            :has-modal="false"
+            :estado-cerrado="true"
+            :fields="[]"
+          ></dposs-tabla-solicitudes>
+        @endif
       </div>
     </div>
     <!-- /.tab-content -->

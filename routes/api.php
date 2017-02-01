@@ -99,27 +99,3 @@ Route::group([
     });
 
 }); // v1 group
-
-
-// v2
-Route::group(['prefix' => 'v2'], function () {
-
-    /**
-     * Solicitudes
-     */
-    Route::group(['namespace'  => 'Solicitudes', 'prefix' => 'solicitudes'], function()
-    {
-        Route::resource('estados', 'EstadosController');
-        Route::resource('origenes', 'OrigenesController');
-        Route::resource('prioridades', 'PrioridadesController');
-        Route::resource('tipos', 'TiposController');
-        Route::resource('solicitantes', 'SolicitantesController');
-        Route::resource('solicitudes', 'SolicitudesController');
-        Route::resource('areas', 'AreasController');
-        Route::resource('agentes', 'AgentesController');
-        Route::resource('derivaciones', 'DerivacionesController');
-        Route::resource('seguimientos', 'SeguimientosController');
-    });// Solicitudes
-
-});
-// v2 -> end

@@ -6,7 +6,7 @@
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('solicitudes::prioridades') }}">Prioridades</a></li>
+<li><a href="{{ route('solicitudes::prioridades.list') }}">Prioridades</a></li>
 @endsection
 
 
@@ -19,7 +19,12 @@
 
     <panal-table
       :model='{singular: "prioridad", plural: "prioridades"}'
-      :url="{simple: 'solicitudes.prioridades', doble:'solicitudes::prioridades'}"
+      :url="{
+        index: 'solicitudes::prioridades',
+        store: 'solicitudes::prioridades.store',
+        update: 'solicitudes::prioridades.update',
+        destroy: 'solicitudes::prioridades.destroy'
+      }"
       :has-modal="true"
       :fields="[
         {name: 'nombre', title: 'Nombre', type: 'text', required: true},

@@ -31,7 +31,7 @@ class SolicitudTransformer extends TransformerAbstract
      */
     public function transform($resource)
     {
-        return [
+        $ret = [
             "id"                  => $resource->id,
             "descripcion"         => $resource->descripcion,
             "creado_el"           => $resource->creado_el,
@@ -44,17 +44,32 @@ class SolicitudTransformer extends TransformerAbstract
             "estado"              => isSetOrNull($resource->estado),
             "prioridad"           => isSetOrNull($resource->prioridad),
             "solicitante"         => isSetOrNull($resource->solicitante),
-            "derivacion"          =>  [
-                "id"              => isSetOrNull($resource->derivacion, 'id'),
-                "derivado_el"     => isSetOrNull($resource->derivacion, 'derivado_el') !== null ? $resource->derivacion->derivado_el->format('Y-m-d H:i:s') : null,
-                "observaciones"   => isSetOrNull($resource->derivacion, 'observaciones'),
-                "area"            => isSetOrNull($resource->derivacion, 'area', 'nombre'),
-                "agente"          => isSetOrNull($resource->derivacion, 'agente', 'nombre_completo'),
-            ],
             'derivaciones'        => isSetOrNull($resource->derivaciones),
             'seguimientos'        => isSetOrNull($resource->seguimientos),
             'relacionados'        => $resource->relacionados()->get()
         ];
+
+        // ultima derivacion
+        $derivacion = $resource->derivacion()->with('area', 'agente')->first();
+        if ($derivacion) {
+            $ret['derivacion'] = [
+                'id'            => $derivacion->id,
+                'derivado_el'   => $derivacion->derivado_el->format('Y-m-d H:i:s'),
+                'observaciones' => $derivacion->observaciones,
+                'area'          => ($derivacion->area ? $derivacion->area->nombre : null),
+                'agente'        => ($derivacion->agente ? $derivacion->agente->nombre : null),
+            ];
+        } else {
+            $ret['derivacion'] =  [
+                "id"              => null,
+                "derivado_el"     => null,
+                "observaciones"   => null,
+                "area"            => null,
+                "agente"          => null
+            ];
+        }
+
+        return $ret;
     }
 
 }

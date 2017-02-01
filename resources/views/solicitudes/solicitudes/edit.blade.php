@@ -54,9 +54,14 @@
 
     <panal-table title="Seguimientos"
       :model='{singular: "seguimiento", plural: "seguimientos"}'
-      :url="{simple: 'solicitudes.seguimientos', doble:'solicitudes::seguimientos'}"
+      :url="{
+        index: 'solicitudes::seguimientos.por-solicitud',
+        store: 'solicitudes::seguimientos.store',
+        update: 'solicitudes::seguimientos.update',
+        destroy: 'solicitudes::seguimientos.destroy'
+      }"
       :has-modal="true"
-      :where="{id: {{ $solicitud->id }} }"
+      :where="{solicitudId: {{ $solicitud->id }} }"
       :fields="[
         {name: 'generado_el', title: 'Fecha', type: 'datetime', required: true},
         {name: 'descripcion', title:'Descripción', type: 'textarea'},

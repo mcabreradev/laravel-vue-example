@@ -6,7 +6,7 @@
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('solicitudes::estados') }}">Estados</a></li>
+<li><a href="{{ route('solicitudes::estados.list') }}">Estados</a></li>
 @endsection
 
 
@@ -19,7 +19,12 @@
 
     <panal-table
       :model='{singular: "estado", plural: "estados"}'
-      :url="{simple: 'solicitudes.estados', doble:'solicitudes::estados'}"
+      :url="{
+        index: 'solicitudes::estados',
+        store: 'solicitudes::estados.store',
+        update: 'solicitudes::estados.update',
+        destroy: 'solicitudes::estados.destroy'
+      }"
       :has-modal="true"
       :fields="[
         {name: 'nombre', title: 'Nombre', type: 'text', required: true},

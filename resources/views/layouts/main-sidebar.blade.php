@@ -53,12 +53,12 @@
           <li>
             <a href="#">Configuración<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
             <ul class="treeview-menu">
-                <li><a href="{{ route('solicitudes::agentes') }}">Agentes</a></li>
-                <li><a href="{{ route('solicitudes::areas') }}">Áreas</a></li>
-              <li><a href="{{ route('solicitudes::estados') }}">Estados</a></li>
-              <li><a href="{{ route('solicitudes::origenes') }}">Orígenes</a></li>
-              <li><a href="{{ route('solicitudes::prioridades') }}">Prioridades</a></li>
-              <li><a href="{{ route('solicitudes::tipos') }}">Tipos</a></li>
+              <li><a href="{{ route('solicitudes::agentes.list') }}">Agentes</a></li>
+              <li><a href="{{ route('solicitudes::areas.list') }}">Áreas</a></li>
+              <li><a href="{{ route('solicitudes::estados.list') }}">Estados</a></li>
+              <li><a href="{{ route('solicitudes::origenes.list') }}">Orígenes</a></li>
+              <li><a href="{{ route('solicitudes::prioridades.list') }}">Prioridades</a></li>
+              <li><a href="{{ route('solicitudes::tipos.list') }}">Tipos</a></li>
             </ul>
           </li>
         </ul>
