@@ -4,6 +4,7 @@ namespace App\Models\OficinaVirtual;
 
 use DateTime;
 use App\Models\AppModel;
+use Carbon\Carbon;
 
 class BoletaPago
 {
@@ -18,34 +19,41 @@ class BoletaPago
      */
     public $factura_tipo;
     public $factura_numero;
+    public $factura_periodo;
+    public $factura_fecha;
+
     public $nro_liq_sp;
     public $numero_cuenta;
-    public $nombre_razon_social;
-    public $nombre_ocupante;
-    public $dni_ocupante;
+    public $expediente;
+
+    public $razon_social;
+    public $ocupante;
+    public $ocupante_dni;
+
     public $unidad_calle;
+    public $unidad_numero;
     public $unidad_numero_puerta;
     public $unidad_piso;
     public $unidad_departamento;
+
     public $envio_calle;
     public $envio_numero_puerta;
     public $envio_piso;
     public $envio_departamento;
+
     public $nomenclatura_seccion;
     public $nomenclatura_manzana;
     public $nomenclatura_parcela;
     public $nomenclatura_subparcela;
     public $nomenclatura_unidad_funcional;
-    public $expediente;
-    public $numero_unidad;
-    public $periodo_factura;
-    public $monto_total_origen;
+
     public $fecha_vencimiento_1;
-    public $monto_vencimiento_2;
+    public $monto_vencimiento_1;
     public $fecha_vencimiento_2;
-    public $monto_vencimiento_3;
+    public $monto_vencimiento_2;
     public $fecha_vencimiento_3;
-    public $fecha_factura;
+    public $monto_vencimiento_3;
+
     public $saldo;
 
     /**
@@ -54,7 +62,7 @@ class BoletaPago
      * @var array
      */
     protected $dates = [
-        'created_at', 'updated_at', 'fecha_vencimiento_1', 'fecha_vencimiento_2',
+        'fecha_vencimiento_1', 'fecha_vencimiento_2',
         'fecha_vencimiento_3'
     ];
 
@@ -62,34 +70,41 @@ class BoletaPago
     {
         $this->factura_tipo                  = $data->factura_tipo;
         $this->factura_numero                = $data->factura_numero;
+        $this->factura_periodo               = $data->periodo_factura;
+        $this->factura_fecha                 = $data->fecha_factura;
+
         $this->nro_liq_sp                    = $data->nro_liq_sp;
         $this->numero_cuenta                 = $data->numero_cuenta;
-        $this->nombre_razon_social           = $data->nombre_razon_social;
-        $this->nombre_ocupante               = $data->nombre_ocupante;
-        $this->dni_ocupante                  = $data->dni_ocupante;
+        $this->expediente                    = $data->expediente;
+
+        $this->razon_social                  = $data->nombre_razon_social;
+        $this->ocupante                      = $data->nombre_ocupante;
+        $this->ocupante_dni                  = $data->dni_ocupante;
+
         $this->unidad_calle                  = $data->unidad_calle;
+        $this->unidad_numero                 = $data->numero_unidad;
         $this->unidad_numero_puerta          = $data->unidad_numero_puerta;
         $this->unidad_piso                   = $data->unidad_piso;
         $this->unidad_departamento           = $data->unidad_departamento;
+
         $this->envio_calle                   = $data->envio_calle;
         $this->envio_numero_puerta           = $data->envio_numero_puerta;
         $this->envio_piso                    = $data->envio_piso;
         $this->envio_departamento            = $data->envio_departamento;
+
         $this->nomenclatura_seccion          = $data->nomenclatura_seccion;
         $this->nomenclatura_manzana          = $data->nomenclatura_manzana;
         $this->nomenclatura_parcela          = $data->nomenclatura_parcela;
         $this->nomenclatura_subparcela       = $data->nomenclatura_subparcela;
         $this->nomenclatura_unidad_funcional = $data->nomenclatura_unidad_funcional;
-        $this->expediente                    = $data->expediente;
-        $this->numero_unidad                 = $data->numero_unidad;
-        $this->periodo_factura               = $data->periodo_factura;
-        $this->monto_total_origen            = $data->monto_total_origen;
-        $this->fecha_vencimiento_1           = $data->fecha_vencimiento_1;
+
+        $this->fecha_vencimiento_1           = new Carbon($data->fecha_vencimiento_1);
+        $this->monto_vencimiento_1           = $data->monto_total_origen;
+        $this->fecha_vencimiento_2           = new Carbon($data->fecha_vencimiento_2);
         $this->monto_vencimiento_2           = $data->monto_vencimiento_2;
-        $this->fecha_vencimiento_2           = $data->fecha_vencimiento_2;
+        $this->fecha_vencimiento_3           = new Carbon($data->fecha_vencimiento_3);
         $this->monto_vencimiento_3           = $data->monto_vencimiento_3;
-        $this->fecha_vencimiento_3           = $data->fecha_vencimiento_3;
-        $this->fecha_factura                 = $data->fecha_factura;
+
         $this->saldo                         = $data->saldo;
     }
 
