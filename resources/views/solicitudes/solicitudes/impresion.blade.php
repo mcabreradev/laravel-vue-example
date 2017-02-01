@@ -29,7 +29,6 @@
 
     .box {
       border: 1pt solid black;
-      padding: 10px;
     }
   </style>
 </head>
@@ -54,30 +53,46 @@
     </tr>
     <tr>
       <td colspan="3">
-        <p><strong>Ubicación:</strong> {{$solicitud->ubicacion}}</p>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="3">
-        <p>SOLICITANTE</p>
-      </td>
-    </tr>
-    <tr>
-      <td colspan="3">
         <p><strong>Descripción del problema:</strong> {{$solicitud->descripcion}}</p>
       </td>
     </tr>
     <tr>
       <td colspan="3">
-        <p class="box">
+         <div class="box">
+            <ul> <!-- trapa para que se vea bien -->
+              <strong>Ubicación:</strong> {{$solicitud->ubicacion}}
+            </ul>
+          </div>
+      </td>
+    </tr>
+    @if($solicitud->solicitante)
+    <tr>
+      <td colspan="3">
+        <div class="box">
+            <ul> <!-- trapa para que se vea bien -->
+              <strong>Solicitado por:</strong> {{$solicitud->solicitante->apellido}} {{$solicitud->solicitante->nombre}}<br>
+              @if($solicitud->solicitante->celular)
+                <strong>Celular:</strong> {{$solicitud->solicitante->celular}}<br>
+              @endif
+              @if($solicitud->solicitante->telefono)
+                <strong>Teléfono:</strong> {{$solicitud->solicitante->telefono}}<br>
+              @endif
+              @if($solicitud->solicitante->email)
+                <strong>Email:</strong> {{$solicitud->solicitante->email}}
+              @endif
+            </ul>
+        </div>
+      </td>
+    </tr>
+    @endif
+    <tr>
+      <td colspan="3">
+        <div class="box">
           <strong>Observaciones sobre el trabajo realizado:</strong>
           <p>&nbsp;</p>
           <p>&nbsp;</p>
           <p>&nbsp;</p>
-          <p>&nbsp;</p>
-          <p>&nbsp;</p>
-          <p>&nbsp;</p>
-        </p>
+        </div>
       </td>
     </tr>
     <tr>
