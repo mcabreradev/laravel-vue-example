@@ -17,23 +17,23 @@ class CreateDerivacionesTable extends Migration
             $table->datetime('derivado_el');
             $table->mediumText('observaciones')->nullable();
 
-            $table->integer('solicitud_id')->unsigned()->nullable();
+            $table->integer('solicitud_id')->unsigned()->nullable()->index();
             $table->foreign('solicitud_id')
                   ->references('id')
                   ->on('solicitudes')
                   ->onDelete('cascade');
 
-            $table->integer('area_id')->unsigned()->nullable();
+            $table->integer('area_id')->unsigned()->nullable()->index();
             $table->foreign('area_id')
                   ->references('id')
                   ->on('areas')
-                  ->onDelete('cascade');
+                  ->onDelete('restrict');
 
-            $table->integer('agente_id')->unsigned()->nullable();
+            $table->integer('agente_id')->unsigned()->nullable()->index();
             $table->foreign('agente_id')
                   ->references('id')
                   ->on('agentes')
-                  ->onDelete('cascade');
+                  ->onDelete('restrict');
 
             $table->timestamps();
         });

@@ -17,13 +17,11 @@ class SolicitudesPrioridadesTableSeeder extends Seeder
         ]);
 
         Prioridad::create([
-            'nombre' => 'Media',
-            'color' => '#ff9800'
+            'nombre' => 'Media'
         ]);
 
         Prioridad::create([
-            'nombre' => 'Alta',
-            'color' => '#e62b1d'
+            'nombre' => 'Alta'
         ]);
 
     } //run

@@ -13,31 +13,28 @@ class SolicitudesAreasTableSeeder extends Seeder
     public function run()
     {
         Area::create([
-            'nombre' => 'Dir. Comercial',
+            'nombre' => 'Gerencia Redes'
         ]);
-
         Area::create([
-            'nombre' => 'Explotación',
+            'nombre' => 'Área Operativa y Técnica'
         ]);
-
         Area::create([
-            'nombre' => 'Distribución',
+            'nombre' => 'Dirección Comercial'
         ]);
-
         Area::create([
-            'nombre' => 'Ingeniería',
+            'nombre' => 'Departamento Instalaciones Internas'
         ]);
-
         Area::create([
-            'nombre' => 'Laboratorio',
+            'nombre' => 'Presidencia'
         ]);
-
         Area::create([
-            'nombre' => 'Medidores',
+            'nombre' => 'Dirección Provincial'
         ]);
-
         Area::create([
-            'nombre' => 'D.T. Redes',
+            'nombre' => 'Laboratorio'
+        ]);
+        Area::create([
+            'nombre' => 'Dirección Explotación'
         ]);
 
     } //run

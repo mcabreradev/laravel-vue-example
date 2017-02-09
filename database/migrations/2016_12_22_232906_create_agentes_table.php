@@ -14,9 +14,8 @@ class CreateAgentesTable extends Migration
     {
         Schema::connection('solicitudes')->create('agentes', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre');
             $table->string('apellido');
-            $table->integer('legajo')->unsigned()->nullable();
+            $table->string('nombre')->nullable();
             $table->string('telefono')->nullable();
             $table->string('email')->nullable();
             $table->timestamps();

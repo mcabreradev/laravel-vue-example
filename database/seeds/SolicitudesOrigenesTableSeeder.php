@@ -13,33 +13,22 @@ class SolicitudesOrigenesTableSeeder extends Seeder
     public function run()
     {
         Origen::create([
-            'nombre' => 'Teléfono'
+            'nombre' => 'Personalmente'
         ]);
-
         Origen::create([
-            'nombre' => 'Email'
+            'nombre' => 'email'
         ]);
-
         Origen::create([
-            'nombre' => 'Web'
+            'nombre' => 'Chat online'
         ]);
-
         Origen::create([
-            'nombre' => 'Whastapp'
+            'nombre' => 'Whatsapp'
         ]);
-
         Origen::create([
-            'nombre' => 'Facebook'
+            'nombre' => 'Mensaje de texto'
         ]);
-
         Origen::create([
-            'nombre' => 'Twitter'
+            'nombre' => 'Llamado telefónico'
         ]);
-
-        Origen::create([
-            'nombre' => 'Personal'
-        ]);
-
-
     } //run
 }

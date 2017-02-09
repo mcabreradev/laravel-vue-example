@@ -20,6 +20,7 @@ class CreateSolicitantesTable extends Migration
             $table->string('telefono')->nullable();
             $table->string('celular')->nullable();
             $table->string('email')->nullable();
+            $table->boolean('es_titular')->default(false);
             $table->timestamps();
         });
     }

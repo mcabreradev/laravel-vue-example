@@ -13,48 +13,68 @@ class CreateSolicitudesTable extends Migration
     public function up()
     {
         Schema::connection('solicitudes')->create('solicitudes', function (Blueprint $table) {
-            $table->increments('id');
-            $table->mediumText('descripcion')->nullable();;
-            $table->datetime('creado_el');
-            $table->mediumText('observaciones')->nullable();
-            $table->decimal('lat', 8, 6)->nullable();
-            $table->decimal('lng', 8, 6)->nullable();
 
+            $table->increments('id');
+            $table->datetime('creado_el');
+            $table->mediumText('descripcion')->nullable();
+            $table->mediumText('observaciones')->nullable();
+            $table->json('checklist')->nullable();
+
+            $table->integer('expediente')->unsigned()->nullable();
+            $table->integer('unidad')->unsigned()->nullable();
+            $table->string('nomenclatura')->nullable();
+            $table->decimal('lat', 10, 6)->nullable();
+            $table->decimal('lng', 10, 6)->nullable();
             $table->string('lugar_calle')->nullable();
             $table->string('lugar_numero')->nullable();
             $table->string('lugar_entre_1')->nullable();
             $table->string('lugar_entre_2')->nullable();
+            $table->string('lugar_barrio')->nullable();
             $table->mediumText('lugar_observaciones')->nullable();
 
-            $table->integer('origen_id')->unsigned()->nullable();
+
+            // relacion padre
+            $table->integer('padre_id')->unsigned()->nullable()->index();
+            $table->foreign('padre_id')
+                  ->references('id')
+                  ->on('solicitudes')
+                  ->onDelete('set null');
+
+            $table->integer('origen_id')->unsigned()->nullable()->index();
             $table->foreign('origen_id')
                   ->references('id')
                   ->on('origenes')
-                  ->onDelete('cascade');
+                  ->onDelete('restrict');
 
-            $table->integer('tipo_id')->unsigned()->nullable();
+            $table->integer('tipo_id')->unsigned()->nullable()->index();
             $table->foreign('tipo_id')
                   ->references('id')
                   ->on('tipos')
-                  ->onDelete('cascade');
+                  ->onDelete('restrict');
 
-            $table->integer('estado_id')->unsigned()->nullable();
+            $table->integer('localidad_id')->unsigned()->index();
+            $table->foreign('localidad_id')
+                ->references('id')
+                ->on('localidades')
+                ->onDelete('restrict');
+
+            $table->integer('estado_id')->unsigned()->nullable()->index();
             $table->foreign('estado_id')
                   ->references('id')
                   ->on('estados')
-                  ->onDelete('cascade');
+                  ->onDelete('restrict');
 
-            $table->integer('prioridad_id')->unsigned()->nullable();
+            $table->integer('prioridad_id')->unsigned()->nullable()->index();
             $table->foreign('prioridad_id')
                   ->references('id')
                   ->on('prioridades')
-                  ->onDelete('cascade');
+                  ->onDelete('restrict');
 
-            $table->integer('solicitante_id')->unsigned()->nullable();
+            $table->integer('solicitante_id')->unsigned()->nullable()->index();
             $table->foreign('solicitante_id')
                   ->references('id')
                   ->on('solicitantes')
-                  ->onDelete('cascade');
+                  ->onDelete('restrict');
 
             $table->timestamps();
         });

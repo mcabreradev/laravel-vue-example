@@ -12,30 +12,118 @@ class SolicitudesTiposTableSeeder extends Seeder
      */
     public function run()
     {
-        Tipo::create([
-            'nombre' => 'Perdida'
+        $jsonComercial = json_encode([
+            [
+                'label' => 'Nombre del titular',
+                'value' => '',
+                'type'  => 'text'
+            ]
         ]);
 
+        $jsonBajaPresionSinAgua = json_encode([
+            [
+                'label' => 'Desde cuándo? ( dia / hora aprox)',
+                'value' => '',
+                'type'  => 'text'
+            ],
+            [
+                'label' => 'Posee medidor?',
+                'value' => false,
+                'type'  => 'checkbox'
+            ],
+            [
+                'label' => 'Cuántas unidades se abastecen desde esa conexión?',
+                'value' => '',
+                'type'  => 'number'
+            ],
+            [
+                'label' => 'Sus vecinos estan en la misma situacion?',
+                'value' => false,
+                'type'  => 'checkbox'
+            ],
+            [
+                'label' => 'Posee tanque?',
+                'value' => false,
+                'type'  => 'checkbox'
+            ],
+            [
+                'label' => 'Pagan el servicio? (pueden tener canilla comunitaria que no garantiza el servicio regularmente)',
+                'value' => false,
+                'type'  => 'checkbox'
+            ]
+        ]);
+
+        $jsonNoTieneLlaveInterna = json_encode([
+            [
+                'label' => 'Tiene plomero para coordinar la reparación?',
+                'value' => false,
+                'type'  => 'checbox'
+            ]
+        ]);
+
+        $jsonVeredas = json_encode([
+            [
+                'label' => 'Corroborar si esta en listado de veredas pendientes de realizar( Gerencia Operacion y Desarrolllo)',
+                'vale'  => false,
+                'type'  => 'checkbox'
+            ]
+        ]);
+
+        Tipo::create([
+            'nombre' => 'Pérdida'
+        ]);
+        Tipo::create([
+            'nombre' => 'Falta de suministro',
+            'checklist' => $jsonBajaPresionSinAgua
+        ]);
+        Tipo::create([
+            'nombre' => 'Baja presión',
+            'checklist' => $jsonBajaPresionSinAgua
+        ]);
         Tipo::create([
             'nombre' => 'Medidores'
         ]);
-
         Tipo::create([
-            'nombre' => 'Cloaca'
+            'nombre' => 'Veredas',
+            'checklist' => $jsonVeredas
         ]);
-
         Tipo::create([
-            'nombre' => 'Interna'
+            'nombre' => 'Pérdida interna'
         ]);
-
         Tipo::create([
-            'nombre' => 'Veredas'
+            'nombre' => 'Pérdida en via pública'
         ]);
-
         Tipo::create([
-            'nombre' => 'Otros'
+            'nombre' => 'Denuncia por derroche'
         ]);
-
+        Tipo::create([
+            'nombre' => 'No recepción de factura',
+            'checklist' => $jsonComercial
+        ]);
+        Tipo::create([
+            'nombre' => 'Conexión domiciliaria',
+            'checklist' => $jsonNoTieneLlaveInterna,
+        ]);
+        Tipo::create([
+            'nombre' => 'Recambio de conexión',
+            'checklist' => $jsonNoTieneLlaveInterna,
+        ]);
+        Tipo::create([
+            'nombre' => 'Catastro',
+            'checklist' => $jsonComercial
+        ]);
+        Tipo::create([
+            'nombre' => 'Relevamiento catastral',
+            'checklist' => $jsonComercial
+        ]);
+        Tipo::create([
+            'nombre' => 'Otros',
+            'checklist' => $jsonComercial
+        ]);
+        Tipo::create([
+            'nombre' => 'Eximir del pago del servicio',
+            'checklist' => $jsonComercial
+        ]);
 
     } //run
 }

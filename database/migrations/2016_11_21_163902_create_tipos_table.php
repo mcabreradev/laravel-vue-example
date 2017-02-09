@@ -17,6 +17,7 @@ class CreateTiposTable extends Migration
             $table->string('nombre');
             $table->mediumText('descripcion')->nullable();
             $table->string('color')->nullable();
+            $table->json('checklist')->nullable();
             $table->timestamps();
         });
     }

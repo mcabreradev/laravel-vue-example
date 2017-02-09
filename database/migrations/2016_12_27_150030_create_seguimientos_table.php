@@ -17,7 +17,7 @@ class CreateSeguimientosTable extends Migration
             $table->datetime('generado_el');
             $table->mediumText('descripcion');
 
-            $table->integer('solicitud_id')->unsigned()->nullable();
+            $table->integer('solicitud_id')->unsigned()->nullable()->index();
             $table->foreign('solicitud_id')
                   ->references('id')
                   ->on('solicitudes')
