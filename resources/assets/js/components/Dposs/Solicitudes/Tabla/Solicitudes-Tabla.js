@@ -143,6 +143,7 @@ export default {
       var self = this;
       setTimeout(function () {
         self.table = $('#' + self.tableId).DataTable({
+          "lengthMenu": [ 25, 50, 100, 200 ],
           "language": PanalConf.lang.datatable,
           "aoColumnDefs": [{
             'bSortable': false,
@@ -178,34 +179,6 @@ export default {
       }, '2000');
 
       return this;
-    },
-
-    /**
-     *  Borrado de data
-     **/
-    destroy: function (id) {
-      var self = this;
-
-      swal({
-          title: "Estás seguro/a?",
-          type: "warning",
-          showCancelButton: true,
-          confirmButtonColor: "#DD6B55",
-          confirmButtonText: "Si, borrar",
-          closeOnConfirm: true
-        },
-        function () {
-          var route = Laravel.baseUrl + '/' + laroute.route('solicitudes::solicitudes.destroy', {id: id});
-          Events.$emit('indicator.show');
-          self.$http.delete(route).then((res) => {
-            self.rows = _.reject(self.rows, {
-              'id': id
-            });
-            self.reloadDataTable();
-            Events.$emit('indicator.hide');
-          });
-
-        });
     },
 
     /**

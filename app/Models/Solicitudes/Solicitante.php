@@ -25,7 +25,21 @@ class Solicitante extends AppModel
      *
      * @var array
      */
-    protected $fillable = ['nombre', 'apellido', 'documento', 'telefono', 'celular', 'email'];
+    protected $fillable = ['nombre', 'apellido', 'es_titular', 'telefono', 'celular', 'email'];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'nombre'     => 'string',
+        'apellido'   => 'string',
+        'es_titular' => 'boolean',
+        'telefono'   => 'string',
+        'celular'    => 'string',
+        'email'      => 'string',
+    ];
 
     /**
      *  Las solicitudes (reclamos) del solicitante

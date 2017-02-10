@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Solicitudes;
 use Illuminate\Http\Request;
 
 use Flash;
+use Auth;
 use App\Http\Requests;
 use App\Models\Solicitudes\Area;
 use App\Models\Solicitudes\Solicitud;
@@ -38,6 +39,9 @@ class SeguimientosController extends ApiController
      */
     public function store(Request $request) {
         $seguimiento = Seguimiento::create($request->all());
+
+        $seguimiento->user()->associate(Auth::user());
+        $seguimiento->save();
 
         if ($request->has('relacionados') && count($request->input('relacionados'))) {
             foreach ($request->input('relacionados') as $reclamoId) {

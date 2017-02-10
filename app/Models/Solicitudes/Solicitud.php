@@ -27,27 +27,33 @@ class Solicitud extends AppModel
      * @var array
      */
     protected $fillable = [
-        'descripcion',
         'creado_el',
-        'observaciones',
-        'lat',
-        'lng',
+        'reclamo_anterior',
+        'descripcion',
+        'checklist',
+        'expediente',
+        'unidad',
+        'seccion',
+        'macizo',
+        'parcela',
+        'subparcela',
+        'unidad_funcional',
         'lugar_calle',
         'lugar_numero',
         'lugar_entre_1',
         'lugar_entre_2',
+        'lugar_barrio',
         'lugar_observaciones',
-        'origen_id',
+        'lat',
+        'lng',
+        'observaciones',
+        'solicitante_id',
+        'user_id',
         'tipo_id',
+        'localidad_id',
         'estado_id',
         'prioridad_id',
-        'solicitante_id',
-        'localidad_id',
-        'checklist',
-        'lugar_barrio',
-        'unidad',
-        'expediente',
-        'nomenclatura'
+        'origen_id',
     ];
 
     /**
@@ -69,21 +75,56 @@ class Solicitud extends AppModel
      */
     protected $appends = ['ubicacion'];
 
-    /**
-     * La fecha el que fue creada la solicutud
-     *
-     * @param  {value} $value [description]
-     */
-    public function getCreadoElAttribute($value){
-        return $value;
-    }
 
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'reclamo_anterior'    => 'integer',
+        'descripcion'         => 'string',
+        'checklist'           => 'array',
+        'expediente'          => 'integer',
+        'unidad'              => 'integer',
+        'seccion'             => 'string',
+        'macizo'              => 'string',
+        'parcela'             => 'string',
+        'subparcela'          => 'string',
+        'unidad_funcional'    => 'string',
+        'lugar_calle'         => 'string',
+        'lugar_numero'        => 'string',
+        'lugar_entre_1'       => 'string',
+        'lugar_entre_2'       => 'string',
+        'lugar_barrio'        => 'string',
+        'lugar_observaciones' => 'string',
+        'lat'                 => 'double',
+        'lng'                 => 'double',
+        'observaciones'       => 'string',
+    ];
+
+    /**
+     * [setExpedienteAttribute description]
+     * @param [type] $value [description]
+     */
     public function setExpedienteAttribute($value){
         $this->attributes['expediente'] = $value == "" ? null : $value;
     }
 
+    /**
+     * [setUnidadAttribute description]
+     * @param [type] $value [description]
+     */
     public function setUnidadAttribute($value){
         $this->attributes['unidad'] = $value == "" ? null : $value;
+    }
+
+    /**
+     * [setUnidadAttribute description]
+     * @param [type] $value [description]
+     */
+    public function setReclamoAnteriorAttribute($value){
+        $this->attributes['reclamo_anterior'] = $value == "" ? null : $value;
     }
 
     /**
@@ -349,6 +390,16 @@ class Solicitud extends AppModel
     public function localidad()
     {
         return $this->belongsTo('App\Models\Solicitudes\Localidad');
+    }
+
+    /**
+     * Usuario creador
+     *
+     * @return {Collection}
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\Admin\user');
     }
 
 }

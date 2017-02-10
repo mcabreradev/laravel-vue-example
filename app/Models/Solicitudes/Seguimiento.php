@@ -55,5 +55,13 @@ class Seguimiento extends AppModel
         return $this->belongsTo('App\Models\Solicitudes\Solicitud');
     }
 
-
+    /**
+     * Usuario creador
+     *
+     * @return {Collection}
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\Admin\user');
+    }
 }

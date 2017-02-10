@@ -2,9 +2,14 @@
   <div class="row">
     <div class="col-xs-12" v-for="check in checklistMutable" v-if="checklistMutable.length > 0">
 
-      <div class="checkbox" v-if="check.type === 'checkbox'">
-        <label>
-          <input class="pull-right" type="checkbox" v-model="check.value"> {{check.label}}
+      <div class="form-group" v-if="check.type === 'boolean'">
+        <label>{{check.label}}</label>
+        <br>
+        <label class="radio-inline">
+          <input type="radio" :value="true" v-model="check.value"> Si
+        </label>
+        <label class="radio-inline">
+          <input type="radio" value="false" v-model="check.value"> NO
         </label>
       </div>
 
@@ -13,9 +18,9 @@
         <input class="form-control" type="text" v-model="check.value">
       </div>
 
-      <div class="form-group" v-if="check.type === 'number'">
+      <div class="form-group" v-if="check.type === 'textarea'">
         <label>{{check.label}}</label>
-        <input class="form-control" type="number" v-model="check.value">
+        <textarea class="form-control" rows="3" v-model="check.value"></textarea>
       </div>
 
       <input type="hidden" name="checklist" :value="JSON.stringify(checklistMutable)">

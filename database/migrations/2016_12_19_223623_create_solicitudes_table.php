@@ -16,7 +16,7 @@ class CreateSolicitudesTable extends Migration
 
             $table->bigIncrements('id');
             $table->datetime('creado_el');
-            $table->integer('reclamo_anterior')->nullable();
+            $table->integer('reclamo_anterior')->unsigned()->nullable();
             $table->mediumText('descripcion')->nullable();
             $table->mediumText('observaciones')->nullable();
             $table->json('checklist')->nullable();

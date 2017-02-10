@@ -5,17 +5,48 @@
 
     <div class="form-group">
       <label for="expediente">Expediente</label>
-      <input class="form-control" type="text" name="expediente" id="expediente" value="{{ old('expediente', $solicitud->expediente) }}">
+      <input class="form-control" type="number" name="expediente" id="expediente" value="{{ old('expediente', $solicitud->expediente) }}">
     </div>
 
     <div class="form-group">
       <label for="unidad">Número de Unidad</label>
-      <input class="form-control" type="text" name="unidad" id="unidad" value="{{ old('unidad', $solicitud->unidad) }}">
+      <input class="form-control" type="number" name="unidad" id="unidad" value="{{ old('unidad', $solicitud->unidad) }}">
     </div>
 
-    <div class="form-group">
-      <label for="nomenclatura">Nomenclatura (sección, mazico, parcela)</label>
-      <input class="form-control" type="text" name="nomenclatura" id="nomenclatura" value="{{ old('nomenclatura', $solicitud->nomenclatura) }}">
+    <div class="row">
+      <div class="col-xs-4">
+        <div class="form-group">
+          <label for="seccion">Sección</label>
+          <input class="form-control" type="text" name="seccion" id="seccion" value="{{ old('seccion', $solicitud->seccion) }}">
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="form-group">
+          <label for="macizo">Macizo</label>
+          <input class="form-control" type="text" name="macizo" id="macizo" value="{{ old('macizo', $solicitud->macizo) }}">
+        </div>
+      </div>
+      <div class="col-xs-4">
+        <div class="form-group">
+          <label for="parcela">Parcela</label>
+          <input class="form-control" type="text" name="parcela" id="parcela" value="{{ old('parcela', $solicitud->parcela) }}">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="subparcela">Subparcela</label>
+          <input class="form-control" type="text" name="subparcela" id="subparcela" value="{{ old('subparcela', $solicitud->subparcela) }}">
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <label for="unidad_funcional">Unidad Funcional</label>
+          <input class="form-control" type="text" name="unidad_funcional" id="unidad_funcional" value="{{ old('unidad_funcional', $solicitud->unidad_funcional) }}">
+        </div>
+      </div>
     </div>
 
     <div class="form-group">
@@ -45,7 +76,7 @@
 
     <div class="form-group">
       <label for="localidad_id">Localidad</label>
-      <select class="form-control" id="localidad_id" name="localidad_id" style="width: 100%">
+      <select class="form-control" id="localidad_id" name="localidad_id" style="width: 100%" required>
         @foreach($localidades as $localidad)
           @if( collect($solicitud->localidad_id)->contains($localidad->id))
             <option value="{{ $localidad->id }}" selected>{{ $localidad->nombre }}</option>
@@ -81,7 +112,7 @@
 
     <div class="form-group">
       <label for="lugar_observaciones">Obervaciones</label>
-      <textarea rows="3" class="form-control" id="lugar_observaciones" name="lugar_observaciones">{{ old('lugar_observaciones', $solicitud->lugar_observaciones) }}</textarea>
+      <textarea rows="4" class="form-control" id="lugar_observaciones" name="lugar_observaciones">{{ old('lugar_observaciones', $solicitud->lugar_observaciones) }}</textarea>
     </div>
   </div>
 </div>

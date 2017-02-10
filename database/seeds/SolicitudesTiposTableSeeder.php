@@ -29,27 +29,27 @@ class SolicitudesTiposTableSeeder extends Seeder
             [
                 'label' => 'Posee medidor?',
                 'value' => false,
-                'type'  => 'checkbox'
+                'type'  => 'boolean'
             ],
             [
                 'label' => 'Cuántas unidades se abastecen desde esa conexión?',
                 'value' => '',
-                'type'  => 'number'
+                'type'  => 'textarea'
             ],
             [
                 'label' => 'Sus vecinos estan en la misma situacion?',
-                'value' => false,
-                'type'  => 'checkbox'
+                'value' => '',
+                'type'  => 'textarea'
             ],
             [
                 'label' => 'Posee tanque?',
                 'value' => false,
-                'type'  => 'checkbox'
+                'type'  => 'boolean'
             ],
             [
                 'label' => 'Pagan el servicio? (pueden tener canilla comunitaria que no garantiza el servicio regularmente)',
                 'value' => false,
-                'type'  => 'checkbox'
+                'type'  => 'boolean'
             ]
         ]);
 
@@ -57,7 +57,7 @@ class SolicitudesTiposTableSeeder extends Seeder
             [
                 'label' => 'Tiene plomero para coordinar la reparación?',
                 'value' => false,
-                'type'  => 'checkbox'
+                'type'  => 'boolean'
             ]
         ]);
 
@@ -65,7 +65,7 @@ class SolicitudesTiposTableSeeder extends Seeder
             [
                 'label' => 'Corroborar si esta en listado de veredas pendientes de realizar( Gerencia Operacion y Desarrolllo)',
                 'vale'  => false,
-                'type'  => 'checkbox'
+                'type'  => 'boolean'
             ]
         ]);
 

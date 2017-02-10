@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use DB;
 use Flash;
+use Auth;
 use App\Http\Requests;
 use App\Models\Solicitudes\Tipo;
 use App\Models\Solicitudes\Origen;
@@ -53,14 +54,22 @@ class SolicitudesController extends ApiController
    */
 	public function create() {
 
+        // @TODO Mejorar configuracion inicial menos hardcodeada
+        $solicitud = new Solicitud();
+        $solicitud->estado_id = 1; // En proceso
+        $solicitud->localidad_id = 1; // Ushuaia
+        $solicitud->prioridad_id = 1; // Baja
+
+
 		return view('solicitudes.solicitudes.create', [
-            'solicitud'    => new Solicitud(),
+            'solicitud'    => $solicitud,
             'origenes'     => Origen::orderBy('nombre', 'asc')->get(),
             'tipos'        => Tipo::orderBy('nombre', 'asc')->get(),
-            'estados'      => Estado::orderBy('nombre', 'asc')->get(),
-            'prioridades'  => Prioridad::orderBy('nombre', 'asc')->get(),
+            'estados'     => Estado::all(),
+            'prioridades' => Prioridad::all(),
             'solicitantes' => Solicitante::orderBy('nombre', 'asc')->get(),
             'localidades'  => Localidad::all(),
+            'user'         => Auth::user()
         ]);
 	}
 
@@ -115,10 +124,11 @@ class SolicitudesController extends ApiController
             'solicitud'   => $solicitud,
             'origenes'    => Origen::orderBy('nombre', 'asc')->get(),
             'tipos'       => Tipo::orderBy('nombre', 'asc')->get(),
-            'estados'     => Estado::orderBy('nombre', 'asc')->get(),
-            'prioridades' => Prioridad::orderBy('nombre', 'asc')->get(),
+            'estados'     => Estado::all(),
+            'prioridades' => Prioridad::all(),
             'solicitante' => Solicitante::orderBy('nombre', 'asc')->get(),
             'localidades' => Localidad::all(),
+            'user'        => Auth::user()
         ]);
 	}
 
@@ -154,7 +164,9 @@ class SolicitudesController extends ApiController
    */
 	public function destroy($id) {
 		Solicitud::destroy($id);
-        return $this->respondWithOk(200, 'Deleted');
+
+        Flash::success('El registro se borró correctamente');
+        return redirect(route('solicitudes::solicitudes'));
 	}
 
   /**
@@ -223,7 +235,7 @@ class SolicitudesController extends ApiController
         // Agregamos una página en blanco
         PDF::AddPage();
 
-        $html = view('solicitudes.solicitudes.impresion')
+        $html = view('solicitudes.solicitudes.impresion-reclamante')
             ->with('solicitud', $solicitud)
             ->render();
 

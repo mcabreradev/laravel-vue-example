@@ -93,4 +93,14 @@ class Derivacion extends AppModel
     {
         return $this->belongsTo('App\Models\Solicitudes\Agente');
     }
+
+    /**
+     * Usuario creador
+     *
+     * @return {Collection}
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\Models\Admin\user');
+    }
 }

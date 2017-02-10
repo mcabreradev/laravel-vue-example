@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Reclamos <small>Reclamos</small>
+  Nuevo reclamo <small>Reclamos</small>
 @endsection
 
 @section('content-breadcrumb')

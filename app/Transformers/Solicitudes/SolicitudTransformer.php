@@ -33,14 +33,15 @@ class SolicitudTransformer extends TransformerAbstract
     {
         $ret = [
             "id"                  => $resource->id,
+            'reclamo_anterior'    => $resource->reclamo_anterior,
             "descripcion"         => $resource->descripcion,
-            "creado_el"           => $resource->creado_el,
+            "creado_el"           => $resource->creado_el->toW3cString(),
             "observaciones"       => $resource->observaciones,
             "lat"                 => $resource->lat,
             "lng"                 => $resource->lng,
             "ubicacion"           => $resource->ubicacion,
             "origen"              => isSetOrNull($resource->origen),
-            "tipo"                => isSetOrNull($resource->tipo, 'nombre'),
+            "tipo"                => isSetOrNull($resource->tipo),
             "estado"              => isSetOrNull($resource->estado),
             "prioridad"           => isSetOrNull($resource->prioridad),
             "solicitante"         => isSetOrNull($resource->solicitante),

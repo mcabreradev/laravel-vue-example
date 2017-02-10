@@ -24,30 +24,20 @@
                 <th>Nro</th>
                 <th>Tipo</th>
                 <th>Ubicación</th>
+                <th>Solicitante</th>
                 <th>Última derivación</th>
                 <th>Derivado a</th>
                 <th>Recibido por</th>
                 <th>Acciones</th>
               </tr>
             </thead>
-            <tfoot v-if="showTfoot">
-              <tr>
-                <th>Fecha</th>
-                <th>Nro</th>
-                <th>Tipo</th>
-                <th>Ubicación</th>
-                <th>Última derivación</th>
-                <th>Derivado a</th>
-                <th>Recibido por</th>
-                <th>Acciones</th>
-              </tr>
-            </tfoot>
             <tbody>
-              <tr v-for="solicitud in rows">
+              <tr v-for="solicitud in rows" :style="'background-color:' + solicitud.estado.color">
                 <td role="button">{{ solicitud.creado_el | date }}</td>
-                <td>{{ solicitud.id }}</td>
-                <td>{{ solicitud.tipo }}</td>
+                <td>{{ solicitud.id }} {{solicitud.reclamo_anterior ? '(ant:' + solicitud.reclamo_anterior + ')' : ''}}</td>
+                <td>{{ solicitud.tipo.nombre }}</td>
                 <td>{{ solicitud.ubicacion }}</td>
+                <td>{{ solicitud.solicitante ? solicitud.solicitante.apellido + ' ' + solicitud.solicitante.nombre : ''}}</td>
                 <td role="button">{{ solicitud.derivacion.derivado_el | date }}</td>
                 <td>{{ solicitud.derivacion.area }}</td>
                 <td>{{ solicitud.derivacion.agente }}</td>
@@ -69,9 +59,6 @@
                     </a>
                     <a :href="route.edit(solicitud.id)" class="btn btn-primary">
                       <span class="fa fa-pencil"></span>
-                    </a>
-                    <a role="button" class="btn btn-danger" v-on:click="destroy(solicitud.id)">
-                      <span class="fa fa-trash"></span>
                     </a>
                   </div>
                 </td>

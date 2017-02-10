@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Solicitudes;
 use Illuminate\Http\Request;
 
 use Flash;
+use Auth;
 use App\Http\Requests;
 use App\Models\Solicitudes\Area;
 use App\Models\Solicitudes\Solicitud;
@@ -50,6 +51,9 @@ class DerivacionesController extends ApiController
    */
 	public function store(Request $request) {
 		$derivacion = Derivacion::create($request->all());
+
+        $derivacion->user()->associate(Auth::user());
+        $derivacion->save();
 
         if ($request->has('relacionados') && count($request->input('relacionados'))) {
             foreach ($request->input('relacionados') as $reclamoId) {

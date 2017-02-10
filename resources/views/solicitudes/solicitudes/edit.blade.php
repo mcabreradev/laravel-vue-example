@@ -13,17 +13,22 @@
 
   <div class="row">
     <div class="col-xs-12">
-      <a role="button" class='btn btn-default' href="{{route('solicitudes::solicitudes.imprimir', ['id' => $solicitud->id])}}" target="_blank">
-        Imprimir reclamo <span class="fa fa-print"></span>
-      </a>
+      <form action="{{route('solicitudes::solicitudes.destroy', ['id' => $solicitud->id])}}" method="POST">
+        {!! csrf_field() !!}
+        {{ method_field('DELETE') }}
 
-      <a role="button" class='btn btn-default' href="{{route('solicitudes::solicitudes.imprimir', ['id' => $solicitud->id])}}" target="_blank">
-        Imprimir orden de trabajo <span class="fa fa-print"></span>
-      </a>
+        <a role="button" class='btn btn-default' href="{{route('solicitudes::solicitudes.imprimir', ['id' => $solicitud->id])}}" target="_blank">
+          Imprimir reclamo <span class="fa fa-print"></span>
+        </a>
 
-      <a role="button" class='btn btn-danger' href="{{route('solicitudes::solicitudes.destroy', ['id' => $solicitud->id])}}" target="_blank">
-        Eliminar reclamo <span class="fa fa-trash"></span>
-      </a>
+        <a role="button" class='btn btn-default' href="{{route('solicitudes::solicitudes.imprimir', ['id' => $solicitud->id])}}" target="_blank">
+          Imprimir orden de trabajo <span class="fa fa-print"></span>
+        </a>
+
+        <button id="btn-delete-solicitud" type="submit" class='btn btn-danger' target="_blank">
+          Eliminar reclamo <span class="fa fa-trash"></span>
+        </button>
+      </form>
       <br>
       <br>
       <br>
@@ -92,5 +97,31 @@
     ></panal-table>
 
   </form>
+@endsection
+
+@section('body-scripts')
+  @parent
+  <script type="text/javascript">
+    (function($){
+
+      $('#btn-delete-solicitud').on('click', function(event){
+        event.preventDefault();
+
+        var form = $(this).parent('form')[0];
+
+        swal({
+          title: "Estás seguro/a?",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Si, borrar",
+          closeOnConfirm: true
+        },
+        function () {
+          form.submit();
+        });
+      });
+    })(window.jQuery);
+  </script>
 @endsection
 

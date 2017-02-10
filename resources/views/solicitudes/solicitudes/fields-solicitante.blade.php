@@ -1,8 +1,7 @@
-{!! csrf_field() !!}
-
-<input type="hidden" name="solicitante[id]" id="id" value="{{ old('id', !is_null($solicitud->solicitante) ? $solicitud->solicitante->id : null) }}">
+<input type="hidden" name="solicitante[id]" value="{{ old('id', !is_null($solicitud->solicitante) ? $solicitud->solicitante->id : null) }}">
 
 <div class="row">
+
   <div class="col-md-6 col-xs-12">
     <div class="form-group">
       <label for="apellido">Apellido</label>
@@ -19,8 +18,23 @@
 
   <div class="col-md-4 col-xs-12">
     <div class="form-group">
-      <label for="documento">Documento</label>
-      <input class="form-control" type="text" name="solicitante[documento]" id="documento" value="{{ old('documento', !is_null($solicitud->solicitante) ? $solicitud->solicitante->documento : null) }}">
+      <label>¿Es titular?</label>
+      <br>
+      @if(!is_null($solicitud->solicitante) && $solicitud->solicitante->es_titular)
+        <label class="radio-inline">
+          <input type="radio" name="solicitante[es_titular]" value="1" checked> Si
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="solicitante[es_titular]" value="0"> NO
+        </label>
+      @else
+        <label class="radio-inline">
+          <input type="radio" name="solicitante[es_titular]" value="1"> Si
+        </label>
+        <label class="radio-inline">
+          <input type="radio" name="solicitante[es_titular]" value="0" checked> NO
+        </label>
+      @endif
     </div>
   </div>
 
