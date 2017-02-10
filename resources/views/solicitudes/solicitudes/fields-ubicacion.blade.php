@@ -4,7 +4,7 @@
   <div class="col-md-6 col-xs-12">
 
     <div class="form-group">
-      <label for="expediente">Expediente</label>
+      <label for="expediente">Expediente de rentas</label>
       <input class="form-control" type="number" name="expediente" id="expediente" value="{{ old('expediente', $solicitud->expediente) }}">
     </div>
 

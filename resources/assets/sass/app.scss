@@ -26,3 +26,26 @@
 .text-capital {
   text-transform: capitalize;
 }
+
+.content-fixed-seccion {
+  background-color: white;
+  margin-left: -15px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  position: fixed;
+  top: 50px;
+  z-index: 999;
+  width: 100%;
+  border-bottom: 3px #3c8dbc solid;
+}
+
+@media screen and (max-width: 767px) {
+  .content-fixed-seccion {
+    top: 100px;
+  }
+}
+
+.with-content-fixed-seccion {
+  padding-top: 83px;
+}
+

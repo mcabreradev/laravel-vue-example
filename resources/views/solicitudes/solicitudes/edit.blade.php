@@ -1,41 +1,34 @@
 @extends('layouts.app')
 
-@section('content-header')
-  Reclamo Nro {{$solicitud->id}}
-@endsection
+@section('content-header') @endsection
 
 
-@section('content-breadcrumb')
-<li><a href="{{ route('solicitudes::solicitudes') }}">Reclamos</a></li>
-@endsection
+@section('content-breadcrumb') @endsection
 
 @section('content')
 
-  <div class="row">
-    <div class="col-xs-12">
+  <section class="content-fixed-seccion">
+      <h2>Reclamo nro {{$solicitud->id}}</h2>
       <form action="{{route('solicitudes::solicitudes.destroy', ['id' => $solicitud->id])}}" method="POST">
         {!! csrf_field() !!}
         {{ method_field('DELETE') }}
+
+        <button id="btn-delete-solicitud" type="submit" class='btn btn-danger' target="_blank">
+          Eliminar reclamo <span class="fa fa-trash"></span>
+        </button>
 
         <a role="button" class='btn btn-default' href="{{route('solicitudes::solicitudes.imprimir', ['id' => $solicitud->id])}}" target="_blank">
           Imprimir reclamo <span class="fa fa-print"></span>
         </a>
 
-        <a role="button" class='btn btn-default' href="{{route('solicitudes::solicitudes.imprimir', ['id' => $solicitud->id])}}" target="_blank">
-          Imprimir orden de trabajo <span class="fa fa-print"></span>
-        </a>
-
-        <button id="btn-delete-solicitud" type="submit" class='btn btn-danger' target="_blank">
-          Eliminar reclamo <span class="fa fa-trash"></span>
+        <button id="btn-guardar-solicitud" class="btn btn-success" type="button">
+          Guardar cambios <span class="fa fa-check"></span>
         </button>
       </form>
-      <br>
-      <br>
-      <br>
-    </div>
-  </div>
+  </section>
 
-  <form role="form" method="POST" action="{{ route('solicitudes::solicitudes.update', $solicitud->id) }}">
+
+  <form id="solicitud-edit-form" class="with-content-fixed-seccion" role="form" method="POST" action="{{ route('solicitudes::solicitudes.update', $solicitud->id) }}">
     {!! csrf_field() !!}
     {{ method_field('PUT') }}
 
@@ -61,10 +54,6 @@
         @include('solicitudes.solicitudes.fields-datos-adicionales')
       </div>
       <panal-indicator></panal-indicator>
-
-      <div slot="footer">
-        @include('common.form-buttons', ['route' => 'solicitudes::solicitudes'])
-      </div>
     </panal-box-slot>
 
     <dposs-derivaciones-tabla
@@ -113,12 +102,31 @@
           title: "Estás seguro/a?",
           type: "warning",
           showCancelButton: true,
+          cancelButtonText: 'Me equivoqué',
           confirmButtonColor: "#DD6B55",
           confirmButtonText: "Si, borrar",
           closeOnConfirm: true
         },
         function () {
           form.submit();
+        });
+      });
+
+      $('#btn-guardar-solicitud').on('click', function(){
+
+        var $form = $('#solicitud-edit-form');
+
+        swal({
+          title: "¿Seguro que querés modificar los datos originales?",
+          type: "warning",
+          showCancelButton: true,
+          cancelButtonText: 'Me equivoqué',
+          confirmButtonColor: "#008d4c",
+          confirmButtonText: "Si, modificarlo",
+          closeOnConfirm: true
+        },
+        function () {
+          $form.submit();
         });
       });
     })(window.jQuery);
