@@ -4,6 +4,21 @@
   <div class="col-md-6 col-xs-12">
 
     <div class="form-group">
+      <label for="expediente">Expediente</label>
+      <input class="form-control" type="text" name="expediente" id="expediente" value="{{ old('expediente', $solicitud->expediente) }}">
+    </div>
+
+    <div class="form-group">
+      <label for="unidad">Número de Unidad</label>
+      <input class="form-control" type="text" name="unidad" id="unidad" value="{{ old('unidad', $solicitud->unidad) }}">
+    </div>
+
+    <div class="form-group">
+      <label for="nomenclatura">Nomenclatura (sección, mazico, parcela)</label>
+      <input class="form-control" type="text" name="nomenclatura" id="nomenclatura" value="{{ old('nomenclatura', $solicitud->nomenclatura) }}">
+    </div>
+
+    <div class="form-group">
       <label for="lugar_calle">Calle</label>
       <input class="form-control" type="text" name="lugar_calle" id="lugar_calle" value="{{ old('lugar_calle', $solicitud->lugar_calle) }}">
     </div>
@@ -14,11 +29,6 @@
     </div>
 
     <div class="form-group">
-      <label for="lugar_observaciones">Obervaciones</label>
-      <textarea class="form-control" id="lugar_observaciones" name="lugar_observaciones">{{ old('lugar_observaciones', $solicitud->lugar_observaciones) }}</textarea>
-    </div>
-
-    <div class="form-group">
       <label for="lugar_entre_1">Entre</label>
       <input class="form-control" type="text" name="lugar_entre_1" id="lugar_entre_1" value="{{ old('lugar_entre_1', $solicitud->lugar_entre_1) }}">
     </div>
@@ -26,6 +36,11 @@
     <div class="form-group">
       <label for="lugar_entre_2">Y</label>
       <input class="form-control" type="text" name="lugar_entre_2" id="lugar_entre_2" value="{{ old('lugar_entre_2', $solicitud->lugar_entre_2) }}">
+    </div>
+
+    <div class="form-group">
+      <label for="lugar_barrio">Barrio</label>
+      <input class="form-control" type="text" name="lugar_barrio" id="lugar_barrio" value="{{ old('lugar_barrio', $solicitud->lugar_barrio) }}">
     </div>
 
     <div class="form-group">
@@ -40,18 +55,18 @@
         @endforeach
       </select>
     </div>
+  </div>
+
+  <div class="col-md-6 col-xs-12">
+
+    <div class="form-group text-center">
+      <div id="mapa-ubicacion" style="width: 100%; height: 300px"></div>
+    </div>
 
     <div class="form-group">
       <button id="inferir-coordenadas-btn" type="button" class="btn btn-primary" data-loading-text="Infiriendo...">
         <span class="fa fa-map-marker"></span> Inferir coordenadas
       </button>
-    </div>
-
-  </div>
-  <div class="col-md-6 col-xs-12">
-
-    <div class="form-group text-center">
-      <div id="mapa-ubicacion" style="width: 100%; height: 300px"></div>
     </div>
 
     <div class="form-group">
@@ -64,6 +79,10 @@
       <input class="form-control" type="text" name="lng" id="lng" value="{{ old('lng', $solicitud->lng) }}">
     </div>
 
+    <div class="form-group">
+      <label for="lugar_observaciones">Obervaciones</label>
+      <textarea rows="3" class="form-control" id="lugar_observaciones" name="lugar_observaciones">{{ old('lugar_observaciones', $solicitud->lugar_observaciones) }}</textarea>
+    </div>
   </div>
 </div>
 

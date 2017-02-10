@@ -16,7 +16,7 @@ class SolicitudesOrigenesTableSeeder extends Seeder
             'nombre' => 'Personalmente'
         ]);
         Origen::create([
-            'nombre' => 'email'
+            'nombre' => 'Email'
         ]);
         Origen::create([
             'nombre' => 'Chat online'

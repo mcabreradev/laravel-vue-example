@@ -10,32 +10,34 @@
 
 @section('content')
   <form role="form" method="POST" action="{{ route('solicitudes::solicitudes.store') }}">
-
+    {!! csrf_field() !!}
     @include('flash::message')
 
-    <panal-box-slot title="Datos Generales">
+    @include('solicitudes.solicitudes.fields-datos-generales')
+
+    <panal-box-slot title="Ubicación">
       <div slot="body">
-        @include('solicitudes.solicitudes.fields-datos-generales')
+        @include('solicitudes.solicitudes.fields-ubicacion')
       </div>
-      <panal-indicator></panal-indicator>
     </panal-box-slot>
 
-    <panal-box-slot title="Solicitante">
+    <panal-box-slot title="Reclamante">
       <div slot="body">
         @include('solicitudes.solicitudes.fields-solicitante')
       </div>
       <panal-indicator></panal-indicator>
     </panal-box-slot>
 
-    <panal-box-slot title="Ubicación">
+    <panal-box-slot title="Datos adicionales">
       <div slot="body">
-        @include('solicitudes.solicitudes.fields-ubicacion')
+        @include('solicitudes.solicitudes.fields-datos-adicionales')
       </div>
+      <panal-indicator></panal-indicator>
+
       <div slot="footer">
         @include('common.form-buttons', ['route' => 'solicitudes::solicitudes'])
       </div>
     </panal-box-slot>
-
   </form>
 @endsection
 

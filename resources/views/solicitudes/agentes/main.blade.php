@@ -28,8 +28,7 @@
       :has-modal="true"
       :fields="[
         {name: 'apellido', title: 'Apellido', type: 'text', required: true},
-        {name: 'nombre', title: 'Nombre', type: 'text', required: true},
-        {name: 'legajo', title: 'Legajo', type: 'text', required: false},
+        {name: 'nombre', title: 'Nombre', type: 'text', required: false},
         {name: 'telefono', title: 'Teléfono', type: 'text', required: false},
         {name: 'email', title: 'Email', type: 'text', required: false},
         ]"

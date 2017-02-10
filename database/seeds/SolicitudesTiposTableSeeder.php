@@ -57,7 +57,7 @@ class SolicitudesTiposTableSeeder extends Seeder
             [
                 'label' => 'Tiene plomero para coordinar la reparación?',
                 'value' => false,
-                'type'  => 'checbox'
+                'type'  => 'checkbox'
             ]
         ]);
 

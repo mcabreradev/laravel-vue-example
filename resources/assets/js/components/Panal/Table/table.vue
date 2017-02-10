@@ -23,7 +23,7 @@
             <table :id="tableId" class="table table-striped table-bordered" cellspacing="0" width="100%">
               <thead>
                 <tr>
-                  <th v-for="field in fields" v-if="field.type !='hidden'">{{ field.title }}</th>
+                  <th v-for="field in fields" v-if="field.type !='hidden' && !(field.hasOwnProperty('hideInTable'))">{{ field.title }}</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -35,7 +35,7 @@
               </tfoot>
               <tbody>
                 <tr v-for="row in rows">
-                  <td v-for="field in fields" v-if="field.type !='hidden'">
+                  <td v-for="field in fields" v-if="field.type !='hidden' && !(field.hasOwnProperty('hideInTable'))">
                     <div v-if="field.name === 'color'" role="button" v-bind:style="{'background-color': row[field.name]}" class="color-square"
                       v-on:click="openUpdateModal(row.id)">
                     </div>
@@ -241,6 +241,8 @@
        *
        **/
       setObjectsFromFormFields: function () {
+        this.data = {}; // clear
+
         _.each(this.fields, (val) => {
           this.data[val.name] = '';
           if (val.type == 'hidden') {
@@ -297,6 +299,7 @@
         var self = this;
         setTimeout(function () {
           self.table = $('#' + self.tableId).DataTable({
+            "lengthMenu": [ 25, 50, 100, 200 ],
             "language": self.PanalConf.lang.datatable,
             "aoColumnDefs": [{
               'bSortable': false,
@@ -356,7 +359,11 @@
        **/
       openUpdateModal: function (id) {
         var self = this;
-        self.data = _.find(self.rows, {'id': id}); // Find the current data in the row array, and load the modal input
+
+        // Find the current data in the row array, and load the modal input
+        // clono para por si cancela descarto los cambios
+        self.data = _.clone(_.find(self.rows, {'id': id}));
+
         self.modal = {
           type: 'Editar',
           action: 'update'

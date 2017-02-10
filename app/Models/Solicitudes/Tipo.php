@@ -25,5 +25,14 @@ class Tipo extends AppModel
      *
      * @var array
      */
-    protected $fillable = ['nombre', 'descripcion', 'color'];
+    protected $fillable = ['nombre', 'descripcion', 'color', 'checklist'];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'checklist' => 'array'
+    ];
 }

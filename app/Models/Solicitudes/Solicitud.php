@@ -42,7 +42,12 @@ class Solicitud extends AppModel
         'estado_id',
         'prioridad_id',
         'solicitante_id',
-        'localidad_id'
+        'localidad_id',
+        'checklist',
+        'lugar_barrio',
+        'unidad',
+        'expediente',
+        'nomenclatura'
     ];
 
     /**
@@ -71,6 +76,14 @@ class Solicitud extends AppModel
      */
     public function getCreadoElAttribute($value){
         return $value;
+    }
+
+    public function setExpedienteAttribute($value){
+        $this->attributes['expediente'] = $value == "" ? null : $value;
+    }
+
+    public function setUnidadAttribute($value){
+        $this->attributes['unidad'] = $value == "" ? null : $value;
     }
 
     /**

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Reclamos <small>Reclamos</small>
+  Reclamo Nro {{$solicitud->id}}
 @endsection
 
 
@@ -10,34 +10,56 @@
 @endsection
 
 @section('content')
-  <form role="form" method="POST" action="{{ route('solicitudes::solicitudes.update', $solicitud->id) }}">
 
+  <div class="row">
+    <div class="col-xs-12">
+      <a role="button" class='btn btn-default' href="{{route('solicitudes::solicitudes.imprimir', ['id' => $solicitud->id])}}" target="_blank">
+        Imprimir reclamo <span class="fa fa-print"></span>
+      </a>
+
+      <a role="button" class='btn btn-default' href="{{route('solicitudes::solicitudes.imprimir', ['id' => $solicitud->id])}}" target="_blank">
+        Imprimir orden de trabajo <span class="fa fa-print"></span>
+      </a>
+
+      <a role="button" class='btn btn-danger' href="{{route('solicitudes::solicitudes.destroy', ['id' => $solicitud->id])}}" target="_blank">
+        Eliminar reclamo <span class="fa fa-trash"></span>
+      </a>
+      <br>
+      <br>
+      <br>
+    </div>
+  </div>
+
+  <form role="form" method="POST" action="{{ route('solicitudes::solicitudes.update', $solicitud->id) }}">
+    {!! csrf_field() !!}
     {{ method_field('PUT') }}
 
     @include('flash::message')
 
-    <panal-box-slot title="Datos Generales">
+    @include('solicitudes.solicitudes.fields-datos-generales')
+
+    <panal-box-slot title="Ubicación">
       <div slot="body">
-        @include('solicitudes.solicitudes.fields-datos-generales')
+        @include('solicitudes.solicitudes.fields-ubicacion')
       </div>
-      <panal-indicator></panal-indicator>
     </panal-box-slot>
 
-    <panal-box-slot title="Solicitante">
+    <panal-box-slot title="Reclamante">
       <div slot="body">
         @include('solicitudes.solicitudes.fields-solicitante')
       </div>
       <panal-indicator></panal-indicator>
     </panal-box-slot>
 
-     <panal-box-slot title="Ubicación">
-        <div slot="body">
-          @include('solicitudes.solicitudes.fields-ubicacion')
-        </div>
-        <panal-indicator></panal-indicator>
-        <div slot="footer">
-          @include('common.form-buttons', ['route' => 'solicitudes::solicitudes'])
-        </div>
+    <panal-box-slot title="Datos adicionales">
+      <div slot="body">
+        @include('solicitudes.solicitudes.fields-datos-adicionales')
+      </div>
+      <panal-indicator></panal-indicator>
+
+      <div slot="footer">
+        @include('common.form-buttons', ['route' => 'solicitudes::solicitudes'])
+      </div>
     </panal-box-slot>
 
     <dposs-derivaciones-tabla
