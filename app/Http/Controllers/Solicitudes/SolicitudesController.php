@@ -212,7 +212,7 @@ class SolicitudesController extends ApiController
         // Aquí sigue configuración básica del PDF
         PDF::SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
         PDF::setImageScale(PDF_IMAGE_SCALE_RATIO);
-        PDF::SetFont('helvetica', '', 10);
+        PDF::SetFont('helvetica', '', 8);
 
         // define barcode style
         $bar_code_style = array(
