@@ -17,7 +17,7 @@ class CreateDerivacionesTable extends Migration
             $table->datetime('derivado_el');
             $table->mediumText('observaciones')->nullable();
 
-            $table->integer('solicitud_id')->unsigned()->nullable()->index();
+            $table->bigInteger('solicitud_id')->unsigned()->nullable()->index();
             $table->foreign('solicitud_id')
                   ->references('id')
                   ->on('solicitudes')
@@ -33,6 +33,13 @@ class CreateDerivacionesTable extends Migration
             $table->foreign('agente_id')
                   ->references('id')
                   ->on('agentes')
+                  ->onDelete('restrict');
+
+            // usuario que creo la derivacion
+            $table->integer('user_id')->unsigned()->nullable()->index();
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('public.usuarios')
                   ->onDelete('restrict');
 
             $table->timestamps();

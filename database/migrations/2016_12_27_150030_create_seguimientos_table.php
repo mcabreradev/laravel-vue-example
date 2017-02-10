@@ -17,11 +17,18 @@ class CreateSeguimientosTable extends Migration
             $table->datetime('generado_el');
             $table->mediumText('descripcion');
 
-            $table->integer('solicitud_id')->unsigned()->nullable()->index();
+            $table->bigInteger('solicitud_id')->unsigned()->nullable()->index();
             $table->foreign('solicitud_id')
                   ->references('id')
                   ->on('solicitudes')
                   ->onDelete('cascade');
+
+            // usuario que creo el seguimiento
+            $table->integer('user_id')->unsigned()->nullable()->index();
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('public.usuarios')
+                  ->onDelete('restrict');
 
             $table->timestamps();
         });

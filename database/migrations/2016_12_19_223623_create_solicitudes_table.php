@@ -14,15 +14,20 @@ class CreateSolicitudesTable extends Migration
     {
         Schema::connection('solicitudes')->create('solicitudes', function (Blueprint $table) {
 
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->datetime('creado_el');
+            $table->integer('reclamo_anterior')->nullable();
             $table->mediumText('descripcion')->nullable();
             $table->mediumText('observaciones')->nullable();
             $table->json('checklist')->nullable();
 
             $table->integer('expediente')->unsigned()->nullable();
             $table->integer('unidad')->unsigned()->nullable();
-            $table->string('nomenclatura')->nullable();
+            $table->string('seccion')->nullable();
+            $table->string('macizo')->nullable();
+            $table->string('parcela')->nullable();
+            $table->string('subparcela')->nullable();
+            $table->string('unidad_funcional')->nullable();
             $table->decimal('lat', 10, 6)->nullable();
             $table->decimal('lng', 10, 6)->nullable();
             $table->string('lugar_calle')->nullable();
@@ -39,6 +44,13 @@ class CreateSolicitudesTable extends Migration
                   ->references('id')
                   ->on('solicitudes')
                   ->onDelete('set null');
+
+            // usuario que creo el reclamo
+            $table->integer('user_id')->unsigned()->nullable()->index();
+            $table->foreign('user_id')
+                  ->references('id')
+                  ->on('public.usuarios')
+                  ->onDelete('restrict');
 
             $table->integer('origen_id')->unsigned()->nullable()->index();
             $table->foreign('origen_id')
