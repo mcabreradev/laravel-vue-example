@@ -82,7 +82,7 @@
         </div>
       </td>
       <td class="c55%">
-        <img src="https://maps.googleapis.com/maps/api/staticmap?center={{$solicitud->lat}},{{$solicitud->lng}}&zoom=17&size=400x300&language=es&hl=es&region=AR&markers={{$solicitud->lat}},{{$solicitud->lng}}">
+        <img src="https://maps.googleapis.com/maps/api/staticmap?center={{$solicitud->lat}},{{$solicitud->lng}}&zoom=17&size=400x300&language=es&hl=es&region=AR&markers={{$solicitud->lat}},{{$solicitud->lng}}&key=AIzaSyAa12nfiKAj_Desfk52F3QDOk19TbtCT7k">
       </td>
     </tr>
     <tr>
