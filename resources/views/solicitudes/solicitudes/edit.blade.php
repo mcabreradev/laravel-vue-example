@@ -21,6 +21,10 @@
           Imprimir reclamo <span class="fa fa-print"></span>
         </a>
 
+        <a role="button" class='btn btn-default' href="{{route('solicitudes::solicitudes.orden-trabajo', ['id' => $solicitud->id])}}" target="_blank">
+          Imprimir orden de trabajo <span class="fa fa-wrench"></span>
+        </a>
+
         <button id="btn-guardar-solicitud" class="btn btn-success" type="button">
           Guardar cambios <span class="fa fa-check"></span>
         </button>

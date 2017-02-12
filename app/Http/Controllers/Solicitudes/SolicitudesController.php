@@ -212,25 +212,6 @@ class SolicitudesController extends ApiController
         // Aquí sigue configuración básica del PDF
         PDF::SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
         PDF::setImageScale(PDF_IMAGE_SCALE_RATIO);
-        PDF::SetFont('helvetica', '', 8);
-
-        // define barcode style
-        $bar_code_style = array(
-            'position'     => '',
-            'align'        => 'L',
-            'stretch'      => false,
-            'fitwidth'     => false,
-            'cellfitalign' => 'L',
-            'border'       => false,
-            'hpadding'     => 'auto',
-            'vpadding'     => 'auto',
-            'fgcolor'      => [0,0,0],
-            'bgcolor'      => false, //array(255,255,255),
-            'text'         => true,
-            'font'         => 'helvetica',
-            'fontsize'     => 8,
-            'stretchtext'  => 4
-        );
 
         // Agregamos una página en blanco
         PDF::AddPage();
@@ -251,6 +232,42 @@ class SolicitudesController extends ApiController
             200, [
                 'content-type' => 'application/pdf',
                 'Content-Disposition' => "inline; reclamo-{$solicitud->id}.pdf"
+            ]
+        );
+    }
+
+    /**
+     * [generar description]
+     * @param  Resquest $request [description]
+     * @return [type]            [description]
+     */
+    public function imprimirOrdenTrabajo(Request $request, $id)
+    {
+        $solicitud = Solicitud::findOrFail($id);
+
+        // Aquí sigue configuración básica del PDF
+        PDF::SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        PDF::setImageScale(PDF_IMAGE_SCALE_RATIO);
+
+        // Agregamos una página en blanco
+        PDF::AddPage();
+
+        $html = view('solicitudes.solicitudes.impresion-orden-trabajo')
+            ->with('solicitud', $solicitud)
+            ->render();
+
+        // output the HTML content
+        PDF::writeHTML($html, true, false, true, false, '');
+
+        // reset pointer to the last page
+        PDF::lastPage();
+
+        // Close and output PDF document
+        return Response::make(
+            PDF::Output("orden-trabajo-{$solicitud->id}.pdf", 'S'),
+            200, [
+                'content-type' => 'application/pdf',
+                'Content-Disposition' => "inline; orden-trabajo-{$solicitud->id}.pdf"
             ]
         );
     }
