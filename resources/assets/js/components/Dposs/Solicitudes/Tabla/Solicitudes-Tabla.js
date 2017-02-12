@@ -65,6 +65,7 @@ export default {
       route: {
         create: Laravel.baseUrl + '/' + laroute.route('solicitudes::solicitudes.create'),
         imprimir: (id) => Laravel.baseUrl + '/' + laroute.route('solicitudes::solicitudes.imprimir', {id: id}),
+        ordenTrabajo: (id) => Laravel.baseUrl + '/' + laroute.route('solicitudes::solicitudes.orden-trabajo', {id: id}),
         edit: (id) => Laravel.baseUrl + '/' + laroute.route('solicitudes::solicitudes.edit', {id: id}),
         timeline: (id) => Laravel.baseUrl + '/' + laroute.route('solicitudes::solicitudes.timeline', {id: id})
       },

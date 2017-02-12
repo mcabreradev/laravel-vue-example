@@ -54,11 +54,14 @@
                     </a>
                   </div>
                   <div class="actions-group">
-                    <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Ver Timeline" :href="route.timeline(solicitud.id)">
+                    <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Timeline" :href="route.timeline(solicitud.id)">
                       <span class="fa fa-clock-o"></span>
                     </a>
                     <a :href="route.edit(solicitud.id)" class="btn btn-primary">
                       <span class="fa fa-pencil"></span>
+                    </a>
+                    <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Orden de trabajo" :href="route.ordenTrabajo(solicitud.id)" target="_blank">
+                      <span class="fa fa-wrench"></span>
                     </a>
                   </div>
                 </td>
