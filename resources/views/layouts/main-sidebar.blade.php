@@ -17,7 +17,7 @@
 
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
-      @if(auth()->user()->id < 10)
+      @if(auth()->user()->superadmin)
       <li class="header">Módulos</li>
       <!-- Optionally, you can add icons to the links -->
       <li>
