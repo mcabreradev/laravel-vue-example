@@ -8,7 +8,7 @@
       <div class="box-body">
         <ul>
           <li><strong>Fecha de inicio:</strong> {{ solicitudData.creado_el | date }}</li>
-          <li v-if="solicitudData.tipo != null"><strong>Tipo:</strong> {{ solicitudData.tipo }}</li>
+          <li v-if="solicitudData.tipo != null"><strong>Tipo:</strong> {{ solicitudData.tipo.nombre }}</li>
           <li v-if="solicitudData.estado != null"><strong>Estado:</strong> {{ solicitudData.estado.nombre }}</li>
           <li><strong>Ubicación:</strong> {{ solicitudData.ubicacion }}</li>
           <li>
@@ -16,7 +16,6 @@
             <ul v-if="solicitudData.solicitante != null">
               <li v-if="solicitudData.solicitante.apellido.length"><strong>Apellido:</strong> {{solicitudData.solicitante.apellido}}</li>
               <li v-if="solicitudData.solicitante.nombre.length"><strong>Nombre:</strong> {{solicitudData.solicitante.nombre}}</li>
-              <li v-if="solicitudData.solicitante.documento.length"><strong>Documento:</strong> {{solicitudData.solicitante.documento}}</li>
               <li v-if="solicitudData.solicitante.celular.length"><strong>Celular:</strong> {{solicitudData.solicitante.celular}}</li>
               <li v-if="solicitudData.solicitante.email.length"><strong>Email:</strong> {{solicitudData.solicitante.email}}</li>
               <li v-if="solicitudData.solicitante.telefono.length"><strong>Teléfono:</strong> {{solicitudData.solicitante.telefono}}</li>
@@ -85,6 +84,8 @@
           .get(route)
           .then((res) => {
             self.solicitudData = res.data;
+            window.ss = self.solicitudData;
+            console.log(res, res.data, self.solicitudData);
             self.buildTimeline(_.concat(res.data.derivaciones, res.data.seguimientos));
           }, (err) => console.error('Error: ', err));
 
