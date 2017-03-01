@@ -1,9 +1,6 @@
 # Created by https://www.gitignore.io/api/laravel,node,bower,composer
 # then modified =D
 
-# custom
-public/compiled
-
 ###
 ###
 
