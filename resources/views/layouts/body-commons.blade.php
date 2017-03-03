@@ -2,7 +2,7 @@
 <script>
     window.Laravel = <?php echo json_encode(['csrfToken' => csrf_token(), 'baseUrl' => url('/') ]); ?>
 </script>
-<script src="{{ asset('js/laroute.js') }}"></script>
+<script src="{{ elixir('js/laroute.js') }}"></script>
 
 <!-- jQuery -->
 <script src="{{ asset('/compiled/js/jquery/jquery.min.js') }}"></script>
@@ -52,7 +52,7 @@
 <script src="{{ asset('/compiled/vendors/datetimepicker/jquery.datetimepicker.full.min.js') }}"></script>
 <script>$.datetimepicker.setLocale('es');</script>
 
-<script src="{{ asset('js/app.js') }}"></script>
+<script src="{{ elixir('js/app.js') }}"></script>
 
 <!-- Date, time and datetieme polyfills -->
 <script>

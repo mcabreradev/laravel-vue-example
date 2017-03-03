@@ -11,7 +11,7 @@
 <link href="{{ asset('/compiled/css/bootstrap/css/bootstrap.min.css') }}" type="text/css" rel="stylesheet">
 
 <!-- Styles -->
-<link href="{{ asset('/compiled/css/app.css') }}" rel="stylesheet">
+<link href="{{ elixir('compiled/css/app.css') }}" rel="stylesheet">
 
 <!-- SweetAlert (also in body-commons) -->
 <link rel="stylesheet" type="text/css" href="{{ asset('/compiled/js/sweetalert/sweetalert.css') }}">
