@@ -94,4 +94,7 @@ elixir(function (mix) {
   // Webpack
   mix.webpack('app.js');
 
+  // version
+  mix.version(['compiled/css/app.css', 'js/app.js', 'js/laroute.js']);
+
 });
