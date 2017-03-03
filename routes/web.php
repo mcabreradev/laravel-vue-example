@@ -406,6 +406,12 @@ Route::group(['middleware' => ['auth']], function() {
         ])->where('id', '[0-9]+');
 
         // Solicitudes
+
+        Route::get('calles/{nombre}', [
+            'as'   => 'calles.busqueda',
+            'uses' => 'SolicitudesController@buscarCalles'
+        ]);
+
         Route::get('solicitudes/', function(){
             return redirect()->route('solicitudes::solicitudes', ['estado' => '']);
         });

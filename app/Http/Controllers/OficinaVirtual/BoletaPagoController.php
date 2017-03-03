@@ -37,7 +37,7 @@ class BoletaPagoController extends Controller
     private function getDatosBoleta($fields)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, 'http://remotos.dposs.gob.ar:150/usuarios');
+        curl_setopt($ch, CURLOPT_URL, self::$DPOSS_API_BASE . '/usuarios');
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 8);

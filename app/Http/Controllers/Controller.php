@@ -11,4 +11,6 @@ use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 class Controller extends BaseController
 {
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
+
+    public static $DPOSS_API_BASE = 'http://remotos.dposs.gob.ar:150';
 }
