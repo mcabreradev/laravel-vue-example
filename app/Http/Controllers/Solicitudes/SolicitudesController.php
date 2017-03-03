@@ -272,10 +272,13 @@ class SolicitudesController extends ApiController
         );
     }
 
+    /**
+     * Consulta la API de DPOSS para obtener las calles
+     */
     public function buscarCalles($nombre)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, self::$DPOSS_API_BASE . "/calles/{$nombre}");
+        curl_setopt($ch, CURLOPT_URL, self::$DPOSS_API_BASE . '/calles/'. rawurlencode($nombre));
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -286,7 +289,7 @@ class SolicitudesController extends ApiController
         curl_close($ch);
 
         if ($info['http_code'] == 200 && count($response)) {
-            dd($response);
+            return response()->json($response);
         }
         else {
             return response()->json([]);
