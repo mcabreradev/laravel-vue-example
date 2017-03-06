@@ -51,7 +51,8 @@
 
     <div class="form-group">
       <label for="lugar_calle">Calle</label>
-      <input class="form-control" type="text" name="lugar_calle" id="lugar_calle" value="{{ old('lugar_calle', $solicitud->lugar_calle) }}">
+      <dposs-calles-autocomplete nombre="lugar_calle" valor="{{ old('lugar_calle', $solicitud->lugar_calle) }}"></dposs-calles-autocomplete>
+      {{-- <input class="form-control" type="text" name="lugar_calle" id="lugar_calle" value="{{ old('lugar_calle', $solicitud->lugar_calle) }}"> --}}
     </div>
 
     <div class="form-group">
