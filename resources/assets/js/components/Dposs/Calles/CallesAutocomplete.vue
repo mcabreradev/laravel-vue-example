@@ -31,7 +31,7 @@
     methods: {
       changed() {
         this.$http
-          .get(laroute('solicitudes::calles.busqueda', {nombre: this.valorMutable}))
+          .get(laroute.route('solicitudes::calles.busqueda', {nombre: this.valorMutable}))
           .then((response) => {this.sugerencias = response.data;});
       }
     }
