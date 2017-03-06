@@ -30,9 +30,14 @@
     },
     methods: {
       changed() {
-        const url = Laravel.baseUrl + '/' + laroute.route('solicitudes::calles.busqueda', {nombre: this.valorMutable});
-        this.$http.get(url)
-          .then((response) => {this.sugerencias = response.data;});
+        if (this.valorMutable.length > 2) {
+          const url = Laravel.baseUrl + '/' + laroute.route('solicitudes::calles.busqueda', {nombre: this.valorMutable});
+          this.$http.get(url)
+            .then((response) => {this.sugerencias = response.data.slice(0,9)});
+        }
+        else {
+          this.sigerencias = [];
+        }
       }
     }
   }
