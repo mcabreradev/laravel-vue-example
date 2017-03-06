@@ -8,7 +8,7 @@
 @section('content')
 
   <section class="content-fixed-seccion">
-      <h2>Reclamo nro {{$solicitud->id}}</h2>
+      <h2>Reclamo nro {{$solicitud->id}} <span style="font-size: 45%"><a href="{{ route('solicitudes::solicitudes') }}">Reclamos</a></span></h2>
       <form action="{{route('solicitudes::solicitudes.destroy', ['id' => $solicitud->id])}}" method="POST">
         {!! csrf_field() !!}
         {{ method_field('DELETE') }}

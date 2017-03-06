@@ -6,6 +6,7 @@
 
 
 @section('content-breadcrumb')
+<li><a href="{{ route('solicitudes::solicitudes') }}">Reclamos</a></li>
 <li><a href="{{ route('solicitudes::areas.list') }}">Áreas</a></li>
 @endsection
 
