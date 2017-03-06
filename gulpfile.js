@@ -89,13 +89,12 @@ elixir(function (mix) {
   mix.copy('node_modules/datetimepicker/build', 'public/compiled/vendors/datetimepicker');
 
   // Routes from laravel to javascript
-  mix.routes();
+  // mix.routes();
 
   // Webpack
   mix.webpack('app.js');
 
   // version
-  mix.version(['compiled/css/app.css', 'js/app.js']);
-  mix.version('js/laroute.js');
+  mix.version(['compiled/css/app.css', 'js/app.js', 'js/laroute.js']);
 
 });
