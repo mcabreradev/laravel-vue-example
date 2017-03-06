@@ -30,8 +30,8 @@
     },
     methods: {
       changed() {
-        this.$http
-          .get(laroute.route('solicitudes::calles.busqueda', {nombre: this.valorMutable}))
+        const url = Laravel.baseUrl + '/' + laroute.route('solicitudes::calles.busqueda', {nombre: this.valorMutable});
+        this.$http.get(url)
           .then((response) => {this.sugerencias = response.data;});
       }
     }
