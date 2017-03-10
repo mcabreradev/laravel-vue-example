@@ -192,6 +192,11 @@ return [
          */
         Lord\Laroute\LarouteServiceProvider::class,
 
+        /**
+         * https://github.com/santigarcor/laratrust
+         */
+        Laratrust\LaratrustServiceProvider::class,
+
     ],
 
     /*
@@ -261,7 +266,12 @@ return [
         /**
         * https://github.com/Cyvelnet/laravel5-fractal
         */
-        'Fractal' => Cyvelnet\Laravel5Fractal\Facades\Fractal::class
+        'Fractal' => Cyvelnet\Laravel5Fractal\Facades\Fractal::class,
+
+        /**
+         * https://github.com/santigarcor/laratrust
+         */
+        'Laratrust' => Laratrust\LaratrustFacade::class,
     ],
 
 ];
