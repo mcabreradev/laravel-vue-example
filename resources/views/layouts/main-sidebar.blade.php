@@ -17,9 +17,20 @@
 
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
-      @if(auth()->user()->superadmin)
+
       <li class="header">Módulos</li>
       <!-- Optionally, you can add icons to the links -->
+      <li class="treeview">
+        <a href="#">
+          <span>Admin usuarios</span><i class="fa fa-angle-left pull-right"></i>
+        </a>
+        <ul class="treeview-menu">
+          <li><a href="#">Usuarios</a></li>
+          <li><a href="#">Roles</a></li>
+          <li><a href="#">Permisos</a></li>
+        </ul>
+      </li>
+
       <li>
         <a href="{{ route('pedidos.index', ['estado' => 'pendientes']) }}">
           <span>Pedidos</span>
@@ -35,7 +46,7 @@
           <li><a href="{{ route('alertas::registros-nivel-agua.index') }}">Nivel de Agua</a></li>
         </ul>
       </li>
-      @endif
+
       <li class="treeview">
         <a href="#">
           <span>Turnos</span><i class="fa fa-angle-left pull-right"></i>
