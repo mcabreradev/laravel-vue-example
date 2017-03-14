@@ -23,11 +23,12 @@ use Illuminate\Support\Facades\Response;
 
 class SolicitudesController extends ApiController
 {
-  /**
-   * [index description]
-   * @return [type] [description]
-   */
-	public function index(Request $request) {
+    /**
+     * [index description]
+     * @return [type] [description]
+     */
+    public function index(Request $request)
+    {
         if (is_null($request->input('cerrado')) || $request->input('cerrado') == 'false'){
             $data = Solicitud::where('estado_id', '<>', 3)
             ->orWhere('estado_id', null)
@@ -37,22 +38,24 @@ class SolicitudesController extends ApiController
             $data = Solicitud::where('estado_id', '=', 3)->get();
         }
 
-		return $this->respondWith($data, new SolicitudTransformer);
-	}
+        return $this->respondWith($data, new SolicitudTransformer);
+    }
 
-  /**
-   * [main description]
-   * @return [type] [description]
-   */
-	public function main($estado = null) {
-		return view('solicitudes.solicitudes.main', ['estado' => $estado == 'cerrado' ? 'cerrado' : '' ]);
-	}
+    /**
+     * [main description]
+     * @return [type] [description]
+     */
+    public function main($estado = null)
+    {
+        return view('solicitudes.solicitudes.main', ['estado' => $estado == 'cerrado' ? 'cerrado' : '' ]);
+    }
 
-  /**
-   * [create description]
-   * @return [type] [description]
-   */
-	public function create() {
+    /**
+     * [create description]
+     * @return [type] [description]
+     */
+    public function create()
+    {
 
         // @TODO Mejorar configuracion inicial menos hardcodeada
         $solicitud = new Solicitud();
@@ -61,7 +64,7 @@ class SolicitudesController extends ApiController
         $solicitud->prioridad_id = 1; // Baja
 
 
-		return view('solicitudes.solicitudes.create', [
+        return view('solicitudes.solicitudes.create', [
             'solicitud'    => $solicitud,
             'origenes'     => Origen::orderBy('nombre', 'asc')->get(),
             'tipos'        => Tipo::orderBy('nombre', 'asc')->get(),
@@ -71,7 +74,7 @@ class SolicitudesController extends ApiController
             'localidades'  => Localidad::all(),
             'user'         => Auth::user()
         ]);
-	}
+    }
 
   /**
    * Agrega el reclamo/solicitud y a su vez guarda el solicitante asociado
@@ -79,7 +82,8 @@ class SolicitudesController extends ApiController
    * @param  Request $request [description]
    * @return [type]           [description]
    */
-	public function store(Request $request) {
+    public function store(Request $request)
+    {
         $solicitud = Solicitud::create($request->all());
 
         if ($this->requestHasData($request->input('solicitante'))) {
@@ -88,39 +92,39 @@ class SolicitudesController extends ApiController
             $solicitud->save();
         }
 
-		Flash::success('El registro se creó correctamente');
-		return redirect(route('solicitudes::solicitudes.edit', $solicitud->id));
-	}
+        Flash::success('El registro se creó correctamente');
+        return redirect(route('solicitudes::solicitudes.edit', $solicitud->id));
+    }
 
   /**
    * [show description]
    * @param  {Integer} $id [description]
    * @return [type]     [description]
    */
-	public function show($id)
+    public function show($id)
     {
         try {
 
             $data = Solicitud::find($id);
 
-		    return $this->respondWith($data, new SolicitudTransformer);
+            return $this->respondWith($data, new SolicitudTransformer);
 
         } catch (ModelNotFoundException $e) {
 
             return $this->response->errorNotFound();
 
         }
-	}
+    }
 
   /**
    * [edit description]
    * @param  [type] $id [description]
    * @return [type]     [description]
    */
-	public function edit($id) {
+    public function edit($id) {
         $solicitud = Solicitud::findOrFail($id);
 
-		return view('solicitudes.solicitudes.edit', [
+        return view('solicitudes.solicitudes.edit', [
             'solicitud'   => $solicitud,
             'origenes'    => Origen::orderBy('nombre', 'asc')->get(),
             'tipos'       => Tipo::orderBy('nombre', 'asc')->get(),
@@ -130,7 +134,7 @@ class SolicitudesController extends ApiController
             'localidades' => Localidad::all(),
             'user'        => Auth::user()
         ]);
-	}
+    }
 
   /**
    * [update description]
@@ -138,9 +142,9 @@ class SolicitudesController extends ApiController
    * @param  [type]  $id      [description]
    * @return [type]           [description]
    */
-	public function update(Request $request, $id) {
-		$solicitud = Solicitud::findOrFail($id);
-		$solicitud->update($request->all());
+    public function update(Request $request, $id) {
+        $solicitud = Solicitud::findOrFail($id);
+        $solicitud->update($request->all());
 
         // Si existe el Solicitante, editar
         if ( $request->input('solicitante.id') !== null &&  $request->input('solicitante.id') !== "") {
@@ -153,21 +157,21 @@ class SolicitudesController extends ApiController
             $solicitud->save();
         }
 
-		Flash::success('El registro se edito correctamente');
-		return redirect(route('solicitudes::solicitudes.edit', $solicitud->id));
-	}
+        Flash::success('El registro se edito correctamente');
+        return redirect(route('solicitudes::solicitudes.edit', $solicitud->id));
+    }
 
   /**
    * [destroy description]
    * @param  [type] $id [description]
    * @return [type]     [description]
    */
-	public function destroy($id) {
-		Solicitud::destroy($id);
+    public function destroy($id) {
+        Solicitud::destroy($id);
 
         Flash::success('El registro se borró correctamente');
         return redirect(route('solicitudes::solicitudes'));
-	}
+    }
 
   /**
    * [hasSolicitante description]
@@ -195,9 +199,9 @@ class SolicitudesController extends ApiController
    * @param  {Integer} $id [description]
    * @return [type]     [description]
    */
-	public function timeline($id) {
-		return view('solicitudes.solicitudes.timeline', ['solicitud' => $id]);
-	}
+    public function timeline($id) {
+        return view('solicitudes.solicitudes.timeline', ['solicitud' => $id]);
+    }
 
 
     /**

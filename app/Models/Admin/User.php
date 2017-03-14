@@ -8,8 +8,7 @@ use Laratrust\Traits\LaratrustUserTrait;
 
 class User extends Authenticatable
 {
-    use LaratrustUserTrait;
-    use SoftDeletes;
+    use LaratrustUserTrait, SoftDeletes;
 
     /**
      * The database table used by the model.

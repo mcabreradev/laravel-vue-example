@@ -175,8 +175,8 @@
         data_model: {plural: _.deburr(self.model.plural), singular: _.deburr(self.model.singular)},
         modal: {type: PanalConf.lang.button.create, action: 'create'},
         route: self.hasModal ? {} : {
-          create: Laravel.baseUrl + '/' + laroute.route(self.url.create),
-          edit: (id) => Laravel.baseUrl + '/' + laroute.route(self.url.edit, {id: id})
+          create: Laravel.baseUrl + laroute.route(self.url.create),
+          edit: (id) => Laravel.baseUrl + laroute.route(self.url.edit, {id: id})
         },
         tableId: 'table-id-' + _.random(9999999, 99999999),
         table : null,
@@ -381,7 +381,7 @@
        **/
       create: function () {
         var self  = this,
-            route = Laravel.baseUrl + '/' + laroute.route(self.url.store);
+            route = Laravel.baseUrl + laroute.route(self.url.store);
 
         Events.$emit('indicator.show');
         self.toggleModal();
@@ -402,7 +402,7 @@
        **/
       update: function () {
         var self  = this,
-            route = Laravel.baseUrl + '/' + laroute.route(self.url.update, {id: self.data.id});
+            route = Laravel.baseUrl + laroute.route(self.url.update, {id: self.data.id});
 
         Events.$emit('indicator.show');
         self.toggleModal();
@@ -423,7 +423,7 @@
        **/
       destroy: function (id) {
         var self = this,
-            route = route = Laravel.baseUrl + '/' + laroute.route(self.url.destroy, {id: id});
+            route = route = Laravel.baseUrl + laroute.route(self.url.destroy, {id: id});
 
         swal({
             title: "Estás seguro/a?",

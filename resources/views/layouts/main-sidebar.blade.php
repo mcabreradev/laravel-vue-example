@@ -26,8 +26,8 @@
         </a>
         <ul class="treeview-menu">
           <li><a href="#">Usuarios</a></li>
-          <li><a href="#">Roles</a></li>
-          <li><a href="#">Permisos</a></li>
+          <li><a href="{{ route('admin::roles.list') }}">Roles</a></li>
+          <li><a href="{{ route('admin::permissions.list') }}">Permisos</a></li>
         </ul>
       </li>
 
