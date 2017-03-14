@@ -6,7 +6,7 @@
 
 
 @section('content-breadcrumb')
-<li><a href="{{route('admin::roles.main')}}">Roles</a></li>
+<li><a href="{{route('admin::roles.list')}}">Roles</a></li>
 @endsection
 
 
@@ -19,9 +19,12 @@
 
     <panal-table
       :model='{singular: "rol", plural: "roles"}'
+      :has-modal="false"
       :url="{
-        index: 'admin::roles.index',
+        index: 'admin::roles',
+        create: 'admin::roles.create',
         store: 'admin::roles.store',
+        edit: 'admin::roles.edit',
         update: 'admin::roles.update',
         destroy: 'admin::roles.destroy'
       }"
