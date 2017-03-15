@@ -19,61 +19,16 @@
     <ul class="sidebar-menu">
 
       <li class="header">Módulos</li>
-      <!-- Optionally, you can add icons to the links -->
-      <li class="treeview">
-        <a href="#">
-          <span>Admin usuarios</span><i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="#">Usuarios</a></li>
-          <li><a href="{{ route('admin::roles.list') }}">Roles</a></li>
-          <li><a href="{{ route('admin::permissions.list') }}">Permisos</a></li>
-        </ul>
-      </li>
 
-      <li>
-        <a href="{{ route('pedidos.index', ['estado' => 'pendientes']) }}">
-          <span>Pedidos</span>
-        </a>
-      </li>
+      @include('admin.menu')
 
-      <li class="treeview">
-        <a href="#">
-          <span>Alertas</span><i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="{{ route('alertas::index') }}">Mapa</a></li>
-          <li><a href="{{ route('alertas::registros-nivel-agua.index') }}">Nivel de Agua</a></li>
-        </ul>
-      </li>
+      @include('oficina-virtual.pedidos.menu')
 
-      <li class="treeview">
-        <a href="#">
-          <span>Turnos</span><i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="{{ route('turnos::index') }}">Turnos asignados</a></li>
-        </ul>
-      </li>
-      <li class="treeview">
-        <a href="#">
-          <span>Reclamos</span><i class="fa fa-angle-left pull-right"></i>
-        </a>
-        <ul class="treeview-menu">
-          <li><a href="{{ route('solicitudes::solicitudes') }}">Reclamos</a></li>
-          <li>
-            <a href="#">Configuración<span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span></a>
-            <ul class="treeview-menu">
-              <li><a href="{{ route('solicitudes::agentes.list') }}">Agentes</a></li>
-              <li><a href="{{ route('solicitudes::areas.list') }}">Áreas</a></li>
-              <li><a href="{{ route('solicitudes::estados.list') }}">Estados</a></li>
-              <li><a href="{{ route('solicitudes::origenes.list') }}">Orígenes</a></li>
-              <li><a href="{{ route('solicitudes::prioridades.list') }}">Prioridades</a></li>
-              <li><a href="{{ route('solicitudes::tipos.list') }}">Tipos</a></li>
-            </ul>
-          </li>
-        </ul>
-      </li>
+      @include('alertas.menu')
+
+      @include('turnos.menu')
+
+      @include('solicitudes.menu')
     </ul>
     <!-- /.sidebar-menu -->
   </section>

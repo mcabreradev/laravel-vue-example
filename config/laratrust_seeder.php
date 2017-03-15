@@ -2,10 +2,8 @@
 
 return [
     'role_structure' => [
-        'superadministrator' => [
-        ],
-        'administrator' => [
-            'profile'              => 'e',
+        'superadmin' => [],
+        'admin' => [
             'users'                => 'b,e,a,d',
             'roles'                => 'b,e,a,d',
             'permisos'             => 'b,e,a,d',
@@ -21,17 +19,13 @@ return [
             'reclamos-prioridades' => 'b,e,a,d',
             'reclamos-tipos'       => 'b,e,a,d',
         ],
-        'usuario-web' => [
-            'profile' => 'r,e'
-        ],
     ],
-    'permission_structure' => [
-    ],
+    'permission_structure' => [],
     'permissions_map' => [
-        'b' => 'listar',
-        'r' => 'ver',
-        'e' => 'editar',
-        'a' => 'agregar',
-        'd' => 'eliminar'
+        'b' => 'browse',
+        'r' => 'read',
+        'e' => 'edit',
+        'a' => 'add',
+        'd' => 'delete',
     ]
 ];

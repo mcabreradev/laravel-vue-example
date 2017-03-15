@@ -14,6 +14,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return redirect(route('turnos::index'));
+        return redirect()->route('users.dashboard');
     }
 }

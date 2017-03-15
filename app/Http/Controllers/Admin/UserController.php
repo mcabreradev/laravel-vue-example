@@ -23,10 +23,12 @@ class UserController extends ApiController
      */
     private function assignValues($user, $request)
     {
-        $user->firstname = $request->input('firstname');
-        $user->lastname  = $request->input('lastname');
-        $user->email     = $request->input('email');
-        $user->password  = $this->resolvePassword($user->password, $request);
+        if ($request->has('email')) {
+            $user->email = $request->input('email');
+        }
+
+        $user->name     = $request->input('name');
+        $user->password = $this->resolvePassword($user->password, $request);
 
         return $user;
     }
@@ -71,7 +73,7 @@ class UserController extends ApiController
             $user = $this->assignValues(Auth::user(), $request);
             $user->save();
 
-            Flash::success('El registro se modificó correctamente');
+            Flash::success('Tus datos se actualizaron correctamente');
             return redirect(route('users.profile'));
         } catch (ModelNotFoundException $e) {
             Flash::warning('No se encontró el registro a editar');
@@ -189,5 +191,14 @@ class UserController extends ApiController
         } catch(Exception $e) {
             return $this->respondWithError("El registro se encuentra en uso y no puede ser borrado: {$e->getMessage()}", 409);
         }
+    }
+
+    /**
+     * [dashboard description]
+     * @return [type] [description]
+     */
+    public function dashboard()
+    {
+        return view('users.dashboard');
     }
 }

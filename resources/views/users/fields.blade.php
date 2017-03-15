@@ -1,21 +1,16 @@
 <div class="col-xs-12 col-md-7">
 
-    <!-- firstname Field -->
+    <!-- name Field -->
     <div class="form-group">
-        <label for="firstname">Nombre</label>
-        <input class="form-control" type="text" id="firstname" name="firstname" value="{{ old('firstname', $user->firstname) }}" required>
-    </div>
-
-    <!-- lastname Field -->
-    <div class="form-group">
-        <label for="lastname">Apellido</label>
-        <input class="form-control" type="text" id="lastname" name="lastname" value="{{ old('lastname', $user->lastname) }}" required>
+        <label for="name">Nombre completo</label>
+        <input class="form-control" type="text" id="name" name="name" value="{{ old('name', $user->name) }}" required>
     </div>
 
     <!-- email Field -->
     <div class="form-group">
         <label for="email">Correo electrónico</label>
-        <input class="form-control" type="email" id="email" name="email" value="{{ old('email', $user->email) }}" required>
+        <input class="form-control" type="email" id="email" name="email"
+          value="{{ old('email', $user->email) }}" required @if($user->id) disabled @endif>
     </div>
 </div>
 

@@ -6,7 +6,7 @@
     <!-- The user image in the navbar-->
     <img src="{{ asset('img/user-avatar.png') }}" class="user-image" alt="User Image">
     <!-- hidden-xs hides the username on small devices so only the image appears. -->
-    <span class="hidden-xs">{{ auth()->user()->email }}</span>
+    <span class="hidden-xs">{{ auth()->user()->name }}</span>
   </a>
   <ul class="dropdown-menu">
     <!-- The user image in the menu -->
@@ -14,7 +14,7 @@
       <img src="{{ asset('img/user-avatar.png') }}" class="img-circle" alt="User Image">
 
       <p>
-        {{ auth()->user()->email }}
+        {{ auth()->user()->name }}
       </p>
     </li>
     <!-- Menu Body -->

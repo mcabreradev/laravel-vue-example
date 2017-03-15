@@ -47,17 +47,27 @@ Route::group(['middleware' => ['auth']], function() {
     ]);
 
 	/**
-     * Users
+     * USERS
      */
-    Route::get('/users/profile', [
-        'as'   => 'users.profile.form',
-        'uses' => 'Admin\UserController@profile'
-    ]);
+    Route::group([
+        'as'        => 'users.',
+        'prefix'    => 'users'
+    ], function() {
+        Route::get('dashboard', [
+            'as'   => 'dashboard',
+            'uses' => 'Admin\UserController@dashboard'
+        ]);
 
-    Route::put('/users/profile', [
-        'as'   => 'users.profile',
-        'uses' => 'Admin\UserController@saveProfile'
-    ]);
+        Route::get('profile', [
+            'as'   => 'profile.form',
+            'uses' => 'Admin\UserController@profile'
+        ]);
+
+        Route::put('profile', [
+            'as'   => 'profile',
+            'uses' => 'Admin\UserController@saveProfile'
+        ]);
+    });
 
     /**
      * ADMIN
