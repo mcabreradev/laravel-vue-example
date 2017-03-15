@@ -6,6 +6,7 @@
 
 
 @section('content-breadcrumb')
+<li><a href="{{route('admin::roles.list')}}">Roles</a></li>
 <li><a href="{{route('admin::permissions.list')}}">Permisos</a></li>
 @endsection
 

@@ -32,10 +32,12 @@ class RoleTransformer extends TransformerAbstract
     public function transform($resource)
     {
         return [
-            'id'           => $resource->id,
-            'name'         => $resource->name,
-            'display_name' => $resource->display_name,
-            'description'  => $resource->description,
+            'id'                => $resource->id,
+            'name'              => $resource->name,
+            'display_name'      => $resource->display_name,
+            'description'       => $resource->description,
+            'permissions_count' => $resource->permissions_count,
+            'users_count'       => $resource->users_count,
         ];
 
     }

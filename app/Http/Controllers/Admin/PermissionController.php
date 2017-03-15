@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Admin\Permission;
 use App\Http\Controllers\ApiController;
 use App\Transformers\Admin\PermissionTransformer;
+use Exception;
 
 class PermissionController extends ApiController
 {
@@ -26,7 +27,7 @@ class PermissionController extends ApiController
      */
     public function index()
     {
-        return $this->respondWith(Permission::all(), new PermissionTransformer);
+        return $this->respondWith(Permission::withCount(['users', 'roles'])->get(), new PermissionTransformer);
     }
 
     /**
@@ -62,9 +63,16 @@ class PermissionController extends ApiController
     public function destroy($id)
     {
         try {
-            Permission::destroy($id);
-            return $this->respondWithOk(200, 'Deleted');
-        } catch(\Illuminate\Database\QueryException $e) {
+            $permission = Permission::WithCount(['users', 'roles'])->findOrFail($id);
+
+            if ($permission->users_count === 0 && $permission->roles_count === 0) {
+                $permission->destroy($id);
+                return $this->respondWithOk(200, 'Deleted');
+            }
+            else {
+                throw new Exception;
+            }
+        } catch(Exception $e) {
             return $this->respondWithError('El registro se encuentra en uso y no puede ser borrado', 409);
         }
     }

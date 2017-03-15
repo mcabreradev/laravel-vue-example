@@ -18,6 +18,7 @@
 
 <!-- Select2 (also in body-commons) -->
 <link rel="stylesheet" type="text/css" href="{{ asset('/compiled/vendors/select2/css/select2.min.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ asset('/compiled/vendors/select2/css/select2-bootstrap.min.css') }}">
 
 <!-- bootstrap-material-datetimepicker (also in body-commons) -->
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">

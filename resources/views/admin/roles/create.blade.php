@@ -17,6 +17,8 @@
     <form role="form" method="POST" action="{{ route('admin::roles.store') }}">
       {!! csrf_field() !!}
 
+      @include('flash::message')
+
       <div class="box">
 
         <div class="box-header with-border">
@@ -24,7 +26,7 @@
         </div>
 
         <div class="box-body">
-          @include('flash::message')
+          @include('admin.roles.fields')
         </div>
 
         <div class="box-footer">

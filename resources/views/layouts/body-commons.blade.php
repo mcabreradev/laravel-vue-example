@@ -86,14 +86,7 @@
   (function($){
     $('.select2').select2({
       language: 'es',
-      placeholder: 'Seleccione',
+      theme: 'bootstrap'
     });
-      // Hack para que tome el 100% de width
-    $('.select2, span.select2, li.select2-search, input.select2-search__field').css('width', '100%');
-
-  //
-  // $('input[type=datetimepicker]').datetimepicker({
-  //   format:'Y-m-d H:i:00',
-  // });
   })(window.jQuery);
 </script>

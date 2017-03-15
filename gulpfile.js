@@ -84,6 +84,7 @@ elixir(function (mix) {
 
   // Select2
   mix.copy('node_modules/select2/dist', 'public/compiled/vendors/select2');
+  mix.copy('node_modules/select2-bootstrap-theme/dist', 'public/compiled/vendors/select2/css/');
 
   // Datetimepicker
   mix.copy('node_modules/datetimepicker/build', 'public/compiled/vendors/datetimepicker');

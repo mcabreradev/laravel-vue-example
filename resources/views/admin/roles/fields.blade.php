@@ -14,14 +14,14 @@
 </div>
 
 <div class="form-group">
-  <label for="permissions">Tipo</label>
-  <select class="form-control select2" id="permissions" name="permissions[]" style="width: 100%" required>
+  <label for="permissions">Permisos</label>
+  <select data-placeholder="Elija los permisos para este rol" class="form-control select2" id="permissions" name="permissions[]" style="width: 100%" required multiple>
     @foreach($permissions as $permission)
-      {{-- @if( collect($solicitud->tipo)->contains($permission->id))
-        <option value="{{ $permission->id }}" data-checklist="{{$permission->checklist ?: '[]'}}" selected>{{ $permission->nombre }}</option>
-      @else --}}
+      @if($rolePermissions->contains($permission->id))
+        <option value="{{ $permission->id }}" selected>{{ $permission->display_name }}</option>
+      @else
         <option value="{{ $permission->id }}">{{ $permission->display_name }}</option>
-      {{-- @endif --}}
+      @endif
     @endforeach
   </select>
 </div>

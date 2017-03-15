@@ -36,7 +36,8 @@ class PermissionTransformer extends TransformerAbstract
             'name'         => $resource->name,
             'display_name' => $resource->display_name,
             'description'  => $resource->description,
+            'roles_count'  => $resource->roles_count,
+            'users_count'  => $resource->users_count,
         ];
-
     }
 }

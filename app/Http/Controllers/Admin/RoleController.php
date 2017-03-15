@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Requests;
-use Illuminate\Http\Request;
-use App\Models\Admin\Role;
 use App\Http\Controllers\ApiController;
+use App\Http\Requests;
+use App\Models\Admin\Permission;
+use App\Models\Admin\Role;
 use App\Transformers\Admin\RoleTransformer;
 use Exception;
+use Illuminate\Http\Request;
+use Flash;
 
 class RoleController extends ApiController
 {
@@ -27,7 +29,7 @@ class RoleController extends ApiController
      */
     public function index()
     {
-        return $this->respondWith(Role::all(), new RoleTransformer);
+        return $this->respondWith(Role::withCount(['users', 'permissions'])->get(), new RoleTransformer);
     }
 
     /**
@@ -37,7 +39,9 @@ class RoleController extends ApiController
     public function create()
     {
         return view('admin.roles.create', [
-            'role' => new Role
+            'role'            => new Role,
+            'permissions'     => Permission::all(),
+            'rolePermissions' => collect([])
         ]);
     }
 
@@ -48,8 +52,17 @@ class RoleController extends ApiController
      */
     public function store(Request $request)
     {
-        Role::create($request->all());
-        return $this->respondWithOk(201, 'Added');
+        try {
+            $role = Role::create($request->all());
+            $role->syncPermissions($request->has('permissions') ? $request->input('permissions') : []);
+
+            Flash::success('Registro creado correctamente');
+            return redirect()->route('admin::roles.list');
+
+        } catch(Exception $e) {
+            Flash::error("No se pudo crear el registro. {$e->getMessage()}");
+            return redirect()->back();
+        }
     }
 
     /**
@@ -59,14 +72,17 @@ class RoleController extends ApiController
     public function edit($id)
     {
         try {
+            $role = Role::with('permissions')->findOrFail($id);
+
             return view('admin.roles.edit', [
-                'role' => Role::findOrFail($id)
+                'role'            => $role,
+                'permissions'     => Permission::all(),
+                'rolePermissions' => $role->permissions->pluck('id')
             ]);
         } catch(Exception $e) {
             Flash::error('No se encontró el registro a editar');
-            return redirect(route('pedidos.index'));
+            return redirect()->back();
         }
-
     }
 
     /**
@@ -77,10 +93,19 @@ class RoleController extends ApiController
      */
     public function update(Request $request, $id)
     {
-        Role::findOrFail($id)
-            ->update($request->all());
+        try {
+            $role = Role::findOrFail($id);
 
-        return $this->respondWithOk(201, 'Updated');
+            $role->update($request->all());
+            $role->syncPermissions($request->input('permissions'));
+
+            Flash::success('Registro editado correctamente');
+            return redirect()->route('admin::roles.list');
+
+        } catch(Exception $e) {
+            Flash::error("No se pudo editar el registro. {$e->getMessage()}");
+            return redirect()->back();
+        }
     }
 
     /**
@@ -91,10 +116,17 @@ class RoleController extends ApiController
     public function destroy($id)
     {
         try {
-            Role::destroy($id);
-            return $this->respondWithOk(200, 'Deleted');
+            $role = Role::WithCount(['users', 'permissions'])->findOrFail($id);
+
+            if ($role->users_count === 0 && $role->permissions_count === 0) {
+                $role->destroy($id);
+                return $this->respondWithOk(200, 'Deleted');
+            }
+            else {
+                throw new Exception;
+            }
         } catch(Exception $e) {
-            return $this->respondWithError('El registro se encuentra en uso y no puede ser borrado', 409);
+            return $this->respondWithError("El registro se encuentra en uso y no puede ser borrado. {$e->getMessage()}", 409);
         }
     }
 }

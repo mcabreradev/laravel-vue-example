@@ -133,6 +133,44 @@ Route::group(['middleware' => ['auth']], function() {
             'as'   => 'roles.destroy',
             'uses' => 'RoleController@destroy'
         ])->where('id', '[0-9]+');
+
+        /**
+         * Users
+         */
+        Route::get('users', [
+            'as'   => 'users',
+            'uses' => 'UserController@index'
+        ]);
+
+        Route::get('users/list', [
+            'as'   => 'users.list',
+            'uses' => 'UserController@main'
+        ]);
+
+        Route::get('users/create', [
+            'as'   => 'users.create',
+            'uses' => 'UserController@create'
+        ]);
+
+        Route::post('users', [
+            'as'   => 'users.store',
+            'uses' => 'UserController@store'
+        ]);
+
+        Route::get('users/edit/{id}', [
+            'as'   => 'users.edit',
+            'uses' => 'UserController@edit'
+        ])->where('id', '[0-9]+');
+
+        Route::put('users/{id}', [
+            'as'   => 'users.update',
+            'uses' => 'UserController@update'
+        ])->where('id', '[0-9]+');
+
+        Route::delete('users/{id}', [
+            'as'   => 'users.destroy',
+            'uses' => 'UserController@destroy'
+        ])->where('id', '[0-9]+');
     });
 
     /**

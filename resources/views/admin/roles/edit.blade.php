@@ -14,9 +14,11 @@
 <div class="row">
   <div class="col-xs-12">
 
-    <form role="form" method="POST" action="{{ route('admin::roles.store') }}">
+    <form role="form" method="POST" action="{{ route('admin::roles.update', $role->id) }}">
       {!! csrf_field() !!}
       {{ method_field('PUT') }}
+
+      @include('flash::message')
 
       <div class="box">
 
@@ -25,7 +27,8 @@
         </div>
 
         <div class="box-body">
-          @include('flash::message')
+
+          @include('admin.roles.fields')
         </div>
 
         <div class="box-footer">
