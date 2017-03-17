@@ -29,7 +29,6 @@
         destroy: 'admin::roles.destroy'
       }"
       :fields="[
-        {name: 'name', title: 'Clave', type: 'text', required: true},
         {name: 'display_name', title:'Nombre', type: 'text'},
         {name: 'users_count', title: '# Usuarios', type: 'text'},
         {name: 'permissions_count', title: '# Permisos', type: 'text'}

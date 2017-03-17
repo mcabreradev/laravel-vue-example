@@ -14,24 +14,36 @@
 /**
  * Auth
  */
-Route::group(['as' => 'auth::'], function() {
+Route::group([
+    'namespace' => 'Auth',
+    'as'        => 'auth::'
+], function() {
 
     Route::get('/login', [
         'as'   => 'login.form',
-        'uses' => 'Auth\AuthController@showLoginForm'
+        'uses' => 'AuthController@showLoginForm'
     ]);
 
     Route::post('/login', [
         'as'   => 'login',
-        'uses' => 'Auth\AuthController@login'
+        'uses' => 'AuthController@login'
     ]);
 
     Route::get('/logout', [
         'as'   => 'logout',
-        'uses' => 'Auth\AuthController@logout'
+        'uses' => 'AuthController@logout'
+    ]);
+
+    Route::get('/register', [
+        'as'   => 'register.form',
+        'uses' => 'AuthController@showRegistrationForm'
+    ]);
+
+    Route::post('/register', [
+        'as'   => 'register',
+        'uses' => 'AuthController@register'
     ]);
 });
-
 
 /**
  * User authenticated routes

@@ -1,65 +1,116 @@
-@extends('app')
+@extends('layouts.base')
 
-@section('content')
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Register</div>
-				<div class="panel-body">
-					@if (count($errors) > 0)
-						<div class="alert alert-danger">
-							<strong>Whoops!</strong> There were some problems with your input.<br><br>
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
+@section('body-attributes')
+class="hold-transition register-page"
+@endsection
 
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/register') }}">
-						<input type="hidden" name="_token" value="{{ csrf_token() }}">
+@section('body-content')
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">Name</label>
-							<div class="col-md-6">
-								<input type="text" class="form-control" name="name" value="{{ old('name') }}">
-							</div>
-						</div>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="text-center">
+        <img src="{{ asset('img/dposs-logo.png') }}"><br><br>
+        <p class="register-box-msg">Oficina Virtual de la D.P.O.S.S</p>
+      </div>
+    </div>
+  </div>
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">E-Mail Address</label>
-							<div class="col-md-6">
-								<input type="email" class="form-control" name="email" value="{{ old('email') }}">
-							</div>
-						</div>
+  <div class="row">
+    <div class="col-xs-12">
+      @if (count($errors) > 0)
+        <div class="alert alert-danger">
+          <ul>
+            @foreach ($errors->all() as $error)
+              <li>{{ $error }}</li>
+            @endforeach
+          </ul>
+        </div>
+      @endif
+    </div>
+  </div>
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">Password</label>
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password">
-							</div>
-						</div>
+  <form role="form" method="POST" action="{{ route('auth::register') }}">
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-						<div class="form-group">
-							<label class="col-md-4 control-label">Confirm Password</label>
-							<div class="col-md-6">
-								<input type="password" class="form-control" name="password_confirmation">
-							</div>
-						</div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-6">
+        <h4 class="well">Datos de alguna factura</h4>
 
-						<div class="form-group">
-							<div class="col-md-6 col-md-offset-4">
-								<button type="submit" class="btn btn-primary">
-									Register
-								</button>
-							</div>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	</div>
+        <div class="form-group">
+          <label for="nro_factura">Número de factura</label>
+          <div class="input-group">
+            <input type="text" class="form-control" name="nro_factura" id="nro_factura" value="{{ old('nro_factura') }}" required>
+            <span class="input-group-btn">
+              <a href="http://dposs.gob.ar/wordpress/wp-content/uploads/2017/03/factura-ayuda-liquidacion-sp.jpg" class="btn btn-warning" target="_blank" rel="noopener noreferrer"><i class="fa fa-question-circle"></i></a>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="periodo_factura">Período de factura</label>
+          <div class="input-group">
+            <input type="text" class="form-control" name="periodo_factura" id="periodo_factura" value="{{ old('periodo_factura') }}" required>
+            <span class="input-group-btn">
+              <a href="http://dposs.gob.ar/wordpress/wp-content/uploads/2017/03/factura-ayuda-periodo.jpg" class="btn btn-warning" target="_blank" rel="noopener noreferrer"><i class="fa fa-question-circle"></i></a>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="monto_factura">Monto de factura</label>
+          <div class="input-group">
+            <input type="text" class="form-control" name="monto_factura" id="monto_factura" value="{{ old('monto_factura') }}" required>
+            <span class="input-group-btn">
+              <a href="http://dposs.gob.ar/wordpress/wp-content/uploads/2017/03/factura-ayuda-monto.jpg" class="btn btn-warning" target="_blank" rel="noopener noreferrer"><i class="fa fa-question-circle"></i></a>
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="expediente">Expediente</label>
+          <div class="input-group">
+            <input type="text" class="form-control" name="expediente" id="expediente" value="{{ old('expediente') }}" required>
+            <span class="input-group-btn">
+              <a href="http://dposs.gob.ar/wordpress/wp-content/uploads/2017/03/factura-ayuda-expediente.jpg" class="btn btn-warning" target="_blank" rel="noopener noreferrer"><i class="fa fa-question-circle"></i></a>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xs-12 col-sm-6">
+        <h4 class="well">Datos de tu cuenta</h4>
+
+        <div class="form-group">
+          <label for="name">Nombre</label>
+          <input type="text" class="form-control" name="name" id="name" value="{{ old('name') }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" class="form-control" name="password" id="password" required>
+        </div>
+
+        <div class="form-group">
+          <label for="password_confirmation">Repetir contraseña</label>
+          <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" required>
+        </div>
+      </div>
+    </div> <!-- /.row -->
+
+    <div class="row">
+      <div class="col-xs-12 col-sm-6 col-sm-offset-6">
+        <button type="submit" class="btn btn-primary btn-lg btn-block ">
+          <i class="fa fa-lock"></i> Registrarse
+        </button>
+      </div>
+    </div>
+  </form>
 </div>
+
 @endsection
