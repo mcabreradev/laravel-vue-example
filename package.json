@@ -14,10 +14,8 @@
     "@salesforce-ux/design-system": "^2.1.4",
     "admin-lte": "^2.3.8",
     "bootstrap": "^3.3.7",
-    "bootstrap-material-datetimepicker": "https://github.com/T00rk/bootstrap-material-datetimepicker/tarball/gh-pages",
     "datatables.net": "^1.10.12",
     "datatables.net-bs": "^1.10.12",
-    "datetimepicker": "github:xdan/datetimepicker",
     "dropzone": "^4.3.0",
     "element-ui": "^1.1.2",
     "fastclick": "^1.0.6",
@@ -39,6 +37,7 @@
     "vue": "^2.1.6",
     "vue-multiselect": "next",
     "vue-resource": "^1.0.3",
-    "vue2-calendar": "https://github.com/icai/vue2-calendar"
+    "datetimepicker": "github:xdan/datetimepicker",
+    "bootstrap-material-datetimepicker": "https://github.com/T00rk/bootstrap-material-datetimepicker/tarball/gh-pages"
   }
 }
