@@ -31,10 +31,20 @@ class UserTransformer extends TransformerAbstract
      */
     public function transform($resource)
     {
+        $rolesNames = $resource->roles->map(function ($role) {
+            return $role->display_name;
+        });
+
+        $rolesStr = '';
+        foreach ($rolesNames as $name) {
+            $rolesStr .= ($rolesStr === '' ? '' : ', ') . $name;
+        }
+
         return [
             'id'    => $resource->id,
             'name'  => $resource->name,
-            'email' => $resource->email
+            'email' => $resource->email,
+            'roles' => $rolesStr
         ];
 
     }
