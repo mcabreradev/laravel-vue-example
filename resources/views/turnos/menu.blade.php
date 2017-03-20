@@ -1,4 +1,4 @@
-@ability('superadmin', ['browse-turnos'])
+@ability('admin', ['turnos-browse'])
 <li class="treeview">
   <a href="#">
     <span>Turnos</span><i class="fa fa-angle-left pull-right"></i>

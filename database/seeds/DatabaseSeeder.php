@@ -18,6 +18,9 @@ class DatabaseSeeder extends Seeder
         $this->call(BarriosTableSeeder::class);
         $this->call(AlertasEstadosTableSeeder::class);
         $this->call(SolicitudesDatabaseSeeder::class);
-        $this->call(LaratrustSeeder::class);
+        $this->call(AuthorizationTruncateSeeder::class);
+        $this->call(AuthorizationPermissionsSeeder::class);
+        $this->call(AuthorizationRolesSeeder::class);
+        $this->call(AuthorizationUsersSeeder::class);
     }
 }

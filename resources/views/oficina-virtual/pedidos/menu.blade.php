@@ -1,4 +1,4 @@
-@ability('superadmin', ['browse-pedidos'])
+@ability('admin', ['pedidos-browse'])
   <li>
     <a href="{{ route('pedidos.index', ['estado' => 'pendientes']) }}">
       <span>Pedidos</span>

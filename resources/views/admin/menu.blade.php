@@ -1,20 +1,20 @@
-@ability('superadmin', ['browse-users', 'browse-roles'])
+@ability('admin', ['admin-users-browse', 'admin-roles-browse'])
   <li class="treeview">
     <a href="#">
       <span>Admin usuarios</span><i class="fa fa-angle-left pull-right"></i>
     </a>
     <ul class="treeview-menu">
-      @ability('superadmin', 'browse-users')
+      @ability('admin', 'admin-users-browse')
         <li><a href="{{ route('admin::users.list') }}">Usuarios</a></li>
       @endability
 
-      @ability('superadmin', 'browse-users')
+      @ability('admin', 'admin-roles-browse')
         <li><a href="{{ route('admin::roles.list') }}">Roles</a></li>
       @endability
 
-      @role('superadmin')
+      @permission('admin-permissions-browse')
         <li><a href="{{ route('admin::permissions.list') }}">Permisos</a></li>
-      @endrole
+      @endpermission
     </ul>
   </li>
 @endability
