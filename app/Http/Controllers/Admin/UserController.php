@@ -194,6 +194,19 @@ class UserController extends ApiController
     }
 
     /**
+     * [adminAssignValues description]
+     * @param  User    $user    [description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    protected function adminAssignValues(User $user, Request $request)
+    {
+        $user->fill($request->input());
+        $user->password = bcrypt($request->input('password'));
+        return $user;
+    }
+
+    /**
      * [dashboard description]
      * @return [type] [description]
      */
