@@ -1,11 +1,9 @@
 <div class="form-group">
   <label for="display_name">Nombre</label>
   <input class="form-control" type="text" name="display_name" id="display_name" required value="{{ old('display_name', $role->display_name) }}">
-</div>
-
-<div class="form-group">
-  <label for="name">Clave</label>
-  <input class="form-control" type="text" name="name" id="name" required value="{{ old('name', $role->name) }}">
+  @if($role->id)
+    <small>{{$role->name}}</small>
+  @endif
 </div>
 
 <div class="form-group">

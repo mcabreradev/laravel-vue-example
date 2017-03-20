@@ -10,6 +10,7 @@ use App\Transformers\Admin\RoleTransformer;
 use Exception;
 use Illuminate\Http\Request;
 use Flash;
+use Slugify;
 
 class RoleController extends ApiController
 {
@@ -53,7 +54,9 @@ class RoleController extends ApiController
     public function store(Request $request)
     {
         try {
-            $role = Role::create($request->all());
+            $role = $this->assignValues(new Role, $request);
+            $role->save();
+
             $role->syncPermissions($request->has('permissions') ? $request->input('permissions') : []);
 
             Flash::success('Registro creado correctamente');
@@ -94,9 +97,9 @@ class RoleController extends ApiController
     public function update(Request $request, $id)
     {
         try {
-            $role = Role::findOrFail($id);
+            $role = $this->assignValues(Role::findOrFail($id), $request);
+            $role->save();
 
-            $role->update($request->all());
             $role->syncPermissions($request->input('permissions'));
 
             Flash::success('Registro editado correctamente');
@@ -128,5 +131,18 @@ class RoleController extends ApiController
         } catch(Exception $e) {
             return $this->respondWithError("El registro se encuentra en uso y no puede ser borrado. {$e->getMessage()}", 409);
         }
+    }
+
+    /**
+     * [assignValues description]
+     * @param  Role    $role    [description]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+    protected function assignValues(Role $role, Request $request)
+    {
+        $role->fill($request->input());
+        $role->name = Slugify::slugify($role->display_name);
+        return $role;
     }
 }

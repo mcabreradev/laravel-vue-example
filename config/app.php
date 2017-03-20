@@ -197,6 +197,11 @@ return [
          */
         Laratrust\LaratrustServiceProvider::class,
 
+        /**
+         * https://github.com/cocur/slugify
+         */
+        Cocur\Slugify\Bridge\Laravel\SlugifyServiceProvider::class,
+
     ],
 
     /*
@@ -272,6 +277,11 @@ return [
          * https://github.com/santigarcor/laratrust
          */
         'Laratrust' => Laratrust\LaratrustFacade::class,
+
+        /**
+         * https://github.com/cocur/slugify
+         */
+        "Slugify" => Cocur\Slugify\Bridge\Laravel\SlugifyFacade::class,
     ],
 
 ];
