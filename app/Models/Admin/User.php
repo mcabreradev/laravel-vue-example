@@ -11,6 +11,13 @@ class User extends Authenticatable
     use LaratrustUserTrait, SoftDeletes;
 
     /**
+     * The connection name for the model.
+     *
+     * @var string
+     */
+    protected $connection = 'pgsql';
+
+    /**
      * The database table used by the model.
      *
      * @var string
@@ -29,5 +36,15 @@ class User extends Authenticatable
      *
      * @var array
      */
-    protected $hidden = ['password', 'remember_token',];
+    protected $hidden = ['password', 'remember_token'];
+
+    /**
+     * Relacion con expedientes
+     *
+     * @return Collection
+     */
+    public function expedientes()
+    {
+        return $this->belongsTo('App\Models\OficinaVirtual\Expediente');
+    }
 }

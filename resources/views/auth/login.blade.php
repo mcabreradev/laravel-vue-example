@@ -38,8 +38,9 @@ class="hold-transition login-page"
       </div>
 
       <div class="row">
+
         <div class="col-xs-12">
-          ¿No tenes clave? <a href="{{ route('auth::register.form') }}">Registrate acá</a>
+          <a href="#">No recuerdo mi contraseña</a>
         </div>
 
         <div class="col-xs-12">
@@ -52,6 +53,8 @@ class="hold-transition login-page"
           </div>
 
           <div class="form-group">
+            <a class="btn btn-success" href="{{ route('auth::register.form') }}">Registrarse</a>
+
             <button type="submit" class="btn btn-primary pull-right">
               <i class="fa fa-btn fa-sign-in"></i> Ingresar
             </button>

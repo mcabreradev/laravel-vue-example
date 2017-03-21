@@ -115,5 +115,14 @@ class AuthorizationRolesSeeder extends Seeder
         $role->attachPermissions($permissions);
 
         $role->save();
+
+        /**
+         * usuarios-web
+         */
+        Role::create([
+            'name'         => 'usuario-web',
+            'display_name' => 'Usuario de la DPOSS',
+            'description'  => 'Rol que tienen todos los usuarios que acceden desde el registro online por medio de la web.'
+        ]);
     }
 }
