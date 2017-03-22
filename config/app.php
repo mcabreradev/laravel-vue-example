@@ -202,6 +202,8 @@ return [
          */
         Cocur\Slugify\Bridge\Laravel\SlugifyServiceProvider::class,
 
+        App\Providers\DpossApiServiceProvider::class,
+
     ],
 
     /*
