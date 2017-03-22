@@ -14,6 +14,8 @@ use Tecnickcom\Tcpdf\Tcpdf_barcodes_1d as TCPDFBarcode;
 
 class BoletaPagoController extends Controller
 {
+    public static $TIPO_CONTENIDO = 'oficina-virtual.boletas-de-pago';
+
     /**
      * [boletasToCollection description]
      * @param  [type] $boletasResponse [description]
@@ -151,4 +153,13 @@ class BoletaPagoController extends Controller
             ]
         );
     }
+
+    /**
+     *
+     * @return void
+     */
+    public function main(){
+        return view($this::$TIPO_CONTENIDO.'.main');
+    }
+
 }

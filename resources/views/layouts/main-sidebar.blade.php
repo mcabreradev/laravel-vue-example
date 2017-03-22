@@ -29,6 +29,8 @@
       @include('turnos.menu')
 
       @include('solicitudes.menu')
+
+      @include('oficina-virtual.menu')
     </ul>
     <!-- /.sidebar-menu -->
   </section>

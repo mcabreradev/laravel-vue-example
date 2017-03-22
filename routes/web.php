@@ -389,6 +389,22 @@ Route::group(['middleware' => ['auth']], function() {
     }); // turnos group
 
     /**
+     * OficinaVirtual
+     */
+    Route::group([
+        'namespace' => 'OficinaVirtual',
+        'as'        => 'oficina-virtual::',
+        'prefix'    => 'oficina-virtual'
+    ], function() {
+
+        Route::get('/boletas-de-pago', [
+            'as'   => 'boletas-de-pago',
+            'uses' => 'BoletaPagoController@main'
+        ]);
+
+    }); // OficinaVirtual group
+
+    /**
      * Solicitudes
      */
     Route::group([
