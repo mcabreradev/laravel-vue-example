@@ -44,29 +44,31 @@ class BoletaPagoController extends Controller
         curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
 
-        $response = json_decode(curl_exec($ch));
+        $response = curl_exec($ch);
         $info     = curl_getinfo($ch);
 
         curl_close($ch);
 
-        if ($info['http_code'] == 200 && count($response)) {
+        if ($info['http_code'] == 200 && $response) {
+
+            $parsedResponse = json_decode($response);
 
             // obtengo el period actual y el anterior
             $periodoActual   = Carbon::now()->format('Ym');
             $periodoAnterior = Carbon::now()->subMonth()->format('Ym');
 
             // boletas filtradas por periodo actual
-            $boletas = $this->boletasToCollection($response, $periodoActual);
+            $boletas = $this->boletasToCollection($parsedResponse, $periodoActual);
 
             // si no tengo boletas del periodo actual busco las del anterior
             if ($boletas->isEmpty()) {
-                $boletas = $this->boletasToCollection($response, $periodoAnterior);
+                $boletas = $this->boletasToCollection($parsedResponse, $periodoAnterior);
             }
 
-            return $boletas;
+          return $boletas;
         }
         else {
-            return collect([]);
+          return collect([]);
         }
     }
 
