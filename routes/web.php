@@ -43,6 +43,25 @@ Route::group([
         'as'   => 'register',
         'uses' => 'AuthController@register'
     ]);
+
+    Route::get('/test', function(App\Contracts\DpossApiContract $api){
+
+        // caso rosi
+        $r = $api->getUltimasBoletas(19401, 26792);
+        // o $r = $api->getUltimasBoletas(null, 26792);
+
+        // caso rosi periodo 201703
+        $rp = $api->getBoletasPorPeriodo(19401, 26792, 201703);
+        // o $r = $api->getBoletasPorPeriodo(null, 26792, 201703);
+
+        // caso chino
+        $c = $api->getUltimasBoletas(247, null);
+
+        // caso chino periodo 201703
+        $cp = $api->getBoletasPorPeriodo(247, null, 201703);
+
+        dd([$r, $rp, $c, $cp]);
+    });
 });
 
 /**
