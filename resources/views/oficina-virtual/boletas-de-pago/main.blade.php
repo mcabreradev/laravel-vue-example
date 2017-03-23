@@ -17,11 +17,7 @@
 
     @include('flash::message')
 
-    <panal-box-slot title="Descargar boleta de pago">
-      <div slot="body">
-        @include('oficina-virtual.boletas-de-pago.fields')
-      </div>
-    </panal-box-slot>
+    <dposs-descargar-boleta :conexiones="{{ $conexiones }}"/>
 
   </div>
 </div>

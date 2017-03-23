@@ -2,14 +2,18 @@
 
 namespace app\Http\Controllers\OficinaVirtual;
 
-use App\Http\Controllers\Controller;
-use App\Http\Requests;
-use App\Models\OficinaVirtual\BoletaPago;
-use Carbon\Carbon;
-use DNS1D;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Response;
 use PDF;
+use Auth;
+use DNS1D;
+use Carbon\Carbon;
+use App\Http\Requests;
+use App\Models\Admin\User;
+use Illuminate\Http\Request;
+use App\Contracts\DpossApiContract;
+use App\Http\Controllers\Controller;
+use App\Models\OficinaVirtual\Conexion;
+use Illuminate\Support\Facades\Response;
+use App\Models\OficinaVirtual\BoletaPago;
 use Tecnickcom\Tcpdf\Tcpdf_barcodes_1d as TCPDFBarcode;
 
 class BoletaPagoController extends Controller
@@ -39,7 +43,7 @@ class BoletaPagoController extends Controller
     private function getDatosBoleta($fields)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, self::$DPOSS_API_BASE . '/usuarios');
+        curl_setopt($ch, CURLOPT_URL, env('DPOSS_API_BASE') . 'usuarios');
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 8);
@@ -159,7 +163,23 @@ class BoletaPagoController extends Controller
      * @return void
      */
     public function main(){
-        return view($this::$TIPO_CONTENIDO.'.main');
+        $user = User::find(Auth::user()->id);
+
+        return view($this::$TIPO_CONTENIDO.'.main', [
+            'conexiones' => $user->conexiones()->get()
+        ]);
+    }
+
+    /**
+     * Consulta a la api dposs
+     *
+     * @return void
+     */
+    public function query(Request $request, DpossApiContract $api){
+        $tipo_busqueda = json_decode($request->input('tipo_busqueda'));
+        $data = $api->getUltimasBoletas($tipo_busqueda->expediente, $tipo_busqueda->unidad);
+
+        return response()->json(['data' => $data, 'responseText' => 'ok'], 200);
     }
 
 }

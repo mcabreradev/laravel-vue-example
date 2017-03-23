@@ -17,9 +17,7 @@ gulp.task('modernizr', function (done) {
 });
 
 elixir.extend('routes', function(message) {
-  new task('routes', function() {
-    return gulp.src('').pipe(shell('php artisan laroute:generate'));
-  });
+  return gulp.src('').pipe(shell('php artisan laroute:generate'));
 });
 
 /*

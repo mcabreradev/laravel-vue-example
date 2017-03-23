@@ -1,52 +1,17 @@
 {
-  "_args": [
-    [
-      {
-        "raw": "bootstrap-material-datetimepicker@https://github.com/T00rk/bootstrap-material-datetimepicker/tarball/gh-pages",
-        "scope": null,
-        "escapedName": "bootstrap-material-datetimepicker",
-        "name": "bootstrap-material-datetimepicker",
-        "rawSpec": "https://github.com/T00rk/bootstrap-material-datetimepicker/tarball/gh-pages",
-        "spec": "https://github.com/T00rk/bootstrap-material-datetimepicker/tarball/gh-pages",
-        "type": "remote"
-      },
-      "/Users/leo/Sites/dposs/dposs-admin"
-    ]
-  ],
-  "_from": "https://github.com/T00rk/bootstrap-material-datetimepicker/tarball/gh-pages",
-  "_id": "bootstrap-material-datetimepicker@2.7.1",
-  "_inCache": true,
-  "_location": "/bootstrap-material-datetimepicker",
-  "_phantomChildren": {},
-  "_requested": {
-    "raw": "bootstrap-material-datetimepicker@https://github.com/T00rk/bootstrap-material-datetimepicker/tarball/gh-pages",
-    "scope": null,
-    "escapedName": "bootstrap-material-datetimepicker",
-    "name": "bootstrap-material-datetimepicker",
-    "rawSpec": "https://github.com/T00rk/bootstrap-material-datetimepicker/tarball/gh-pages",
-    "spec": "https://github.com/T00rk/bootstrap-material-datetimepicker/tarball/gh-pages",
-    "type": "remote"
-  },
-  "_requiredBy": [
-    "/"
-  ],
-  "_resolved": "https://github.com/T00rk/bootstrap-material-datetimepicker/tarball/gh-pages",
-  "_shasum": "5e46db92ec63ac2653f8f72fd711a3861e10966f",
-  "_shrinkwrap": null,
-  "_spec": "bootstrap-material-datetimepicker@https://github.com/T00rk/bootstrap-material-datetimepicker/tarball/gh-pages",
-  "_where": "/Users/leo/Sites/dposs/dposs-admin",
-  "bugs": {
-    "url": "https://github.com/T00rk/bootstrap-material-datetimepicker/issues"
-  },
-  "dependencies": {
-    "bootstrap": "~3.3.4",
-    "bootstrap-material-design": "~0.3.0",
-    "jquery": "1.12.3",
-    "moment": "~2.10.2"
-  },
+  "name": "bootstrap-material-datetimepicker",
   "description": ".",
-  "devDependencies": {},
+  "version": "2.7.1",
+  "keywords": [
+    "css",
+    "js",
+    "mobile-first",
+    "responsive",
+    "front-end",
+    "web"
+  ],
   "homepage": "https://github.com/T00rk/bootstrap-material-datetimepicker",
+  "main": "js/bootstrap-material-datetimepicker.js",
   "ignore": [
     "/.*",
     "_config.yml",
@@ -57,22 +22,14 @@
     "js/tests",
     "test-infra"
   ],
-  "keywords": [
-    "css",
-    "js",
-    "mobile-first",
-    "responsive",
-    "front-end",
-    "web"
-  ],
-  "main": "js/bootstrap-material-datetimepicker.js",
-  "name": "bootstrap-material-datetimepicker",
-  "optionalDependencies": {},
-  "readme": "# bootstrap-material-datetimepicker\r\nMaterial DateTimePicker\r\n\r\nOriginaly designed for Bootstrap Material, the V2.0 is now completely standalone and responsive.\r\n\r\n### Updates\r\n\r\n| Date\t\t\t\t| Author\t\t\t| Description\t\t\t\t\t\t\t\t\t\t\t |\r\n| ----------------- | ----------------- | ------------------------------------------------------ |\r\n| 2016-04-08\t\t| donovansolms\t\t| Disable specific days (#60 and #97)\t\t\t\t \t |\r\n| 2016-04-08\t\t| T00rk\t\t\t\t| Fixed #85\t \t\t\t\t\t\t\t\t \t \t\t |\r\n| 2016-04-08\t\t| FoxyCorndog\t\t| Fix PM overwrite bug\t \t\t\t\t\t \t \t\t |\r\n| 2016-02-17\t\t| T00rk\t\t\t\t| Changed Clock to SVG\t \t\t\t\t\t \t \t\t |\r\n| 2016-02-04\t\t| T00rk\t\t\t\t| Added a \"Now\" button (#38)\t \t\t\t\t\t \t |\r\n| 2016-01-30\t\t| T00rk\t\t\t\t| Switch view on click (#39, #47)\t \t\t\t\t\t |\r\n| 2016-01-29\t\t| T00rk\t\t\t\t| Added \"clear button\" (#48)\t\t \t\t\t\t\t |\r\n| 2016-01-29\t\t| T00rk\t\t\t\t| Replace rem by em (#26)\t\t\t \t\t\t\t\t |\r\n| 2016-01-29\t\t| T00rk\t\t\t\t| Display 24H clock (#54)\t\t\t \t\t\t\t\t |\r\n| 2016-01-29\t\t| T00rk\t\t\t\t| Close on \"ESC\" (#52)\t\t\t \t\t\t\t\t \t |\r\n| 2015-10-19\t\t| drblue \t\t\t| Fixed erroneous package.json-file \t\t\t\t\t |\r\n| 2015-10-19\t\t| Perdona\t\t\t| Fix auto resize when month has 6 weeks\t\t\t\t |\r\n| 2015-07-01\t\t| T00rk \t\t\t| Redesigned element without using modal\t\t\t\t |\r\n| 2015-06-16\t\t| T00rk \t\t\t| Use Timepicker alone / Display short time (12 hours)\t |\r\n| 2015-06-13\t\t| T00rk \t\t\t| Fixed issue with HTML value tag \t\t\t\t\t\t |\r\n| 2015-05-25\t\t| T00rk \t\t\t| Changed repo name to bootstrap-material-datetimepicker * |\r\n| 2015-05-12\t\t| T00rk\t\t\t\t| Added parameters for button text\t\t\t\t\t\t |\r\n| 2015-05-05\t\t| Sovanna\t\t\t| FIX undefined _minDate in isBeforeMaxDate func\t\t |\r\n| 2015-04-10\t\t| T00rk\t\t\t\t| Little change in clock design\t\t\t\t\t\t\t |\r\n| 2015-04-10\t\t| Peterzen\t\t\t| Added bower and requirejs support\t\t\t\t\t\t |\r\n| 2015-04-08\t\t| T00rk\t\t\t\t| Fixed problem on locale switch\t\t\t\t\t\t |\r\n| 2015-03-04\t\t| T00rk\t\t\t\t| Added Time picker\t\t\t\t\t\t\t\t\t\t |\r\n(\\*) File names have been changed\r\n\r\nbootstrap-material-datepicker.js => bootstrap-material-date**time**picker.js\r\n\r\nbootstrap-material-datepicker.css => bootstrap-material-date**time**picker.css\r\n\r\n### Prerequisites\r\n\r\njquery [http://jquery.com/download/](http://jquery.com/download/)\r\n\r\nmomentjs [http://momentjs.com/](http://momentjs.com/)\r\n\r\nGoogle Material Icon Font `<link href=\"https://fonts.googleapis.com/icon?family=Material+Icons\" rel=\"stylesheet\">`\r\n\r\n\r\n### Live Example\r\n\r\n[Live example](http://t00rk.github.io/bootstrap-material-datetimepicker/)\r\n\r\n### Usage\r\n\r\n\t$('input').bootstrapMaterialDatePicker();\r\n\r\n### bower\r\n\r\n\tbower install bootstrap-material-datetimepicker\r\n\r\n### Parameters\r\n\r\n| Name\t\t\t\t| Type\t\t\t\t\t\t\t| Description\t\t\t\t\t\t\t\t\t|\r\n| ----------------- | ----------------------------- | --------------------------------------------- |\r\n| **format**\t\t| String\t\t\t\t\t\t| MomentJS Format\t\t\t\t\t\t\t\t|\r\n| **shortTime**\t\t| Boolean\t\t\t\t\t\t| true => Display 12 hours AM|PM \t\t\t\t|\r\n| **minDate**\t\t| (String\\|Date\\|Moment)\t\t| Minimum selectable date\t\t\t\t\t\t|\r\n| **maxDate**\t\t| (String\\|Date\\|Moment)\t\t| Maximum selectable date\t\t\t\t\t\t|\r\n| **currentDate**\t| (String\\|Date\\|Moment)\t\t| Initial Date\t\t\t\t\t\t\t\t\t|\r\n| **year**\t\t\t| Boolean\t\t\t\t\t\t| true => Has Yearpicker\t\t\t\t\t\t|\r\n| **date**\t\t\t| Boolean\t\t\t\t\t\t| true => Has Datepicker\t\t\t\t\t\t|\r\n| **disabledDays**\t| Array\t\t\t\t\t\t\t| Array containing day indices (1-7) to disable\t|\r\n| **time**\t\t\t| Boolean\t\t\t\t\t\t| true => Has Timepicker\t\t\t\t\t\t|\r\n| **clearButton**\t| Boolean\t\t\t\t\t\t| true => Show Clear Button\t\t\t\t\t\t|\r\n| **nowButton**\t\t| Boolean\t\t\t\t\t\t| true => Show Now Button\t\t\t\t\t\t|\r\n| **switchOnClick**\t| Boolean\t\t\t\t\t\t| true => Switch view on click (default: false) |\r\n| **cancelText**\t| String\t\t\t\t\t\t| Text for the cancel button (default: Cancel)\t|\r\n| **okText**\t\t| String\t\t\t\t\t\t| Text for the OK button (default: OK)\t\t\t|\r\n| **clearText**\t\t| String\t\t\t\t\t\t| Text for the Clear button (default: Clear)\t|\r\n| **nowText**\t\t| String\t\t\t\t\t\t| Text for the Now button (default: Now)\t\t|\r\n| **triggerEvent**\t\t| String\t\t\t\t\t\t| Event to fire the calendar (default: focus)\t\t|\r\n| **monthPicker**\t| Boolean\t\t\t\t\t\t| true => Act as monthpicker (hide calendar) (default: false) |\r\n\r\n\r\n\r\n### Events\r\n\r\n| Name\t\t\t\t| Parameters\t\t\t\t| Description\t\t\t\t\t\t\t\t\t\t|\r\n| ----------------- | ------------------------- | ------------------------------------------------- |\r\n| **beforeChange**\t| event, date\t\t\t\t| OK button is clicked\t\t\t\t\t\t\t\t|\r\n| **change**\t\t| event, date\t\t\t\t| OK button is clicked and input value is changed\t|\r\n| **yearSelected**\t        | event, date\t\t\t        | New year is selected\t\t\t\t\t\t\t\t|\r\n| **dateSelected**\t| event, date\t\t\t\t| New date is selected\t\t\t\t\t\t\t\t|\r\n| **open**\t        | event\t\t\t\t        | datepicker is opened\t\t\t\t\t\t\t\t|\r\n| **close**\t        | event\t\t\t\t        | datepicker is closed\t\t\t\t\t\t\t\t|\r\n\r\n\r\n### Methods\r\n\r\n        $('input').bootstrapMaterialDatePicker('setDate', moment());\r\n\r\n| Name\t\t\t\t| Parameter\t\t\t\t\t| Description\t\t\t\t\t|\r\n| ----------------- | ------------------------- | ----------------------------- |\r\n| **setDate**\t\t| (String\\|Date\\|Moment)\t| Set initial date\t\t\t\t|\r\n| **setMinDate**\t| (String\\|Date\\|Moment)\t| Set minimum selectable date\t|\r\n| **setMaxDate**\t| (String\\|Date\\|Moment)\t| Set maximum selectable date\t|\r\n| **destroy**\t\t| NULL\t\t\t\t\t\t| Destroy the datepicker\t\t|\r\n",
-  "readmeFilename": "README.md",
+  "dependencies": {
+    "moment": "~2.10.2",
+    "bootstrap": "~3.3.4",
+    "jquery": "1.12.3",
+    "bootstrap-material-design": "~0.3.0"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/T00rk/bootstrap-material-datetimepicker.git"
-  },
-  "version": "2.7.1"
+    "url": "https://github.com/T00rk/bootstrap-material-datetimepicker"
+  }
 }
