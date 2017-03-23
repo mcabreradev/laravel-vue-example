@@ -39,12 +39,11 @@ class User extends Authenticatable
     protected $hidden = ['password', 'remember_token'];
 
     /**
-     * Relacion con expedientes
-     *
+     * Relacion con las conexiones
      * @return Collection
      */
-    public function expedientes()
+    public function conexiones()
     {
-        return $this->belongsTo('App\Models\OficinaVirtual\Expediente');
+        return $this->belongsToMany('App\Models\OficinaVirtual\Conexion', 'conexion_user');
     }
 }
