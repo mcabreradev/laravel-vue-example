@@ -9,10 +9,8 @@ class="hold-transition login-page"
 <div class="login-box">
 
   <div class="login-box-body">
-    <div class="text-center">
-      <img src="{{ asset('img/dposs-logo.png') }}"><br><br>
-    </div>
-    <p class="login-box-msg">Oficina Virtual de la D.P.O.S.S</p>
+
+    @include('auth.encabezado')
 
     @if (count($errors) > 0)
       <div class="alert alert-danger">
@@ -28,7 +26,7 @@ class="hold-transition login-page"
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
       <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
-        <input name="email" value="{{ old('email') }}" type="email" class="form-control" placeholder="Email" required>
+        <input name="email" value="{{ old('email') }}" type="email" class="form-control" placeholder="E-mail" required>
         <span class="fa fa-envelope form-control-feedback"></span>
       </div>
 
@@ -40,7 +38,7 @@ class="hold-transition login-page"
       <div class="row">
 
         <div class="col-xs-12">
-          <a href="#">No recuerdo mi contraseña</a>
+          <a href="{{ route('auth::password.reset.form') }}">No recuerdo mi contraseña</a>
         </div>
 
         <div class="col-xs-12">

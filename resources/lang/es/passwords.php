@@ -17,6 +17,6 @@ return [
     'reset' => 'Tu contraseña fue reiniciada.',
     'sent' => 'Te enviamos un email con el enlace para reiniciar tu contraseña.',
     'token' => 'El tiempo para reiniciar tu contraseña caducó.',
-    'user' => "No podemos encontrar el usuario ingresado.",
+    'user' => 'No existe ningun usuario registrado con ese email.',
 
 ];

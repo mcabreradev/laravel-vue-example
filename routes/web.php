@@ -1,16 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It's a breeze. Simply tell Laravel the URIs it should respond to
-| and give it the controller to call when that URI is requested.
-|
-*/
-
 /**
  * Auth
  */
@@ -19,29 +8,44 @@ Route::group([
     'as'        => 'auth::'
 ], function() {
 
-    Route::get('/login', [
+    Route::get('login', [
         'as'   => 'login.form',
         'uses' => 'AuthController@showLoginForm'
     ]);
 
-    Route::post('/login', [
+    Route::post('login', [
         'as'   => 'login',
         'uses' => 'AuthController@login'
     ]);
 
-    Route::get('/logout', [
+    Route::get('logout', [
         'as'   => 'logout',
         'uses' => 'AuthController@logout'
     ]);
 
-    Route::get('/register', [
+    Route::get('register', [
         'as'   => 'register.form',
         'uses' => 'AuthController@showRegistrationForm'
     ]);
 
-    Route::post('/register', [
+    Route::post('register', [
         'as'   => 'register',
         'uses' => 'AuthController@register'
+    ]);
+
+    Route::get('password/reset/{token?}', [
+        'as'   => 'password.reset.form',
+        'uses' => 'PasswordController@showResetForm'
+    ]);
+
+    Route::post('password/reset', [
+        'as'   => 'password.reset',
+        'uses' => 'PasswordController@reset'
+    ]);
+
+    Route::post('password/email', [
+        'as'   => 'password.email',
+        'uses' => 'PasswordController@sendResetLinkEmail'
     ]);
 
     Route::get('/test', function(App\Contracts\DpossApiContract $api){

@@ -12,14 +12,7 @@ class="hold-transition register-page"
 @section('body-content')
 
 <div class="container">
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="text-center">
-        <img src="{{ asset('img/dposs-logo.png') }}"><br><br>
-        <p class="register-box-msg">Oficina Virtual de la D.P.O.S.S</p>
-      </div>
-    </div>
-  </div>
+  @include('auth.encabezado')
 
   <div class="row">
     <div class="col-xs-12">
@@ -95,7 +88,7 @@ class="hold-transition register-page"
         </div>
 
         <div class="form-group">
-          <label for="email">Email <span class="text-danger">*</span></label>
+          <label for="email">E-mail <span class="text-danger">*</span></label>
           <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}" required>
         </div>
 
