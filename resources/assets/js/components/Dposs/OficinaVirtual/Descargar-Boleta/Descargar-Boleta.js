@@ -13,8 +13,8 @@ export default {
   data: () => {
     return {
       conexion : '',
-      buscarSelect : '',
-      buscarInput: '',
+      buscarPorTipo : '',
+      buscarPorValor: '',
       boletas: [],
       otros: false
     };
@@ -35,8 +35,8 @@ export default {
 
         if(self.conexion == 'otros'){
           self.otros = true;
-          self.buscarSelect = '';
-          self.buscarInput = '';
+          self.buscarPorTipo = '';
+          self.buscarPorValor = '';
         }
 
         return self;
@@ -59,6 +59,12 @@ export default {
       return Laravel.baseUrl +
         laroute.route('api::v1::oficicina-virtual::boletas-pago.generar') +
         `?tipo-busqueda=${boleta.buscar_por.tipo}&busqueda=${boleta.buscar_por.valor}&periodo=${boleta.periodo_factura}`;
-    }
+    },
+
+    linkBoletaPagoManual: function(buscarPorTipo, buscarPorValor){
+      return (_.isEmpty(buscarPorTipo) || _.isEmpty(buscarPorValor)) ? null : Laravel.baseUrl +
+        laroute.route('api::v1::oficicina-virtual::boletas-pago.generar') +
+        `?tipo-busqueda=${buscarPorTipo}&busqueda=${buscarPorValor}`;
+    },
   }
 };
