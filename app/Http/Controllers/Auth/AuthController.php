@@ -8,11 +8,17 @@ use App\Models\Admin\User;
 use App\Models\OficinaVirtual\Conexion;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
+use Illuminate\Http\Request;
+use Jrean\UserVerification\Facades\UserVerification;
+use Jrean\UserVerification\Traits\VerifiesUsers;
 use Validator;
+use Flash;
+use Exception;
+use Auth;
 
 class AuthController extends Controller
 {
-    use AuthenticatesAndRegistersUsers, ThrottlesLogins;
+    use AuthenticatesAndRegistersUsers, ThrottlesLogins, VerifiesUsers;
 
     /**
      * Servicio para consultar la API de DPOSS. Inyectado en constructor
@@ -29,20 +35,26 @@ class AuthController extends Controller
      * Redirect URL when is not authenticated
      * @var string
      */
-    protected $loginPath = '/login';
+    protected $loginPath = 'login';
 
     /**
      * Where to redirect users after login / registration.
      *
      * @var string
      */
-    protected $redirectTo = '/';
+    protected $redirectTo = 'users/dashboard';
 
     /**
      * Default redirect after successful authentication
      * @var string
      */
-    protected $redirectAfterLogout = '/';
+    protected $redirectAfterLogout = 'login';
+
+    /**
+     * Subject del email de verificacion
+     * @var string
+     */
+    protected $verificationEmailSubject = 'D.P.O.S.S. verificar e-mail';
 
     /**
      * Create a new authentication controller instance.
@@ -52,7 +64,7 @@ class AuthController extends Controller
     public function __construct(DpossApiContract $dpossApi)
     {
         $this->dpossApi = $dpossApi;
-        $this->middleware($this->guestMiddleware(), ['except' => 'logout']);
+        $this->middleware($this->guestMiddleware(), ['except' => ['logout', 'getVerification', 'getVerificationError']]);
     }
 
     /**
@@ -95,13 +107,15 @@ class AuthController extends Controller
         ]);
 
         // Asocio al usuario con la conexion
-        $conexion = Conexion::create([
-            'expediente' => $this->boletaInfoCache->expediente,
-            'unidad'     => $this->boletaInfoCache->numero_unidad,
-            'domicilio'  => $this->boletaInfoCache->unidad_calle,
-        ]);
-        $conexion->users()->attach($user);
-        $conexion->save();
+        if ($this->boletaInfoCache !== null) {
+            $conexion = Conexion::create([
+                'expediente' => $this->boletaInfoCache->expediente,
+                'unidad'     => $this->boletaInfoCache->numero_unidad,
+                'domicilio'  => $this->boletaInfoCache->unidad_calle,
+            ]);
+            $conexion->users()->attach($user);
+            $conexion->save();
+        }
 
         return $user;
     }
@@ -135,6 +149,104 @@ class AuthController extends Controller
             $validator->errors()->add('nro_factura', 'Los datos ingresados no coinciden con ninguna factura');
         } else {
             $this->boletaInfoCache = $boletas->first();
+        }
+    }
+
+    /**
+     * Override
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $validator = $this->validator($request->all());
+
+        if ($validator->fails()) {
+            $this->throwValidationException(
+                $request, $validator
+            );
+        }
+
+        // custom start
+        $user = $this->create($request->all());
+
+        UserVerification::generate($user);
+
+        UserVerification::send($user, $this->verificationEmailSubject);
+
+        Flash::success('Te enviamos un correo para verificar tu e-mail y terminar con el registro.');
+
+        return redirect()->route('auth::login.form');
+        // custom end
+    }
+
+    /**
+     * Redirige al login si falla la verificacion de email
+     * @return [type] [description]
+     */
+    protected function redirectIfVerificationFails()
+    {
+        Flash::error('No pudimos verificar tu e-mail. Por favor contactate con nosotros para solucionar el inconveniente');
+        return redirect()->route('auth::login.form');
+    }
+
+    /**
+     * Redirige al dashboard si el usuario vuelve a usar el link de verificacion
+     * ya estando verificado
+     * @return [type] [description]
+     */
+    protected function redirectIfVerified()
+    {
+
+        try {
+            $user = User::where('email', request('email'))->firstOrFail();
+            Auth::guard($this->getGuard())->login($user);
+
+            return route('users.dashboard');
+        } catch (Exception $e) {
+            return route('auth::login.form');
+        }
+    }
+
+    /**
+     * Redirige al dashboard luego de una verificacion de email exitosa
+     * @return [type] [description]
+     */
+    protected function redirectAfterVerification()
+    {
+        try {
+            $user = User::where('email', request('email'))->firstOrFail();
+            Auth::guard($this->getGuard())->login($user);
+
+            Flash::success('Tu email se verificó correctamente. Podés empezar a utilizar nuestros servicios')
+                ->important();
+
+            return route('users.dashboard');
+        } catch (Exception $e) {
+            Flash::error('No pudimos verificar tu e-mail. Por favor contactate con nosotros para solucionar el inconveniente');
+            return route('auth::login.form');
+        }
+    }
+
+    /**
+     * Metodo que se ejecuta luego de que el usuario pudo ingresar correctamente
+     * Aqui aprovecharemos para impedir su ingreso si aun no verifico su email
+     *
+     * @param  Request $request [description]
+     * @param  User    $user    [description]
+     * @return [type]           [description]
+     */
+    protected function authenticated(Request $request, User $user)
+    {
+        if (!$user->verified) {
+            Auth::logout();
+            Flash::error('Aún no has verificado tu e-mail. Debes hacerlo para ingresar');
+            return redirect()->route('auth::login.form')
+                ->withInput();
+        } else {
+            return redirect()->intended($this->redirectPath());
         }
     }
 }

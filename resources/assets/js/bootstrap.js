@@ -71,7 +71,6 @@ Vue.http.headers.common['X-CSRF-TOKEN'] = Laravel.csrfToken;
 
 window.Router = require('./routes.js'); // old: ahora con window.laroute
 
-
 /**
 * Config
 */

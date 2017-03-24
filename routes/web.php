@@ -48,6 +48,16 @@ Route::group([
         'uses' => 'PasswordController@sendResetLinkEmail'
     ]);
 
+    Route::get('verification/{token}', [
+        'as'   => 'email.verification',
+        'uses' => 'AuthController@getVerification'
+    ]);
+
+    Route::get('verification/error', [
+        'as'   => 'email.verification.error',
+        'uses' => 'AuthController@getVerificationError'
+    ]);
+
     Route::get('/test', function(App\Contracts\DpossApiContract $api){
 
         // caso rosi

@@ -202,7 +202,15 @@ return [
          */
         Cocur\Slugify\Bridge\Laravel\SlugifyServiceProvider::class,
 
+        /**
+         * Provider para manejar la API de DPOSS
+         */
         App\Providers\DpossApiServiceProvider::class,
+
+        /**
+         * https://github.com/jrean/laravel-user-verification/tree/2.2
+         */
+        Jrean\UserVerification\UserVerificationServiceProvider::class,
 
     ],
 
@@ -284,6 +292,11 @@ return [
          * https://github.com/cocur/slugify
          */
         "Slugify" => Cocur\Slugify\Bridge\Laravel\SlugifyFacade::class,
+
+        /**
+         * https://github.com/jrean/laravel-user-verification/tree/2.2
+         */
+        //'UserVerification' => Jrean\UserVerification\Facades\UserVerification::class,
     ],
 
 ];

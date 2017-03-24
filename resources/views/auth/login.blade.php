@@ -12,6 +12,8 @@ class="hold-transition login-page"
 
     @include('auth.encabezado')
 
+    @include('flash::message')
+
     @if (count($errors) > 0)
       <div class="alert alert-danger">
         <ul>

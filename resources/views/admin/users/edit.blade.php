@@ -6,7 +6,7 @@
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('admin::users.list') }}">Users</a></li>
+<li><a href="{{ route('admin::users.list') }}">Usuarios</a></li>
 @endsection
 
 
@@ -29,6 +29,17 @@
         <div class="box-body">
 
           @include('admin.users.fields')
+
+          <div class="row">
+            <div class="col-xs-12">
+              <a href="#" class="btn btn-primary" onclick="return confirm('¿Confirma?')">
+                <i class="fa fa-lock"></i> Enviar correo para recuperar contraseña
+              </a>
+              <a href="#" class="btn btn-primary" onclick="return confirm('¿Confirma?')">
+                <i class="fa fa-envelope"></i> Enviar correo para verificar e-mail
+              </a>
+            </div>
+          </div>
         </div>
 
         <div class="box-footer">

@@ -59,7 +59,7 @@ class="hold-transition register-page"
           <label for="monto_factura">Monto de factura <span class="text-danger">*</span></label>
           <div class="input-group">
             <input type="number" class="form-control" name="monto_factura" id="monto_factura"
-              value="{{ old('monto_factura', '0.00') }}" required step=".01" pattern="[0-9]+([\.,][0-9][0-9])?">
+              value="{{ old('monto_factura') }}" required step=".01" pattern="[0-9]+([\.,][0-9][0-9])?">
             <span class="input-group-btn">
               <a href="http://dposs.gob.ar/wordpress/wp-content/uploads/2017/03/factura-ayuda-monto.jpg" class="btn btn-warning" target="_blank" rel="noopener noreferrer"><i class="fa fa-question-circle"></i>  </a>
             </span>
