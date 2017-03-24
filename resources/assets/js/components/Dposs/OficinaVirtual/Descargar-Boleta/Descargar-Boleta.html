@@ -27,12 +27,12 @@
         </div>
 
         </div>
-        <div class="col-xs-6">
+        <div class="col-xs-4">
           <label>Número de unidad o expediente</label>
           <input type="text" v-model="buscarInput" class="form-control" required>
         </div>
 
-        <div class="col-xs-2">
+        <div class="col-xs-4">
           <label>&nbsp;</label>
           <a v-href="" role="button" class="btn btn-block btn-success btn-md">Descargar <i class="fa fa-download" aria-hidden="true"></i></a>
         </div>
@@ -75,11 +75,15 @@
                   <td class="actions-column">
                     <div class="actions-group">
 
-                      <button v-if="boleta.status == 'Descargar'" type="button" class="btn btn-block btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Descargar boleta" @click="descargarBoleta(boleta)">{{ boleta.status }}</button>
+                      <a v-if="boleta.status == 'Descargar'" class="btn btn-block btn-primary btn-xs"
+                        :href="linkBoletaPago(boleta)" data-toggle="tooltip" data-placement="top"
+                        title="Descargar boleta" target="_blank">
+                        {{ boleta.status }}
+                      </a>
 
-                      <button v-if="boleta.status == 'Pagado'" type="button" class="btn btn-block btn-info btn-xs">{{ boleta.status }}</button>
+                      <h4 v-if="boleta.status == 'Pagado'"><span class="label label-success" style="font-weight: 300">{{ boleta.status }}</span></h4>
 
-                      <button v-if="boleta.status == 'Vencida'" type="button" class="btn btn-block btn-danger btn-xs">{{ boleta.status }}</button>
+                      <h4 v-if="boleta.status == 'Vencida'"><span class="label label-danger" style="font-weight: 300">{{ boleta.status }}</span></h4>
 
                     </div>
                   </td>

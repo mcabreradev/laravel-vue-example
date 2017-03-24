@@ -20,15 +20,20 @@ class BoletaPagoController extends Controller
 {
     public static $TIPO_CONTENIDO = 'oficina-virtual.boletas-de-pago';
 
+    public function __construct(DpossApiContract $api)
+    {
+        $this->dpossApi = $api;
+    }
+
     /**
      * [boletasToCollection description]
-     * @param  [type] $boletasResponse [description]
+     * @param  [type] $boletas [description]
      * @param  [type] $periodo         [description]
      * @return [type]                  [description]
      */
-    private function boletasToCollection($boletasResponse, $periodo)
+    private function boletasToCollection($boletas, $periodo)
     {
-        return collect($boletasResponse)->filter(function ($value, $key) use ($periodo) {
+        return $boletas->filter(function ($value, $key) use ($periodo) {
             return $value->periodo_factura === $periodo;
         })->map(function ($item, $key) {
             return new BoletaPago($item);
@@ -42,40 +47,33 @@ class BoletaPagoController extends Controller
      */
     private function getDatosBoleta($fields)
     {
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, env('DPOSS_API_BASE') . 'usuarios');
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 8);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        $boletasParsed = collect([]);
 
-        $response = curl_exec($ch);
-        $info     = curl_getinfo($ch);
-
-        curl_close($ch);
-
-        if ($info['http_code'] == 200 && $response) {
-
-            $parsedResponse = json_decode($response);
+        if ($fields['periodo'] === null) {
+            $boletas = $this->dpossApi->getUltimasBoletas($fields['expediente'], $fields['unidad']);
 
             // obtengo el period actual y el anterior
             $periodoActual   = Carbon::now()->format('Ym');
             $periodoAnterior = Carbon::now()->subMonth()->format('Ym');
 
             // boletas filtradas por periodo actual
-            $boletas = $this->boletasToCollection($parsedResponse, $periodoActual);
+            $boletasParsed = $this->boletasToCollection($boletas, $periodoActual);
 
             // si no tengo boletas del periodo actual busco las del anterior
-            if ($boletas->isEmpty()) {
-                $boletas = $this->boletasToCollection($parsedResponse, $periodoAnterior);
+            if ($boletasParsed->isEmpty()) {
+                $boletasParsed = $this->boletasToCollection($boletas, $periodoAnterior);
             }
+        } else {
+            $boletas = $this->dpossApi->getUltimasBoletas($fields['expediente'], $fields['unidad']);
 
-          return $boletas;
+            $boletasParsed = $this->boletasToCollection($boletas, $fields['periodo']);
         }
-        else {
-          return collect([]);
+
+        if ($boletasParsed->isEmpty()) {
+            return $boletasParsed;
         }
+
+        return $boletasParsed;
     }
 
     /**
@@ -91,12 +89,13 @@ class BoletaPagoController extends Controller
             return response()->json(['error' => 'No se encontró boleta de pago con los datos ingresados'], 404);
         }
 
-        if ($request->input('tipo-busqueda') === 'expediente') {
-            $boletasPago = $this->getDatosBoleta(['numero_expediente' => $request->input('busqueda')]);
-        }
-        else {
-            $boletasPago = $this->getDatosBoleta(['numero_unidad' => $request->input('busqueda')]);
-        }
+        $fields = [
+            'expediente' => $request->input('tipo-busqueda') === 'expediente' ? $request->input('busqueda') : null,
+            'unidad'     => $request->input('tipo-busqueda') === 'unidad' ? $request->input('busqueda') : null,
+            'periodo'    => $request->has('periodo') ? $request->input('periodo') : null,
+        ];
+
+        $boletasPago = $this->getDatosBoleta($fields);
 
         // si no obtuve resultados por expediente o unidad respondo con un error
         if ($boletasPago->isEmpty()) {

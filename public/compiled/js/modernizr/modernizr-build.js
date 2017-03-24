@@ -1,6 +1,6 @@
 /*!
- * modernizr v3.3.1
- * Build http://modernizr.com/download?-inputtypes-dontmin
+ * modernizr v3.4.0
+ * Build https://modernizr.com/download?-inputtypes-dontmin
  *
  * Copyright (c)
  *  Faruk Ates
@@ -36,7 +36,7 @@
 
   var ModernizrProto = {
     // The current version, dummy
-    _version: '3.3.1',
+    _version: '3.4.0',
 
     // Any settings that don't work as separate modules
     // can go in here as configuration.
@@ -159,7 +159,6 @@
             Modernizr[featureNameSplit[0]] = result;
           } else {
             // cast to a Boolean, if not one already
-            /* jshint -W053 */
             if (Modernizr[featureNameSplit[0]] && !(Modernizr[featureNameSplit[0]] instanceof Boolean)) {
               Modernizr[featureNameSplit[0]] = new Boolean(Modernizr[featureNameSplit[0]]);
             }

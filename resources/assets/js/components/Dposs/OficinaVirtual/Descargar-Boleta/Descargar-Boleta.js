@@ -54,19 +54,10 @@ export default {
       return self;
     },
 
-    descargarBoleta: function(boleta){
-      var self = this;
-
-      var route = Laravel.baseUrl + laroute.route('api::v1::oficicina-virtual::boletas-pago.generar') + `?tipo-busqueda=${boleta.buscar_por.tipo}&busqueda=${boleta.buscar_por.valor}`;
-
-      self.$http
-        .get(route, self.conexion)
-        .then(
-          res => console.log(res),
-          err => console.error("Error: ", err)
-        );
-
-      return self;
+    linkBoletaPago: function(boleta){
+      return Laravel.baseUrl +
+        laroute.route('api::v1::oficicina-virtual::boletas-pago.generar') +
+        `?tipo-busqueda=${boleta.buscar_por.tipo}&busqueda=${boleta.buscar_por.valor}&periodo=${boleta.periodo_factura}`;
     }
   }
 };

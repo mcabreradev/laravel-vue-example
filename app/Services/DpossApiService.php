@@ -43,7 +43,7 @@ class DpossApiService implements DpossApiContract
 
         // @TODO agregar campos "calculados": domicilio, factura, nomenclatura !!!!!!!!!!!!!!!!
 
-        $response =collect(json_decode($response->getBody()));
+        $response = collect(json_decode($response->getBody()));
 
         $response->map(function ($i) {
             $i->domicilio = $i->unidad_calle . ' ' .$i->unidad_numero_puerta . ''. ($i->unidad_piso > 0 ? ' '.$i->unidad_piso : '') . ''. ($i->unidad_departamento > 0 ? ' '.$i->unidad_departamento : '');
