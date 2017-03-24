@@ -42,7 +42,7 @@
       hide: function () {
         setTimeout(() => {
           this.active = false;
-        }, 500);
+        }, 100);
       },
 
       checkActive: function() {

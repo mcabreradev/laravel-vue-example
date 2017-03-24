@@ -21,12 +21,12 @@ export default {
   },
 
   mounted() {
+
   },
+
   methods: {
 
     getBoletas: function() {
-      Events.$emit('indicator.show');
-
       var self = this;
       self.boletas = [];
       self.otros = false;
@@ -42,13 +42,14 @@ export default {
         return self;
       }
 
+      Events.$emit('indicator.show');
+
       var route = Laravel.baseUrl + laroute.route('oficina-virtual::boletas-de-pago-query');
       self.$http
         .post(route, self.conexion)
         .then(
-          res => self.boletas = res.body.data,
-          err => console.error("Error: ", err),
-          () => Events.$emit('indicator.hide')
+          res => { self.boletas = res.body.data; Events.$emit('indicator.hide'); },
+          err => { console.error("Error: ", err); Events.$emit('indicator.hide'); }
         );
 
       return self;

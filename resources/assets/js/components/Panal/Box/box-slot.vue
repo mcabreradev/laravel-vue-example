@@ -12,6 +12,9 @@
     <div class="box-footer" v-if="hasFooter">
       <slot name="footer"></slot>
     </div>
+
+    <panal-indicator/>
+
   </div>
 </template>
 
