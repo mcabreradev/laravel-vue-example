@@ -18,12 +18,17 @@
       {!! csrf_field() !!}
       {{ method_field('PUT') }}
 
+      @if (session('status'))
+        <div class="alert alert-success">
+          {{ session('status') }}
+        </div>
+      @endif
       @include('flash::message')
 
       <div class="box">
 
         <div class="box-header with-border">
-          <h3 class="box-title">Editando rol</h3>
+          <h3 class="box-title">Editando usuario</h3>
         </div>
 
         <div class="box-body">
@@ -32,10 +37,10 @@
 
           <div class="row">
             <div class="col-xs-12">
-              <a href="#" class="btn btn-primary" onclick="return confirm('¿Confirma?')">
+              <a href="{{ route('admin::users.send-reset-password') }}?email={{ $user->email }}" class="btn btn-primary" onclick="return confirm('¿Confirma?')">
                 <i class="fa fa-lock"></i> Enviar correo para recuperar contraseña
               </a>
-              <a href="#" class="btn btn-primary" onclick="return confirm('¿Confirma?')">
+              <a href="{{ route('admin::users.send-verification-email', $user->id) }}" class="btn btn-primary" onclick="return confirm('¿Confirma?')">
                 <i class="fa fa-envelope"></i> Enviar correo para verificar e-mail
               </a>
             </div>

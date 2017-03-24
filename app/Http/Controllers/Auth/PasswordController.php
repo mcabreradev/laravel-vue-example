@@ -13,7 +13,7 @@ class PasswordController extends Controller
      * Subject del email de recuperacion
      * @var string
      */
-    protected $subject = 'D.P.O.S.S. recuperar contraseña';
+    protected $subject = env('EMAIL_RESET_SUBJECT', 'D.P.O.S.S.');
 
     /**
      * Where to redirect users after password reset.
@@ -29,6 +29,7 @@ class PasswordController extends Controller
      */
     public function __construct()
     {
+        $this->subject = env('EMAIL_RESET_SUBJECT', 'D.P.O.S.S.');
         $this->middleware('guest');
     }
 

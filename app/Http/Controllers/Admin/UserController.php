@@ -10,11 +10,36 @@ use App\Models\Admin\User;
 use App\Transformers\Admin\UserTransformer;
 use Auth;
 use Flash;
+use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use Jrean\UserVerification\Facades\UserVerification;
 use Lang;
 
 class UserController extends ApiController
 {
+    use ResetsPasswords;
+
+    /**
+     * Subject del email de verificacion
+     * @var string
+     */
+    protected $verificationEmailSubject = '';
+
+    /**
+     * Subject del email de recuperacion
+     * @var string
+     */
+    protected $subject = '';
+
+    /**
+     * [__construct description]
+     */
+    public function __construct()
+    {
+        $this->verificationEmailSubject = env('EMAIL_VERIFY_SUBJECT', 'D.P.O.S.S.');
+        $this->subject = env('EMAIL_RESET_SUBJECT', 'D.P.O.S.S.');
+    }
+
     /**
      * [assignValues description]
      * @param  [type] $user    [description]
@@ -213,5 +238,15 @@ class UserController extends ApiController
     public function dashboard()
     {
         return view('users.dashboard');
+    }
+
+    public function sendVerificationEmail(User $user)
+    {
+        UserVerification::generate($user);
+        UserVerification::send($user, $this->verificationEmailSubject);
+
+        Flash::success('Enviamos un correo para que el usuario pueda verificar su e-mail.');
+
+        return redirect()->back();
     }
 }

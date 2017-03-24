@@ -54,7 +54,7 @@ class AuthController extends Controller
      * Subject del email de verificacion
      * @var string
      */
-    protected $verificationEmailSubject = 'D.P.O.S.S. verificar e-mail';
+    protected $verificationEmailSubject = '';
 
     /**
      * Create a new authentication controller instance.
@@ -63,6 +63,7 @@ class AuthController extends Controller
      */
     public function __construct(DpossApiContract $dpossApi)
     {
+        $this->verificationEmailSubject = env('EMAIL_VERIFY_SUBJECT', 'D.P.O.S.S.');
         $this->dpossApi = $dpossApi;
         $this->middleware($this->guestMiddleware(), ['except' => ['logout', 'getVerification', 'getVerificationError']]);
     }
