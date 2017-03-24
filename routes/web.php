@@ -63,18 +63,19 @@ Route::group([
         // caso rosi
         $r = $api->getUltimasBoletas(19401, 26792);
         // o $r = $api->getUltimasBoletas(null, 26792);
+        dd($r);
 
-        // caso rosi periodo 201703
-        $rp = $api->getBoletasPorPeriodo(19401, 26792, 201703);
-        // o $r = $api->getBoletasPorPeriodo(null, 26792, 201703);
+        // // caso rosi periodo 201703
+        // $rp = $api->getBoletasPorPeriodo(19401, 26792, 201703);
+        // // o $r = $api->getBoletasPorPeriodo(null, 26792, 201703);
 
-        // caso chino
-        $c = $api->getUltimasBoletas(247, null);
+        // // caso chino
+        // $c = $api->getUltimasBoletas(247, null);
 
-        // caso chino periodo 201703
-        $cp = $api->getBoletasPorPeriodo(247, null, 201703);
+        // // caso chino periodo 201703
+        // $cp = $api->getBoletasPorPeriodo(247, null, 201703);
 
-        dd([$r, $rp, $c, $cp]);
+        // dd([$r, $rp, $c, $cp]);
     });
 });
 
@@ -322,6 +323,11 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('/boletas-de-pago', [
             'as'   => 'boletas-de-pago',
             'uses' => 'BoletaPagoController@main'
+        ]);
+
+        Route::post('/boletas-de-pago-query', [
+            'as'   => 'boletas-de-pago-query',
+            'uses' => 'BoletaPagoController@query'
         ]);
 
     }); // OficinaVirtual group

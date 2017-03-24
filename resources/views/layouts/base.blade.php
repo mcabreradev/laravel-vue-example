@@ -16,5 +16,6 @@
 
     @include('layouts.body-commons')
     @yield('body-scripts')
+    @stack('body-scripts')
 </body>
 </html>

@@ -37,7 +37,7 @@ class Conexion extends AppModel
      *
      * @var [type]
      */
-    protected $appends = ['domicilio_completo'];
+    protected $appends = ['domicilio_completo', 'tipo_busqueda'];
 
     /**
      * Obtiene el domicilio
@@ -61,6 +61,14 @@ class Conexion extends AppModel
         }
 
         return $domicilio;
+    }
+
+    /**
+     *
+     * @return void
+     */
+    public function getTipoBusquedaAttribute(){
+        return '{"unidad":'.$this->unidad.', "expediente":'.$this->expediente.'}';
     }
 
     /**

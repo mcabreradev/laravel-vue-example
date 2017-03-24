@@ -39,10 +39,5 @@ class AuthorizationUsersSeeder extends Seeder
         $user->email    = 'web@app.com';
         $user->password = bcrypt('123456');
         $user->save();
-
-        $role = Role::where('name', 'usuario-web')->first();
-
-        $user->attachRole($role);
-        $user->save();
     }
 }

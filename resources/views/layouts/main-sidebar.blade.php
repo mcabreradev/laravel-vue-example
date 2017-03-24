@@ -18,8 +18,6 @@
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
 
-      <li class="header">Módulos</li>
-
       @include('admin.menu')
 
       @include('oficina-virtual.pedidos.menu')
