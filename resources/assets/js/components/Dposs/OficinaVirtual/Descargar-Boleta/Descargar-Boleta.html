@@ -11,15 +11,13 @@
           </select>
         </div>
       </form>
-    </div>
 
-    <div slot="footer">
       <div class="row" v-if="otros">
 
         <div class="col-xs-4">
           <div class="form-group">
           <label>Buscar por:</label>
-          <select class="form-control" v-model="buscarSelect" required>
+          <select class="form-control" v-model="buscarPorTipo" required>
             <option value="">Seleccione</option>
             <option value="expediente">Expediente</option>
             <option value="unidad">Unidad</option>
@@ -29,16 +27,22 @@
         </div>
         <div class="col-xs-4">
           <label>Número de unidad o expediente</label>
-          <input type="text" v-model="buscarInput" class="form-control" required>
+          <input type="text" v-model="buscarPorValor" class="form-control">
         </div>
 
         <div class="col-xs-4">
           <label>&nbsp;</label>
-          <a v-href="" role="button" class="btn btn-block btn-success btn-md">Descargar <i class="fa fa-download" aria-hidden="true"></i></a>
+          <a :href="linkBoletaPagoManual(buscarPorTipo, buscarPorValor)" role="button"
+            class="btn btn-block btn-success btn-md" data-toggle="tooltip" data-placement="top"
+            title="Descargar boleta" target="_blank" rel="noopener noreferrer">
+            <i class="fa fa-download" aria-hidden="true"></i> Descargar
+          </a>
         </div>
 
       </div>
+
     </div>
+
   </panal-box-slot>
 
   <panal-box-slot v-if="boletas.length > 0">
@@ -94,13 +98,6 @@
         </div>
         <!--End table container-->
       </div>
-      <panal-indicator></panal-indicator>
-    </div>
-  </panal-box-slot>
-
-  <panal-box-slot v-if="0">
-    <div slot="body">
-
     </div>
   </panal-box-slot>
 

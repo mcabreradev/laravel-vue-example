@@ -86,7 +86,7 @@ class BoletaPagoController extends Controller
         $boletasPago = collect([]);
 
         if (!$request->has('tipo-busqueda') || !$request->has('busqueda')) {
-            return response()->json(['error' => 'No se encontró boleta de pago con los datos ingresados'], 404);
+            return view('oficina-virtual.boletas-de-pago.boleta-pago-not-found');
         }
 
         $fields = [
@@ -99,7 +99,7 @@ class BoletaPagoController extends Controller
 
         // si no obtuve resultados por expediente o unidad respondo con un error
         if ($boletasPago->isEmpty()) {
-            return response()->json(['error' => 'No se encontró boleta de pago con los datos ingresados'], 404);
+            return view('oficina-virtual.boletas-de-pago.boleta-pago-not-found');
         }
 
         // Aquí sigue configuración básica del PDF
@@ -135,7 +135,7 @@ class BoletaPagoController extends Controller
                 [$boletaPago->getCodigoDposs(), 'C39', '', '', '', '16', 0.4, $bar_code_style, 'N']
             );
 
-            $html = view('oficina-virtual.boleta-pago')
+            $html = view('oficina-virtual.boletas-de-pago.boleta-pago-print')
                 ->with('boletaPago', $boletaPago)
                 ->with('codigoDposs', $codigoDposs)
                 ->render();

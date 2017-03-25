@@ -13,20 +13,20 @@ export default {
   data: () => {
     return {
       conexion : '',
-      buscarSelect : '',
-      buscarInput: '',
+      buscarPorTipo : '',
+      buscarPorValor: '',
       boletas: [],
       otros: false
     };
   },
 
   mounted() {
+
   },
+
   methods: {
 
     getBoletas: function() {
-      Events.$emit('indicator.show');
-
       var self = this;
       self.boletas = [];
       self.otros = false;
@@ -35,22 +35,21 @@ export default {
 
         if(self.conexion == 'otros'){
           self.otros = true;
-          self.buscarSelect = '';
-          self.buscarInput = '';
+          self.buscarPorTipo = '';
+          self.buscarPorValor = '';
         }
 
         return self;
       }
 
-      console.log(self.conexion);
+      Events.$emit('indicator.show');
 
       var route = Laravel.baseUrl + laroute.route('oficina-virtual::boletas-de-pago-query');
       self.$http
         .post(route, self.conexion)
         .then(
-          res => self.boletas = res.body.data,
-          err => console.error("Error: ", err),
-          () => Events.$emit('indicator.hide')
+          res => { self.boletas = res.body.data; Events.$emit('indicator.hide'); },
+          err => { console.error("Error: ", err); Events.$emit('indicator.hide'); }
         );
 
       return self;
@@ -60,6 +59,12 @@ export default {
       return Laravel.baseUrl +
         laroute.route('api::v1::oficicina-virtual::boletas-pago.generar') +
         `?tipo-busqueda=${boleta.buscar_por.tipo}&busqueda=${boleta.buscar_por.valor}&periodo=${boleta.periodo_factura}`;
-    }
+    },
+
+    linkBoletaPagoManual: function(buscarPorTipo, buscarPorValor){
+      return (_.isEmpty(buscarPorTipo) || _.isEmpty(buscarPorValor)) ? null : Laravel.baseUrl +
+        laroute.route('api::v1::oficicina-virtual::boletas-pago.generar') +
+        `?tipo-busqueda=${buscarPorTipo}&busqueda=${buscarPorValor}`;
+    },
   }
 };
