@@ -54,8 +54,17 @@ class DpossApiService implements DpossApiContract
             $i->vencimiento1 = Carbon::parse($i->fecha_vencimiento_1)->format('d/m/Y') . ' - $' . $i->monto_total_origen;
             $i->vencimiento2 = Carbon::parse($i->fecha_vencimiento_2)->format('d/m/Y') . ' - $' . $i->monto_vencimiento_2;
             $i->vencimiento3 = Carbon::parse($i->fecha_vencimiento_3)->format('d/m/Y') . ' - $' . $i->monto_vencimiento_3;
-            $i->status = ($i->saldo == 0) ? 'Pagado' : (Carbon::now()->format('d/m/Y') > Carbon::parse($i->fecha_vencimiento_3)->format('d/m/Y') ? 'Vencida': 'Descargar');
             $i->buscar_por = $i->numero_unidad != null ? ['tipo' => 'unidad', 'valor' => $i->numero_unidad] : ['tipo' => 'expediente', 'valor' => $i->expediente];
+
+            // status
+            if ($i->saldo == 0) {
+                $i->status = 'Pagado';
+            } else {
+                $now = Carbon::now();
+                $ultVen = Carbon::parse($i->fecha_vencimiento_3);
+
+                $i->status = $now->gt($ultVen) ? 'Vencida': 'Descargar';
+            }
 
             return $i;
         });
