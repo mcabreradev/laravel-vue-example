@@ -21,6 +21,7 @@ class AuthorizationUsersSeeder extends Seeder
         $user           = new User();
         $user->name     = 'admin';
         $user->email    = 'admin@app.com';
+        $user->verified = true;
         $user->password = bcrypt('123456');
         $user->save();
 
@@ -37,6 +38,7 @@ class AuthorizationUsersSeeder extends Seeder
         $user           = new User();
         $user->name     = 'web';
         $user->email    = 'web@app.com';
+        $user->verified = true;
         $user->password = bcrypt('123456');
         $user->save();
     }

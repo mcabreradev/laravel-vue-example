@@ -67,8 +67,9 @@ class Conexion extends AppModel
      *
      * @return void
      */
-    public function getTipoBusquedaAttribute(){
-        return '{"unidad":'.$this->unidad.', "expediente":'.$this->expediente.'}';
+    public function getTipoBusquedaAttribute()
+    {
+        return '{"unidad":'.($this->unidad ?: 'null').', "expediente":'.($this->expediente ?: 'null').'}';
     }
 
     /**

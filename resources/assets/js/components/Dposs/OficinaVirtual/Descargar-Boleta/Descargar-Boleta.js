@@ -42,6 +42,8 @@ export default {
         return self;
       }
 
+      console.log(self.conexion);
+
       var route = Laravel.baseUrl + laroute.route('oficina-virtual::boletas-de-pago-query');
       self.$http
         .post(route, self.conexion)

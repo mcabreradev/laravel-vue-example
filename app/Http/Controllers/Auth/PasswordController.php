@@ -13,7 +13,7 @@ class PasswordController extends Controller
      * Subject del email de recuperacion
      * @var string
      */
-    protected $subject = env('EMAIL_RESET_SUBJECT', 'D.P.O.S.S.');
+    protected $subject = '';
 
     /**
      * Where to redirect users after password reset.

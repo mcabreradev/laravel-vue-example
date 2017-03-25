@@ -13,12 +13,21 @@ class ConexionUserTableSeeder extends Seeder
      */
     public function run()
     {
+        $adminUser = User::where('email', 'admin@app.com')->first();
+        $webUser = User::where('email', 'web@app.com')->first();
+
         $conexion = Conexion::create([
             'expediente' => '19401',
             'unidad'     => '26792',
             'domicilio'  => 'GABRIEL GARCIA MARQUEZ 4466'
         ]);
-        $user = User::where('email', 'web@app.com')->first();
-        $conexion->users()->attach([$user->id]);
+        $conexion->users()->attach([$adminUser->id, $webUser->id]);
+
+        $conexion = Conexion::create([
+            'expediente' => '247',
+            'unidad'     => null,
+            'domicilio'  => ''
+        ]);
+        $conexion->users()->attach([$adminUser->id, $webUser->id]);
     }
 }
