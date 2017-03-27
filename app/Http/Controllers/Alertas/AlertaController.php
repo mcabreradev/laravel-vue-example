@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers\Alertas;
 
-use Flash;
-use DateTime;
-use Carbon\Carbon;
-use App\Http\Requests;
-use App\Models\Geo\Barrio;
-use Illuminate\Http\Request;
-use App\Models\Alertas\Alerta;
-use App\Models\Alertas\Estado;
-use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
+use App\Http\Requests;
+use App\Models\Alertas\Alerta;
 use App\Models\Alertas\AlertaDetalle;
+use App\Models\Alertas\Estado;
+use App\Models\Geo\Barrio;
+use App\Repositories\Alertas\AlertaRepository;
+use Carbon\Carbon;
+use DateTime;
+use Flash;
+use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class AlertaController extends Controller
 {
@@ -533,23 +534,6 @@ class AlertaController extends Controller
      */
     public function getEstadoServicio()
     {
-        $estadoServicio = new \StdClass();
-        $nowStr = Carbon::now()->toDateTimeString();
-
-        $vigentes = Alerta::where('inicia_el', '<=', $nowStr)
-            ->where('finaliza_el', '>=', $nowStr)
-            ->take(1)
-            ->get()
-            ->count();
-
-        $futuras = Alerta::where('inicia_el', '>=', $nowStr)
-            ->take(1)
-            ->get()
-            ->count();
-
-        $estadoServicio->vigente = ($vigentes > 0 ? 'Algunos barrios afectados' : 'Funcionando normalmente');
-        $estadoServicio->futuro  = ($futuras > 0 ? 'Algunos barrios afectados' : 'Sin inconvenientes');
-
-        return response()->json($estadoServicio, 200);
+        return response()->json(AlertaRepository::estadoServicio(), 200);
     }
 }

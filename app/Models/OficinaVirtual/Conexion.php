@@ -52,12 +52,12 @@ class Conexion extends AppModel
 
         // agrego expediente
         if (null !== $this->expediente) {
-            $domicilio .= ($domicilio ? ' ' : '') . "- Expediente: {$this->expediente}";
+            $domicilio .= ($domicilio ? ' - ' : '') . "Expediente: {$this->expediente}";
         }
 
         // agrego unidad
         if (null !== $this->unidad) {
-            $domicilio .= ($domicilio ? ' ' : '') . "- Unidad: {$this->unidad}";
+            $domicilio .= ($domicilio ? ' - ' : '') . "Unidad: {$this->unidad}";
         }
 
         return $domicilio;

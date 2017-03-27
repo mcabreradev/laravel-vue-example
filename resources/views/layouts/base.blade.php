@@ -3,6 +3,7 @@
 <head>
     @include('layouts.head-commons')
     @yield('head-scripts')
+    @stack('head-scripts')
 </head>
 
 <body

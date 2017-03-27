@@ -2,24 +2,29 @@
 
 namespace app\Http\Controllers\OficinaVirtual;
 
-use PDF;
-use Auth;
-use DNS1D;
-use Carbon\Carbon;
-use App\Http\Requests;
-use App\Models\Admin\User;
-use Illuminate\Http\Request;
 use App\Contracts\DpossApiContract;
 use App\Http\Controllers\Controller;
-use App\Models\OficinaVirtual\Conexion;
-use Illuminate\Support\Facades\Response;
+use App\Http\Requests;
+use App\Models\Admin\User;
 use App\Models\OficinaVirtual\BoletaPago;
+use App\Models\OficinaVirtual\Conexion;
+use App\Repositories\Admin\UserRepository;
+use Auth;
+use Carbon\Carbon;
+use DNS1D;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Response;
+use PDF;
 use Tecnickcom\Tcpdf\Tcpdf_barcodes_1d as TCPDFBarcode;
 
 class BoletaPagoController extends Controller
 {
     public static $TIPO_CONTENIDO = 'oficina-virtual.boletas-de-pago';
 
+    /**
+     * [__construct description]
+     * @param DpossApiContract $api [description]
+     */
     public function __construct(DpossApiContract $api)
     {
         $this->dpossApi = $api;
@@ -162,10 +167,8 @@ class BoletaPagoController extends Controller
      * @return void
      */
     public function main(){
-        $user = User::find(Auth::user()->id);
-
         return view($this::$TIPO_CONTENIDO.'.main', [
-            'conexiones' => $user->conexiones()->get()
+            'conexiones' => Auth::user()->conexiones()->get()
         ]);
     }
 
@@ -181,4 +184,25 @@ class BoletaPagoController extends Controller
         return response()->json(['data' => $data, 'responseText' => 'ok'], 200);
     }
 
+    /**
+     * [adeudadas description]
+     * @param  DpossApiContract $api [description]
+     * @return [type]                [description]
+     */
+    public function adeudadas(UserRepository $userRepository)
+    {
+        return view('oficina-virtual.boletas-de-pago.adeudadas', [
+            'boletas' => $userRepository->getAllBoletasImpagas(Auth::user())
+        ]);
+    }
+
+    /**
+     * [resumenHistorico description]
+     */
+    public function resumenFacturas()
+    {
+        return view('oficina-virtual.boletas-de-pago.resumen-historico', [
+            'conexiones' => Auth::user()->conexiones()->get()
+        ]);
+    }
 }

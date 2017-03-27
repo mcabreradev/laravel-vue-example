@@ -122,14 +122,29 @@ Route::group(['middleware' => ['auth']], function() {
         'prefix'    => 'oficina-virtual'
     ], function() {
 
-        Route::get('/boletas-de-pago', [
+        Route::get('boletas-de-pago', [
             'as'   => 'boletas-de-pago',
             'uses' => 'BoletaPagoController@main'
         ]);
 
-        Route::post('/boletas-de-pago-query', [
+        Route::get('resumen-historico', [
+            'as'   => 'resumen-historico-facturas',
+            'uses' => 'BoletaPagoController@resumenFacturas'
+        ]);
+
+        Route::post('boletas-de-pago-query', [
             'as'   => 'boletas-de-pago-query',
             'uses' => 'BoletaPagoController@query'
+        ]);
+
+        Route::get('facturas-adeudadas', [
+            'as'   => 'facturas-adeudadas',
+            'uses' => 'BoletaPagoController@adeudadas'
+        ]);
+
+        Route::get('solicitar-libre-deuda', [
+            'as'   => 'solicitar-libre-deuda',
+            'uses' => 'LibreDeudaController@solicitarLibreDeuda'
         ]);
 
     }); // OficinaVirtual group

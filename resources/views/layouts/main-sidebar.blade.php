@@ -18,9 +18,15 @@
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
 
+      @include('oficina-virtual.menu')
+
+      @if(auth()->user()->roles()->count())
+        <li class="header">Administración</li>
+      @endif
+
       @include('admin.menu')
 
-      @include('oficina-virtual.pedidos.menu')
+      {{-- @include('oficina-virtual.pedidos.menu') --}}
 
       @include('alertas.menu')
 
@@ -28,7 +34,6 @@
 
       @include('solicitudes.menu')
 
-      @include('oficina-virtual.menu')
     </ul>
     <!-- /.sidebar-menu -->
   </section>

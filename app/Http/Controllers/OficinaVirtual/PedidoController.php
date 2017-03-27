@@ -11,6 +11,7 @@ use App\Models\OficinaVirtual\Pedido;
 use App\Models\OficinaVirtual\Usuario;
 use App\Http\Requests\OficinaVirtual\PedidoStoreRequest;
 use App\Http\Requests\OficinaVirtual\PedidoUpdateRequest;
+use Exception;
 
 class PedidoController extends Controller
 {
@@ -218,13 +219,18 @@ class PedidoController extends Controller
      */
     public function solicitarLibreDeuda(Request $request)
     {
-        Mail::send('emails.libre-deuda', ['data' => $request->input()], function ($message) {
-            $message->from('no-reply@dposs.gov.ar', 'DPOSS WEB')
-                ->to('contactoweb@dposs.gov.ar')
-                ->subject('Solicitud de libre deuda');
-        });
+        try {
+            Mail::send('emails.libre-deuda', ['data' => $request->input()], function ($message) {
+                $message->from('no-reply@dposs.gov.ar', 'DPOSS WEB')
+                    ->to('contactoweb@dposs.gov.ar')
+                    ->subject('Solicitud de libre deuda');
+            });
 
-        return response()->json([]);
+            return response()->json('');
+        }
+        catch(Exception $e) {
+            return response()->json('', 500);
+        }
     }
 
     /**

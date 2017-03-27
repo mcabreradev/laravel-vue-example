@@ -2,7 +2,7 @@
  *
  */
 export default {
-  name: "dposs-descargar-boleta",
+  name: "dposs-resumen-historico",
   props: {
     conexiones: {
       type: Array,
@@ -46,10 +46,7 @@ export default {
       self.$http
         .post(route, self.conexiones[self.conexionIndex])
         .then(
-          res => {
-            self.boletas = res.body.data.filter(item => item.status == 'Descargar');
-            Events.$emit('indicator.hide');
-        },
+          res => { self.boletas = res.body.data; Events.$emit('indicator.hide'); },
           err => { console.error("Error: ", err); Events.$emit('indicator.hide'); }
         );
 

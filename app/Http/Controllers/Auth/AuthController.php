@@ -105,14 +105,15 @@ class AuthController extends Controller
             'name'     => $data['name'],
             'email'    => $data['email'],
             'password' => bcrypt($data['password']),
+            'telefono' => $data['telefono']
         ]);
 
         // Asocio al usuario con la conexion
         if ($this->boletaInfoCache !== null) {
-            $conexion = Conexion::create([
+            $conexion = Conexion::firstOrNew([
                 'expediente' => $this->boletaInfoCache->expediente,
                 'unidad'     => $this->boletaInfoCache->numero_unidad,
-                'domicilio'  => $this->boletaInfoCache->unidad_calle,
+                'domicilio'  => $this->boletaInfoCache->domicilio,
             ]);
             $conexion->users()->attach($user);
             $conexion->save();
@@ -136,11 +137,11 @@ class AuthController extends Controller
         // Si luego de los filtros $boletas tiene items es porque la informacion
         // ingresada es correcta
         $boletas = $this->dpossApi
-            ->getBoletasPorPeriodo($data['expediente'], null, $data['periodo_factura'])
+            ->getUltimasBoletasPorPeriodo($data['expediente'], null, $data['periodo_factura'])
             ->filter(function ($value, $key) use ($data) {
                 // filtro nro_liq_sp y monto_total_origen
                 // el expediente y el periodo ya estan filtrados por la
-                // llamada a getBoletasPorPeriodo
+                // llamada a getUltimasBoletasPorPeriodo
                 return $value->nro_liq_sp == $data['nro_factura'] &&
                     $value->monto_total_origen == $data['monto_factura'];
             });

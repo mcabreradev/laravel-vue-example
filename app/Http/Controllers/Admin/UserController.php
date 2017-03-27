@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\DpossApiContract;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Models\Admin\Role;
 use App\Models\Admin\User;
+use App\Repositories\Admin\UserRepository;
+use App\Repositories\Alertas\AlertaRepository;
 use App\Transformers\Admin\UserTransformer;
 use Auth;
 use Flash;
@@ -32,12 +35,19 @@ class UserController extends ApiController
     protected $subject = '';
 
     /**
+     * Repository con funciones utiles del user
+     * @var App\Repositories\Admin\UserRepository
+     */
+    protected $userRepository = null;
+
+    /**
      * [__construct description]
      */
-    public function __construct()
+    public function __construct(UserRepository $userRepository)
     {
         $this->verificationEmailSubject = env('EMAIL_VERIFY_SUBJECT', 'D.P.O.S.S.');
         $this->subject = env('EMAIL_RESET_SUBJECT', 'D.P.O.S.S.');
+        $this->userRepository = $userRepository;
     }
 
     /**
@@ -53,6 +63,7 @@ class UserController extends ApiController
         }
 
         $user->name     = $request->input('name');
+        $user->telefono = $request->input('telefono');
         $user->password = $this->resolvePassword($user->password, $request);
 
         return $user;
@@ -232,14 +243,10 @@ class UserController extends ApiController
     }
 
     /**
-     * [dashboard description]
-     * @return [type] [description]
+     * [sendVerificationEmail description]
+     * @param  User   $user [description]
+     * @return [type]       [description]
      */
-    public function dashboard()
-    {
-        return view('users.dashboard');
-    }
-
     public function sendVerificationEmail(User $user)
     {
         UserVerification::generate($user);
@@ -248,5 +255,18 @@ class UserController extends ApiController
         Flash::success('Enviamos un correo para que el usuario pueda verificar su e-mail.');
 
         return redirect()->back();
+    }
+
+    /**
+     * [dashboard description]
+     * @return View
+     */
+    public function dashboard(Request $request)
+    {
+        $user = Auth::user();
+
+        return view('users.dashboard' . ($request->has('demo') ? $request->input('demo') : ''))
+            ->with('estadoServicio', AlertaRepository::estadoServicio())
+            ->with('estadoCuenta', $this->userRepository->getEstadoCuenta($user));
     }
 }

@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
 @section('content-header')
-  Boletas de pago <small>Oficina Virtual</small>
+  Libre deuda <small>Oficina Virtual</small>
 @endsection
+
 
 @section('content-breadcrumb')
 <li><a href="{{ route('home') }}">Inicio</a></li>
-<li><a href="{{ route('oficina-virtual::boletas-de-pago') }}">Boletas de pago</a></li>
+<li><a href="{{ route('oficina-virtual::solicitar-libre-deuda') }}">Libre deuda</a></li>
 @endsection
 
 
@@ -16,8 +17,7 @@
   <div class="col-xs-12">
 
     @include('flash::message')
-
-    <dposs-descargar-boleta :conexiones="{{ $conexiones }}"/>
+    <dposs-solicitar-libre-deuda :conexiones="{{ $conexiones }}" :usuario="{{ auth()->user() }}" />
 
   </div>
 </div>

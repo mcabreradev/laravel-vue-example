@@ -1,8 +1,8 @@
 <div>
-  <panal-box-slot title="Boletas de pago">
+  <panal-box-slot title="Resumen histórico de facturas">
     <div slot="body">
 
-      <p>Aquí puedes descargar las boletas de pago de tus conexiones</p>
+      <p>Aquí puedes ver las últimas facturas emitidas y descargar sus boletas de pago</p>
       <p>También puedes buscar boletas para otras personas, eligiendo <em>Descargar boleta para otra persona</em> en el desplegable.</p>
       <hr>
 
@@ -11,39 +11,9 @@
           <label>Mostrar boletas de para:</label>
           <select class="form-control" v-model="conexionIndex" @change="getBoletas()">
             <option v-for="(conexion, index) in conexiones" :key="conexion.id" :value="index">{{ conexion.domicilio_completo }}</option>
-            <option value="-1">Descargar boleta para otra persona</option>
           </select>
         </div>
       </form>
-
-      <div class="row" v-if="otros">
-
-        <div class="col-xs-4">
-          <div class="form-group">
-          <label>Buscar por:</label>
-          <select class="form-control" v-model="buscarPorTipo" required>
-            <option value="expediente">Expediente</option>
-            <option value="unidad">Unidad</option>
-          </select>
-        </div>
-
-        </div>
-        <div class="col-xs-4">
-          <label>Número de unidad o expediente</label>
-          <input type="text" v-model="buscarPorValor" class="form-control">
-        </div>
-
-        <div class="col-xs-4">
-          <label>&nbsp;</label>
-          <a :href="linkBoletaPagoManual(buscarPorTipo, buscarPorValor)" role="button"
-            class="btn btn-block btn-success btn-md" data-toggle="tooltip" data-placement="top"
-            title="Descargar boleta" target="_blank" rel="noopener noreferrer">
-            <i class="fa fa-download" aria-hidden="true"></i> Descargar
-          </a>
-        </div>
-
-      </div>
-
     </div>
 
   </panal-box-slot>
@@ -82,10 +52,11 @@
                   <td class="actions-column">
                     <div class="actions-group">
 
-                      <a class="btn btn-block btn-primary btn-xs" :href="linkBoletaPago(boleta)"
-                        data-toggle="tooltip" data-placement="top" title="Descargar boleta de pago" target="_blank">
-                        Descargar
-                      </a>
+                      <span v-if="boleta.status == 'Pagado'">Pagada <a class="btn btn-success btn-xs" href="#" data-toggle="tooltip" data-placement="top" title="Descargar comprobante" target="_blank"><i class="fa fa-download"></i></a></span>
+
+                      <span v-if="boleta.status == 'Descargar'">Por pagar <a class="btn btn-primary btn-xs" :href="linkBoletaPago(boleta)" data-toggle="tooltip" data-placement="top" title="Descargar boleta de pago" target="_blank"><i class="fa fa-download"></i></a></span>
+
+                      <span v-if="boleta.status == 'Vencida'">Vencida <a class="btn btn-danger btn-xs" href="#" data-toggle="tooltip" data-placement="top" title="Solicitar factura" target="_blank"><i class="fa fa-download"></i></a></span>
 
                     </div>
                   </td>
