@@ -67,9 +67,9 @@ class DpossApiService implements DpossApiContract
                 $i->nomenclatura = $i->nomenclatura_seccion . ' '. $i->nomenclatura_manzana . ' '. $i->nomenclatura_parcela . ''. ($i->nomenclatura_subparcela != null ? ' '.$i->nomenclatura_subparcela:''). ''. ($i->nomenclatura_unidad_funcional != null ? ' '.$i->nomenclatura_unidad_funcional:'');
                 $i->periodo = Carbon::parse($i->periodo_factura.'01')->format('m/Y');
                 $i->titular = $i->nombre_razon_social;
-                $i->vencimiento1 = Carbon::parse($i->fecha_vencimiento_1)->format('d/m/Y') . ' - $' . $i->monto_total_origen;
-                $i->vencimiento2 = Carbon::parse($i->fecha_vencimiento_2)->format('d/m/Y') . ' - $' . $i->monto_vencimiento_2;
-                $i->vencimiento3 = Carbon::parse($i->fecha_vencimiento_3)->format('d/m/Y') . ' - $' . $i->monto_vencimiento_3;
+                $i->vencimiento1 = Carbon::parse($i->fecha_vencimiento_1)->format('d/m/Y') . ' - $' . number_format($i->monto_total_origen, 2, ',' , '.' );
+                $i->vencimiento2 = Carbon::parse($i->fecha_vencimiento_2)->format('d/m/Y') . ' - $' . number_format($i->monto_vencimiento_2, 2, ',' , '.' );
+                $i->vencimiento3 = Carbon::parse($i->fecha_vencimiento_3)->format('d/m/Y') . ' - $' . number_format($i->monto_vencimiento_3, 2, ',' , '.' );
                 $i->buscar_por = $i->numero_unidad != null ? ['tipo' => 'unidad', 'valor' => $i->numero_unidad] : ['tipo' => 'expediente', 'valor' => $i->expediente];
 
                 // status
