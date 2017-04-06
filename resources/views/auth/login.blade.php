@@ -39,10 +39,6 @@ class="hold-transition login-page"
 
       <div class="row">
         <div class="col-xs-12">
-          ¿No tenes clave? <a href="{{ route('auth::register.form') }}">Registrate acá</a>
-        </div>
-
-        <div class="col-xs-12">
           <div class="form-group">
             <div class="checkbox">
               <label>

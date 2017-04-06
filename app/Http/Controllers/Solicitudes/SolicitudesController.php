@@ -31,11 +31,14 @@ class SolicitudesController extends ApiController
     {
         if (is_null($request->input('cerrado')) || $request->input('cerrado') == 'false'){
             $data = Solicitud::where('estado_id', '<>', 3)
-            ->orWhere('estado_id', null)
-            ->get();
+                ->orWhere('estado_id', null)
+                ->orderBy('creado_el', 'desc')
+                ->get();
         }
         else {
-            $data = Solicitud::where('estado_id', '=', 3)->get();
+            $data = Solicitud::where('estado_id', '=', 3)
+                ->orderBy('creado_el', 'desc')
+                ->get();
         }
 
         return $this->respondWith($data, new SolicitudTransformer);
@@ -125,14 +128,15 @@ class SolicitudesController extends ApiController
         $solicitud = Solicitud::findOrFail($id);
 
         return view('solicitudes.solicitudes.edit', [
-            'solicitud'   => $solicitud,
-            'origenes'    => Origen::orderBy('nombre', 'asc')->get(),
-            'tipos'       => Tipo::orderBy('nombre', 'asc')->get(),
-            'estados'     => Estado::all(),
-            'prioridades' => Prioridad::all(),
-            'solicitante' => Solicitante::orderBy('nombre', 'asc')->get(),
-            'localidades' => Localidad::all(),
-            'user'        => Auth::user()
+            'solicitud'    => $solicitud,
+            'origenes'     => Origen::orderBy('nombre', 'asc')->get(),
+            'tipos'        => Tipo::orderBy('nombre', 'asc')->get(),
+            'estados'      => Estado::all(),
+            'prioridades'  => Prioridad::all(),
+            'solicitante'  => Solicitante::orderBy('nombre', 'asc')->get(),
+            'localidades'  => Localidad::all(),
+            'user'         => Auth::user(),
+            'relacionados' => $solicitud->relacionados()->get(),
         ]);
     }
 

@@ -3,7 +3,7 @@
     <input class="form-control" type="text" :id="nombre" :name="nombre" v-model="valorMutable" :list="datalistName" @keyup="changed">
 
     <datalist :id="datalistName">
-      <option v-for="sugerencia in sugerencias" :value="sugerencia.nombre">
+      <option v-for="sugerencia in sugerencias" :value="sugerencia.nombre" />
     </datalist>
   </span>
 </template>

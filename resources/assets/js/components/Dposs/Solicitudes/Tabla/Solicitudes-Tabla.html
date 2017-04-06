@@ -34,7 +34,13 @@
             <tbody>
               <tr v-for="solicitud in rows" :style="'background-color:' + solicitud.estado.color">
                 <td role="button">{{ solicitud.creado_el | date }}</td>
-                <td>{{ solicitud.id }} {{solicitud.reclamo_anterior ? '(ant:' + solicitud.reclamo_anterior + ')' : ''}}</td>
+                <td>
+                  {{ solicitud.id }} {{solicitud.reclamo_anterior ? '(ant:' + solicitud.reclamo_anterior + ')' : ''}}
+                  <div v-if="solicitud.relacionados.length > 0">
+                    <strong>Relacionado con:</strong>
+                    <div v-for="rel in solicitud.relacionados">{{rel.id}} {{rel.reclamo_anterior ? '(ant:' + rel.reclamo_anterior + ')' : ''}}</div>
+                  </div>
+                </td>
                 <td>{{ solicitud.tipo.nombre }}</td>
                 <td>{{ solicitud.ubicacion }}</td>
                 <td>{{ solicitud.solicitante ? solicitud.solicitante.apellido + ' ' + solicitud.solicitante.nombre : ''}}</td>
