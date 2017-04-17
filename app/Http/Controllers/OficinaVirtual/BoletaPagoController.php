@@ -55,8 +55,6 @@ class BoletaPagoController extends Controller
         $boletasParsed = collect([]);
         $boletas = $this->dpossApi->getUltimasBoletas($fields['expediente'], $fields['unidad']);
 
-        dd($boletas);
-
         if ($fields['periodo'] === null) {
 
             // obtengo el period actual y el anterior

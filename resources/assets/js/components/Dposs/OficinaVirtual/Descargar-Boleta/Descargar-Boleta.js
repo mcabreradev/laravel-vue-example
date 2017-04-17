@@ -17,7 +17,8 @@ export default {
       buscarPorTipo: '',
       buscarPorValor: '',
       boletas: [],
-      otros: false
+      otros: false,
+      procesando: true
     };
   },
 
@@ -40,6 +41,7 @@ export default {
         return self;
       }
 
+      this.procesando = true;
       Events.$emit('indicator.show');
 
       var route = Laravel.baseUrl + laroute.route('oficina-virtual::boletas-de-pago-query');
@@ -48,9 +50,14 @@ export default {
         .then(
           res => {
             self.boletas = res.body.data.filter(item => item.status == 'Descargar');
+            this.procesando = false;
             Events.$emit('indicator.hide');
         },
-          err => { console.error("Error: ", err); Events.$emit('indicator.hide'); }
+          err => {
+            console.error("Error: ", err);
+            this.procesando = false;
+            Events.$emit('indicator.hide');
+          }
         );
 
       return self;

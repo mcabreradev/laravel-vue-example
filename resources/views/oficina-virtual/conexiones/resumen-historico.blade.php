@@ -17,7 +17,7 @@
 
     @include('flash::message')
 
-    <dposs-resumen-historico :conexiones="{{ $conexiones }}"/>
+    <dposs-resumen-historico :user="{{ auth()->user() }}" :conexiones="{{ $conexiones }}"/>
 
   </div>
 </div>

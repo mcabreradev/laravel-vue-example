@@ -7,7 +7,7 @@ require(__DIR__.'/auth-routes.php');
 Route::get('/test', function(App\Contracts\DpossApiContract $api){
 
     // caso rosi
-    // $r = $api->getUltimasBoletas(19401, 26792);
+    $r = $api->getUltimasBoletas(19401, 26792);
     // o $r = $api->getUltimasBoletas(null, 26792);
     // dd($r);
 
@@ -21,7 +21,7 @@ Route::get('/test', function(App\Contracts\DpossApiContract $api){
     // // caso chino periodo 201703
     // $cp = $api->getUltimasBoletasPorPeriodo(247, null, 201703);
 
-    $r = $api->estadoDeuda(2187, null);
+    // $r = $api->estadoDeuda(2187, null);
 
     dd($r);
 });

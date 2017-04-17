@@ -51,6 +51,6 @@ class UserRepository
      */
     public function getAllBoletasImpagas(User $user)
     {
-        return $this->api->getManyUltimasBoletasImpagas($user->conexiones()->get());
+        return collect([]);
     }
 }
