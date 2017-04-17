@@ -21,26 +21,28 @@ class UserRepository
      * @param  User   $user [description]
      * @return [type]       [description]
      */
-    public function getEstadoCuenta(User $user)
+    public function estadoFacturas(User $user)
     {
         $api = $this->api;
-        $estadoCuenta = (object) [
-            'impagasCant'   => 0,
-            'impagasMonto'  => 0,
-            'historicoCant' => 0,
+        $estadoFacturas = (object) [
+            'porPagar'      => 0,
+            'vencidas'      => 0,
         ];
 
-        $api->getManyUltimasBoletas($user->conexiones()->get())
-            ->each(function($boleta) use (&$estadoCuenta, $api) {
-                $estadoCuenta->historicoCant++;
+        $api->manyHistoricoFacturas($user->conexiones()->get())
+            ->each(function($factura) use (&$estadoFacturas, $api) {
 
-                if ($api->boletaIsImpaga($boleta)) {
-                    $estadoCuenta->impagasCant++;
-                    $estadoCuenta->impagasMonto += $api->getBoletaMontoActual($boleta);
+                if (! $api->facturaIsPagada($factura)) {
+                    if ($api->facturaIsVencida($factura)) {
+                        $estadoFacturas->vencidas++;
+                    }
+                    else {
+                        $estadoFacturas->porPagar++;
+                    }
                 }
             });
 
-        return $estadoCuenta;
+        return $estadoFacturas;
     }
 
     /**

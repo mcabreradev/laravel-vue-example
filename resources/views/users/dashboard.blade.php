@@ -30,7 +30,7 @@
         <span class="info-box-icon"><i class="fa fa-wrench"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">Agua potable</span>
+          <span class="info-box-text">Estado de la red</span>
           <span class="info-box-number">
             <a href="//dposs.gob.ar/#!/pagina/estado-de-la-red" class="a-white">
               @if($estadoServicio->vigente_has_alertas)
@@ -51,14 +51,14 @@
         <span class="info-box-icon bg-green"><i class="fa fa-tint"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">Agua potable</span>
-          <span class="info-box-number">No tenemos problemas reportados</span>
+          <span class="info-box-text">Estado de la red</span>
+          <span class="info-box-number">No tenemos problemas reportados en Ushuaia</span>
         </div> <!-- /.info-box-content -->
       </div> <!-- /.info-box -->
     </div> <!-- /.col -->
 
   @endif
-
+{{--
   @if($estadoCuenta->impagasCant)
     <div class="col-md-4 col-sm-6 col-xs-12">
       <div class="info-box bg-red">
@@ -86,13 +86,11 @@
       </div> <!-- /.info-box -->
     </div> <!-- /.col -->
   @endif
-</div>
-
-<div class="row">
-
+   --}}
 </div>
 
 <h2 class="page-header">Estado de cuenta</h2>
+
 <div class="row">
 
   <div class="col-md-4 col-sm-6 col-xs-12">
@@ -102,12 +100,12 @@
       <div class="info-box-content">
         <span class="info-box-text">Facturas adeudadas</span>
 
-        @if($estadoCuenta->impagasCant)
+        {{-- @if($estadoCuenta->impagasCant)
           <span class="info-box-number">$ {{ number_format($estadoCuenta->impagasMonto, 2, ',' , '.' ) }}</span>
           <a href="{{ route('oficina-virtual::facturas-adeudadas') }}" class="small-box-footer">Más información</a>
         @else
           <span class="info-box-number">No tenés facturas adeudadas</span>
-        @endif
+        @endif --}}
       </div> <!-- /.info-box-content -->
     </div> <!-- /.info-box -->
   </div> <!-- /.col -->
@@ -118,8 +116,10 @@
 
       <div class="info-box-content">
         <span class="info-box-text">Resumen histórico</span>
-        <span class="info-box-number">{{ $estadoCuenta->historicoCant }} facturas disponibles</span>
-        <a href="{{ route('oficina-virtual::resumen-historico-facturas') }}" class="small-box-footer">Descargar en PDF</a>
+        <span class="info-box-number">
+          {{((!$estadoFacturas->porPagar) && (!$estadoFacturas->vencidas)) ? 'Tus facturas estan al día' : '' }}{{$estadoFacturas->porPagar ? "{$estadoFacturas->porPagar} por pagar" : ''}}{{($estadoFacturas->porPagar && $estadoFacturas->vencidas) ? ', ' : ''}}{{$estadoFacturas->vencidas ? "{$estadoFacturas->vencidas} vencidas" : ''}}
+        </span>
+        <a href="{{ route('oficina-virtual::resumen-historico-facturas') }}" class="small-box-footer">Ver y descargar</a>
       </div><!-- /.info-box-content -->
     </div><!-- /.info-box -->
   </div> <!-- /.col -->
@@ -131,8 +131,8 @@
       <div class="info-box-content">
         <span class="info-box-text">Boletas de pago</span>
 
-        @if($estadoCuenta->impagasCant)
-          <span class="info-box-number">{{$estadoCuenta->impagasCant}} disponibles</span>
+        @if($estadoFacturas->porPagar)
+          <span class="info-box-number">{{$estadoFacturas->porPagar}} {{$estadoFacturas->porPagar > 1 ? 'disponibles' : 'disponible'}}</span>
           <a href="{{ route('oficina-virtual::boletas-de-pago') }}" class="small-box-footer">Descargar y pagar</a>
         @else
           <span class="info-box-number">No tenés boletas para descargar</span>

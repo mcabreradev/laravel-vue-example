@@ -7,21 +7,23 @@ require(__DIR__.'/auth-routes.php');
 Route::get('/test', function(App\Contracts\DpossApiContract $api){
 
     // caso rosi
-    $r = $api->getUltimasBoletas(19401, 26792);
+    // $r = $api->getUltimasBoletas(19401, 26792);
     // o $r = $api->getUltimasBoletas(null, 26792);
-    dd($r);
+    // dd($r);
 
     // // caso rosi periodo 201703
-    // $rp = $api->getBoletasPorPeriodo(19401, 26792, 201703);
-    // // o $r = $api->getBoletasPorPeriodo(null, 26792, 201703);
+    // $rp = $api->getUltimasBoletasPorPeriodo(19401, 26792, 201703);
+    // // o $r = $api->getUltimasBoletasPorPeriodo(null, 26792, 201703);
 
     // // caso chino
     // $c = $api->getUltimasBoletas(247, null);
 
     // // caso chino periodo 201703
-    // $cp = $api->getBoletasPorPeriodo(247, null, 201703);
+    // $cp = $api->getUltimasBoletasPorPeriodo(247, null, 201703);
 
-    // dd([$r, $rp, $c, $cp]);
+    $r = $api->estadoDeuda(2187, null);
+
+    dd($r);
 });
 
 /**
@@ -127,9 +129,14 @@ Route::group(['middleware' => ['auth']], function() {
             'uses' => 'BoletaPagoController@main'
         ]);
 
+        Route::get('facturas/{conexion}', [
+            'as'   => 'conexiones.facturas',
+            'uses' => 'ConexionController@facturas'
+        ])->where('conexion', '[0-9]+');
+
         Route::get('resumen-historico', [
             'as'   => 'resumen-historico-facturas',
-            'uses' => 'BoletaPagoController@resumenFacturas'
+            'uses' => 'ConexionController@resumenFacturas'
         ]);
 
         Route::post('boletas-de-pago-query', [

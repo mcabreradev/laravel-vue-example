@@ -13,11 +13,8 @@ export default {
   data() {
 
     return {
-      conexionIndex: (this.conexiones.length ? 0 : -1),
-      buscarPorTipo: '',
-      buscarPorValor: '',
-      boletas: [],
-      otros: false
+      conexionIndex: 0,
+      facturas: []
     };
   },
 
@@ -27,27 +24,26 @@ export default {
 
   methods: {
 
-    getBoletas() {
+    getFacturas() {
       var self     = this;
-      self.boletas = [];
-      self.otros   = false;
+      var conexion = self.conexiones[self.conexionIndex];
+      var route = Laravel.baseUrl +
+        laroute.route('oficina-virtual::conexiones.facturas', {conexion: conexion.id});
 
-      if (self.conexionIndex < 0) {
-        self.otros          = true;
-        self.buscarPorTipo  = 'expediente';
-        self.buscarPorValor = '';
-
-        return self;
-      }
+      self.facturas = [];
 
       Events.$emit('indicator.show');
 
-      var route = Laravel.baseUrl + laroute.route('oficina-virtual::boletas-de-pago-query');
-      self.$http
-        .post(route, self.conexiones[self.conexionIndex])
+      self.$http.get(route)
         .then(
-          res => { self.boletas = res.body.data; Events.$emit('indicator.hide'); },
-          err => { console.error("Error: ", err); Events.$emit('indicator.hide'); }
+          res => {
+            self.facturas = res.body;
+            Events.$emit('indicator.hide');
+          },
+          err => {
+            console.error("Error: ", err);
+            Events.$emit('indicator.hide');
+          }
         );
 
       return self;

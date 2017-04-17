@@ -7,6 +7,70 @@ use Carbon\Carbon;
 use Exception;
 use GuzzleHttp\Client;
 
+/*
+ * Documentacion informal de la API provista por DPOSS:
+ *
+ * La URL base es http://remotos.dposs.gob.ar:150, dominio que sólo es resuelto
+ * desde el servidor que aloja http://dposs.gob.ar
+ *
+ * Las operaciones disponibles son:
+ *
+ * - POST /usuarios : devuelve las ultimas 5 boletas en un array.
+ *   -- Content-Type: application/json
+ *
+ *   -- Parametros: todos los parametros se pasan en el body como un objeto json
+ *      de tipo clave valor.
+ *     --- numero_expediente: nro de expediente de la conexion. Puede veolver
+ *         mas de 5 resultados porque puede incluir mas de 1 unidad
+ *
+ *     --- numero_unidad: nro de unidad de la conexion. Deberia devolver siempre
+ *        cinco resultados porque es el mas especifico
+ *
+ *     --- numero_cienta: nro de cuenta. Puede devolver mas de 5 resultados porque
+ *         puede incluir varios exptes y unidades.
+ *
+ *   -- Los parametros son excluyentes (pueden pasarse varios pero solo
+ *      interpretara 1) y debe especificarse al menos uno de ellos
+ *
+ *
+ *
+ * - GET /calles/{nombreBuscado} : devuelve un array con las calles del sistema
+ *   interno de la DPOSS que coincidan con el route-param {nombreBuscado}
+ *   -- Content-Type: application/json
+ *
+ *
+ *
+ * - POST /expedientes/historico : duelve el historico (array) completo de
+ *   facturas para una conexion.
+ *   -- Content-Type: application/json
+ *
+ *   -- Parametros: acepta un json en el body con el numero de expediente
+ *      y unidad. Es obligatorio. Ejemplos:
+ *      {"expediente": "2187", "unidad": "17433"}
+ *      {"expediente": "2187", "unidad": "null"}
+ *      La idea es que devuelve todas las facturas de un expediente y, de forma
+ *      adicional, se puede filtrar mas fino por unidad.
+ *
+ *
+ *
+ * - POST /expedientes/estado-de-deuda : devuelve el histórico (array) de deudas
+ *   para una conexion. Incluye facturas, notas de debito, debitos, creditos...
+ *   -- Content-Type: application/json
+ *
+ *   -- Parametros: acepta un json en el body con el numero de expediente
+ *      y unidad. Es obligatorio. Ejemplos:
+ *      {"expediente": "2187", "unidad": "17433"}
+ *      {"expediente": "2187", "unidad": "null"}
+ *      La idea es que devuelve todas las "deudas" de un expediente y, de forma
+ *      adicional, se puede filtrar mas fino por unidad.
+ *
+ *   -- Algunas aclaraciones sobre los datos devueltos:
+ *     --- campos "monto" y "saldo": ambos deberian ser identicos e indican lo que falta pagar.
+ *     --- campo "posibles_punitorios": serian como los intereses por mora
+ *     --- campo "'D'": A|B=facturas, ND=notas de debito, D=debitos, F=facturas
+ *     --- campo "tipo_nota": A|B=facturas, D|X=debitos
+ */
+
 class DpossApiService implements DpossApiContract
 {
     /**
@@ -27,6 +91,120 @@ class DpossApiService implements DpossApiContract
         ]);
     }
 
+    protected function addComputedFacturaFields($factura)
+    {
+        $factura->domicilio = $factura->unidad_calle . ' ' .$factura->unidad_numero_puerta . ''. ($factura->unidad_piso > 0 ? ' '.$factura->unidad_piso : '') . ''. ($factura->unidad_departamento > 0 ? ' '.$factura->unidad_departamento : '');
+        $factura->factura = $factura->factura_tipo . ' '. $factura->nro_liq_sp;
+        $factura->nomenclatura = $factura->nomenclatura_seccion . ' '. $factura->nomenclatura_manzana . ' '. $factura->nomenclatura_parcela . ''. ($factura->nomenclatura_subparcela != null ? ' '.$factura->nomenclatura_subparcela:''). ''. ($factura->nomenclatura_unidad_funcional != null ? ' '.$factura->nomenclatura_unidad_funcional:'');
+        $factura->periodo = Carbon::parse($factura->periodo_factura.'01')->format('m/Y');
+        $factura->titular = $factura->nombre_razon_social;
+        $factura->vencimiento1 = Carbon::parse($factura->fecha_vencimiento_1)->format('d/m/Y') . ' - $' . number_format($factura->monto_total_origen, 2, ',' , '.' );
+        $factura->vencimiento2 = Carbon::parse($factura->fecha_vencimiento_2)->format('d/m/Y') . ' - $' . number_format($factura->monto_vencimiento_2, 2, ',' , '.' );
+        $factura->vencimiento3 = Carbon::parse($factura->fecha_vencimiento_3)->format('d/m/Y') . ' - $' . number_format($factura->monto_vencimiento_3, 2, ',' , '.' );
+        $factura->buscar_por = $factura->numero_unidad != null ? ['tipo' => 'unidad', 'valor' => $factura->numero_unidad] : ['tipo' => 'expediente', 'valor' => $factura->expediente];
+
+        // status
+        if ($factura->saldo == 0) {
+            $factura->status = 'Pagado';
+        } else {
+            $now = Carbon::now();
+            $ultVen = Carbon::parse($factura->fecha_vencimiento_3);
+
+            $factura->status = $now->gt($ultVen) ? 'Vencida': 'Descargar';
+        }
+
+        return $factura;
+    }
+
+    /**
+     * Consulta el historico completo de facturas de un expediente. Tambien
+     * se puede filtrar mas fino por unidad
+     *
+     * @param  [type] $expediente [description]
+     * @param  [type] $unidad     [description]
+     * @return [type]             [description]
+     */
+    public function historicoFacturas($expediente, $unidad=null)
+    {
+        $response = null;
+        $self = $this;
+
+        try {
+            $apiResponse = $this->client
+                ->request('POST', 'expedientes/historico', [
+                    'json' => [
+                        'expediente' => $expediente,
+                        'unidad'     => ($unidad ?: 'null')
+                    ]
+                ]);
+
+            if ($apiResponse->getStatusCode() !== 200) {
+                throw new Exception('Error al obtener los datos', 1);
+            }
+
+            $response = collect(json_decode($apiResponse->getBody()));
+
+            $response->map(function ($i) use ($self) {
+                return $self->addComputedFacturaFields($i);
+            });
+
+        } catch (Exception $e) {
+            $response = collect([]);
+        }
+
+        return $response;
+    }
+
+    /**
+     * [getManyUltimasBoletas description]
+     * @param  [type] $conexiones [description]
+     * @return [type]             [description]
+     */
+    public function manyHistoricoFacturas($conexiones)
+    {
+        $facturas = collect([]);
+
+        $conexiones->each(function($conexion) use (&$facturas) {
+            $facturas = $facturas->merge($this->historicoFacturas($conexion->expediente, $conexion->unidad));
+        });
+
+        return $facturas;
+    }
+
+    /**
+     * Consulta las deudas de un expediente. TSe puede filtrar mas fino por unidad
+     *
+     * @param  [type] $expediente [description]
+     * @param  [type] $unidad     [description]
+     * @return [type]             [description]
+     */
+    public function estadoDeuda($expediente, $unidad=null)
+    {
+        $response = null;
+        $self = $this;
+
+        try {
+            $apiResponse = $this->client
+                ->request('POST', 'expedientes/estado-de-deuda', [
+                    'json' => [
+                        'expediente' => $expediente,
+                        'unidad'     => ($unidad ?: 'null')
+                    ]
+                ]);
+
+            if ($apiResponse->getStatusCode() !== 200) {
+                throw new Exception('Error al obtener los datos', 1);
+            }
+
+            $response = collect(json_decode($apiResponse->getBody()));
+
+        } catch (Exception $e) {
+            $response = collect([]);
+        }
+
+        return $response;
+    }
+
     /**
      * Devuelve las ultimas boletas de pago de una conexion
      * @param  int $expediente Numero de expediente
@@ -39,12 +217,12 @@ class DpossApiService implements DpossApiContract
             $response = null;
 
             // TEMPORALMENTE PARA EVITAR CAIDAS
-            if ($expediente == 247) {
-                $response = collect(json_decode('[{"factura_tipo":"B","factura_numero":4528673,"nro_liq_sp":760086,"numero_cuenta":18820912,"nombre_razon_social":"LIU ZHIJIANG","nombre_ocupante":null,"dni_ocupante":0,"unidad_calle":null,"unidad_numero_puerta":null,"unidad_piso":null,"unidad_departamento":null,"envio_calle":null,"envio_numero_puerta":null,"envio_piso":null,"envio_departamento":null,"nomenclatura_seccion":null,"nomenclatura_manzana":null,"nomenclatura_parcela":null,"nomenclatura_subparcela":null,"nomenclatura_unidad_funcional":null,"expediente":247,"numero_unidad":null,"periodo_factura":"201703","monto_total_origen":12185.3,"fecha_vencimiento_1":"2017-04-10","monto_vencimiento_2":12299,"fecha_vencimiento_2":"2017-04-17","monto_vencimiento_3":12412.7,"fecha_vencimiento_3":"2017-04-24","fecha_factura":"2017-03-20","saldo":12185.3},{"factura_tipo":"B","factura_numero":4489021,"nro_liq_sp":714652,"numero_cuenta":18820912,"nombre_razon_social":"LIU ZHIJIANG","nombre_ocupante":"DEPARTAMENTO","dni_ocupante":0,"unidad_calle":"GOBERNADOR PAZ","unidad_numero_puerta":157,"unidad_piso":"001","unidad_departamento":"A","envio_calle":"GOBERNADOR PAZ","envio_numero_puerta":157,"envio_piso":"001","envio_departamento":"A","nomenclatura_seccion":"A","nomenclatura_manzana":"0031","nomenclatura_parcela":"0004","nomenclatura_subparcela":null,"nomenclatura_unidad_funcional":null,"expediente":247,"numero_unidad":289,"periodo_factura":"201702","monto_total_origen":556.92,"fecha_vencimiento_1":"2017-03-10","monto_vencimiento_2":562.12,"fecha_vencimiento_2":"2017-03-17","monto_vencimiento_3":567.31,"fecha_vencimiento_3":"2017-03-24","fecha_factura":"2017-01-20","saldo":0},{"factura_tipo":"B","factura_numero":4432561,"nro_liq_sp":650141,"numero_cuenta":18820912,"nombre_razon_social":"LIU ZHIJIANG","nombre_ocupante":"DEPARTAMENTO","dni_ocupante":0,"unidad_calle":"GOBERNADOR PAZ","unidad_numero_puerta":157,"unidad_piso":"001","unidad_departamento":"A","envio_calle":"GOBERNADOR PAZ","envio_numero_puerta":157,"envio_piso":"001","envio_departamento":"A","nomenclatura_seccion":"A","nomenclatura_manzana":"0031","nomenclatura_parcela":"0004","nomenclatura_subparcela":null,"nomenclatura_unidad_funcional":null,"expediente":247,"numero_unidad":289,"periodo_factura":"201611","monto_total_origen":360.03,"fecha_vencimiento_1":"2016-12-12","monto_vencimiento_2":360.91,"fecha_vencimiento_2":"2016-12-19","monto_vencimiento_3":361.79,"fecha_vencimiento_3":"2016-12-26","fecha_factura":"2016-11-12","saldo":0}]'));
-            } else {
-                $response = collect(json_decode('[{"factura_tipo":"B","factura_numero":4526893,"nro_liq_sp":758259,"numero_cuenta":12725,"nombre_razon_social":"MUNICIPALIDAD DE USHUAIA CON OCUPANTE","nombre_ocupante":"SOLER ESTEBAN","dni_ocupante":27826494,"unidad_calle":"GABRIEL GARCIA MARQUEZ","unidad_numero_puerta":4466,"unidad_piso":"0","unidad_departamento":"0","envio_calle":"GABRIEL GARCIA MARQUEZ","envio_numero_puerta":4466,"envio_piso":"0","envio_departamento":"0","nomenclatura_seccion":"Q","nomenclatura_manzana":"003H","nomenclatura_parcela":"0025","nomenclatura_subparcela":null,"nomenclatura_unidad_funcional":null,"expediente":19401,"numero_unidad":26792,"periodo_factura":"201703","monto_total_origen":628.74,"fecha_vencimiento_1":"2017-04-10","monto_vencimiento_2":634.61,"fecha_vencimiento_2":"2017-04-17","monto_vencimiento_3":640.47,"fecha_vencimiento_3":"2017-04-24","fecha_factura":"2017-03-18","saldo":628.74},{"factura_tipo":"B","factura_numero":4506711,"nro_liq_sp":732342,"numero_cuenta":12725,"nombre_razon_social":"MUNICIPALIDAD DE USHUAIA CON OCUPANTE","nombre_ocupante":"SOLER ESTEBAN","dni_ocupante":27826494,"unidad_calle":"GABRIEL GARCIA MARQUEZ","unidad_numero_puerta":4466,"unidad_piso":"0","unidad_departamento":"0","envio_calle":"GABRIEL GARCIA MARQUEZ","envio_numero_puerta":4466,"envio_piso":"0","envio_departamento":"0","nomenclatura_seccion":"Q","nomenclatura_manzana":"003H","nomenclatura_parcela":"0025","nomenclatura_subparcela":null,"nomenclatura_unidad_funcional":null,"expediente":19401,"numero_unidad":26792,"periodo_factura":"201702","monto_total_origen":628.74,"fecha_vencimiento_1":"2017-03-10","monto_vencimiento_2":634.61,"fecha_vencimiento_2":"2017-03-17","monto_vencimiento_3":640.47,"fecha_vencimiento_3":"2017-03-24","fecha_factura":"2017-01-20","saldo":628.74},{"factura_tipo":"B","factura_numero":4446789,"nro_liq_sp":664369,"numero_cuenta":12725,"nombre_razon_social":"MUNICIPALIDAD DE USHUAIA CON OCUPANTE","nombre_ocupante":"SOLER ESTEBAN","dni_ocupante":27826494,"unidad_calle":"GABRIEL GARCIA MARQUEZ","unidad_numero_puerta":4466,"unidad_piso":"0","unidad_departamento":"0","envio_calle":"GABRIEL GARCIA MARQUEZ","envio_numero_puerta":4466,"envio_piso":"0","envio_departamento":"0","nomenclatura_seccion":"Q","nomenclatura_manzana":"003H","nomenclatura_parcela":"0025","nomenclatura_subparcela":null,"nomenclatura_unidad_funcional":null,"expediente":19401,"numero_unidad":26792,"periodo_factura":"201611","monto_total_origen":398.88,"fecha_vencimiento_1":"2016-12-12","monto_vencimiento_2":399.85,"fecha_vencimiento_2":"2016-12-19","monto_vencimiento_3":400.83,"fecha_vencimiento_3":"2016-12-26","fecha_factura":"2016-11-12","saldo":0}]'));
-            }
-            /*
+            // if ($expediente == 247) {
+            //     $response = collect(json_decode('[{"factura_tipo":"B","factura_numero":4528673,"nro_liq_sp":760086,"numero_cuenta":18820912,"nombre_razon_social":"LIU ZHIJIANG","nombre_ocupante":null,"dni_ocupante":0,"unidad_calle":null,"unidad_numero_puerta":null,"unidad_piso":null,"unidad_departamento":null,"envio_calle":null,"envio_numero_puerta":null,"envio_piso":null,"envio_departamento":null,"nomenclatura_seccion":null,"nomenclatura_manzana":null,"nomenclatura_parcela":null,"nomenclatura_subparcela":null,"nomenclatura_unidad_funcional":null,"expediente":247,"numero_unidad":null,"periodo_factura":"201703","monto_total_origen":12185.3,"fecha_vencimiento_1":"2017-04-10","monto_vencimiento_2":12299,"fecha_vencimiento_2":"2017-04-17","monto_vencimiento_3":12412.7,"fecha_vencimiento_3":"2017-04-24","fecha_factura":"2017-03-20","saldo":12185.3},{"factura_tipo":"B","factura_numero":4489021,"nro_liq_sp":714652,"numero_cuenta":18820912,"nombre_razon_social":"LIU ZHIJIANG","nombre_ocupante":"DEPARTAMENTO","dni_ocupante":0,"unidad_calle":"GOBERNADOR PAZ","unidad_numero_puerta":157,"unidad_piso":"001","unidad_departamento":"A","envio_calle":"GOBERNADOR PAZ","envio_numero_puerta":157,"envio_piso":"001","envio_departamento":"A","nomenclatura_seccion":"A","nomenclatura_manzana":"0031","nomenclatura_parcela":"0004","nomenclatura_subparcela":null,"nomenclatura_unidad_funcional":null,"expediente":247,"numero_unidad":289,"periodo_factura":"201702","monto_total_origen":556.92,"fecha_vencimiento_1":"2017-03-10","monto_vencimiento_2":562.12,"fecha_vencimiento_2":"2017-03-17","monto_vencimiento_3":567.31,"fecha_vencimiento_3":"2017-03-24","fecha_factura":"2017-01-20","saldo":0},{"factura_tipo":"B","factura_numero":4432561,"nro_liq_sp":650141,"numero_cuenta":18820912,"nombre_razon_social":"LIU ZHIJIANG","nombre_ocupante":"DEPARTAMENTO","dni_ocupante":0,"unidad_calle":"GOBERNADOR PAZ","unidad_numero_puerta":157,"unidad_piso":"001","unidad_departamento":"A","envio_calle":"GOBERNADOR PAZ","envio_numero_puerta":157,"envio_piso":"001","envio_departamento":"A","nomenclatura_seccion":"A","nomenclatura_manzana":"0031","nomenclatura_parcela":"0004","nomenclatura_subparcela":null,"nomenclatura_unidad_funcional":null,"expediente":247,"numero_unidad":289,"periodo_factura":"201611","monto_total_origen":360.03,"fecha_vencimiento_1":"2016-12-12","monto_vencimiento_2":360.91,"fecha_vencimiento_2":"2016-12-19","monto_vencimiento_3":361.79,"fecha_vencimiento_3":"2016-12-26","fecha_factura":"2016-11-12","saldo":0}]'));
+            // } else {
+            //     $response = collect(json_decode('[{"factura_tipo":"B","factura_numero":4526893,"nro_liq_sp":758259,"numero_cuenta":12725,"nombre_razon_social":"MUNICIPALIDAD DE USHUAIA CON OCUPANTE","nombre_ocupante":"SOLER ESTEBAN","dni_ocupante":27826494,"unidad_calle":"GABRIEL GARCIA MARQUEZ","unidad_numero_puerta":4466,"unidad_piso":"0","unidad_departamento":"0","envio_calle":"GABRIEL GARCIA MARQUEZ","envio_numero_puerta":4466,"envio_piso":"0","envio_departamento":"0","nomenclatura_seccion":"Q","nomenclatura_manzana":"003H","nomenclatura_parcela":"0025","nomenclatura_subparcela":null,"nomenclatura_unidad_funcional":null,"expediente":19401,"numero_unidad":26792,"periodo_factura":"201703","monto_total_origen":628.74,"fecha_vencimiento_1":"2017-04-10","monto_vencimiento_2":634.61,"fecha_vencimiento_2":"2017-04-17","monto_vencimiento_3":640.47,"fecha_vencimiento_3":"2017-04-24","fecha_factura":"2017-03-18","saldo":628.74},{"factura_tipo":"B","factura_numero":4506711,"nro_liq_sp":732342,"numero_cuenta":12725,"nombre_razon_social":"MUNICIPALIDAD DE USHUAIA CON OCUPANTE","nombre_ocupante":"SOLER ESTEBAN","dni_ocupante":27826494,"unidad_calle":"GABRIEL GARCIA MARQUEZ","unidad_numero_puerta":4466,"unidad_piso":"0","unidad_departamento":"0","envio_calle":"GABRIEL GARCIA MARQUEZ","envio_numero_puerta":4466,"envio_piso":"0","envio_departamento":"0","nomenclatura_seccion":"Q","nomenclatura_manzana":"003H","nomenclatura_parcela":"0025","nomenclatura_subparcela":null,"nomenclatura_unidad_funcional":null,"expediente":19401,"numero_unidad":26792,"periodo_factura":"201702","monto_total_origen":628.74,"fecha_vencimiento_1":"2017-03-10","monto_vencimiento_2":634.61,"fecha_vencimiento_2":"2017-03-17","monto_vencimiento_3":640.47,"fecha_vencimiento_3":"2017-03-24","fecha_factura":"2017-01-20","saldo":628.74},{"factura_tipo":"B","factura_numero":4446789,"nro_liq_sp":664369,"numero_cuenta":12725,"nombre_razon_social":"MUNICIPALIDAD DE USHUAIA CON OCUPANTE","nombre_ocupante":"SOLER ESTEBAN","dni_ocupante":27826494,"unidad_calle":"GABRIEL GARCIA MARQUEZ","unidad_numero_puerta":4466,"unidad_piso":"0","unidad_departamento":"0","envio_calle":"GABRIEL GARCIA MARQUEZ","envio_numero_puerta":4466,"envio_piso":"0","envio_departamento":"0","nomenclatura_seccion":"Q","nomenclatura_manzana":"003H","nomenclatura_parcela":"0025","nomenclatura_subparcela":null,"nomenclatura_unidad_funcional":null,"expediente":19401,"numero_unidad":26792,"periodo_factura":"201611","monto_total_origen":398.88,"fecha_vencimiento_1":"2016-12-12","monto_vencimiento_2":399.85,"fecha_vencimiento_2":"2016-12-19","monto_vencimiento_3":400.83,"fecha_vencimiento_3":"2016-12-26","fecha_factura":"2016-11-12","saldo":0}]'));
+            // }
+
 
             if ($unidad === null) {
                 $response = $this->client->get("expediente/{$expediente}");
@@ -60,29 +238,9 @@ class DpossApiService implements DpossApiContract
             // @TODO agregar campos "calculados": domicilio, factura, nomenclatura !!!!!!!!!!!!!!!!
 
             $response = collect(json_decode($response->getBody()));
-            */
-            $response->map(function ($i) {
-                $i->domicilio = $i->unidad_calle . ' ' .$i->unidad_numero_puerta . ''. ($i->unidad_piso > 0 ? ' '.$i->unidad_piso : '') . ''. ($i->unidad_departamento > 0 ? ' '.$i->unidad_departamento : '');
-                $i->factura = $i->factura_tipo . ' '. $i->nro_liq_sp;
-                $i->nomenclatura = $i->nomenclatura_seccion . ' '. $i->nomenclatura_manzana . ' '. $i->nomenclatura_parcela . ''. ($i->nomenclatura_subparcela != null ? ' '.$i->nomenclatura_subparcela:''). ''. ($i->nomenclatura_unidad_funcional != null ? ' '.$i->nomenclatura_unidad_funcional:'');
-                $i->periodo = Carbon::parse($i->periodo_factura.'01')->format('m/Y');
-                $i->titular = $i->nombre_razon_social;
-                $i->vencimiento1 = Carbon::parse($i->fecha_vencimiento_1)->format('d/m/Y') . ' - $' . number_format($i->monto_total_origen, 2, ',' , '.' );
-                $i->vencimiento2 = Carbon::parse($i->fecha_vencimiento_2)->format('d/m/Y') . ' - $' . number_format($i->monto_vencimiento_2, 2, ',' , '.' );
-                $i->vencimiento3 = Carbon::parse($i->fecha_vencimiento_3)->format('d/m/Y') . ' - $' . number_format($i->monto_vencimiento_3, 2, ',' , '.' );
-                $i->buscar_por = $i->numero_unidad != null ? ['tipo' => 'unidad', 'valor' => $i->numero_unidad] : ['tipo' => 'expediente', 'valor' => $i->expediente];
 
-                // status
-                if ($i->saldo == 0) {
-                    $i->status = 'Pagado';
-                } else {
-                    $now = Carbon::now();
-                    $ultVen = Carbon::parse($i->fecha_vencimiento_3);
-
-                    $i->status = $now->gt($ultVen) ? 'Vencida': 'Descargar';
-                }
-
-                return $i;
+            $response->map(function ($i) use ($self) {
+                return $self->addComputedFacturaFields($i);
             });
 
             return $response;
@@ -135,7 +293,7 @@ class DpossApiService implements DpossApiContract
     {
         $boletas = $this->getUltimasBoletas($expediente, $unidad)
             ->filter(function ($boleta) {
-                return $this->boletaIsImpaga($boleta);
+                return (! $this->facturaIsPagada($boleta));
             });
 
         return $boletas;
@@ -158,14 +316,23 @@ class DpossApiService implements DpossApiContract
     }
 
     /**
-     * Determina si una boleta esta impaga. Puede ser por vencimiento o
-     * simplemente porque todavia no registra un pago
-     * @param  StdClass $boleta Boleta de pago a revisar
+     * Determina si una factura esta pagada
+     * @param  StdClass $factura factura de pago a revisar
      * @return bool
      */
-    public function boletaIsImpaga($boleta)
+    public function facturaIsPagada($factura)
     {
-        return ($boleta->status === 'Vencida') || ($boleta->status === 'Descargar');
+        return $factura->status === 'Pagado';
+    }
+
+    /**
+     * Determina si una factura esta vencida
+     * @param  StdClass $factura factura de pago a revisar
+     * @return bool
+     */
+    public function facturaIsVencida($factura)
+    {
+        return $factura->status === 'Vencida';
     }
 
     /**

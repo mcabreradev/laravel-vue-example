@@ -53,9 +53,11 @@ class BoletaPagoController extends Controller
     private function getDatosBoleta($fields)
     {
         $boletasParsed = collect([]);
+        $boletas = $this->dpossApi->getUltimasBoletas($fields['expediente'], $fields['unidad']);
+
+        dd($boletas);
 
         if ($fields['periodo'] === null) {
-            $boletas = $this->dpossApi->getUltimasBoletas($fields['expediente'], $fields['unidad']);
 
             // obtengo el period actual y el anterior
             $periodoActual   = Carbon::now()->format('Ym');
@@ -69,7 +71,6 @@ class BoletaPagoController extends Controller
                 $boletasParsed = $this->boletasToCollection($boletas, $periodoAnterior);
             }
         } else {
-            $boletas = $this->dpossApi->getUltimasBoletas($fields['expediente'], $fields['unidad']);
 
             $boletasParsed = $this->boletasToCollection($boletas, $fields['periodo']);
         }
@@ -193,16 +194,6 @@ class BoletaPagoController extends Controller
     {
         return view('oficina-virtual.boletas-de-pago.adeudadas', [
             'boletas' => $userRepository->getAllBoletasImpagas(Auth::user())
-        ]);
-    }
-
-    /**
-     * [resumenHistorico description]
-     */
-    public function resumenFacturas()
-    {
-        return view('oficina-virtual.boletas-de-pago.resumen-historico', [
-            'conexiones' => Auth::user()->conexiones()->get()
         ]);
     }
 }

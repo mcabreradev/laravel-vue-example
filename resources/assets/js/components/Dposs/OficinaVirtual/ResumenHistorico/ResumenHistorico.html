@@ -2,14 +2,13 @@
   <panal-box-slot title="Resumen histórico de facturas">
     <div slot="body">
 
-      <p>Aquí puedes ver las últimas facturas emitidas y descargar sus boletas de pago</p>
-      <p>También puedes buscar boletas para otras personas, eligiendo <em>Descargar boleta para otra persona</em> en el desplegable.</p>
+      <p>Aquí podés ver el histórico de facturas emitidas para todas tus cuentas asociadas.</p>
       <hr>
 
       <form>
         <div class="form-group">
-          <label>Mostrar boletas de para:</label>
-          <select class="form-control" v-model="conexionIndex" @change="getBoletas()">
+          <label>Mostrar facturas de para:</label>
+          <select class="form-control" v-model="conexionIndex" @change="getFacturas()">
             <option v-for="(conexion, index) in conexiones" :key="conexion.id" :value="index">{{ conexion.domicilio_completo }}</option>
           </select>
         </div>
@@ -18,7 +17,7 @@
 
   </panal-box-slot>
 
-  <panal-box-slot v-if="boletas.length > 0" title="Boletas encontradas">
+  <panal-box-slot v-if="facturas.length > 0" title="Facturas encontradas">
     <div slot="body">
       <div class="row">
         <!-- Table container -->
@@ -39,24 +38,39 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-for="boleta in boletas">
-                  <td>{{ boleta.factura }}</td>
-                  <td>{{ boleta.periodo }}</td>
-                  <td>{{ boleta.titular }}</td>
-                  <td>{{ boleta.nombre_ocupante }}</td>
-                  <td>{{ boleta.domicilio }}</td>
-                  <td>{{ boleta.vencimiento1 }}</td>
-                  <td>{{ boleta.vencimiento2 }}</td>
-                  <td>{{ boleta.vencimiento3 }}</td>
+                <tr v-for="factura in facturas">
+                  <td>{{ factura.factura }}</td>
+                  <td>{{ factura.periodo }}</td>
+                  <td>{{ factura.titular }}</td>
+                  <td>{{ factura.nombre_ocupante }}</td>
+                  <td>{{ factura.domicilio }}</td>
+                  <td>{{ factura.vencimiento1 }}</td>
+                  <td>{{ factura.vencimiento2 }}</td>
+                  <td>{{ factura.vencimiento3 }}</td>
 
                   <td class="actions-column">
                     <div class="actions-group">
+                      <span v-if="factura.status == 'Pagado'">
+                        <a class="btn btn-success btn-xs" href="#" data-toggle="tooltip"
+                          data-placement="top" title="Descargar" target="_blank">
+                            <i class="fa fa-download"></i>
+                        </a> Pagada
+                      </span>
 
-                      <span v-if="boleta.status == 'Pagado'">Pagada <a class="btn btn-success btn-xs" href="#" data-toggle="tooltip" data-placement="top" title="Descargar comprobante" target="_blank"><i class="fa fa-download"></i></a></span>
+                      <span v-if="factura.status == 'Descargar'">
+                        <a class="btn btn-primary btn-xs" :href="linkBoletaPago(factura)"
+                           data-toggle="tooltip" data-placement="top"
+                           title="Descargar boleta de pago" target="_blank">
+                          <i class="fa fa-download"></i>
+                        </a> Por pagar
+                      </span>
 
-                      <span v-if="boleta.status == 'Descargar'">Por pagar <a class="btn btn-primary btn-xs" :href="linkBoletaPago(boleta)" data-toggle="tooltip" data-placement="top" title="Descargar boleta de pago" target="_blank"><i class="fa fa-download"></i></a></span>
-
-                      <span v-if="boleta.status == 'Vencida'">Vencida <a class="btn btn-danger btn-xs" href="#" data-toggle="tooltip" data-placement="top" title="Solicitar factura" target="_blank"><i class="fa fa-download"></i></a></span>
+                      <span v-if="factura.status == 'Vencida'">
+                        <a class="btn btn-danger btn-xs" href="#" data-toggle="tooltip"
+                           data-placement="top" title="Solicitar factura" target="_blank">
+                          <i class="fa fa-download"></i>
+                        </a> Vencida
+                      </span>
 
                     </div>
                   </td>
