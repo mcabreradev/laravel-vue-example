@@ -6,9 +6,10 @@
     </a>
     <ul class="treeview-menu">
       <li><a href="#">Cuentas asociadas</a></li>
-      <li><a href="{{ route('oficina-virtual::facturas-adeudadas') }}">Facturas adeudadas</a></li>
-      <li><a href="{{ route('oficina-virtual::resumen-historico-facturas') }}">Resumen histórico</a></li>
       <li><a href="{{ route('oficina-virtual::boletas-de-pago') }}">Boletas de pago</a></li>
+      <li><a href="{{ route('oficina-virtual::conexiones.estado-deuda') }}">Deudas pendientes</a></li>
+      <li><a href="#">Facturas adeudadas</a></li>
+      <li><a href="{{ route('oficina-virtual::resumen-historico-facturas') }}">Resumen histórico</a></li>
     </ul>
 </li>
 <li class="{{ activeIfRouteIs('*/solicitar-libre-deuda') }}"><a href="{{ route('oficina-virtual::solicitar-libre-deuda') }}">Solicitar Libre Deuda</a></li>

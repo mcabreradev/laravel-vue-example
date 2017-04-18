@@ -7,7 +7,7 @@ require(__DIR__.'/auth-routes.php');
 Route::get('/test', function(App\Contracts\DpossApiContract $api){
 
     // caso rosi
-    $r = $api->getUltimasBoletas(19401, 26792);
+    // $r = $api->getUltimasBoletas(19401, 26792);
     // o $r = $api->getUltimasBoletas(null, 26792);
     // dd($r);
 
@@ -21,7 +21,11 @@ Route::get('/test', function(App\Contracts\DpossApiContract $api){
     // // caso chino periodo 201703
     // $cp = $api->getUltimasBoletasPorPeriodo(247, null, 201703);
 
-    // $r = $api->estadoDeuda(2187, null);
+    // Estado deuda Rosi
+    // $r = $api->estadoDeuda(19401, 26792);
+
+    // Estado deuda mama Mauricio
+    $r = $api->estadoDeuda(2187);
 
     dd($r);
 });
@@ -129,7 +133,7 @@ Route::group(['middleware' => ['auth']], function() {
             'uses' => 'BoletaPagoController@main'
         ]);
 
-        Route::get('facturas/{conexion}', [
+        Route::get('conexiones/facturas/{conexion}', [
             'as'   => 'conexiones.facturas',
             'uses' => 'ConexionController@facturas'
         ])->where('conexion', '[0-9]+');
@@ -137,6 +141,16 @@ Route::group(['middleware' => ['auth']], function() {
         Route::get('resumen-historico', [
             'as'   => 'resumen-historico-facturas',
             'uses' => 'ConexionController@resumenFacturas'
+        ]);
+
+        Route::get('conexiones/deudas/{conexion}', [
+            'as'   => 'conexiones.estado-deuda',
+            'uses' => 'ConexionController@deudas'
+        ]);
+
+        Route::get('deudas-pendientes', [
+            'as'   => 'conexiones.estado-deuda',
+            'uses' => 'ConexionController@estadoDeuda'
         ]);
 
         Route::post('boletas-de-pago-query', [

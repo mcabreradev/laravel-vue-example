@@ -98,7 +98,7 @@
       <span class="info-box-icon bg-yellow"><i class="fa fa-usd"></i></span>
 
       <div class="info-box-content">
-        <span class="info-box-text">Facturas adeudadas</span>
+        <span class="info-box-text">Deudas pendientes</span>
 
         {{-- @if($estadoCuenta->impagasCant)
           <span class="info-box-number">$ {{ number_format($estadoCuenta->impagasMonto, 2, ',' , '.' ) }}</span>

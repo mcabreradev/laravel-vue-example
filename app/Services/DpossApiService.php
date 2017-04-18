@@ -67,7 +67,7 @@ use GuzzleHttp\Client;
  *   -- Algunas aclaraciones sobre los datos devueltos:
  *     --- campos "monto" y "saldo": ambos deberian ser identicos e indican lo que falta pagar.
  *     --- campo "posibles_punitorios": serian como los intereses por mora
- *     --- campo "'D'": A|B=facturas, ND=notas de debito, D=debitos, F=facturas
+ *     --- campo "'D'": D=debitos, F=facturas
  *     --- campo "tipo_nota": A|B=facturas, D|X=debitos
  */
 
@@ -87,7 +87,7 @@ class DpossApiService implements DpossApiContract
             // Base URI is used with relative requests
             'base_uri' => env('DPOSS_API_BASE'),
             // You can set any number of default request options.
-            'timeout'  => 8,
+            'timeout'  => 10,
         ]);
     }
 
@@ -114,6 +114,27 @@ class DpossApiService implements DpossApiContract
         }
 
         return $factura;
+    }
+
+    protected function addComputedDeudaFields($deuda)
+    {
+        $deuda->fecha_format = Carbon::createFromFormat('Y-m-d', $deuda->fecha)->format('d/m/Y');
+        $deuda->monto_format = '$ ' . number_format($deuda->monto, 2, ',' , '.' );
+        $deuda->posibles_punitorios_format = '$ ' . number_format($deuda->posibles_punitorios, 2, ',' , '.' );
+
+        if ($deuda->periodo) {
+            $deuda->periodo_format = Carbon::createFromFormat('Ym', $deuda->periodo)->format('m/Y');
+        }
+
+        if ($deuda->{"'D'"} === 'F') {
+            $deuda->motivo = "Factura {$deuda->periodo_format}";
+        }
+        else {
+            $deuda->motivo = "Nota de débito {$deuda->numero_nota}";
+        }
+
+
+        return $deuda;
     }
 
     /**
@@ -217,6 +238,10 @@ class DpossApiService implements DpossApiContract
             }
 
             $response = collect(json_decode($apiResponse->getBody()));
+
+            $response->map(function ($i) use ($self) {
+                return $self->addComputedDeudaFields($i);
+            });
 
         } catch (Exception $e) {
             $response = collect([]);

@@ -35,23 +35,25 @@ class ConexionController extends Controller
     }
 
     /**
-     * [adeudadas description]
-     * @param  DpossApiContract $api [description]
-     * @return [type]                [description]
-     */
-    public function adeudadas(UserRepository $userRepository)
-    {
-        return view('oficina-virtual.boletas-de-pago.adeudadas', [
-            'boletas' => $userRepository->getAllBoletasImpagas(Auth::user())
-        ]);
-    }
-
-    /**
      * [resumenHistorico description]
      */
     public function resumenFacturas()
     {
         return view('oficina-virtual.conexiones.resumen-historico', [
+            'conexiones' => Auth::user()->conexiones()->get()
+        ]);
+    }
+
+    public function deudas(Conexion $conexion)
+    {
+        $deudas = $this->dpossApi->estadoDeuda($conexion->expediente, $conexion->unidad);
+
+        return response()->json($deudas, 200);
+    }
+
+    public function estadoDeuda()
+    {
+        return view('oficina-virtual.conexiones.estado-deuda', [
             'conexiones' => Auth::user()->conexiones()->get()
         ]);
     }
