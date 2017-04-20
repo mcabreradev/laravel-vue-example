@@ -111,9 +111,9 @@
       <span class="info-box-icon bg-yellow"><i class="fa fa-bar-chart"></i></span>
 
       <div class="info-box-content">
-        <span class="info-box-text">Resumen histórico</span>
+        <span class="info-box-text">Cuentas claras</span>
         <span class="info-box-number">
-          {{((!$estadoFacturas->porPagar) && (!$estadoFacturas->vencidas)) ? 'Tus facturas estan al día' : '' }}{{$estadoFacturas->porPagar ? "{$estadoFacturas->porPagar} por pagar" : ''}}{{($estadoFacturas->porPagar && $estadoFacturas->vencidas) ? ', ' : ''}}{{$estadoFacturas->vencidas ? "{$estadoFacturas->vencidas} vencidas" : ''}}
+          {{$estadoFacturas->historico}} facturas en histórico
         </span>
         <a href="{{ route('oficina-virtual::resumen-historico-facturas') }}" class="small-box-footer">Ver y descargar</a>
       </div><!-- /.info-box-content -->

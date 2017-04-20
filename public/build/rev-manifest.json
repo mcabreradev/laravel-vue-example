@@ -1,5 +1,10 @@
 {
+<<<<<<< HEAD
+  "compiled/css/app.css": "compiled/css/app-86b9a27824.css",
+  "js/app.js": "js/app-ee0ad0f49d.js"
+=======
   "compiled/css/app.css": "compiled/css/app-2a809283fa.css",
   "js/app.js": "js/app-5477e3cd0d.js",
   "js/laroute.js": "js/laroute-a779ba9deb.js"
+>>>>>>> 5d5640b540a6e928f270b36c6437853368bc8ce3
 }
