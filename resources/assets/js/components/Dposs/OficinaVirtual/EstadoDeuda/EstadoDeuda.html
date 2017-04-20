@@ -32,18 +32,41 @@
               <thead>
                 <tr>
                   <th>Fecha</th>
+                  <th>Expediente</th>
+                  <th>Unidad</th>
                   <th>Monto</th>
                   <th>Posibles punitorios</th>
                   <th>Motivo</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="deuda in deudas">
 
                   <td>{{ deuda.fecha_format }}</td>
+                  <td>{{ deuda.exp_rentas }}</td>
+                  <td>{{ deuda.numero_unidad }}</td>
                   <td>{{ deuda.monto_format }}</td>
                   <td>{{ deuda.posibles_punitorios_format }}</td>
                   <td>{{ deuda.motivo }}</td>
+                  <td>
+                    <span v-if="deuda.factura_data != null">
+                      <span v-if="deuda.factura_data.status == 'Descargar'">
+                        <a class="btn btn-primary btn-xs" :href="linkBoletaPago(deuda.factura_data)"
+                           data-toggle="tooltip" data-placement="top" title="Descargar boleta de pago" target="_blank">
+                          <i class="fa fa-download"></i> Por pagar
+                        </a>
+                      </span>
+
+                      <span v-if="deuda.factura_data.status == 'Vencida'">
+                        <a class="btn btn-danger btn-xs" href="#" @click.prevent="solicitarFacturaVencida(deuda.factura_data)" data-toggle="tooltip"
+                           data-placement="top" title="Solicitar factura" target="_blank">
+                          <i class="fa fa-paper-plane"></i> Vencida
+                        </a>
+                      </span>
+                    </span>
+                  </td>
+
                 </tr>
               </tbody>
             </table>

@@ -68,7 +68,7 @@ export default {
         domicilio: factura.domicilio,
         localidad: 'Ushuaia',
         nomenclatura: factura.nomenclatura,
-        unidad: factura.unidad,
+        unidad: factura.numero_unidad,
         periodo: factura.periodo,
         entrega: 'Por email',
         comentarios: 'Desde Oficina Virtual'

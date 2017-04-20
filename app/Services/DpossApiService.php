@@ -116,7 +116,7 @@ class DpossApiService implements DpossApiContract
         return $factura;
     }
 
-    protected function addComputedDeudaFields($deuda)
+    protected function addComputedDeudaFields($deuda, $facturas=[])
     {
         $deuda->fecha_format = Carbon::createFromFormat('Y-m-d', $deuda->fecha)->format('d/m/Y');
         $deuda->monto_format = '$ ' . number_format($deuda->monto, 2, ',' , '.' );
@@ -128,11 +128,15 @@ class DpossApiService implements DpossApiContract
 
         if ($deuda->{"'D'"} === 'F') {
             $deuda->motivo = "Factura {$deuda->periodo_format}";
+            $deuda->factura_data = $facturas->filter(function ($value) use ($deuda) {
+                return $value->periodo_factura == $deuda->periodo;
+            })
+            ->first();
         }
         else {
             $deuda->motivo = "Nota de débito {$deuda->numero_nota}";
+            $deuda->factura_data = null;
         }
-
 
         return $deuda;
     }
@@ -256,9 +260,13 @@ class DpossApiService implements DpossApiContract
 
             $response = collect(json_decode($apiResponse->getBody()));
 
-            $response->map(function ($i) use ($self) {
-                return $self->addComputedDeudaFields($i);
-            });
+            if (!$response->isEmpty()) {
+                $facturas = $this->historicoFacturas($expediente, $unidad);
+
+                $response->map(function ($i) use ($self, $facturas) {
+                    return $self->addComputedDeudaFields($i, $facturas);
+                });
+            }
 
         } catch (Exception $e) {
             $response = collect([]);
