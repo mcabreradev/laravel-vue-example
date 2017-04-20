@@ -2,8 +2,10 @@
   <panal-box-slot title="Resumen histórico de facturas">
     <div slot="body">
 
-      <p>Aquí podrás conocer el histórico de facturas emitidas para todas tus cuentas asociadas.</p>
-      <hr>
+      <span class="hidden-print">
+        <p>Aquí podrás conocer el histórico de facturas emitidas para todas tus cuentas asociadas.</p>
+        <hr>
+      </span>
 
       <form>
         <div class="form-group">
@@ -13,42 +15,50 @@
           </select>
         </div>
       </form>
-    </div>
 
+    </div>
   </panal-box-slot>
 
   <panal-box-slot v-if="facturas.length > 0" title="Facturas encontradas">
     <div slot="body">
       <div class="row">
+        <div class="col-xs-12">
+          <p>
+            <span v-if="facturas[0].titular && facturas[0].titular.trim().length">
+              <strong>Titular: </strong>{{ facturas[0].titular }} <br>
+            </span>
+            <span v-if="facturas[0].nombre_ocupante && facturas[0].nombre_ocupante.trim().length">
+              <strong>Ocupante: </strong>{{ facturas[0].nombre_ocupante }} <br>
+            </span>
+            <span v-if="facturas[0].domicilio && facturas[0].domicilio.trim().length">
+              <strong>Domicilio: </strong>{{ facturas[0].domicilio }}
+            </span>
+          </p>
+        </div>
+
         <!-- Table container -->
-        <div class="col-md-12 col-sm-12 col-xs-12 table-container">
+        <div class="col-xs-12 table-container">
           <div class="table-responsive">
             <table class="table table-striped table-bordered" cellspacing="0" width="100%">
               <thead>
                 <tr>
                   <th>Factura</th>
                   <th>Periodo</th>
-                  <th>Titular</th>
-                  <th>Ocupante</th>
-                  <th>Domicilio</th>
                   <th>Venc 1</th>
                   <th>Venc 2</th>
                   <th>Venc 3</th>
-                  <th></th>
+                  <th class="hidden-print"></th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="factura in facturas">
                   <td>{{ factura.factura }}</td>
                   <td>{{ factura.periodo }}</td>
-                  <td>{{ factura.titular }}</td>
-                  <td>{{ factura.nombre_ocupante }}</td>
-                  <td>{{ factura.domicilio }}</td>
                   <td>{{ factura.vencimiento1 }}</td>
                   <td>{{ factura.vencimiento2 }}</td>
                   <td>{{ factura.vencimiento3 }}</td>
 
-                  <td class="actions-column">
+                  <td class="actions-column hidden-print">
                     <div class="actions-group">
                       <span v-if="factura.status == 'Pagado'">
                         <span class="text-success"><i class="fa fa-check"></i> Pagada</span>

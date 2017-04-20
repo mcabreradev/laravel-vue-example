@@ -27,10 +27,13 @@ class UserRepository
         $estadoFacturas = (object) [
             'porPagar'      => 0,
             'vencidas'      => 0,
+            'historico'     => 0,
         ];
 
         $api->manyHistoricoFacturas($user->conexiones()->get())
             ->each(function($factura) use (&$estadoFacturas, $api) {
+
+                $estadoFacturas->historico++;
 
                 if (! $api->facturaIsPagada($factura)) {
                     if ($api->facturaIsVencida($factura)) {

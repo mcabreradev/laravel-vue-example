@@ -17,6 +17,7 @@
 
     @include('flash::message')
 
+    <img src="{{URL::asset('/img/dposs-logo.png')}}" class="visible-print-block">
     <dposs-resumen-historico :user="{{ auth()->user() }}" :conexiones="{{ $conexiones }}"/>
 
   </div>
