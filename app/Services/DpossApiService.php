@@ -193,6 +193,23 @@ class DpossApiService implements DpossApiContract
     }
 
     /**
+     * [getFacturasDePeriodo description]
+     * @param  [type] $expediente [description]
+     * @param  [type] $unidad     [description]
+     * @param  [type] $periodo    [description]
+     * @return [type]             [description]
+     */
+    public function getFacturasDePeriodo($expediente, $unidad, $periodo)
+    {
+        $facturas = $this->historicoFacturas($expediente, $unidad)
+            ->filter(function ($value) use ($periodo) {
+                return $value->periodo_factura == $periodo;
+            });
+
+        return $facturas;
+    }
+
+    /**
      * Determina si una factura esta pagada
      * @param  StdClass $factura factura de pago a revisar
      * @return bool
@@ -248,6 +265,22 @@ class DpossApiService implements DpossApiContract
         }
 
         return $response;
+    }
+
+    /**
+     * [manyEstadoDeuda description]
+     * @param  [type] $conexiones [description]
+     * @return [type]             [description]
+     */
+    public function manyEstadoDeuda($conexiones)
+    {
+        $deudas = collect([]);
+
+        $conexiones->each(function($conexion) use (&$deudas) {
+            $deudas = $deudas->merge($this->estadoDeuda($conexion->expediente, $conexion->unidad));
+        });
+
+        return $deudas;
     }
 
     /**

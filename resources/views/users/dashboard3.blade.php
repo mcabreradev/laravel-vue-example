@@ -30,7 +30,7 @@
         <span class="info-box-icon"><i class="fa fa-wrench"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">Agua potable</span>
+          <span class="info-box-text">Estado de la red</span>
           <span class="info-box-number">
             <a href="//dposs.gob.ar/#!/pagina/estado-de-la-red" class="a-white">
               Algunos barrios afectados

@@ -9,6 +9,7 @@ Interface DpossApiContract
 {
     public function historicoFacturas($expediente, $unidad=null);
     public function manyHistoricoFacturas($conexiones);
+    public function getFacturasDePeriodo($expediente, $unidad, $periodo);
     public function facturaIsPagada($factura);
     public function facturaIsVencida($factura);
 

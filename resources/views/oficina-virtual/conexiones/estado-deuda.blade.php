@@ -6,7 +6,7 @@
 
 @section('content-breadcrumb')
 <li><a href="{{ route('home') }}">Inicio</a></li>
-<li><a href="{{ route('oficina-virtual::conexiones.estado-deuda') }}">Deudas pendientes</a></li>
+<li><a href="{{ route('oficina-virtual::deudas-pendientes') }}">Deudas pendientes</a></li>
 @endsection
 
 

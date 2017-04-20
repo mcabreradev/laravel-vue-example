@@ -2,12 +2,12 @@
   <panal-box-slot title="Deudas pendientes">
     <div slot="body">
 
-      <p>Acá podés ver las deudas que poseen tus cuentas. El monto final puede variar por posbiles intereses o punitorios.</p>
+      <p>Aquí podrás ver las deudas que poseen tus cuentas. El monto final puede variar por posbiles intereses o punitorios.</p>
       <hr>
 
       <form>
         <div class="form-group">
-          <label>Mostrar deuda de:</label>
+          <label>Mostrar deudas de</label>
           <select class="form-control" v-model="conexionIndex" @change="getDeudas()">
             <option v-for="(conexion, index) in conexiones" :key="conexion.id" :value="index">{{ conexion.domicilio_completo }}</option>
           </select>
@@ -20,6 +20,11 @@
   <panal-box-slot v-if="deudas.length > 0" title="Deudas encontradas">
     <div slot="body">
       <div class="row">
+        <div class="col-xs-12">
+          <div class="alert alert-danger">
+            <p>Tu deuda actual es de <strong>{{ totalesDedudas.monto_format }} + intereses ({{totalesDedudas.suma_format}} aprox)</strong></p>
+          </div>
+        </div>
         <!-- Table container -->
         <div class="col-md-12 col-sm-12 col-xs-12 table-container">
           <div class="table-responsive">
@@ -30,7 +35,6 @@
                   <th>Monto</th>
                   <th>Posibles punitorios</th>
                   <th>Motivo</th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -40,12 +44,6 @@
                   <td>{{ deuda.monto_format }}</td>
                   <td>{{ deuda.posibles_punitorios_format }}</td>
                   <td>{{ deuda.motivo }}</td>
-
-                  <td class="actions-column">
-                    <div class="actions-group">
-
-                    </div>
-                  </td>
                 </tr>
               </tbody>
             </table>
@@ -59,7 +57,7 @@
   <div class="row" v-if="(deudas.length === 0) && (!procesando)">
     <div class="col-xs-12">
       <div class="alert alert-success">
-        <p><i class="fa fa-thumbs-o-up"></i>No tenés deudas en esta cuenta</p>
+        <p><i class="fa fa-thumbs-o-up"></i> No tenés deudas en esta cuenta</p>
       </div>
     </div>
   </div>

@@ -76,16 +76,24 @@ class AuthController extends Controller
      */
     protected function validator(array $data)
     {
-        $validator = Validator::make($data, [
+        $rules = [
             'name'     => 'required|max:255',
             'email'    => 'required|email|max:255|unique:users',
             'password' => 'required|min:6|confirmed',
 
+            'terminos_y_condiciones' => 'accepted',
+
             'nro_factura'     => 'required',
-            'periodo_factura' => 'required',
-            'monto_factura'   => 'required',
+            'periodo_factura' => ['required', 'regex:/[0-9][0-9]\/[0-9][0-9][0-9][0-9]/'],
+            'monto_factura'   => ['required', 'regex:/[0-9]+,[0-9][0-9]/'],
             'expediente'      => 'required',
-        ]);
+        ];
+
+        $messages = [
+            'terminos_y_condiciones.accepted' => 'Debe aceptar los términos y condiciones'
+        ];
+
+        $validator =  Validator::make($data, $rules, $messages);
 
         // luego de las comprobaciones basicas se llamara al metodo validarInfoFactura
         $validator->after([$this, 'validarInfoFactura']);
@@ -132,18 +140,22 @@ class AuthController extends Controller
         // datos enviados por el formulario de registro
         $data = $validator->getData();
 
+        // adapto monto_factura y periodo_factura para la API
+        $montoFactura = str_replace(',', '.', $data['monto_factura']);
+        $periodoFactura = substr($data['periodo_factura'], 3) . substr($data['periodo_factura'], 0, 2);
+
         // Intento obtener las boletas desde la api, con los datos ingresados.
         // De obtenerse datos, se filtraran con lo ingresado.
         // Si luego de los filtros $boletas tiene items es porque la informacion
         // ingresada es correcta
         $boletas = $this->dpossApi
-            ->getUltimasBoletasPorPeriodo($data['expediente'], null, $data['periodo_factura'])
-            ->filter(function ($value, $key) use ($data) {
+            ->getFacturasDePeriodo($data['expediente'], null, $periodoFactura)
+            ->filter(function ($value) use ($data, $montoFactura) {
                 // filtro nro_liq_sp y monto_total_origen
                 // el expediente y el periodo ya estan filtrados por la
-                // llamada a getUltimasBoletasPorPeriodo
+                // llamada a getFacturasDePeriodo
                 return $value->nro_liq_sp == $data['nro_factura'] &&
-                    $value->monto_total_origen == $data['monto_factura'];
+                    $value->monto_total_origen == $montoFactura;
             });
 
         // Si la coleccion esta vacia es porque los datos no son correctos

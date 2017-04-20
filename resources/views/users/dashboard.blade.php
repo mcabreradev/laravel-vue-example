@@ -33,11 +33,7 @@
           <span class="info-box-text">Estado de la red</span>
           <span class="info-box-number">
             <a href="//dposs.gob.ar/#!/pagina/estado-de-la-red" class="a-white">
-              @if($estadoServicio->vigente_has_alertas)
-                {{ $estadoServicio->vigente }}
-              @else
-                {{ $estadoServicio->futuro }}
-              @endif
+              @if($estadoServicio->vigente_has_alertas){{ $estadoServicio->vigente }}@else{{ $estadoServicio->futuro }}@endif (ver mapa)
             </a>
           </span>
         </div> <!-- /.info-box-content -->
@@ -58,17 +54,17 @@
     </div> <!-- /.col -->
 
   @endif
-{{--
-  @if($estadoCuenta->impagasCant)
+
+  @if($deudaTotal > 0)
     <div class="col-md-4 col-sm-6 col-xs-12">
       <div class="info-box bg-red">
         <span class="info-box-icon"><i class="fa fa-warning"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">Pagos pendientes</span>
+          <span class="info-box-text">Estado de cuentas</span>
           <span class="info-box-number">
-            <a href="{{ route('oficina-virtual::facturas-adeudadas') }}" class="a-white">
-              Tenés {{ $estadoCuenta->impagasCant }} facturas pendientes de pago
+            <a href="{{ route('oficina-virtual::deudas-pendientes') }}" class="a-white">
+              Registras deudas pendientes de pago
             </a>
           </span>
         </div> <!-- /.info-box-content -->
@@ -80,13 +76,13 @@
         <span class="info-box-icon bg-green"><i class="fa fa-thumbs-o-up"></i></span>
 
         <div class="info-box-content">
-          <span class="info-box-text">Pagos pendientes</span>
-          <span class="info-box-number">No tenés facturas pendientes de pago</span>
+          <span class="info-box-text">Estado de cuentas</span>
+          <span class="info-box-number">No tenés deudas</span>
         </div> <!-- /.info-box-content -->
       </div> <!-- /.info-box -->
     </div> <!-- /.col -->
   @endif
-   --}}
+
 </div>
 
 <h2 class="page-header">Estado de cuenta</h2>
@@ -100,12 +96,12 @@
       <div class="info-box-content">
         <span class="info-box-text">Deudas pendientes</span>
 
-        {{-- @if($estadoCuenta->impagasCant)
-          <span class="info-box-number">$ {{ number_format($estadoCuenta->impagasMonto, 2, ',' , '.' ) }}</span>
-          <a href="{{ route('oficina-virtual::facturas-adeudadas') }}" class="small-box-footer">Más información</a>
+        @if($deudaTotal > 0)
+          <span class="info-box-number">$ {{ number_format($deudaTotal, 2, ',' , '.' ) }} + intereses</span>
         @else
-          <span class="info-box-number">No tenés facturas adeudadas</span>
-        @endif --}}
+          <span class="info-box-number">No tenés deuda</span>
+        @endif
+        <a href="{{ route('oficina-virtual::deudas-pendientes') }}" class="small-box-footer">Más información</a>
       </div> <!-- /.info-box-content -->
     </div> <!-- /.info-box -->
   </div> <!-- /.col -->
@@ -148,12 +144,36 @@
 
   <div class="col-md-4 col-sm-6 col-xs-12">
     <div class="info-box">
-      <span class="info-box-icon bg-aqua"><i class="fa fa-envelope-o"></i></span>
+      <span class="info-box-icon bg-aqua"><i class="fa fa-plus"></i></span>
 
       <div class="info-box-content">
-        <span class="info-box-text">Libre deuda</span>
-        <span class="info-box-number">Te diremos cuando esté listo</span>
-        <a href="{{ route('oficina-virtual::solicitar-libre-deuda') }}" class="">Solicitar online</a>
+        <span class="info-box-text">Avanzadas</span>
+        <span class="info-box-number">Vinculá más cuentas</span>
+        <a href="#">Centralizá toda tu info</a>
+      </div> <!-- /.info-box-content -->
+    </div> <!-- /.info-box -->
+  </div>
+
+  <div class="col-md-4 col-sm-6 col-xs-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-aqua"><i class="fa fa-bell-o"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Registro histórico</span>
+        <span class="info-box-number">Centro de notificaciones</span>
+        <a href="#">Acceder </a>
+      </div> <!-- /.info-box-content -->
+    </div> <!-- /.info-box -->
+  </div> <!-- /.col -->
+
+  <div class="col-md-4 col-sm-6 col-xs-12">
+    <div class="info-box">
+      <span class="info-box-icon bg-aqua"><i class="fa fa-handshake-o"></i></span>
+
+      <div class="info-box-content">
+        <span class="info-box-text">Solicitar online</span>
+        <span class="info-box-number">Libre deuda</span>
+        <a href="{{ route('oficina-virtual::solicitar-libre-deuda') }}">Acceder al formulario</a>
       </div> <!-- /.info-box-content -->
     </div> <!-- /.info-box -->
   </div> <!-- /.col -->
@@ -163,9 +183,9 @@
       <span class="info-box-icon bg-aqua"><i class="fa fa-user"></i></span>
 
       <div class="info-box-content">
-        <span class="info-box-text">Tu datos</span>
+        <span class="info-box-text">Tus datos</span>
         <span class="info-box-number">Para comunicarnos mejor</span>
-        <a href="{{ route('users.profile') }}" class="">Actualizar tu información</a>
+        <a href="{{ route('users.profile') }}">Actualizar tu información</a>
       </div> <!-- /.info-box-content -->
     </div> <!-- /.info-box -->
   </div>

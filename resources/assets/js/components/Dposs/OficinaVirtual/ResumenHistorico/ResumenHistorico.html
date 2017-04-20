@@ -2,12 +2,12 @@
   <panal-box-slot title="Resumen histórico de facturas">
     <div slot="body">
 
-      <p>Acá podés ver el histórico de facturas emitidas para todas tus cuentas asociadas.</p>
+      <p>Aquí podrás conocer el histórico de facturas emitidas para todas tus cuentas asociadas.</p>
       <hr>
 
       <form>
         <div class="form-group">
-          <label>Mostrar facturas de:</label>
+          <label>Mostrar facturas de</label>
           <select class="form-control" v-model="conexionIndex" @change="getFacturas()">
             <option v-for="(conexion, index) in conexiones" :key="conexion.id" :value="index">{{ conexion.domicilio_completo }}</option>
           </select>
@@ -62,15 +62,15 @@
                         <a class="btn btn-primary btn-xs" :href="linkBoletaPago(factura)"
                            data-toggle="tooltip" data-placement="top"
                            title="Descargar boleta de pago" target="_blank">
-                          <i class="fa fa-download"></i>
-                        </a> Por pagar
+                          <i class="fa fa-download"></i> Por pagar
+                        </a>
                       </span>
 
                       <span v-if="factura.status == 'Vencida'">
                         <a class="btn btn-danger btn-xs" href="#" @click.prevent="solicitarFacturaVencida(factura)" data-toggle="tooltip"
                            data-placement="top" title="Solicitar factura" target="_blank">
-                          <i class="fa fa-paper-plane"></i>
-                        </a> <span class="text-danger">Vencida</span>
+                          <i class="fa fa-paper-plane"></i> Vencida
+                        </a>
                       </span>
 
                     </div>

@@ -87,6 +87,10 @@ elixir(function (mix) {
   // Datetimepicker
   mix.copy('node_modules/datetimepicker/build', 'public/compiled/vendors/datetimepicker');
 
+  // TextMask https://github.com/text-mask/text-mask/
+  mix.copy('node_modules/vanilla-text-mask/dist', 'public/compiled/vendors/text-mask/vanilla');
+  mix.copy('node_modules/text-mask-addons/dist', 'public/compiled/vendors/text-mask/addons');
+
   // Routes from laravel to javascript
   // mix.routes();
 

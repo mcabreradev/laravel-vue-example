@@ -5,10 +5,9 @@
       <span>Estado de cuenta</span><i class="fa fa-angle-left pull-right"></i>
     </a>
     <ul class="treeview-menu">
-      <li><a href="#">Cuentas asociadas</a></li>
+      <li><a href="#">Cuentas vinculadas</a></li>
       <li><a href="{{ route('oficina-virtual::boletas-de-pago') }}">Boletas de pago</a></li>
-      <li><a href="{{ route('oficina-virtual::conexiones.estado-deuda') }}">Deudas pendientes</a></li>
-      <li><a href="#">Facturas adeudadas</a></li>
+      <li><a href="{{ route('oficina-virtual::deudas-pendientes') }}">Deudas pendientes</a></li>
       <li><a href="{{ route('oficina-virtual::resumen-historico-facturas') }}">Resumen histórico</a></li>
     </ul>
 </li>

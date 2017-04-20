@@ -25,7 +25,7 @@ Route::get('/test', function(App\Contracts\DpossApiContract $api){
     // $r = $api->estadoDeuda(19401, 26792);
 
     // Estado deuda mama Mauricio
-    $r = $api->estadoDeuda(2187);
+    $r = $api->getFacturasDePeriodo(19401, null, 201602);
 
     dd($r);
 });
@@ -133,7 +133,7 @@ Route::group(['middleware' => ['auth']], function() {
             'uses' => 'BoletaPagoController@main'
         ]);
 
-        Route::get('conexiones/facturas/{conexion}', [
+        Route::get('conexiones/{conexion}/facturas', [
             'as'   => 'conexiones.facturas',
             'uses' => 'ConexionController@facturas'
         ])->where('conexion', '[0-9]+');
@@ -143,24 +143,19 @@ Route::group(['middleware' => ['auth']], function() {
             'uses' => 'ConexionController@resumenFacturas'
         ]);
 
-        Route::get('conexiones/deudas/{conexion}', [
-            'as'   => 'conexiones.estado-deuda',
+        Route::get('conexiones/{conexion}/deudas', [
+            'as'   => 'conexiones.deudas',
             'uses' => 'ConexionController@deudas'
         ]);
 
         Route::get('deudas-pendientes', [
-            'as'   => 'conexiones.estado-deuda',
+            'as'   => 'deudas-pendientes',
             'uses' => 'ConexionController@estadoDeuda'
         ]);
 
         Route::post('boletas-de-pago-query', [
             'as'   => 'boletas-de-pago-query',
             'uses' => 'BoletaPagoController@query'
-        ]);
-
-        Route::get('facturas-adeudadas', [
-            'as'   => 'facturas-adeudadas',
-            'uses' => 'BoletaPagoController@adeudadas'
         ]);
 
         Route::get('solicitar-libre-deuda', [

@@ -182,16 +182,4 @@ class BoletaPagoController extends Controller
 
         return response()->json(['data' => $data, 'responseText' => 'ok'], 200);
     }
-
-    /**
-     * [adeudadas description]
-     * @param  DpossApiContract $api [description]
-     * @return [type]                [description]
-     */
-    public function adeudadas(UserRepository $userRepository)
-    {
-        return view('oficina-virtual.boletas-de-pago.adeudadas', [
-            'boletas' => $userRepository->getAllBoletasImpagas(Auth::user())
-        ]);
-    }
 }

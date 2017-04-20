@@ -5,7 +5,7 @@
 
       <form class="form-inline">
         <div class="form-group">
-          <label>Completar con:</label>
+          <label>Completar con</label>
           <select class="form-control" v-model="conexion" @change="confirmarCompletar()" width="100%">
             <option v-for="(item, index) in conexiones" :key="item.id" :value="index">{{ item.domicilio_completo }}</option>
             <option value="-1">Solicitar libre deuda para otra persona</option>
@@ -13,8 +13,6 @@
         </div>
       </form>
 
-      <hr>
-      <h3 class="text-center">Formulario de solicitud</h3>
       <hr>
 
       <form method="POST" v-on:submit.stop.prevent="enviarSolicitud()">
@@ -28,7 +26,7 @@
                 <i class="fa fa-circle-thin fa-stack-2x"></i>
                 <i class="fa fa-info fa-stack-1x"></i>
               </span>
-               Recordá incluir el código de área en el teléfono
+               Si te interesa solicitar un libre deuda para otra persona, cambiá los datos a continuación.
             </div>
           </div>
 
@@ -42,7 +40,7 @@
 
           <div class="col-xs-12 col-sm-6">
             <div class="form-group">
-              <label for="solicitante_telefono">Teléfono</label>
+              <label for="solicitante_telefono">Teléfono (incluir código de área)</label>
               <input v-model="usuario.telefono" class="form-control" name="solicitante_telefono" id="solicitante_telefono" placeholder="Teléfono" type="text" required>
             </div>
           </div>
@@ -83,7 +81,7 @@
                 <i class="fa fa-circle-thin fa-stack-2x"></i>
                 <i class="fa fa-info fa-stack-1x"></i>
               </span>
-               Debés ingresar nomenclatura, unidad o expediente
+               Debés ingresar nomenclatura, unidad o expediente. Con uno sólo alcanza.
             </div>
           </div>
 
@@ -220,8 +218,8 @@ export default {
 
       if (this.checkIfOtros()) {
         swal({
-          title: "¿Segur@?",
-          text: "Si continúas los algunos datos del formulario se blanquearan",
+          title: "¿Limpiar formulario?",
+          text: "Vaciaremos el formulario para que lo completes con lo que quieras",
           type: "warning",
           showCancelButton: true,
           cancelButtonText: 'No, me equivoqué',
@@ -241,7 +239,7 @@ export default {
       else {
         swal({
           title: "¿Completar formulario?",
-          text: "Completaremos el formulario con los datos de esta conexión",
+          text: "Completaremos el formulario con los datos de la cuenta seleccionada (" + self.conexiones[self.conexion].domicilio_completo + ')',
           type: "warning",
           showCancelButton: true,
           cancelButtonText: 'No, me equivoqué',
@@ -314,12 +312,12 @@ export default {
         .post(route, this.solicitud)
         .then(
           res => {
-            swal("Solicitud enviada", "Te contactaremos en breve", "success");
+            swal("Solicitud enviada", "Te contactaremos a la brevedad", "success");
             Events.$emit('indicator.hide');
           },
           err => {
             console.error("Error: ", err);
-            swal("Ocurrió un error al enviar la solicitud", "Por favor intentá más tarde o comunicate con nosotros si el problema persiste", "error");
+            swal("Ocurrió un error al enviar la solicitud", "Por favor intentá más tarde o comunicate con nosotros", "error");
             Events.$emit('indicator.hide');
           }
         );

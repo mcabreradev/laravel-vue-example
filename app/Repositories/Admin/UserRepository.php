@@ -46,11 +46,14 @@ class UserRepository
     }
 
     /**
-     * [getAllBoletasImpagas description]
+     * [deudaTotal description]
      * @return [type] [description]
      */
-    public function getAllBoletasImpagas(User $user)
+    public function deudaTotal(User $user)
     {
-        return collect([]);
+        return $this->api->manyEstadoDeuda($user->conexiones()->get())
+            ->reduce(function ($carry, $deuda) {
+                return $carry + $deuda->monto;
+            }, 0);
     }
 }

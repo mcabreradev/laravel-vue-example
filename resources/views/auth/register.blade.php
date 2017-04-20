@@ -1,10 +1,5 @@
 @extends('layouts.base')
 
-@section('head-scripts')
-@parent
-<script src='https://www.google.com/recaptcha/api.js'></script>
-@endsection
-
 @section('body-attributes')
 class="hold-transition register-page"
 @endsection
@@ -33,53 +28,6 @@ class="hold-transition register-page"
 
     <div class="row">
       <div class="col-xs-12 col-sm-6">
-        <h4 class="well">Datos de alguna factura</h4>
-
-        <div class="form-group">
-          <label for="nro_factura">Número de factura <span class="text-danger">*</span></label>
-          <div class="input-group">
-            <input type="number" class="form-control" name="nro_factura" id="nro_factura" value="{{ old('nro_factura') }}" required>
-            <span class="input-group-btn">
-              <a href="http://dposs.gob.ar/wordpress/wp-content/uploads/2017/03/factura-ayuda-liquidacion-sp.jpg" class="btn btn-warning" target="_blank" rel="noopener noreferrer"><i class="fa fa-question-circle"></i> </a>
-            </span>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="periodo_factura">Período de factura <span class="text-danger">*</span></label>
-          <div class="input-group">
-            <input type="text" class="form-control" name="periodo_factura" id="periodo_factura" value="{{ old('periodo_factura') }}" required>
-            <span class="input-group-btn">
-              <a href="http://dposs.gob.ar/wordpress/wp-content/uploads/2017/03/factura-ayuda-periodo.jpg" class="btn btn-warning" target="_blank" rel="noopener noreferrer"><i class="fa fa-question-circle"></i>  </a>
-            </span>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="monto_factura">Monto de factura <span class="text-danger">*</span></label>
-          <div class="input-group">
-            <input type="number" class="form-control" name="monto_factura" id="monto_factura"
-              value="{{ old('monto_factura') }}" required step=".01" pattern="[0-9]+([\.,][0-9][0-9])?">
-            <span class="input-group-btn">
-              <a href="http://dposs.gob.ar/wordpress/wp-content/uploads/2017/03/factura-ayuda-monto.jpg" class="btn btn-warning" target="_blank" rel="noopener noreferrer"><i class="fa fa-question-circle"></i>  </a>
-            </span>
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="expediente">Expediente <span class="text-danger">*</span></label>
-          <div class="input-group">
-            <input type="number" class="form-control" name="expediente" id="expediente" value="{{ old('expediente') }}" required>
-            <span class="input-group-btn">
-              <a href="http://dposs.gob.ar/wordpress/wp-content/uploads/2017/03/factura-ayuda-expediente.jpg" class="btn btn-warning" target="_blank" rel="noopener noreferrer"><i class="fa fa-question-circle"></i> </a>
-            </span>
-          </div>
-        </div>
-
-        <div class="g-recaptcha" data-sitekey="6LfrGhoUAAAAAPveYXvjip9PN1eXhBYQ6aAGoMTj"></div>
-      </div> <!-- /.col-xs-12 col-sm-6 -->
-
-      <div class="col-xs-12 col-sm-6">
         <h4 class="well">Datos de tu cuenta</h4>
 
         <div class="form-group">
@@ -103,18 +51,97 @@ class="hold-transition register-page"
         </div>
 
         <div class="form-group">
-          <label for="telefono">Teléfono o celular</label>
+          <label for="telefono">Teléfono celular</label>
           <input type="number" class="form-control" name="telefono" id="telefono" value="{{ old('telefono') }}">
         </div>
       </div> <!-- /.col-xs-12 col-sm-6 -->
+
+      <div class="col-xs-12 col-sm-6">
+        <h4 class="well">Datos de alguna factura</h4>
+
+        <div class="form-group">
+          <label for="nro_factura">
+            Número de factura <span class="text-danger">*</span> <span class="field-help label label-warning"><a href="//dposs.gob.ar/wordpress/wp-content/uploads/2017/03/factura-ayuda-liquidacion-sp.jpg" target="_blank" rel="noopener noreferrer">Necesita ayuda?</a></span>
+          </label>
+          <input type="number" class="form-control" name="nro_factura" id="nro_factura" value="{{ old('nro_factura') }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="periodo_factura">
+            Período de factura <span class="text-danger">*</span> <span class="field-help label label-warning"><a href="//dposs.gob.ar/wordpress/wp-content/uploads/2017/03/factura-ayuda-periodo.jpg" target="_blank" rel="noopener noreferrer">Necesita ayuda?</a></span>
+          </label>
+          <input type="text" class="form-control" name="periodo_factura" id="periodo_factura"
+            value="{{ old('periodo_factura') }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="monto_factura">
+            Monto de factura <span class="text-danger">*</span> <span class="field-help label label-warning"><a href="//dposs.gob.ar/wordpress/wp-content/uploads/2017/03/factura-ayuda-monto.jpg" target="_blank" rel="noopener noreferrer">Necesita ayuda?</a></span>
+          </label>
+          <input type="text" class="form-control" name="monto_factura" id="monto_factura"
+            value="{{ old('monto_factura') }}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="expediente">
+            Expediente <span class="text-danger">*</span> <span class="field-help label label-warning"><a href="//dposs.gob.ar/wordpress/wp-content/uploads/2017/03/factura-ayuda-expediente.jpg" target="_blank" rel="noopener noreferrer">Necesita ayuda?</a></span>
+          </label>
+          <input type="number" class="form-control" name="expediente" id="expediente" value="{{ old('expediente') }}" required>
+        </div>
+
+        <div class="form-group">
+          <div class="checkbox">
+            <label>
+              <input type="checkbox" id="terminos_y_condiciones" name="terminos_y_condiciones" value="1"> Al marcar esta opción acepto los <a href="http://dposs.gob.ar/#!/pagina/terminos-y-condiciones-de-la-oficina-virtual" target="_blank" rel="noopener noreferrer">términos y condiciones</a>
+            </label>
+          </div>
+        </div>
+      </div> <!-- /.col-xs-12 col-sm-6 -->
+
+
     </div> <!-- /.row -->
 
     <div class="row">
       <div class="col-xs-12 col-sm-6 col-sm-offset-6">
-        <button type="submit" class="btn btn-success btn-lg btn-block">Registrarse</button>
+        <button type="submit" class="btn btn-success btn-lg btn-block">
+          <i class="fa fa-btn fa-lock"></i> Registrarse
+        </button>
       </div>
     </div>
   </form>
+
+
 </div>
 
 @endsection
+
+@push('body-scripts')
+  <script src="{{ asset('/compiled/vendors/text-mask/vanilla/vanillaTextMask.js') }}"></script>
+  <script src="{{ asset('/compiled/vendors/text-mask/addons/textMaskAddons.js') }}"></script>
+  <script type="text/javascript">
+    (function(vanillaTextMask, textMaskAddons){
+      var periodoMask = [/[0-9]/, /[0-9]/, '/', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
+      var periodoInput = document.getElementById('periodo_factura');
+
+      vanillaTextMask.maskInput({
+        inputElement: periodoInput,
+        mask: periodoMask
+      });
+
+      var montoMask = textMaskAddons.createNumberMask({
+        prefix: '',
+        includeThousandsSeparator:false,
+        allowDecimal:true,
+        decimalSymbol:',',
+        requireDecimal:true
+      });
+      var montoInput = document.getElementById('monto_factura');
+
+      // vanillaTextMask.maskInput({
+      //   inputElement: montoInput,
+      //   mask: montoMask
+      // });
+
+    })(window.vanillaTextMask, window.textMaskAddons);
+  </script>
+@endpush

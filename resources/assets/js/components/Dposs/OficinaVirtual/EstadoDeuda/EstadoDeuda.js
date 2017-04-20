@@ -23,6 +23,30 @@ export default {
     };
   },
 
+  computed: {
+    totalesDedudas() {
+      let totales = {
+        monto: 0,
+        posibles_punitorios: 0,
+        suma: 0
+      };
+
+      for (var i = this.deudas.length - 1; i >= 0; i--) {
+        totales.monto += this.deudas[i].monto;
+        totales.posibles_punitorios += this.deudas[i].posibles_punitorios
+      }
+
+      totales.suma = totales.monto + totales.posibles_punitorios;
+
+      let formater = new Intl.NumberFormat('es-AR', {style: 'currency', currency: 'ARS'});
+      totales.monto_format = formater.format(totales.monto);
+      totales.posibles_punitorios_format = formater.format(totales.posibles_punitorios);
+      totales.suma_format = formater.format(totales.suma);
+
+      return totales;
+    }
+  },
+
   mounted() {
     this.getDeudas();
   },
@@ -33,7 +57,7 @@ export default {
       var self     = this;
       var conexion = self.conexiones[self.conexionIndex];
       var route    = Laravel.baseUrl +
-        laroute.route('oficina-virtual::conexiones.estado-deuda', {conexion: conexion.id});
+        laroute.route('oficina-virtual::conexiones.deudas', {conexion: conexion.id});
 
       self.deudas = [];
 

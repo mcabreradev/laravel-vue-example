@@ -267,6 +267,7 @@ class UserController extends ApiController
 
         return view('users.dashboard' . ($request->has('demo') ? $request->input('demo') : ''))
             ->with('estadoServicio', AlertaRepository::estadoServicio())
-            ->with('estadoFacturas', $this->userRepository->estadoFacturas($user));
+            ->with('estadoFacturas', $this->userRepository->estadoFacturas($user))
+            ->with('deudaTotal', $this->userRepository->deudaTotal($user));
     }
 }

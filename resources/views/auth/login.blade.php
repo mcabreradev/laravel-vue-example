@@ -53,7 +53,8 @@ class="hold-transition login-page"
           </div>
 
           <div class="form-group">
-            <a class="btn btn-success" href="{{ route('auth::register.form') }}">Registrarse</a>
+            <a class="btn btn-success" href="{{ route('auth::register.form') }}">
+              <i class="fa fa-btn fa-lock"></i> Registrarse</a>
 
             <button type="submit" class="btn btn-primary pull-right">
               <i class="fa fa-btn fa-sign-in"></i> Ingresar
