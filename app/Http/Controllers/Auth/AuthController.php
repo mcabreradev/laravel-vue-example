@@ -137,32 +137,37 @@ class AuthController extends Controller
      */
     public function validarInfoFactura($validator)
     {
-        // datos enviados por el formulario de registro
-        $data = $validator->getData();
+        try {
+            // datos enviados por el formulario de registro
+            $data = $validator->getData();
 
-        // adapto monto_factura y periodo_factura para la API
-        $montoFactura = str_replace(',', '.', $data['monto_factura']);
-        $periodoFactura = substr($data['periodo_factura'], 3) . substr($data['periodo_factura'], 0, 2);
+            // adapto monto_factura y periodo_factura para la API
+            $montoFactura = str_replace(',', '.', $data['monto_factura']);
+            $periodoFactura = substr($data['periodo_factura'], 3) . substr($data['periodo_factura'], 0, 2);
 
-        // Intento obtener las boletas desde la api, con los datos ingresados.
-        // De obtenerse datos, se filtraran con lo ingresado.
-        // Si luego de los filtros $boletas tiene items es porque la informacion
-        // ingresada es correcta
-        $boletas = $this->dpossApi
-            ->getFacturasDePeriodo($data['expediente'], null, $periodoFactura)
-            ->filter(function ($value) use ($data, $montoFactura) {
-                // filtro nro_liq_sp y monto_total_origen
-                // el expediente y el periodo ya estan filtrados por la
-                // llamada a getFacturasDePeriodo
-                return $value->nro_liq_sp == $data['nro_factura'] &&
-                    $value->monto_total_origen == $montoFactura;
-            });
+            // Intento obtener las boletas desde la api, con los datos ingresados.
+            // De obtenerse datos, se filtraran con lo ingresado.
+            // Si luego de los filtros $boletas tiene items es porque la informacion
+            // ingresada es correcta
+            $boletas = $this->dpossApi
+                ->getFacturasDePeriodo($data['expediente'], null, $periodoFactura)
+                ->filter(function ($value) use ($data, $montoFactura) {
+                    // filtro nro_liq_sp y monto_total_origen
+                    // el expediente y el periodo ya estan filtrados por la
+                    // llamada a getFacturasDePeriodo
+                    return $value->nro_liq_sp == $data['nro_factura'] &&
+                        $value->monto_total_origen == $montoFactura;
+                });
 
-        // Si la coleccion esta vacia es porque los datos no son correctos
-        if ($boletas->isEmpty()) {
+            // Si la coleccion esta vacia es porque los datos no son correctos
+            if ($boletas->isEmpty()) {
+                $validator->errors()->add('nro_factura', 'Los datos ingresados no coinciden con ninguna factura');
+            } else {
+                $this->boletaInfoCache = $boletas->first();
+            }
+        }
+        catch(Exception $e) {
             $validator->errors()->add('nro_factura', 'Los datos ingresados no coinciden con ninguna factura');
-        } else {
-            $this->boletaInfoCache = $boletas->first();
         }
     }
 

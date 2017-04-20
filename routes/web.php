@@ -25,7 +25,9 @@ Route::get('/test', function(App\Contracts\DpossApiContract $api){
     // $r = $api->estadoDeuda(19401, 26792);
 
     // Estado deuda mama Mauricio
-    $r = $api->getFacturasDePeriodo(19401, null, 201602);
+    // $r = $api->estadoDeuda(2187);
+
+    $r = $api->estadoDeuda(19401);
 
     dd($r);
 });
