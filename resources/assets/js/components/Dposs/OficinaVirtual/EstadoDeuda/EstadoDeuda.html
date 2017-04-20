@@ -2,8 +2,10 @@
   <panal-box-slot title="Deudas pendientes">
     <div slot="body">
 
-      <p>Aquí podrás ver las deudas que poseen tus cuentas. El monto final puede variar por posbiles intereses o punitorios.</p>
-      <hr>
+      <span class="hidden-print">
+        <p>Aquí podrás ver las deudas que poseen tus cuentas. El monto final puede variar por posbiles intereses o punitorios.</p>
+        <hr>
+      </span>
 
       <form>
         <div class="form-group">
@@ -14,10 +16,9 @@
         </div>
       </form>
     </div>
-
   </panal-box-slot>
 
-  <panal-box-slot v-if="deudas.length > 0" title="Deudas encontradas">
+  <panal-box-slot v-if="deudas.length > 0" title="Deudas encontradas" :printable="true">
     <div slot="body">
       <div class="row">
         <div class="col-xs-12">
@@ -37,7 +38,7 @@
                   <th>Monto</th>
                   <th>Posibles punitorios</th>
                   <th>Motivo</th>
-                  <th></th>
+                  <th class="hidden-print"></th>
                 </tr>
               </thead>
               <tbody>
@@ -49,7 +50,7 @@
                   <td>{{ deuda.monto_format }}</td>
                   <td>{{ deuda.posibles_punitorios_format }}</td>
                   <td>{{ deuda.motivo }}</td>
-                  <td>
+                  <td class="hidden-print">
                     <span v-if="deuda.factura_data != null">
                       <span v-if="deuda.factura_data.status == 'Descargar'">
                         <a class="btn btn-primary btn-xs" :href="linkBoletaPago(deuda.factura_data)"

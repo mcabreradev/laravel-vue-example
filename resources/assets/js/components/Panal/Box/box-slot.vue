@@ -3,6 +3,7 @@
 
     <div class="box-header with-border" v-if="hasTitle">
       <h3 class="box-title">{{ title }}</h3>
+      <button v-if="printable" type="button" onclick="window.print();" class="hidden-print btn btn-default pull-right"><i class="fa fa-print"></i> Imprimir</button>
     </div>
 
     <div class="box-body" v-if="hasBody">
@@ -25,6 +26,11 @@
       title: {
         type: String,
         default: () => '',
+        required: false
+      },
+      printable: {
+        type: Boolean,
+        default: false,
         required: false
       },
     },
