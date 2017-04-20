@@ -149,7 +149,7 @@
       <div class="info-box-content">
         <span class="info-box-text">Avanzadas</span>
         <span class="info-box-number">Vinculá más cuentas</span>
-        <a href="#">Centralizá toda tu info</a>
+        <a href="{{ route('oficina-virtual::conexiones.vinculadas') }}">Centralizá toda tu info</a>
       </div> <!-- /.info-box-content -->
     </div> <!-- /.info-box -->
   </div>

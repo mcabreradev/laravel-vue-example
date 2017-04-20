@@ -79,13 +79,32 @@ class ConexionController extends Controller
         $validator =  Validator::make($request->input(), $rules);
 
         if ($validator->fails()) {
+            $message = '<ul>';
             foreach ($validator->errors()->all() as $error) {
-                Flash::error($error);
+                $message .= "<li>{$error}</li>";
             }
+            Flash::error("$message</ul>");
             return redirect()->route('oficina-virtual::conexiones.vinculadas');
         }
 
-        Flash::success('El registro se creó correctamente');
+        $factura = $this->validarInfoFactura($request->input());
+
+        if ($factura === null) {
+            Flash::error('Los datos ingresados no coinciden con ninguna factura');
+            return redirect()->route('oficina-virtual::conexiones.vinculadas');
+        }
+
+        $conexion = Conexion::firstOrNew([
+            'expediente' => $factura->expediente,
+            'unidad'     => $factura->numero_unidad,
+            'domicilio'  => $factura->domicilio,
+        ]);
+        $conexion->save();
+
+        $conexion->users()->attach(Auth::user());
+        $conexion->save();
+
+        Flash::success('La cuenta se vinculó con tu usuario');
         return redirect()->route('oficina-virtual::conexiones.vinculadas');
     }
 
@@ -94,21 +113,18 @@ class ConexionController extends Controller
      * @param  \Illuminate\Contracts\Validation\Validator $validator Validador del registro
      * @return [type]            [description]
      */
-    public function validarInfoFactura($validator)
+    public function validarInfoFactura($data)
     {
         try {
-            // datos enviados por el formulario de registro
-            $data = $validator->getData();
-
             // adapto monto_factura y periodo_factura para la API
             $montoFactura = str_replace(',', '.', $data['monto_factura']);
             $periodoFactura = substr($data['periodo_factura'], 3) . substr($data['periodo_factura'], 0, 2);
 
-            // Intento obtener las boletas desde la api, con los datos ingresados.
+            // Intento obtener la factura desde la api, con los datos ingresados.
             // De obtenerse datos, se filtraran con lo ingresado.
-            // Si luego de los filtros $boletas tiene items es porque la informacion
+            // Si luego de los filtros $factura tiene items es porque la informacion
             // ingresada es correcta
-            $boletas = $this->dpossApi
+            $factura = $this->dpossApi
                 ->getFacturasDePeriodo($data['expediente'], null, $periodoFactura)
                 ->filter(function ($value) use ($data, $montoFactura) {
                     // filtro nro_liq_sp y monto_total_origen
@@ -119,12 +135,30 @@ class ConexionController extends Controller
                 });
 
             // Si la coleccion esta vacia es porque los datos no son correctos
-            if ($boletas->isEmpty()) {
-                $validator->errors()->add('nro_factura', 'Los datos ingresados no coinciden con ninguna factura');
+            if ($factura->isEmpty()) {
+                return null;
+            }
+            else {
+                return $factura->first();
             }
         }
         catch(Exception $e) {
-            $validator->errors()->add('nro_factura', 'Los datos ingresados no coinciden con ninguna factura');
+            return null;
+        }
+    }
+
+    public function desvincular(Conexion $conexion)
+    {
+        try {
+            $conexion->users()->detach(Auth::user());
+            $conexion->save();
+
+            Flash::success('La cuenta se desvinculó correctamente');
+            return redirect()->route('oficina-virtual::conexiones.vinculadas');
+        }
+        catch (Exception $e) {
+            Flash::error('Ocurrió un error al desvincular, por favor intentalo más tarde');
+            return redirect()->route('oficina-virtual::conexiones.vinculadas');
         }
     }
 }

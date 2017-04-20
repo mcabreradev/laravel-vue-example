@@ -34,12 +34,13 @@
         </div>
 
         <div class="table-responsive">
-          <table class="table table-striped table-bordered">
+          <table class="table table-striped table-bordered" id="tabla-cuentas">
             <thead>
               <tr>
                 <th>Domicilio</th>
                 <th>Expediente</th>
                 <th>Unidad</th>
+                <th>Acciones</th>
               </tr>
             </thead>
             <tbody>
@@ -48,6 +49,16 @@
                 <td>{{ $conexion->domicilio }}</td>
                 <td>{{ $conexion->expediente }}</td>
                 <td>{{ $conexion->unidad }}</td>
+                <td>
+                  <form action="{{route('oficina-virtual::conexiones.desvincular', $conexion->id)}}" method="POST">
+                    {!! csrf_field() !!}
+                    {{ method_field('DELETE') }}
+
+                    <button type="submit" class='btn btn-danger desvincular-btn' data-toggle="tooltip" data-placement="top" title="Desvincular cuenta">
+                      <span class="fa fa-times"></span>
+                    </button>
+                  </form>
+                </td>
               </tr>
               @endforeach
             </tbody>
@@ -61,6 +72,7 @@
 
 <form method="POST" action="{{ route('oficina-virtual::conexiones.vincular-usuario') }}">
   {!! csrf_field() !!}
+
   <div id="vincular-cuenta" class="modal fade" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
@@ -113,7 +125,7 @@
 
 @push('body-scripts')
   <script type="text/javascript">
-    (function(vanillaTextMask, textMaskAddons){
+    (function($, vanillaTextMask, textMaskAddons){
       var periodoMask = [/[0-9]/, /[0-9]/, '/', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
       var periodoInput = document.getElementById('periodo_factura');
 
@@ -136,6 +148,29 @@
         mask: montoMask
       });
 
-    })(window.vanillaTextMask, window.textMaskAddons);
+      $('#tabla-cuentas').on('click', '.desvincular-btn', function(event){
+        event.stopPropagation();
+        event.preventDefault();
+        var $form = $(this).parent('form');
+
+        console.log($form);
+
+        swal({
+          title: "¿Desvincular cuenta?",
+          text: "Si desvinculas esta cuenta ya no podrás ver su información",
+          type: "warning",
+          showCancelButton: true,
+          confirmCancelText: 'Mejor no',
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "Si, desvincular",
+          closeOnConfirm: false,
+          showLoaderOnConfirm: true
+        },
+        function(){
+          $form.submit();
+        });
+      });
+
+    })(window.jQuery, window.vanillaTextMask, window.textMaskAddons);
   </script>
 @endpush

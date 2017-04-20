@@ -27,7 +27,7 @@ Route::get('/test', function(App\Contracts\DpossApiContract $api){
     // Estado deuda mama Mauricio
     // $r = $api->estadoDeuda(2187);
 
-    $r = $api->estadoDeuda(19401);
+    $r = $api->historicoFacturas(18403);
 
     dd($r);
 });
@@ -173,6 +173,11 @@ Route::group(['middleware' => ['auth']], function() {
         Route::post('cuentas/vincular', [
             'as' => 'conexiones.vincular-usuario',
             'uses' => 'ConexionController@vincularCuentaConUsuario',
+        ]);
+
+        Route::delete('cuentas/{conexion}/desvincular', [
+            'as' => 'conexiones.desvincular',
+            'uses' => 'ConexionController@desvincular',
         ]);
 
     }); // OficinaVirtual group
