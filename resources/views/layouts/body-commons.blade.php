@@ -20,6 +20,9 @@
 <!-- FastClick -->
 <script src="{{ asset('/compiled/js/fastclick/fastclick.js') }}"></script>
 
+<script src="{{ asset('/compiled/vendors/text-mask/vanilla/vanillaTextMask.js') }}"></script>
+<script src="{{ asset('/compiled/vendors/text-mask/addons/textMaskAddons.js') }}"></script>
+
 <!-- theme -->
 <!-- Optionally, you can add Slimscroll and FastClick plugins.
    Both of these plugins are recommended to enhance the
@@ -90,3 +93,6 @@
     });
   })(window.jQuery);
 </script>
+
+<!-- Userlike (chat) -->
+<script async type=text/javascript src=//userlike-cdn-widgets.s3-eu-west-1.amazonaws.com/76555724277d3c13f29f3e3fdf384a3a8b14d908b8874a4f1638e341632f6872.js></script>

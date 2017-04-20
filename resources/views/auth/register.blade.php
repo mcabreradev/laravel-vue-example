@@ -116,8 +116,6 @@ class="hold-transition register-page"
 @endsection
 
 @push('body-scripts')
-  <script src="{{ asset('/compiled/vendors/text-mask/vanilla/vanillaTextMask.js') }}"></script>
-  <script src="{{ asset('/compiled/vendors/text-mask/addons/textMaskAddons.js') }}"></script>
   <script type="text/javascript">
     (function(vanillaTextMask, textMaskAddons){
       var periodoMask = [/[0-9]/, /[0-9]/, '/', /[0-9]/, /[0-9]/, /[0-9]/, /[0-9]/];
@@ -137,10 +135,10 @@ class="hold-transition register-page"
       });
       var montoInput = document.getElementById('monto_factura');
 
-      // vanillaTextMask.maskInput({
-      //   inputElement: montoInput,
-      //   mask: montoMask
-      // });
+      vanillaTextMask.maskInput({
+        inputElement: montoInput,
+        mask: montoMask
+      });
 
     })(window.vanillaTextMask, window.textMaskAddons);
   </script>

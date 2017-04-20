@@ -165,6 +165,16 @@ Route::group(['middleware' => ['auth']], function() {
             'uses' => 'LibreDeudaController@solicitarLibreDeuda'
         ]);
 
+        Route::get('cuentas-vinculadas', [
+            'as' => 'conexiones.vinculadas',
+            'uses' => 'ConexionController@vinculadas',
+        ]);
+
+        Route::post('cuentas/vincular', [
+            'as' => 'conexiones.vincular-usuario',
+            'uses' => 'ConexionController@vincularCuentaConUsuario',
+        ]);
+
     }); // OficinaVirtual group
 
 }); // middleware auth
