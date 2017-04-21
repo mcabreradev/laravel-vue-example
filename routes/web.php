@@ -4,33 +4,13 @@
 require(__DIR__.'/auth-routes.php');
 
 
-Route::get('/test', function(App\Contracts\DpossApiContract $api){
+// Route::get('/test', function(App\Contracts\DpossApiContract $api){
 
-    // caso rosi
-    // $r = $api->getUltimasBoletas(19401, 26792);
-    // o $r = $api->getUltimasBoletas(null, 26792);
-    // dd($r);
-
-    // // caso rosi periodo 201703
-    // $rp = $api->getUltimasBoletasPorPeriodo(19401, 26792, 201703);
-    // // o $r = $api->getUltimasBoletasPorPeriodo(null, 26792, 201703);
-
-    // // caso chino
-    // $c = $api->getUltimasBoletas(247, null);
-
-    // // caso chino periodo 201703
-    // $cp = $api->getUltimasBoletasPorPeriodo(247, null, 201703);
-
-    // Estado deuda Rosi
-    // $r = $api->estadoDeuda(19401, 26792);
-
-    // Estado deuda mama Mauricio
-    // $r = $api->estadoDeuda(2187);
-
-    $r = $api->historicoFacturas(18403);
-
-    dd($r);
-});
+//     // ejemplos
+//     // R 19401 26792
+//     // C 247
+//     // MM 2187
+// });
 
 /**
  * User authenticated routes
@@ -178,6 +158,11 @@ Route::group(['middleware' => ['auth']], function() {
         Route::delete('cuentas/{conexion}/desvincular', [
             'as' => 'conexiones.desvincular',
             'uses' => 'ConexionController@desvincular',
+        ]);
+
+        Route::get('notificaciones', [
+            'as' => 'notificaciones.de-usuario',
+            'uses' => 'NotificacionController@deUsuario',
         ]);
 
     }); // OficinaVirtual group

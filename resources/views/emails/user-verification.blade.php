@@ -2,7 +2,7 @@
   <img src="http://www.dposs.gob.ar/oficina-virtual/img/dposs-logo.png">
 </p>
 
-<p>Solicitaste acceso a la Oficina Virtual de la D.P.O.S.S.</p>
+<p>Solicitaste acceso a la Oficina Virtual de la DPOSS</p>
 
 <p>Para verificar tu email y acceder a nuestros servicios, hacé click en el siguiente link:</p>
 

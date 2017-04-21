@@ -64,7 +64,7 @@
           <span class="info-box-text">Estado de cuentas</span>
           <span class="info-box-number">
             <a href="{{ route('oficina-virtual::deudas-pendientes') }}" class="a-white">
-              Registras deudas pendientes de pago
+              Registrás deudas pendientes de pago
             </a>
           </span>
         </div> <!-- /.info-box-content -->
@@ -94,7 +94,7 @@
       <span class="info-box-icon bg-yellow"><i class="fa fa-usd"></i></span>
 
       <div class="info-box-content">
-        <span class="info-box-text">Deudas pendientes</span>
+        <span class="info-box-text">Deudas en tus {{$conexiones->count()}} cuentas</span>
 
         @if($deudaTotal > 0)
           <span class="info-box-number">$ {{ number_format($deudaTotal, 2, ',' , '.' ) }} + intereses</span>
@@ -113,7 +113,7 @@
       <div class="info-box-content">
         <span class="info-box-text">Cuentas claras</span>
         <span class="info-box-number">
-          {{$estadoFacturas->historico}} facturas en histórico
+          {{$estadoFacturas->historico}} facturas, en {{$conexiones->count()}} cuentas
         </span>
         <a href="{{ route('oficina-virtual::resumen-historico-facturas') }}" class="small-box-footer">Ver y descargar</a>
       </div><!-- /.info-box-content -->
@@ -156,12 +156,12 @@
 
   <div class="col-md-4 col-sm-6 col-xs-12">
     <div class="info-box">
-      <span class="info-box-icon bg-aqua"><i class="fa fa-bell-o"></i></span>
+      <span class="info-box-icon bg-red"><i class="fa fa-bell-o"></i></span>
 
       <div class="info-box-content">
         <span class="info-box-text">Registro histórico</span>
         <span class="info-box-number">Centro de notificaciones</span>
-        <a href="#">Acceder </a>
+        <a href="{{ route('oficina-virtual::notificaciones.de-usuario') }}">Acceder </a>
       </div> <!-- /.info-box-content -->
     </div> <!-- /.info-box -->
   </div> <!-- /.col -->

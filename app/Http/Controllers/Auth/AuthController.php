@@ -123,6 +123,7 @@ class AuthController extends Controller
                 'unidad'     => $this->boletaInfoCache->numero_unidad,
                 'domicilio'  => $this->boletaInfoCache->domicilio,
             ]);
+            $conexion->save();
             $conexion->users()->attach($user);
             $conexion->save();
         }
