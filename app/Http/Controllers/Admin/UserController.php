@@ -2,19 +2,54 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Contracts\DpossApiContract;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests;
 use App\Models\Admin\Role;
 use App\Models\Admin\User;
+use App\Repositories\Admin\UserRepository;
+use App\Repositories\Alertas\AlertaRepository;
 use App\Transformers\Admin\UserTransformer;
 use Auth;
 use Flash;
+use Illuminate\Foundation\Auth\ResetsPasswords;
 use Illuminate\Http\Request;
+use Jrean\UserVerification\Facades\UserVerification;
 use Lang;
 
 class UserController extends ApiController
 {
+    use ResetsPasswords;
+
+    /**
+     * Subject del email de verificacion
+     * @var string
+     */
+    protected $verificationEmailSubject = '';
+
+    /**
+     * Subject del email de recuperacion
+     * @var string
+     */
+    protected $subject = '';
+
+    /**
+     * Repository con funciones utiles del user
+     * @var App\Repositories\Admin\UserRepository
+     */
+    protected $userRepository = null;
+
+    /**
+     * [__construct description]
+     */
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->verificationEmailSubject = env('EMAIL_VERIFY_SUBJECT', 'DPOSS');
+        $this->subject = env('EMAIL_RESET_SUBJECT', 'DPOSS');
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * [assignValues description]
      * @param  [type] $user    [description]
@@ -28,6 +63,7 @@ class UserController extends ApiController
         }
 
         $user->name     = $request->input('name');
+        $user->telefono = $request->input('telefono');
         $user->password = $this->resolvePassword($user->password, $request);
 
         return $user;
@@ -43,7 +79,7 @@ class UserController extends ApiController
     {
         $passReturn = $oldPassword;
 
-        if ($request->has('change-password')) {
+        if ($request->has('change-password') && $request->input('change-password')) {
             if ($request->input('password') === $request->input('confirm-password')) {
                 $passReturn = bcrypt($request->input('password'));
             } else {
@@ -207,11 +243,32 @@ class UserController extends ApiController
     }
 
     /**
-     * [dashboard description]
-     * @return [type] [description]
+     * [sendVerificationEmail description]
+     * @param  User   $user [description]
+     * @return [type]       [description]
      */
-    public function dashboard()
+    public function sendVerificationEmail(User $user)
     {
-        return view('users.dashboard');
+        UserVerification::generate($user);
+        UserVerification::send($user, $this->verificationEmailSubject);
+
+        Flash::success('Enviamos un correo para que el usuario pueda verificar su e-mail.');
+
+        return redirect()->back();
+    }
+
+    /**
+     * [dashboard description]
+     * @return View
+     */
+    public function dashboard(Request $request)
+    {
+        $user = Auth::user();
+
+        return view('users.dashboard' . ($request->has('demo') ? $request->input('demo') : ''))
+            ->with('estadoServicio', AlertaRepository::estadoServicio())
+            ->with('estadoFacturas', $this->userRepository->estadoFacturas($user))
+            ->with('deudaTotal', $this->userRepository->deudaTotal($user))
+            ->with('conexiones', $user->conexiones()->get());
     }
 }

@@ -9,10 +9,10 @@ class="hold-transition login-page"
 <div class="login-box">
 
   <div class="login-box-body">
-    <div class="text-center">
-      <img src="{{ asset('img/dposs-logo.png') }}"><br><br>
-    </div>
-    <p class="login-box-msg">Oficina Virtual de la D.P.O.S.S</p>
+
+    @include('auth.encabezado')
+
+    @include('flash::message')
 
     @if (count($errors) > 0)
       <div class="alert alert-danger">
@@ -28,7 +28,7 @@ class="hold-transition login-page"
       <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
       <div class="form-group has-feedback {{ $errors->has('email') ? 'has-error' : '' }}">
-        <input name="email" value="{{ old('email') }}" type="email" class="form-control" placeholder="Email" required>
+        <input name="email" value="{{ old('email') }}" type="email" class="form-control" placeholder="E-mail" required>
         <span class="fa fa-envelope form-control-feedback"></span>
       </div>
 
@@ -38,6 +38,11 @@ class="hold-transition login-page"
       </div>
 
       <div class="row">
+
+        <div class="col-xs-12">
+          <a href="{{ route('auth::password.reset.form') }}">No recuerdo mi contraseña</a>
+        </div>
+
         <div class="col-xs-12">
           <div class="form-group">
             <div class="checkbox">
@@ -48,6 +53,9 @@ class="hold-transition login-page"
           </div>
 
           <div class="form-group">
+            <a class="btn btn-success" href="{{ route('auth::register.form') }}">
+              <i class="fa fa-btn fa-lock"></i> Registrarse</a>
+
             <button type="submit" class="btn btn-primary pull-right">
               <i class="fa fa-btn fa-sign-in"></i> Ingresar
             </button>

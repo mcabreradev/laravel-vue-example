@@ -1,0 +1,89 @@
+<div>
+  <panal-box-slot title="Deudas pendientes">
+    <div slot="body">
+
+      <span class="hidden-print">
+        <p>Aquí podrás ver las deudas que poseen tus cuentas. El monto final puede variar por posbiles intereses o punitorios.</p>
+        <hr>
+      </span>
+
+      <form>
+        <div class="form-group">
+          <label>Mostrar deudas de</label>
+          <select class="form-control" v-model="conexionIndex" @change="getDeudas()">
+            <option v-for="(conexion, index) in conexiones" :key="conexion.id" :value="index">{{ conexion.domicilio_completo }}</option>
+          </select>
+        </div>
+      </form>
+    </div>
+  </panal-box-slot>
+
+  <panal-box-slot v-if="deudas.length > 0" title="Deudas encontradas" :printable="true">
+    <div slot="body">
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="alert alert-danger">
+            <p>Tu deuda actual es de <strong>{{ totalesDedudas.monto_format }} + intereses ({{totalesDedudas.suma_format}} aprox)</strong></p>
+          </div>
+        </div>
+        <!-- Table container -->
+        <div class="col-md-12 col-sm-12 col-xs-12 table-container">
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered" cellspacing="0" width="100%">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Expediente</th>
+                  <th>Unidad</th>
+                  <th>Monto</th>
+                  <th>Posibles punitorios</th>
+                  <th>Motivo</th>
+                  <th class="hidden-print"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="deuda in deudas">
+
+                  <td>{{ deuda.fecha_format }}</td>
+                  <td>{{ deuda.exp_rentas }}</td>
+                  <td>{{ deuda.numero_unidad }}</td>
+                  <td>{{ deuda.monto_format }}</td>
+                  <td>{{ deuda.posibles_punitorios_format }}</td>
+                  <td>{{ deuda.motivo }}</td>
+                  <td class="hidden-print">
+                    <span v-if="deuda.factura_data != null">
+                      <span v-if="deuda.factura_data.status == 'Descargar'">
+                        <a class="btn btn-primary btn-xs" :href="linkBoletaPago(deuda.factura_data)"
+                           data-toggle="tooltip" data-placement="top" title="Descargar boleta de pago" target="_blank">
+                          <i class="fa fa-download"></i> Por pagar
+                        </a>
+                      </span>
+
+                      <span v-if="deuda.factura_data.status == 'Vencida'">
+                        <a class="btn btn-danger btn-xs" href="#" @click.prevent="solicitarFacturaVencida(deuda.factura_data)" data-toggle="tooltip"
+                           data-placement="top" title="Solicitar factura" target="_blank">
+                          <i class="fa fa-paper-plane"></i> Vencida
+                        </a>
+                      </span>
+                    </span>
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!--End table container-->
+      </div>
+    </div>
+  </panal-box-slot>
+
+  <div class="row" v-if="(deudas.length === 0) && (!procesando)">
+    <div class="col-xs-12">
+      <div class="alert alert-success">
+        <p><i class="fa fa-thumbs-o-up"></i> No tenés deudas en esta cuenta</p>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -6,7 +6,7 @@
 
 
 @section('content-breadcrumb')
-<li><a href="{{ route('admin::users.list') }}">Users</a></li>
+<li><a href="{{ route('admin::users.list') }}">Usuarios</a></li>
 @endsection
 
 

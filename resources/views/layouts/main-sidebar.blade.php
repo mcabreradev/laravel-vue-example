@@ -18,17 +18,22 @@
     <!-- Sidebar Menu -->
     <ul class="sidebar-menu">
 
-      <li class="header">Módulos</li>
+      @include('oficina-virtual.menu')
+
+      @if(auth()->user()->roles()->count())
+        <li class="header">Administración</li>
+      @endif
 
       @include('admin.menu')
 
-      @include('oficina-virtual.pedidos.menu')
+      {{-- @include('oficina-virtual.pedidos.menu') --}}
 
       @include('alertas.menu')
 
       @include('turnos.menu')
 
       @include('solicitudes.menu')
+
     </ul>
     <!-- /.sidebar-menu -->
   </section>

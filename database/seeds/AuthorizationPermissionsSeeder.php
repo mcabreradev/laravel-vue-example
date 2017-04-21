@@ -38,6 +38,16 @@ class AuthorizationPermissionsSeeder extends Seeder
             'display_name' => 'Dar de baja un usuario',
             'description'  => 'Dar de baja un usuario para que no pueda acceder al sistema'
         ]);
+        Permission::create([
+            'name'         => 'admin-users-send-reset',
+            'display_name' => 'Enviar correo para recuperar contraseña',
+            'description'  => 'Enviar correo para recuperar contraseña'
+        ]);
+        Permission::create([
+            'name'         => 'admin-users-send-verification',
+            'display_name' => 'Enviar correo para validar email',
+            'description'  => 'Enviar correo para validar email'
+        ]);
 
         /**
          * Roles

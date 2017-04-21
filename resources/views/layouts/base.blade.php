@@ -3,6 +3,7 @@
 <head>
     @include('layouts.head-commons')
     @yield('head-scripts')
+    @stack('head-scripts')
 </head>
 
 <body
@@ -16,5 +17,6 @@
 
     @include('layouts.body-commons')
     @yield('body-scripts')
+    @stack('body-scripts')
 </body>
 </html>

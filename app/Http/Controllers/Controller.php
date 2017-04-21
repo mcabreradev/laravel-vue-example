@@ -12,5 +12,5 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
 
-    public static $DPOSS_API_BASE = 'http://179.62.48.38:150';
+    public static $DPOSS_API_BASE = env('DPOSS_API_BASE');
 }
