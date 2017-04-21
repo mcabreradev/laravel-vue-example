@@ -4,6 +4,7 @@ namespace App\Repositories\Admin;
 
 use App\Contracts\DpossApiContract;
 use App\Models\Admin\User;
+use App\Models\OficinaVirtual\Notificacion;
 use Carbon\Carbon;
 use StdClass;
 
@@ -54,9 +55,18 @@ class UserRepository
      */
     public function deudaTotal(User $user)
     {
-        return $this->api->manyEstadoDeuda($user->conexiones()->get())
+        $deudaTotal = $this->api->manyEstadoDeuda($user->conexiones()->get())
             ->reduce(function ($carry, $deuda) {
                 return $carry + $deuda->monto;
             }, 0);
+
+        if ($deudaTotal > 0) {
+            Notificacion::create([
+                'contenido' => 'Deudas pendientes: $ '. number_format($deudaTotal, 2, ',' , '.' ) . ' + intereses',
+                'user_id' => $user->id
+            ]);
+        }
+
+        return $deudaTotal;
     }
 }

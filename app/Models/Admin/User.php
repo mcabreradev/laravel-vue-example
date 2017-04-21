@@ -46,4 +46,13 @@ class User extends Authenticatable
     {
         return $this->belongsToMany('App\Models\OficinaVirtual\Conexion', 'conexion_user');
     }
+
+    /**
+     * Relacion con las notifiaciones
+     * @return Collection
+     */
+    public function notificaciones()
+    {
+        return $this->hasMany('App\Models\OficinaVirtual\Notificacion');
+    }
 }

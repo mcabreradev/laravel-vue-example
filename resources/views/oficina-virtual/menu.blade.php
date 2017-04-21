@@ -1,5 +1,6 @@
 <li class="{{ activeIfRouteIs('users/dashboard') }}"><a href="{{ route('users.dashboard') }}">Inicio</a></li>
 <li class="{{ activeIfRouteIs('users/profile') }}"><a href="{{ route('users.profile') }}">Tus datos</a></li>
+<li class="{{ activeIfRouteIs('oficina-virtual/notificaciones') }}"><a href="{{ route('oficina-virtual::notificaciones.de-usuario') }}">Notificaciones</a></li>
 <li class="treeview">
     <a href="#">
       <span>Estado de cuenta</span><i class="fa fa-angle-left pull-right"></i>
