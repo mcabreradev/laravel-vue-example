@@ -61,12 +61,14 @@
 
     <div class="form-group">
       <label for="lugar_entre_1">Entre</label>
-      <input class="form-control" type="text" name="lugar_entre_1" id="lugar_entre_1" value="{{ old('lugar_entre_1', $solicitud->lugar_entre_1) }}">
+      <dposs-calles-autocomplete nombre="lugar_entre_1" valor="{{ old('lugar_entre_1', $solicitud->lugar_entre_1) }}"></dposs-calles-autocomplete>
+      {{-- <input class="form-control" type="text" name="lugar_entre_1" id="lugar_entre_1" value="{{ old('lugar_entre_1', $solicitud->lugar_entre_1) }}"> --}}
     </div>
 
     <div class="form-group">
       <label for="lugar_entre_2">Y</label>
-      <input class="form-control" type="text" name="lugar_entre_2" id="lugar_entre_2" value="{{ old('lugar_entre_2', $solicitud->lugar_entre_2) }}">
+      <dposs-calles-autocomplete nombre="lugar_entre_2" valor="{{ old('lugar_entre_2', $solicitud->lugar_entre_2) }}"></dposs-calles-autocomplete>
+      {{-- <input class="form-control" type="text" name="lugar_entre_2" id="lugar_entre_2" value="{{ old('lugar_entre_2', $solicitud->lugar_entre_2) }}"> --}}
     </div>
 
     <div class="form-group">

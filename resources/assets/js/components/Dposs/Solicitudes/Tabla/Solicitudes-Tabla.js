@@ -146,6 +146,7 @@ export default {
         self.table = $('#' + self.tableId).DataTable({
           "lengthMenu": [ 25, 50, 100, 200 ],
           "language": PanalConf.lang.datatable,
+          "order": [[ 0, "desc" ]],
           "aoColumnDefs": [{
             'bSortable': false,
             'aTargets': [-1]

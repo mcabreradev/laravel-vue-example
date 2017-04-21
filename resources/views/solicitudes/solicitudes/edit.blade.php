@@ -31,12 +31,26 @@
       </form>
   </section>
 
-
   <form id="solicitud-edit-form" class="with-content-fixed-seccion" role="form" method="POST" action="{{ route('solicitudes::solicitudes.update', $solicitud->id) }}">
     {!! csrf_field() !!}
     {{ method_field('PUT') }}
 
     @include('flash::message')
+
+    @if(!$relacionados->isEmpty())
+      <div class="alert alert-info">
+        Este reclamo está reclacionado con:
+        <ul>
+          @foreach($relacionados as $rel)
+            <li>
+              <a href="{{ route('solicitudes::solicitudes.edit', $rel->id) }}">
+                {{$rel->id}} {{$rel->reclamo_anterior ? "(ant: {$rel->reclamo_anterior})" : ''}}
+              </a>
+            </li>
+          @endforeach
+        </ul>
+      </div>
+    @endif
 
     @include('solicitudes.solicitudes.fields-datos-generales')
 
