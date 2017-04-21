@@ -286,7 +286,7 @@ class SolicitudesController extends ApiController
     public function buscarCalles($nombre)
     {
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, env($DPOSS_API_BASE) . '/calles/'. rawurlencode($nombre));
+        curl_setopt($ch, CURLOPT_URL, env('DPOSS_API_BASE') . 'calles/'. rawurlencode($nombre));
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
         curl_setopt($ch, CURLOPT_TIMEOUT, 5);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
