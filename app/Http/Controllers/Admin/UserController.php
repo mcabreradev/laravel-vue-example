@@ -45,8 +45,8 @@ class UserController extends ApiController
      */
     public function __construct(UserRepository $userRepository)
     {
-        $this->verificationEmailSubject = env('EMAIL_VERIFY_SUBJECT', 'D.P.O.S.S.');
-        $this->subject = env('EMAIL_RESET_SUBJECT', 'D.P.O.S.S.');
+        $this->verificationEmailSubject = env('EMAIL_VERIFY_SUBJECT', 'DPOSS');
+        $this->subject = env('EMAIL_RESET_SUBJECT', 'DPOSS');
         $this->userRepository = $userRepository;
     }
 
@@ -79,7 +79,7 @@ class UserController extends ApiController
     {
         $passReturn = $oldPassword;
 
-        if ($request->has('change-password')) {
+        if ($request->has('change-password') && $request->input('change-password')) {
             if ($request->input('password') === $request->input('confirm-password')) {
                 $passReturn = bcrypt($request->input('password'));
             } else {
