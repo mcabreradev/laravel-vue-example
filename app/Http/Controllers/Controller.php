@@ -11,6 +11,4 @@ use Illuminate\Foundation\Auth\Access\AuthorizesResources;
 class Controller extends BaseController
 {
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
-
-    public static $DPOSS_API_BASE = env('DPOSS_API_BASE');
 }
