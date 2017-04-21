@@ -12,5 +12,5 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, AuthorizesResources, DispatchesJobs, ValidatesRequests;
 
-    public static $DPOSS_API_BASE = 'http://remotos.dposs.gob.ar:150';
+    public static $DPOSS_API_BASE = env('DPOSS_API_BASE');
 }
