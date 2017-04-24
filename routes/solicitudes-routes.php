@@ -373,7 +373,7 @@ Route::group([
     Route::put('derivaciones/{id}', [
         'as'   => 'derivaciones.update',
         'uses' => 'DerivacionesController@update',
-        'middleware' => ['ability:admin,solicitudes-derivaciones-update'],
+        'middleware' => ['ability:admin,solicitudes-derivaciones-edit'],
     ])->where('id', '[0-9]+');
 
     Route::delete('derivaciones/{id}', [
