@@ -20,12 +20,12 @@
         <tbody>
           <tr v-bind:class="{ 'success': turno.atendido }" v-for="(turno, index) in turnos">
             <td>{{ turno.fecha | dateOnly }}</td>
-            <td>{{ turno.hora | hourSecondsOnly }}</td>
+            <td>{{ (turno.fecha+'T'+turno.hora) | hourSecondsOnly }}</td>
             <td>{{ turno.usuario.apellido }}</td>
             <td>{{ turno.usuario.nombre }}</td>
             <td>{{ turno.usuario.documento }}</td>
             <td>{{ turno.usuario.movil }}</td>
-            <td>{{ turno.usuario.telefono }}</td>
+            <td>{{ turno.usuario.email }}</td>
             <td>{{ turno.observaciones }}</td>
             <td>
               <button v-if="!turno.atendido" @click="seleccionarTurno(turno)" class="btn btn-primary btn-sm" title="Validar atención">

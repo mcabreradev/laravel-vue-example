@@ -19,9 +19,18 @@ class TurnoController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('turnos.index');
+        $actividades = Actividad::orderBy('id', 'desc')->get();
+        $actividadSeleccionada = $actividades->first();
+
+        if ($request->has('actividad_id')) {
+            $actividadSeleccionada = Actividad::find($request->input('actividad_id'));
+        }
+
+        return view('turnos.index')
+            ->with('actividades', $actividades)
+            ->with('actividadSeleccionada', $actividadSeleccionada);
     }
 
     /**
@@ -34,10 +43,13 @@ class TurnoController extends Controller
         $now = new DateTime();
 
         $turnosVigentes = Turno::with('usuario', 'actividad')
-            ->where('fecha', '>', $now->format('Y-m-d'))
-            ->orWhere(function ($q) use ($now){
-                $q->where('fecha', '=', $now->format('Y-m-d'))
-                  ->where('hora', '>=', $now->format('H:i:s'));
+            ->where('actividad_id', '=', $actividadId)
+            ->where(function($q) use ($now) {
+                $q->where('fecha', '>', $now->format('Y-m-d'))
+                ->orWhere(function ($q) use ($now){
+                    $q->where('fecha', '=', $now->format('Y-m-d'))
+                      ->where('hora', '>=', $now->format('H:i:s'));
+                });
             })
             ->orderBy('fecha')
             ->orderBy('hora')
@@ -56,10 +68,13 @@ class TurnoController extends Controller
         $now = new DateTime();
 
         $turnosVencidos = Turno::with('usuario', 'actividad')
-            ->where('fecha', '<', $now->format('Y-m-d'))
-            ->orWhere(function ($q) use ($now){
-                $q->where('fecha', '=', $now->format('Y-m-d'))
-                  ->where('hora', '<', $now->format('H:i:s'));
+            ->where('actividad_id', '=', $actividadId)
+            ->where(function($q) use ($now) {
+                $q->where('fecha', '<', $now->format('Y-m-d'))
+                ->orWhere(function ($q) use ($now){
+                    $q->where('fecha', '=', $now->format('Y-m-d'))
+                    ->where('hora', '<', $now->format('H:i:s'));
+                });
             })
             ->orderBy('fecha')
             ->orderBy('hora')
@@ -78,22 +93,6 @@ class TurnoController extends Controller
     {
         $entity->fill($request->input());
         return $entity;
-    }
-
-    /**
-     * [getTurnosPorUsaurio description]
-     * @param  [type] $usuario   [description]
-     * @param  [type] $actividad [description]
-     * @return [type]            [description]
-     */
-    private function getTurnosPorUsaurio($usuario, $actividad)
-    {
-        return Turno::whereHas('usuario', function($q) {
-            $q->where('documento', '=', $usuario->documento)
-              ->orWhere('email', '=', 'vieraleonel1@gmail.com');
-        })->whereHas('actividad', function($q) {
-            $q->where('id', '=', $actividad->id);
-        })->get();
     }
 
     /**
@@ -131,11 +130,11 @@ class TurnoController extends Controller
             }
 
             // filtro turnos segun actividad
-            $usuario->turnos()->where('actividad_id', '=', $actividad->id)->get();
+            $turnosUsuario = $usuario->turnos()->where('actividad_id', '=', $actividad->id)->get();
 
             // si ya tiene un turno devuelvo conflict
-            if ($usuario->turnos->count() > 0) {
-                $turno = $usuario->turnos->first();
+            if ($turnosUsuario->count() > 0) {
+                $turno = $turnosUsuario->first();
                 return response()->json([
                     'error' => 'duplicado',
                     'fecha' => $turno->fecha->toDateString(),
