@@ -124,11 +124,6 @@ class TurnoController extends Controller
             // intento buscar por documento
             $usuario = Usuario::firstOrNew(['documento' => $request->input('documento')]);
 
-            // si no encontre por documento busco por email
-            if (!$usuario->exists) {
-                $usuario = Usuario::firstOrNew(['email' => $request->input('email')]);
-            }
-
             // filtro turnos segun actividad
             $turnosUsuario = $usuario->turnos()->where('actividad_id', '=', $actividad->id)->get();
 
