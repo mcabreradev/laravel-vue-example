@@ -94,5 +94,8 @@
   })(window.jQuery);
 </script>
 
-<!-- Userlike (chat) -->
-<script async type=text/javascript src=//userlike-cdn-widgets.s3-eu-west-1.amazonaws.com/76555724277d3c13f29f3e3fdf384a3a8b14d908b8874a4f1638e341632f6872.js></script>
+@if( (! auth()->user()) || (!auth()->user()->roles()->count()) )
+  <!-- Userlike (chat) -->
+  <script async type=text/javascript src=//userlike-cdn-widgets.s3-eu-west-1.amazonaws.com/76555724277d3c13f29f3e3fdf384a3a8b14d908b8874a4f1638e341632f6872.js></script>
+@endif
+
