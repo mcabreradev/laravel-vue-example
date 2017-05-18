@@ -35,10 +35,9 @@ export default {
         };
       },
     },
-    estadoCerrado: {
-      type: Boolean,
-      default: () => false,
-      required: false
+    estado: {
+      type: Number,
+      required: true
     }
   },
 
@@ -125,7 +124,7 @@ export default {
     findAll: function () {
       var self = this,
           route = Laravel.baseUrl + '/' + laroute.route('solicitudes::index') +
-                  '?cerrado=' + self.estadoCerrado;
+                  '?estado=' + self.estado;
       self.$http.get(route).then((res) => {
         if (res.ok) {
           self.rows = res.body.data;

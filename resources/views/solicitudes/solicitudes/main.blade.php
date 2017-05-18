@@ -12,38 +12,32 @@
 
 @section('content')
 
-<div id="turnopanal-tables-container" class="row">
+<div class="row">
   <div class="col-xs-12">
 
     @include('flash::message')
 
   <div class="nav-tabs-custom">
     <ul class="nav nav-tabs">
-      <li class="{{ ($estado === '' ? 'active' : '') }}"><a href="{{ route('solicitudes::solicitudes', ['estado' => '']) }}">En proceso</a></li>
-      <li class="{{ ($estado === 'cerrado' ? 'active' : '') }}"><a href="{{ route('solicitudes::solicitudes', ['estado' => 'cerrado']) }}">Cerrados</a></li>
+      @foreach($estados as $estado)
+        <li class="{{ ($estado->id == $estadoActivo ? 'active' : '') }}">
+          <a href="{{ route('solicitudes::solicitudes', ['estado' => $estado->id]) }}">{{$estado->nombre}}</a>
+        </li>
+      @endforeach
     </ul>
     <div class="tab-content">
-      <div class="tab-pane {{ ($estado === '' ? 'active' : '') }}" id="tab_1">
-        @if($estado === '')
-          <dposs-tabla-solicitudes
-            :model='{singular: "reclamo", plural: "reclamos"}'
-            :has-modal="false"
-            :fields="[]"
-          ></dposs-tabla-solicitudes>
+      @foreach($estados as $estado)
+        @if($estadoActivo == $estado->id)
+          <div class="tab-pane active">
+            <dposs-tabla-solicitudes
+              :model='{singular: "reclamo", plural: "reclamos"}'
+              :has-modal="false"
+              :fields="[]"
+              :estado="{{$estadoActivo}}"
+            ></dposs-tabla-solicitudes>
+          </div>
         @endif
-      </div>
-      <!-- /.tab-pane -->
-      <div class="tab-pane {{ ($estado === 'cerrado' ? 'active' : '') }}" id="tab_2">
-        @if($estado === 'cerrado')
-          <dposs-tabla-solicitudes
-            :model='{singular: "reclamo", plural: "reclamos"}'
-            :url="{simple: 'solicitudes.solicitudes', doble:'solicitudes::solicitudes'}"
-            :has-modal="false"
-            :estado-cerrado="true"
-            :fields="[]"
-          ></dposs-tabla-solicitudes>
-        @endif
-      </div>
+      @endforeach
     </div>
     <!-- /.tab-content -->
   </div>
