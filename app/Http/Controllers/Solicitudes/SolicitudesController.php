@@ -23,23 +23,21 @@ use Illuminate\Support\Facades\Response;
 
 class SolicitudesController extends ApiController
 {
+    protected static $TIPO_PREDETERMINADO = 1;
+
     /**
      * [index description]
      * @return [type] [description]
      */
     public function index(Request $request)
     {
-        if (is_null($request->input('cerrado')) || $request->input('cerrado') == 'false'){
-            $data = Solicitud::where('estado_id', '<>', 3)
-                ->orWhere('estado_id', null)
-                ->orderBy('creado_el', 'desc')
-                ->get();
+        $q = Solicitud::orderBy('creado_el', 'desc');
+
+        if ($request->has('estado')) {
+            $q->where('estado_id', $request->input('estado'));
         }
-        else {
-            $data = Solicitud::where('estado_id', '=', 3)
-                ->orderBy('creado_el', 'desc')
-                ->get();
-        }
+
+        $data = $q->get();
 
         return $this->respondWith($data, new SolicitudTransformer);
     }
@@ -50,7 +48,13 @@ class SolicitudesController extends ApiController
      */
     public function main($estado = null)
     {
-        return view('solicitudes.solicitudes.main', ['estado' => $estado == 'cerrado' ? 'cerrado' : '' ]);
+        $estadoActivo = $estado === null ? self::$TIPO_PREDETERMINADO : $estado;
+        $estados = Estado::all();
+
+        return view('solicitudes.solicitudes.main', [
+            'estadoActivo' => $estadoActivo,
+            'estados' => $estados
+        ]);
     }
 
     /**

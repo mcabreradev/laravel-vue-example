@@ -19,7 +19,6 @@
           <table :id="tableId" class="table table-striped table-bordered" cellspacing="0" width="100%">
             <thead>
               <tr>
-                <th>#</th>
                 <th>Fecha</th>
                 <th>Area</th>
                 <th>Agente</th>
@@ -39,7 +38,6 @@
             </tfoot>
             <tbody>
               <tr v-for="row in rows">
-                <td><div>{{ row.derivacion_id }}</div></td>
                 <td>{{ row.derivado_el | date }}</td>
                 <td><div>{{ getAreaName(row.area) }}</div></td>
                 <td><div>{{ getAgenteName(row.agente) }}</div></td>
