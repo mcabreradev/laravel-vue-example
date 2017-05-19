@@ -34,6 +34,9 @@
               :has-modal="false"
               :fields="[]"
               :estado="{{$estadoActivo}}"
+              @if(isset($busqueda))
+                busqueda-inicial="{{$busqueda}}"
+              @endif
             ></dposs-tabla-solicitudes>
           </div>
         @endif

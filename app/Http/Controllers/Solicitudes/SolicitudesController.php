@@ -46,15 +46,17 @@ class SolicitudesController extends ApiController
      * [main description]
      * @return [type] [description]
      */
-    public function main($estado = null)
+    public function main(Request $request, $estado = null)
     {
-        $estadoActivo = $estado === null ? self::$TIPO_PREDETERMINADO : $estado;
-        $estados = Estado::all();
+        $data = [];
+        $data['estadoActivo'] = $estado === null ? self::$TIPO_PREDETERMINADO : $estado;
+        $data['estados'] = Estado::all();
 
-        return view('solicitudes.solicitudes.main', [
-            'estadoActivo' => $estadoActivo,
-            'estados' => $estados
-        ]);
+        if ($request->has('busqueda')) {
+            $data['busqueda'] = $request->input('busqueda');
+        }
+
+        return view('solicitudes.solicitudes.main', $data);
     }
 
     /**
