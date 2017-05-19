@@ -14,19 +14,37 @@
         {{ method_field('DELETE') }}
 
         <button id="btn-delete-solicitud" type="submit" class='btn btn-danger' target="_blank">
-          Eliminar reclamo <span class="fa fa-trash"></span>
+          <span class="fa fa-trash"></span> Eliminar reclamo
         </button>
 
-        <a role="button" class='btn btn-default' href="{{route('solicitudes::solicitudes.imprimir', ['id' => $solicitud->id])}}" target="_blank">
-          Imprimir reclamo <span class="fa fa-print"></span>
-        </a>
-
-        <a role="button" class='btn btn-default' href="{{route('solicitudes::solicitudes.orden-trabajo', ['id' => $solicitud->id])}}" target="_blank">
-          Imprimir orden de trabajo <span class="fa fa-wrench"></span>
-        </a>
+        <div class="btn-group">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="fa fa-print"></span> Imprimir <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu">
+            <li>
+              <a href="{{route('solicitudes::solicitudes.imprimir', ['id' => $solicitud->id])}}" target="_blank" rel="noopener noreferrer">
+                <span class="fa fa-print"></span> Reclamo
+              </a>
+            </li>
+            <li>
+              <a href="{{route('solicitudes::solicitudes.orden-trabajo', ['id' => $solicitud->id])}}" target="_blank" rel="noopener noreferrer">
+                <span class="fa fa-wrench"></span> Orden de trabajo
+              </a>
+            </li>
+          </ul>
+        </div>
 
         <button id="btn-guardar-solicitud" class="btn btn-success" type="button">
-          Guardar cambios <span class="fa fa-check"></span>
+          <span class="fa fa-check"></span> Guardar cambios
+        </button>
+
+        <button class="btn btn-default" type="button" onclick="window.Events.$emit('derivaciones.modals.create.open');">
+          <span class="fa fa-paper-plane"></span> Derivar reclamo
+        </button>
+
+        <button class="btn btn-default" type="button" onclick="window.Events.$emit('seguimientos.modals.create.open');">
+          <span class="fa fa-commenting-o"></span> Crear seguimiento
         </button>
       </form>
   </section>
@@ -101,6 +119,7 @@
         {name: 'descripcion', title:'Descripción', type: 'textarea'},
         {name: 'solicitud_id', type: 'hidden', value: {{$solicitud->id}} }
         ]"
+      open-create-modal-event="seguimientos.modals.create.open"
     ></panal-table>
 
   </form>

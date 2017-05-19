@@ -49,10 +49,10 @@
                 <td>{{ solicitud.derivacion.agente }}</td>
                 <td class="actions-column">
                   <div class="actions-group">
-                    <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Crear Seguimiento" v-on:click="onClickSeguimiento(solicitud)">
+                    <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Crear seguimiento" v-on:click="onClickSeguimiento(solicitud)">
                       <span class="fa fa-commenting-o"></span>
                     </a>
-                    <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Derivar Solicitud" v-on:click="onClickDerivacion(solicitud)">
+                    <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Derivar reclamo" v-on:click="onClickDerivacion(solicitud)">
                       <span class="fa fa-paper-plane"></span>
                     </a>
                     <a role="button" class='btn btn-default' data-toggle="tooltip" data-placement="top" title="Imprimir" :href="route.imprimir(solicitud.id)" target="_blank">

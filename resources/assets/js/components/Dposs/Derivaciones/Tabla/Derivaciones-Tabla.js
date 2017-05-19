@@ -106,6 +106,8 @@ export default {
         self.data.derivado_el = value;
       });
 
+      Events.$on('derivaciones.modals.create.open', () => {self.openCreateModal()});
+
       return self;
     },
 

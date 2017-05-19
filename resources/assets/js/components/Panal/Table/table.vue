@@ -159,6 +159,11 @@
           return {}
         },
         required: false
+      },
+      openCreateModalEvent: {
+        type: String,
+        default: null,
+        required: false
       }
     },
 
@@ -178,9 +183,9 @@
           create: Laravel.baseUrl + laroute.route(self.url.create),
           edit: (id) => Laravel.baseUrl + laroute.route(self.url.edit, {id: id})
         },
-        tableId: 'table-id-' + _.random(9999999, 99999999),
+        tableId: 'table-id-' + (new Date()).getTime(),
         table : null,
-        modalId: 'modal-id-' + _.random(9999999, 99999999),
+        modalId: 'modal-id-' + (new Date()).getTime(),
       }
     },
 
@@ -211,6 +216,10 @@
         Events.$on('datetimepicker.change', (value) => {
           self.$data.data[self.getDatetimeFieldName()] = value;
         });
+
+        if (self.$props.openCreateModalEvent != null) {
+          Events.$on(self.$props.openCreateModalEvent, () => {self.openCreateModal()});
+        }
 
         return self;
       },
