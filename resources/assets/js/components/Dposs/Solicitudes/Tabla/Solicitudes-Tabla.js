@@ -38,6 +38,11 @@ export default {
     estado: {
       type: Number,
       required: true
+    },
+    busquedaInicial: {
+      type: String,
+      default: null,
+      required: false,
     }
   },
 
@@ -142,15 +147,29 @@ export default {
     startDataTable: function () {
       var self = this;
       setTimeout(function () {
-        self.table = $('#' + self.tableId).DataTable({
-          "lengthMenu": [ 25, 50, 100, 200 ],
-          "language": PanalConf.lang.datatable,
-          "order": [[ 0, "desc" ]],
-          "aoColumnDefs": [{
-            'bSortable': false,
-            'aTargets': [-1]
+        var options = {
+          lengthMenu: [ 25, 50, 100, 200 ],
+          language: PanalConf.lang.datatable,
+          order: [[ 0, "desc" ]],
+          aoColumnDefs: [{
+            bSortable: false,
+            aTargets: [-1]
           }],
-        });
+        };
+
+        if (self.$props.busquedaInicial != null) {
+          options.search = {
+            search: self.$props.busquedaInicial
+          };
+        }
+
+        self.table = $('#' + self.tableId).DataTable(options);
+
+        if (self.$props.busquedaInicial != null) {
+          self.table.on('search.dt', () => {
+            self.updateQueryStringParam('busqueda', self.table.search());
+          });
+        }
       }, 50);
 
       return this;
@@ -323,6 +342,35 @@ export default {
       });
 
       return self;
+    },
+
+    updateQueryStringParam: function(key, value) {
+
+      var baseUrl = [location.protocol, '//', location.host, location.pathname].join(''),
+        urlQueryString = document.location.search,
+        newParam = key + '=' + value,
+        params = '?' + newParam;
+
+      // If the "search" string exists, then build params from it
+      if (urlQueryString) {
+
+        var updateRegex = new RegExp('([\?&])' + key + '[^&]*');
+        var removeRegex = new RegExp('([\?&])' + key + '=[^&;]+[&;]?');
+
+        if( typeof value == 'undefined' || value == null || value == '' ) {
+          // Remove param if value is empty
+          params = urlQueryString.replace(removeRegex, "$1");
+          params = params.replace( /[&;]$/, "" );
+
+        } else if (urlQueryString.match(updateRegex) !== null) {
+          // If param exists already, update it
+          params = urlQueryString.replace(updateRegex, "$1" + newParam);
+        } else {
+          // Otherwise, add it to end of query string
+          params = urlQueryString + '&' + newParam;
+        }
+      }
+      window.history.replaceState({}, "", baseUrl + params);
     },
   }
 }
